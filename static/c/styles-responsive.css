@@ -1,0 +1,96 @@
+/* 
+ * Main Styles
+ * 2017-07-06
+ *
+ * Markus Bernsteiner, lab10 collective
+*/
+
+
+
+.phonesOnly {
+	display: none;
+}
+
+
+/* Phones */
+@media screen and (min-width: 1px) and (max-width: 767px) {
+
+	.phonesOnly {
+		display: block;
+	}
+	
+	.hideOnPhones {
+		display: none;
+	}
+
+
+
+	/* height: calc(100% - 20px); */
+
+
+
+
+
+	
+	@media 
+	(-webkit-min-device-pixel-ratio: 2), 
+	(min-resolution: 192dpi) { 
+	    
+	    /* hires-specific stuff here */
+
+	    
+	}	
+
+}
+
+/* Phones, Landscape Only */
+@media screen and (min-width: 480px) and (max-width: 767px) {
+
+	
+
+
+
+
+
+
+	@media 
+	(-webkit-min-device-pixel-ratio: 2), 
+	(min-resolution: 192dpi) { 
+	    
+	    /* hires-specific stuff here */
+
+	    
+	}	
+	
+	
+	
+		
+}
+
+
+
+/* Phones, Portrait Only */
+@media screen and (min-width: 1px) and (max-width: 479px) {
+	
+
+
+
+
+
+
+
+
+
+	@media 
+	(-webkit-min-device-pixel-ratio: 2), 
+	(min-resolution: 192dpi) { 
+	    
+	    /* hires-specific stuff here */
+
+
+	}	
+	
+	
+		
+}
+

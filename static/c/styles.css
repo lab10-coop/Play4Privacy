@@ -1,0 +1,227 @@
+/* 
+ * Main Styles
+ * 2017-07-06
+ *
+ * Markus Bernsteiner, lab10 collective
+*/
+
+
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    color: #000000;  
+    font-family: 'Open Sans', 'Helvetica', 'Arial', sans-serif;
+    /* 
+    	types: Merriweather: 400,700 // OpenSans: 300,400,600,700
+
+	    font-family: 'Merriweather', serif;
+	    font-family: 'Open Sans', sans-serif;
+
+    */
+    position: relative;
+    font-size: 0.81em !important;
+    font-weight: 300;
+}
+
+
+a, a:visited {
+	text-decoration: none;
+	font-size: 14px;
+}
+
+
+a:hover {
+	text-decoration: underline;
+}
+
+.clear {
+	clear: both;
+}
+
+.hide {
+	display: none !important;
+}
+
+h1 {
+}
+
+h2 {
+}
+
+
+h3 {
+	
+}
+
+h4 {
+	
+}
+
+
+
+
+
+.goField {
+	width: 450px;
+	height: 450px;
+	display: block;
+	
+	padding: 25px;
+	
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	
+	margin-left: -250px;
+	margin-top: -250px;
+	
+	background: url(../i/goField.png) no-repeat center center / 450px auto;
+	
+	box-shadow: 0px 0px 5px #CCCCCC;
+
+}
+
+.goField .place {
+	width: 40px;
+	height: 40px;
+	display: block;
+	margin: 5px;
+	
+	float: left;
+	border-radius: 100%;
+	
+	opacity: 0.95;
+
+	transition: color .5s ease-in-out, background-color .5s ease-in-out;
+	-moz-transition: color .5s ease-in-out, background-color .5s ease-in-out;
+	-webkit-transition: color .5s ease-in-out, background-color .5s ease-in-out;
+
+	color: #CCCCCC;
+	text-align: center;
+	line-height: 40px;
+
+}
+
+
+
+
+.goField .place.black {
+	color: #FFFFFF;
+	background-color: #000000;
+	/*
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(0,0,0,0.8);
+	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(0,0,0,0.8);
+	box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(0,0,0,0.8); 
+	*/
+}
+
+.goField .place.white {
+	color: #000000;
+	background-color: #dbdbdb;
+	
+	/* 
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(255,255,255,0.8);
+	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(255,255,255,0.8);
+	box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(255,255,255,0.8);
+	*/
+}
+
+.goField .place:hover {
+	cursor: pointer;
+	background-color: rgba(44, 216, 255, 0.50);
+}
+
+.goField .place.black:hover {
+	opacity: 1;	
+	background-color: #000000;
+}
+
+.goField .place.white:hover {
+	opacity: 1;	
+	background-color: #dbdbdb;
+}
+
+
+
+
+
+.dev {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	
+	height: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+
+	line-height: 20px;
+	background: #CCCCCC;
+	color: #000000;
+}
+
+/* UseFul Informations */
+
+
+/*
+
+	
+	 font-family: 'Open Sans', 'Helvetica', 'Arial', sans-serif;
+	 types: 300,400,600,800,700,400italic
+	    
+	.1px	{ font-size: 0.07692em; }
+	.2px	{ font-size: 0.15385em; }
+	.3px	{ font-size: 0.23077em; }
+	.4px	{ font-size: 0.30769em; }
+	.5px	{ font-size: 0.38462em; }
+	.6px	{ font-size: 0.46154em; }
+	.7px	{ font-size: 0.53846em; }
+	.8px	{ font-size: 0.-------; }
+	.9px	{ font-size: 0.61538em; }
+	.10px	{ font-size: 0.76923em; }
+	.11px	{ font-size: 0.84615em; }
+	.12px	{ font-size: 0.92307em; }
+	.13px	{ font-size: 1em; }
+	
+	.14px	{ font-size: 1.07692em; }
+	.15px	{ font-size: 1.15385em;}
+	.16px	{ font-size: 1.23076em; }
+	.17px	{ font-size: 1.30769em; }
+	.18px	{ font-size: 1.38461em; }
+	.19px	{ font-size: 1.46154em; }
+	.20px	{ font-size: 1.53846em; }
+	.21px	{ font-size: 1.61538em; }
+	.22px	{ font-size: 1.69230em; }
+	.23px	{ font-size: 1.76923em; }
+	.24px	{ font-size: 1.84615em; }
+	.25px	{ font-size: 1.92308em; }
+	.26px	{ font-size: 2em; }
+	
+	.27px	{ font-size: 2.07692em; }
+	.28px	{ font-size: 2.15385em; }
+	.29px	{ font-size: 2.23077em; }
+	.30px	{ font-size: 2.30769em; }
+	.31px	{ font-size: 2.38462em; }
+	.32px	{ font-size: 2.46154em; }
+	.33px	{ font-size: 2.53846em; }
+	.34px	{ font-size: 2.61538em; }
+	.35px	{ font-size: 2.69231em; }
+	.36px	{ font-size: 2.76923em; }
+	.37px	{ font-size: 2.84615em; }
+	.38px	{ font-size: 2.92308em; }
+	.39px	{ font-size: 3em; }
+
+
+	transition: top .52s ease-in-out, left .52s ease-in-out, width .52s ease-in-out, height .52s ease-in-out, margin-left .52s ease-in-out, margin-top .52s ease-in-out;
+	-moz-transition: top .52s ease-in-out, left .52s ease-in-out, width .52s ease-in-out, height .52s ease-in-out, margin-left .52s ease-in-out, margin-top .52s ease-in-out;
+	-webkit-transition: top .52s ease-in-out, left .52s ease-in-out, width .52s ease-in-out, height .52s ease-in-out, margin-left .52s ease-in-out, margin-top .52s ease-in-out;
+
+	transition: color .5s ease-in-out, background-position .5s ease-in-out;
+	-moz-transition: color .5s ease-in-out, background-position .5s ease-in-out;
+	-webkit-transition: color .5s ease-in-out, background-position .5s ease-in-out;
+
+*/
+
