@@ -1,0 +1,44 @@
+image: node:6.11-alpine
+
+stages:
+  - test
+  - build
+  - deploy
+
+test:
+  stage: test
+  script: 
+    - npm install
+    - CI=true npm test
+  cache:
+    paths:
+      - node_modules/
+
+build_docker:
+  stage: build
+  image: docker:latest
+  script:
+    - docker build -t docker.dev.lab10.io/p4p:$CI_PIPELINE_ID .
+
+deploy_staging:
+  stage: deploy
+  image: docker:latest
+  script:
+    - /bin/sh redeploy_docker.sh staging-p4p 3001 $CI_PIPELINE_ID
+  environment:
+    name: staging
+    url: https://staging-p4p.dev.lab10.io
+  only:
+  - master
+
+deploy_prod:
+  stage: deploy
+  image: docker:latest
+  script:
+    - /bin/sh redeploy_docker.sh p4p 3000 $CI_PIPELINE_ID
+  environment:
+    name: production
+    url: https://p4p.dev.lab10.io
+  when: manual
+  only:
+  - master
