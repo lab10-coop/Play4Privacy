@@ -1,0 +1,39 @@
+[class*="col-"] {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+.page-break {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.counter_heading {
+    font-weight: bold;
+}
+
+.counter_value {
+    font-weight: bold;    
+    color: white;
+    background-color: black;    
+    padding: 5px;
+}
+
+.larger {
+    font-size: 125%;    
+}
+
+.divider {
+    color: black;
+    background-color: black; 
+    height: 5px
+}
+
+.extra-padding {
+    padding: 5px;    
+}
