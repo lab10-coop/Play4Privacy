@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css'
+//import './matchHeight'
+import 'jquery-match-height'
 
 class Square extends React.Component {
   // Expects two props to be sent:
@@ -95,3 +97,9 @@ ReactDOM.render(
   <Game />,
   document.getElementById('react_root')
 );
+
+// ========================================
+// index.html specific layout fixups
+$(function() {
+	$('.matchheight').matchHeight();
+});

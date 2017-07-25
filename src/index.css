@@ -22,7 +22,11 @@
     font-size: 125%;    
 }
 
-
+.page-break {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
 
 .goField {
     margin: auto;    
