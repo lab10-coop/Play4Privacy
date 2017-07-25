@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import 'bootstrap/dist/css/bootstrap.css';
+import './index.css'
 
 class Square extends React.Component {
   // Expects two props to be sent:

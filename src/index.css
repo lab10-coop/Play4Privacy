@@ -1,0 +1,58 @@
+.goField {
+	width: 500px;
+    height: 500px;
+    padding: 25px;
+	background: url(./img/goField.png) no-repeat center center / 450px;
+}
+
+.goField .place {
+	width: 40px;
+	height: 40px;
+	margin: 5px;
+	border-radius: 100%;
+	float: left;	
+	opacity: 0.95;
+
+	transition: color .5s ease-in-out, background-color .5s ease-in-out;
+	-moz-transition: color .5s ease-in-out, background-color .5s ease-in-out;
+	-webkit-transition: color .5s ease-in-out, background-color .5s ease-in-out;
+
+	color: #CCCCCC;
+	text-align: center;
+}
+
+.goField .place.black {
+	color: #FFFFFF;
+	background-color: #000000;
+	/*
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(0,0,0,0.8);
+	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(0,0,0,0.8);
+	box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(0,0,0,0.8); 
+	*/
+}
+
+.goField .place.white {
+	color: #000000;
+	background-color: #dbdbdb;
+	
+	/* 
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(255,255,255,0.8);
+	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(255,255,255,0.8);
+	box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(255,255,255,0.8);
+	*/
+}
+
+.goField .place:hover {
+	cursor: pointer;
+	background-color: rgba(44, 216, 255, 0.50);
+}
+
+.goField .place.black:hover {
+	opacity: 1;	
+	background-color: #000000;
+}
+
+.goField .place.white:hover {
+	opacity: 1;	
+	background-color: #dbdbdb;
+}
