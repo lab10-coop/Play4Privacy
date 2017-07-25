@@ -41,7 +41,7 @@ class Board extends React.Component {
       whiteIsNext: !this.state.whiteIsNext,
       countSteps: this.state.countSteps + 1,
     });
-    $(".dev").text("step: " + this.state.countSteps);
+    $(".dev").text("" + this.state.countSteps + "s");
   }
 
   renderSquare(i) {
@@ -65,7 +65,7 @@ class Board extends React.Component {
 
   render() {
 
-    let status = 'Next player: ' + (this.state.whiteIsNext ? 'white' : 'black');
+    let status = this.state.whiteIsNext ? 'WHITE' : 'BLACK';
 
     $(".next_player").text(status);
 

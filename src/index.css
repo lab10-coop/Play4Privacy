@@ -7,6 +7,22 @@
   border: 1px solid rgba(86,61,124,.2);
 }
 
+.counter_heading {
+    font-weight: bold;
+}
+
+.counter_value {
+    font-weight: bold;    
+    color: white;
+    background-color: black;    
+    padding: 5px;
+}
+
+.larger {
+    font-size: 125%;    
+}
+
+
 
 .goField {
     margin: auto;    
