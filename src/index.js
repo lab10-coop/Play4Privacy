@@ -8,7 +8,7 @@ class Square extends React.Component {
   // - value - the current value of this field, should be a single character in this particular case
   render() {
     return (
-      <div className={"place " + (this.props.value ? this.props.value : "")} onClick={() => this.props.onClick()}>
+      <div className={["place", this.props.value].join(' ')} onClick={() => this.props.onClick()}>
       </div>
     );
   }
