@@ -28,6 +28,16 @@
     justify-content: space-around;
 }
 
+.divider {
+    color: black;
+    background-color: black; 
+    height: 5px
+}
+
+.extra-padding {
+    padding: 5px;    
+}
+
 .goField {
     margin: auto;    
 	width: 500px;
