@@ -5,96 +5,83 @@
 <!--[if IE 8 ]><html class="ie8 oldie" lang="en"><![endif]-->
 <!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="" lang="en"><!--<![endif]-->
   <head>
-		<title>play for privacy</title>
-		
 		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9,chrome=1" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="robots" content="noindex,nofollow">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="robots" content="index,follow">
 		<meta name="description" content="Lorem Ipsum">
 		<meta name="keywords" content="lorem, ipsum, dolor">
 		
+		<title>P4P - play4privacy - Home</title>
+		
 		<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="i/favicon.png" />
 		<link rel="apple-touch-icon" href="i/webclip.png" />
-						 
+		
+		<link href="c/styles.css" rel="stylesheet">
+		<link href="c/styles-responsive.css" rel="stylesheet">
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		
+		<script src="j/jquery-3.2.1.min.js"></script>
+		<script src="j/jqueryCustom.js"></script>	
+				 
   </head>
-  <body>
-    <div class="container">
-
-      <!-- Static navbar -->
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Play4Privacy</a>
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a href="./">Game<span class="sr-only">(current)</span></a></li>
-              <li><a href="../navbar-static-top/">Leader Board</a></li>
-              <li><a href="../navbar-fixed-top/">Credits</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-      </nav>
-
-      <div class="row">
-        <div class="col-md-8 matchheight-toplevel">						
-					<div class="row">
-						<div class="col-md-4 matchheight page-break">
-									<div>
-										<div class="counter_heading larger">GAME CLOCK</div>
-										<div class="counter_value larger">00h 32m 57s</div>                    
-									</div>
-									<div>
-										<div class="counter_heading larger">ACTIVE TEAM</div>
-										<div class="counter_value larger next_player">BLACK</div>                    
-									</div>                
-									<div>
-										<div class="counter_heading larger">TIME TO VOTE</div>
-										<div class="counter_value larger dev">37s</div>
-									</div>                     
-									<div>
-										<div class="counter_heading larger">PLACED ON</div>
-										<div class="counter_value larger">F6</div>                    
-									</div>                
-						</div>
-						<div class="col-md-8 matchheight">
-							<div id="react_root"></div>
-						</div>
-					</div>					
-          <div class="row">
-            <div class="col-md-12">
-              <div class="text-center"><img src="i/live-feed.png"></div>
-            </div>                                    
-          </div>					
-				</div>  
-				
-        <div class="col-md-4 matchheight-toplevel">
-          <div class="text-center"><img src="i/p4p-entwurf.png"></div>
-          <hr class="divider" />
-          <div class="counter_heading extra-padding">YOU ARE ON TEAM: <span class="counter_value">BLACK</span></div>
-          <div class="counter_heading extra-padding">PLAYERS ON YOUR TEAM: <span class="counter_value">86</span></div>
-          <div class="counter_heading extra-padding">TOTAL PLAYERS IN THIS GAME: <span class="counter_value">139</span></div>                    
-          <hr class="divider" />
-          <div class="counter_heading extra-padding">TOKENS YOU HAVE: <span class="counter_value">1337</span></div>
-          <div class="counter_heading extra-padding">MONEY DONATED SO FAR: <span class="counter_value">€8261</span></div>
-          <div class="counter_heading extra-padding">BUY TOKENS:</div>
-          <div class="text-center"><img src="i/qr.png"></div>          
-          <hr class="divider" />          
-        </div>                                  				
-      </div>  					
-		</div> <!-- container -->
-
+  <body class="home">
+	  
+  	<header>
+	  	<div class="inner">
+			<div class="logo">Play 4 Privacy</div>
+			<nav>
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="credits.html">Credits</a></li>
+					<li><a href="gameboard.html">Gameboard</a></li>
+					<li><a href="leaderboard.html">Leaders</a></li>
+					<li><a href="endgame.html">Endgame</a></li>
+				</ul>
+			</nav>
+			<div class="clear"></div>
+	  	</div>
+	</header>
+	  
+	<div class="projectExplanation field">
+		<h2>How it works, and wtf is this all about?</h2>
+		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+	</div>
+	  
+	<div class="creditsButton field">
+		<a class="button" href="credits.html" title="Get Credits">Get Credits</a>
+	</div>
+	  
+	<div class="currentGame field">
+		<h2>Current Game</h2>
+	  	<div class="liveCam">
+		  	<img src="http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg" alt="bix Livecam"/>
+	  	</div>
+	  	<div class="gameField">
+		  	<div id="react_root"></div>
+	  	</div>
+		<div class="playTime clear">
+			Playtime: <span class="timeLeft">7min</span> left of <span class="totalTime">10min</span>
+			<span class="timeBar"></span>
+		</div>
+	</div>
+	
+	<div class="partners field">
+		<h2>Partners</h2>
+		<a href="#">Partner #1</a>
+		<a href="#">Partner #2</a>
+		<a href="#">Partner #3</a>
+		<a href="#">Partner #4</a>
+	</div>
+	
+	
+	       
   </body>
+
 </html>
