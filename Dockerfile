@@ -8,10 +8,10 @@ WORKDIR ${WORK_DIR}
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
-COPY package.json ${WORK_DIR}
+COPY frontend/package.json ${WORK_DIR}
 RUN npm install && npm cache clean
 
-COPY . ${WORK_DIR}
+COPY frontend ${WORK_DIR}
 
 EXPOSE 3000
 CMD [ "npm", "start" ]

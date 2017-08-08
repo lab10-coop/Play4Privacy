@@ -7,12 +7,13 @@ stages:
 
 test:
   stage: test
-  script: 
+  script:
+    - cd frontend
     - npm install
     - CI=true npm test
   cache:
     paths:
-      - node_modules/
+      - frontend/node_modules/
 
 build_docker:
   stage: build
