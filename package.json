@@ -1,0 +1,15 @@
+{
+  "name": "p4p",
+  "version": "1.0.0",
+  "description": "Play4Privacy Kunsthaus Projekt",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://code.lab10.io/graz/p4p.git"
+  },
+  "author": "",
+  "license": "MIT"
+}

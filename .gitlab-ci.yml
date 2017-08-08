@@ -14,6 +14,7 @@ test:
   cache:
     paths:
       - frontend/node_modules/
+      - node_modules/      
 
 build_docker:
   stage: build
