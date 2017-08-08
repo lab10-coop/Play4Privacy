@@ -4,7 +4,8 @@
   "description": "Play4Privacy Kunsthaus Projekt",
   "main": "server.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register ./test/*.spec.js"
+    "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register ./test/*.spec.js",
+    "frontend": "node start-frontend.js"    
   },
   "repository": {
     "type": "git",
