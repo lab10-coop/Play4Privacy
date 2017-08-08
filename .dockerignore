@@ -1,0 +1,13 @@
+.dockerignore
+.git
+.gitignore
+.gitlab-ci.yml
+.eslintrc.json
+Dockerfile
+README.md
+redeploy_docker.sh
+
+node_modules
+npm-debug.log
+
+frontend/node_modules

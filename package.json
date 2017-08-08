@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register ./test/*.spec.js",
-    "frontend": "node start-frontend.js"    
+    "frontend": "node start-frontend.js",
+    "server": "node server.js"        
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,6 @@
     "cross-env": "^5.0.5"
   },
   "dependencies": {
+    "express": "^4.15.4"
   }
 }

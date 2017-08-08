@@ -31,4 +31,4 @@ if [ "$RUNNING" == "true" ]; then
     docker rm $CONTAINER
 fi
 
-docker run --name=$CONTAINER --restart=always -p$PORT:3000 -d docker.dev.lab10.io/p4p:$IMAGE_TAG
+docker run --name=$CONTAINER --restart=always -p$PORT:3001 -d docker.dev.lab10.io/p4p:$IMAGE_TAG
