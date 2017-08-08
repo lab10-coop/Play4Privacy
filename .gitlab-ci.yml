@@ -5,7 +5,7 @@ stages:
   - build
   - deploy
 
-test:
+test_frontend:
   stage: test
   script:
     - cd frontend
@@ -14,7 +14,15 @@ test:
   cache:
     paths:
       - frontend/node_modules/
-      - node_modules/      
+
+test_backend:
+  stage: test
+  script: 
+    - npm install
+    - CI=true npm test
+  cache:
+    paths:
+      - node_modules/        
 
 build_docker:
   stage: build
