@@ -4,7 +4,7 @@
   "description": "Play4Privacy Kunsthaus Projekt",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run frontend\"",
+    "start": "concurrently \"nodemon ./server.js\" \"npm run frontend\"",    
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register ./test/*.spec.js",
     "frontend": "node start-frontend.js",
     "server": "node server.js",
@@ -34,6 +34,7 @@
     "eslint-plugin-react": "^7.2.0"
   },
   "dependencies": {
-    "express": "^4.15.4"
+    "express": "^4.15.4",
+    "nodemon": "^1.11.0"
   }
 }
