@@ -1,21 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import 'jquery-match-height';
 import 'bootstrap/dist/css/bootstrap.css';
-import './index.css'
-//import './matchHeight'
-import 'jquery-match-height'
+import './index.css';
 
-class Square extends React.Component {
+function Square(props) {
   // Expects two props to be sent:
   // - onClick() - a function called when the Square is clicked
   // - value - the current value of this field, should be a single character in this particular case
-  render() {
-    return (
-      <div className={["place", this.props.value].join(' ')} onClick={() => this.props.onClick()}>
-      </div>
-    );
-  }
+
+  return (
+    <div className={[ 'place', props.value ].join(' ')} onClick={() => props.onClick()} />
+  );
 }
 
 class Board extends React.Component {
@@ -33,17 +30,17 @@ class Board extends React.Component {
   // Passed to Square to update the Board's state
   handleClick(i) {
     // Always make changes on a copy of the current state!
-    const squares = this.state.squares.slice();    
+    const squares = this.state.squares.slice();
     if (squares[i]) {
       return;
-    }        
+    }
     squares[i] = this.state.whiteIsNext ? 'white' : 'black';
     this.setState({
-      squares: squares,
+      squares,
       whiteIsNext: !this.state.whiteIsNext,
       countSteps: this.state.countSteps + 1,
     });
-    $(".dev").text("" + this.state.countSteps + "s");
+    $('.dev').text(`${this.state.countSteps}s`);
   }
 
   renderSquare(i) {
@@ -57,53 +54,52 @@ class Board extends React.Component {
     );
   }
 
-  renderRow(board_size, e) {
-    let row_elements = [];
-    for (let i = board_size*e; i < board_size*(e+1); i++)
-      row_elements.push(this.renderSquare(i));
+  renderRow(boardSize, e) {
+    const rowElements = [];
+    for (let i = boardSize * e; i < boardSize * (e + 1); i++) {
+      rowElements.push(this.renderSquare(i));
+    }
 
-    return row_elements;
+    return rowElements;
   }
 
   render() {
+    const status = this.state.whiteIsNext ? 'WHITE' : 'BLACK';
 
-    let status = this.state.whiteIsNext ? 'WHITE' : 'BLACK';
+    $('.next_player').text(status);
 
-    $(".next_player").text(status);
-
-    let outer = []
-    for (let i = 0; i < this.board_size; i++)
+    const outer = [];
+    for (let i = 0; i < this.board_size; i++) {
       outer.push(this.renderRow(this.board_size, i));
+    }
 
-    return (  
-      <div className="goField">        
+    return (
+      <div className='goField'>
         {outer}
       </div>
     );
   }
 }
 
-class Game extends React.Component {
-  render() {
-    return (
-      <Board />
-    );
-  }
+function Game() {
+  return (
+    <Board />
+  );
 }
 
 // ========================================
 
 ReactDOM.render(
   <Game />,
-  document.getElementById('react_root')
+  document.getElementById('react_root'),
 );
 
 // ========================================
 // index.html specific layout fixups
-$(function() {
-	$('.matchheight').matchHeight();
+$(() => {
+  $('.matchheight').matchHeight();
 });
 
-$(function() {
-	$('.matchheight-toplevel').matchHeight();
+$(() => {
+  $('.matchheight-toplevel').matchHeight();
 });
