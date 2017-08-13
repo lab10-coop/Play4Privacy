@@ -40,8 +40,8 @@
 
 .goField {
     margin: auto;    
-	width: 500px;
-    height: 500px;
+	width: 450px;
+    height: 450px;
     padding: 25px;
 	background: url(./img/goField.png) no-repeat center center / 450px;
 }
