@@ -43,9 +43,6 @@ a:hover {
 	display: none !important;
 }
 
-h1 {
-}
-
 h2 {
 	margin-top: 50px;
 }
@@ -53,16 +50,6 @@ h2 {
 h2:first-child {
 	margin-top: 0px;
 }
-
-
-h3 {
-	
-}
-
-h4 {
-	
-}
-
 
 img {
 	max-width: 100%;
@@ -294,10 +281,6 @@ span.button:hover {
 
 
 /* GAMEBOARD */
-
-#gameField {
-	
-}
 
 #gameField .goBoard,
 #gameField .gameInfo {
