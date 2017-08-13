@@ -1,6 +1,7 @@
 import React from 'react';
-
 import $ from 'jquery';
+import 'bootstrap/dist/css/bootstrap.css';
+import './index.css';
 
 function Square(props) {
   // Expects two props to be sent:
