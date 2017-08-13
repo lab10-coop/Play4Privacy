@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Home from './Home';
 import Credits from './Credits';
+import GameBoard from './GameBoard';
+import EndGame from './EndGame';
 import './css/styles-responsive.css';
 import './css/styles.css';
 
@@ -32,6 +34,8 @@ function Routes() {
       <Navigation />
       <Switch>
         <Route path='/credits' component={Credits} />
+        <Route path='/gameboard' component={GameBoard} />
+        <Route path='/endgame' component={EndGame} />
         <Route path='/' component={Home} />
       </Switch>
     </div>
