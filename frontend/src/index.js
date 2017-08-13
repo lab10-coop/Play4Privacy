@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import Home from './Home';
-import Credits from './Credits';
-import GameBoard from './GameBoard';
-import EndGame from './EndGame';
+import Home from './pages/Home';
+import Credits from './pages/Credits';
+import GameBoard from './pages/GameBoard';
+import EndGame from './pages/EndGame';
 import './css/styles-responsive.css';
 import './css/styles.css';
 
