@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import Board from './Board';
+import NavBar from './NavBar';
 import './index.css';
 
 function Game() {
@@ -13,21 +14,7 @@ function Game() {
 function IndexPage() {
   return (
     <div>
-      <header>
-        <div className='inner'>
-          <div className='logo'>Play 4 Privacy</div>
-          <nav>
-            <ul>
-              <li><a href='index.html'>Home</a></li>
-              <li><a href='credits.html'>Credits</a></li>
-              <li><a href='gameboard.html'>Gameboard</a></li>
-              <li><a href='leaderboard.html'>Leaders</a></li>
-              <li><a href='endgame.html'>Endgame</a></li>
-            </ul>
-          </nav>
-          <div className='clear' />
-        </div>
-      </header>
+      <NavBar />
 
       <div className='projectExplanation field'>
         <h2>How it works, and wtf is this all about?</h2>
