@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer, inject } from 'mobx-react';
 import $ from 'jquery';
 import './index.css';
 
@@ -12,32 +13,12 @@ function Square(props) {
   );
 }
 
+@inject('gamestate')
+@observer
 class Board extends React.Component {
-  // The Board holds the state of all Squares in an Array
-  constructor() {
-    super();
-    this.board_size = 9;
-    this.state = {
-      squares: Array(this.board_size * this.board_size).fill(null),
-      whiteIsNext: true,
-      countSteps: 0,
-    };
-  }
-
   // Passed to Square to update the Board's state
   handleClick(i) {
-    // Always make changes on a copy of the current state!
-    const squares = this.state.squares.slice();
-    if (squares[i]) {
-      return;
-    }
-    squares[i] = this.state.whiteIsNext ? 'white' : 'black';
-    this.setState({
-      squares,
-      whiteIsNext: !this.state.whiteIsNext,
-      countSteps: this.state.countSteps + 1,
-    });
-    $('.dev').text(`${this.state.countSteps}s`);
+    this.props.gamestate.putStone(i);
   }
 
   renderSquare(i) {
@@ -45,7 +26,7 @@ class Board extends React.Component {
     // Note: Captures the value of variable "i"
     return (
       <Square
-        value={this.state.squares[i]}
+        value={this.props.gamestate.squares[i]}
         onClick={() => this.handleClick(i)}
       />
     );
@@ -61,13 +42,13 @@ class Board extends React.Component {
   }
 
   render() {
-    const status = this.state.whiteIsNext ? 'WHITE' : 'BLACK';
+    const status = this.props.gamestate.whiteIsNext ? 'WHITE' : 'BLACK';
 
     $('.next_player').text(status);
 
     const outer = [];
-    for (let i = 0; i < this.board_size; i++) {
-      outer.push(this.renderRow(this.board_size, i));
+    for (let i = 0; i < this.props.gamestate.boardSize; i++) {
+      outer.push(this.renderRow(this.props.gamestate.boardSize, i));
     }
 
     return (

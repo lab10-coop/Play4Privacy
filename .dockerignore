@@ -2,7 +2,6 @@
 .git
 .gitignore
 .gitlab-ci.yml
-.eslintrc.json
 Dockerfile
 README.md
 redeploy_docker.sh

@@ -1,12 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { Provider } from 'mobx-react';
+import { useStrict } from 'mobx';
 import Home from './pages/Home';
 import Credits from './pages/Credits';
 import GameBoard from './pages/GameBoard';
 import EndGame from './pages/EndGame';
+import GameState from './state/GameState';
 import './css/styles-responsive.css';
 import './css/styles.css';
+
+useStrict();
+const gameState = new GameState();
 
 function Navigation() {
   return (
@@ -45,8 +51,10 @@ function Routes() {
 // ========================================
 
 ReactDOM.render(
-  <Router>
-    <Routes />
-  </Router>,
+  <Provider gamestate={gameState}>
+    <Router>
+      <Routes />
+    </Router>
+  </Provider>,
   document.getElementById('react_root'),
 );
