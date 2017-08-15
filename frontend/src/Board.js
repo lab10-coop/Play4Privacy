@@ -1,6 +1,5 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-import $ from 'jquery';
 import './index.css';
 
 function Square(props) {
@@ -16,18 +15,13 @@ function Square(props) {
 @inject('gamestate')
 @observer
 class Board extends React.Component {
-  // Passed to Square to update the Board's state
-  handleClick(i) {
-    this.props.gamestate.putStone(i);
-  }
-
   renderSquare(i) {
     // Sets the props for the "Square" Component
     // Note: Captures the value of variable "i"
     return (
       <Square
         value={this.props.gamestate.squares[i]}
-        onClick={() => this.handleClick(i)}
+        onClick={() => this.props.gamestate.putStone(i)}
       />
     );
   }
@@ -42,10 +36,6 @@ class Board extends React.Component {
   }
 
   render() {
-    const status = this.props.gamestate.whiteIsNext ? 'WHITE' : 'BLACK';
-
-    $('.next_player').text(status);
-
     const outer = [];
     for (let i = 0; i < this.props.gamestate.boardSize; i++) {
       outer.push(this.renderRow(this.props.gamestate.boardSize, i));
