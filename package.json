@@ -4,10 +4,10 @@
   "description": "Play4Privacy Kunsthaus Projekt",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"nodemon ./server.js\" \"npm run frontend\"",
+    "start": "concurrently \"nodemon src/server.js\" \"npm run frontend\"",
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register ./test/*.spec.js",
     "frontend": "node start-frontend.js",
-    "server": "node server.js",
+    "server": "node src/server.js",
     "lint": "eslint ."
   },
   "repository": {
