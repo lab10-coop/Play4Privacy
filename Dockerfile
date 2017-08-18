@@ -10,8 +10,9 @@ ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
 COPY . ${WORK_DIR}
-RUN npm install && npm cache clean
+RUN npm install && npm cache clean && npm run build-production
 RUN cd frontend && npm i && npm run build && rm -r node_modules
 
 EXPOSE 3001
-CMD [ "npm", "run", "server" ]
+CMD [ "npm", "run", "start-production" ]
+

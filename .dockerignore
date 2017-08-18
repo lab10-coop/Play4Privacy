@@ -5,8 +5,10 @@
 Dockerfile
 README.md
 redeploy_docker.sh
-
-node_modules
 npm-debug.log
 
+node_modules
 frontend/node_modules
+
+build
+frontend/build
