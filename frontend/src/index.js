@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { Provider } from 'mobx-react';
 import { useStrict } from 'mobx';
+import io from 'socket.io-client';
 import Home from './pages/Home';
 import Credits from './pages/Credits';
 import GameBoard from './pages/GameBoard';
@@ -13,6 +14,7 @@ import './css/styles.css';
 
 useStrict();
 const gameState = new GameState();
+const socket = io();
 
 function Navigation() {
   return (
@@ -51,7 +53,7 @@ function Routes() {
 // ========================================
 
 ReactDOM.render(
-  <Provider gamestate={gameState}>
+  <Provider gamestate={gameState} socket={socket}>
     <Router>
       <Routes />
     </Router>
