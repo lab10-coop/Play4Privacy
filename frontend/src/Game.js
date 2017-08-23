@@ -1,11 +1,11 @@
 import { observable, computed, action } from 'mobx';
+import GameSettings from './GameSettings';
 
 class GameState {
   constructor(socket) {
     this.socket = socket;
+    this.boardSize = GameSettings.BOARD_SIZE;
   }
-
-  boardSize = 9;
 
   @observable squares = Array(this.boardSize * this.boardSize).fill(null);
   @observable countSteps = 0;
