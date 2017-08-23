@@ -12,7 +12,7 @@ function Square(props) {
   );
 }
 
-@inject('gamestate')
+@inject('game')
 @observer
 class Board extends React.Component {
   renderSquare(i) {
@@ -20,8 +20,8 @@ class Board extends React.Component {
     // Note: Captures the value of variable "i"
     return (
       <Square
-        value={this.props.gamestate.squares[i]}
-        onClick={() => this.props.gamestate.putStone(i)}
+        value={this.props.game.squares[i]}
+        onClick={() => this.props.game.putStone(i)}
       />
     );
   }
@@ -37,8 +37,8 @@ class Board extends React.Component {
 
   render() {
     const outer = [];
-    for (let i = 0; i < this.props.gamestate.boardSize; i++) {
-      outer.push(this.renderRow(this.props.gamestate.boardSize, i));
+    for (let i = 0; i < this.props.game.boardSize; i++) {
+      outer.push(this.renderRow(this.props.game.boardSize, i));
     }
 
     return (
