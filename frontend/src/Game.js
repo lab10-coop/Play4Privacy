@@ -20,6 +20,12 @@ class GameState {
     // Get notified when a new game starts
     this.socket.on('start game', this.startGame);
 
+    // Get notified 
+    socket.on('round finished', (newTeam) => {
+      this.currentTeam = newTeam;
+      this.myMove = '';
+    });
+
     // ////////////////////////////////////////////////////////////////////////    
 
     // Initialize the ticker to the current time in the browser
@@ -34,14 +40,15 @@ class GameState {
   }
 
   @action.bound
-  startGame(startTime) {
-    this.refreshGameState(startTime, startTime);
+  startGame(startTime, currentTeam) {
+    this.refreshGameState(startTime, startTime, currentTeam);
   }
 
   @action.bound
-  refreshGameState(serverTime, startTime) {
+  refreshGameState(serverTime, startTime, currentTeam) {
     const offset = Date.now() - serverTime;
     this.startTime = startTime + offset;
+    this.currentTeam = currentTeam;
   }
 
   // Ticker triggering updates of time-dependent computations by the magic
@@ -49,6 +56,9 @@ class GameState {
   @observable localTime = 0;
 
   @observable startTime = 0;
+  @observable currentTeam = '';
+  @observable myTeam = '';
+  @observable myMove = '';
   @observable squares = Array(this.boardSize * this.boardSize).fill(null);
   @observable countSteps = 0;
 

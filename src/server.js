@@ -33,7 +33,7 @@ io.on('connection', (socket) => {
   // Note: Sends the current server time to allow the front-end to 
   //       calculate an offset between the back- and front-end clocks.
   socket.on('current game state', (fn) => {
-    fn(Date.now(), game.startTime);
+    fn(Date.now(), game.startTime, game.currentTeam);
   });
 
   // //////////////////////////////////////////////////////////////////////////
