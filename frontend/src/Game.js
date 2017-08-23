@@ -1,21 +1,35 @@
 import { observable, computed, action } from 'mobx';
 import GameSettings from './GameSettings';
 
+// Temporary solution to identify the user uniquely
+// To be replaced by cryptographic tokens
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    // Note "|0" converts a Number to an integer
+    const r = Math.random() * 16 | 0; // eslint-disable-line no-bitwise
+    const v = c === 'x' ? r : (r & 0x3 | 0x8); // eslint-disable-line no-bitwise,no-mixed-operators
+    return v.toString(16);
+  });
+}
+
 class GameState {
   constructor(socket) {
+    // todo: Use a real token
+    this.id = uuidv4();
+
     this.socket = socket;
     this.boardSize = GameSettings.BOARD_SIZE;
     this.maxGameDuration = new Date(GameSettings.MAX_GAME_DURATION);
 
     // Acquire the current game state
-    socket.emit('current game state', this.refreshGameState);
+    socket.emit('current game state', this.id, this.refreshGameState);
 
     // ////////////////////////////////////////////////////////////////////////
     // Subscriptions to socket.io Events
 
     // Re-acqure the current game state on a re-connect
     socket.on('connect', () =>
-      this.socket.emit('current game state', this.refreshGameState));
+      this.socket.emit('current game state', this.id, this.refreshGameState));
 
     // Get notified when a new game starts
     this.socket.on('start game', this.startGame);
@@ -41,14 +55,16 @@ class GameState {
 
   @action.bound
   startGame(startTime, currentTeam) {
-    this.refreshGameState(startTime, startTime, currentTeam);
+    this.refreshGameState(startTime, startTime, currentTeam, '', '');
   }
 
   @action.bound
-  refreshGameState(serverTime, startTime, currentTeam) {
+  refreshGameState(serverTime, startTime, currentTeam, myTeam, myMove) {
     const offset = Date.now() - serverTime;
     this.startTime = startTime + offset;
     this.currentTeam = currentTeam;
+    this.myTeam = myTeam;
+    this.myMove = myMove;
   }
 
   // Ticker triggering updates of time-dependent computations by the magic
@@ -77,6 +93,11 @@ class GameState {
       (this.localTime - this.startTime)));
     duration = Math.floor(duration % GameSettings.ROUND_TIME);
     return new Date(duration);
+  }
+
+  @action.bound
+  joinGame() {
+    this.socket.emit('join game', this.id, myTeam => (this.myTeam = myTeam));
   }
 
   @computed get whiteIsNext() {

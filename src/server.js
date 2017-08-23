@@ -32,9 +32,11 @@ io.on('connection', (socket) => {
   // Returns the current game state
   // Note: Sends the current server time to allow the front-end to 
   //       calculate an offset between the back- and front-end clocks.
-  socket.on('current game state', (fn) => {
-    fn(Date.now(), game.startTime, game.currentTeam);
+  socket.on('current game state', (id, fn) => {
+    fn(Date.now(), game.startTime, game.currentTeam, game.hasJoined(id), game.playerMove(id));
   });
+
+  socket.on('join game', (id, fn) => fn(game.joinGame(id)));
 
   // //////////////////////////////////////////////////////////////////////////
 });

@@ -22,7 +22,9 @@ const GameBoard = inject('game')(observer(props =>
           </form>
           <p>
             Ready? Good!<br />
-            <span className='button' id='joinGameButton'>JOIN GAME NOW</span>
+            <span className='button' onClick={props.game.joinGame} id='joinGameButton'>
+              JOIN GAME NOW
+            </span>
           </p>
         </div>
       </div>

@@ -8,6 +8,9 @@ class Game {
   constructor(io) {
     this.io = io;
     this.boardSize = GameSettings.BOARD_SIZE;
+    this.players = new Map();
+    this.roundMoves = new Map();
+
     setInterval(() => this.updateTime(), 1000);
     this.startGame();
   }
@@ -36,6 +39,25 @@ class Game {
     // calculate it from the current time and the round time on the fly.
     return (Math.floor((Date.now() - this.startTime) /
       GameSettings.ROUND_TIME) % 2) ? 'BLACK' : 'WHITE';
+  }
+
+  joinGame(id) {
+    if (!this.players.has(id)) {
+      // assign teams round-robin
+      this.players.set(id, this.players.size % 2 ? 'BLACK' : 'WHITE');
+    }
+    return this.players.get(id);
+  }
+
+  hasJoined(id) {
+    return this.players.has(id) ? this.players.get(id) : '';
+  }
+
+  playerMove(id) {
+    if (this.roundMoves.has(id)) {
+      return this.roundMoves.get(id);
+    }
+    return '';
   }
 }
 

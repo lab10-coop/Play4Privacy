@@ -19,7 +19,8 @@
     "react/no-array-index-key": 0,
     "space-before-function-paren": [2, {"anonymous": "always", "named": "never"}],
     "no-param-reassign": ["error", { "props": false }],
-    "no-console": 0
+    "no-console": 0,
+    "no-return-assign": [1, "except-parens"]    
   },
   "env": {
     "browser": true
