@@ -45,15 +45,17 @@ const GameBoard = inject('game')(observer(props =>
             </div>
             <div className='item'>
               <span className='label'>Time to vote</span>
-              <span className='value' id='timeToVote'>23 sec</span>
+              <span className='value' id='timeToVote'>
+                {props.game.timeLeftInRound.getSeconds()}
+              </span>
             </div>
             <div className='item'>
               <span className='label'>Placed on</span>
-              <span className='value' id='placedOn'>B3</span>
+              <span className='value' id='placedOn'>{props.game.myMove || '--'}</span>
             </div>
             <div className='item'>
               <span className='label'>You are on team:</span>
-              <span className='value' id='yourTeam'>Black</span>
+              <span className='value' id='yourTeam'>{props.game.myTeam || '--'}</span>
             </div>
             <div className='item'>
               <span className='label'>Players on your team</span>

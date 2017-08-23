@@ -72,6 +72,13 @@ class GameState {
     return new Date(duration);
   }
 
+  @computed get timeLeftInRound() {
+    let duration = Math.max(0, (GameSettings.MAX_GAME_DURATION -
+      (this.localTime - this.startTime)));
+    duration = Math.floor(duration % GameSettings.ROUND_TIME);
+    return new Date(duration);
+  }
+
   @computed get whiteIsNext() {
     return (this.countSteps % 2) === 0;
   }
