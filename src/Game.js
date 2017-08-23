@@ -8,11 +8,20 @@ class Game {
   constructor(io) {
     this.io = io;
     this.boardSize = GameSettings.BOARD_SIZE;
+    setInterval(() => this.updateTime(), 1000);
     this.startGame();
+  }
+
+  updateTime() {
+    if ((Date.now() - this.startTime) > GameSettings.MAX_GAME_DURATION) {
+      console.log('Game time finished!');
+      this.startGame();
+    }
   }
 
   startGame() {
     this.startTime = Date.now();
+    this.io.emit('start game', this.startTime);
   }
 }
 

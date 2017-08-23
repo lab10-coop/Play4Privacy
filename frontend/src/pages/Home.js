@@ -1,8 +1,9 @@
 import React from 'react';
+import { observer, inject } from 'mobx-react';
 import Board from '../Board';
 
-function Home() {
-  return (
+const Home = inject('game')(observer(props =>
+  (
     <div>
       <div className='projectExplanation field'>
         <h2>How it works, and wtf is this all about?</h2>
@@ -28,8 +29,9 @@ function Home() {
         </div>
 
         <div className='playTime clear'>
-          Playtime: <span className='timeLeft'>7min</span> left of
-          <span className='totalTime'>10min</span>
+          Playtime: <span className='timeLeft'>{props.game.timeLeftInGame.getMinutes()}m&nbsp;
+            {props.game.timeLeftInGame.getSeconds()}s</span> left of
+          <span className='totalTime'> {props.game.maxGameDuration.getMinutes()}m</span>
           <span className='timeBar' />
         </div>
       </div>
@@ -41,7 +43,7 @@ function Home() {
         <a href='#'>Partner #4</a>
       </div>
     </div>
-  );
-}
+  ),
+));
 
 export default Home;

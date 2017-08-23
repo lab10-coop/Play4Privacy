@@ -2,6 +2,7 @@ import path from 'path';
 import express from 'express';
 import http from 'http';
 import socketio from 'socket.io';
+import Game from './Game';
 
 const app = express();
 const server = http.Server(app);
@@ -20,8 +21,22 @@ app.get('*', (request, response) => {
   response.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
 
-io.on('connection', () => {
+const game = new Game(io);
+
+io.on('connection', (socket) => {
   console.log('a user connected');
+
+  // //////////////////////////////////////////////////////////////////////////
+  // Server API
+
+  // Returns the current game state
+  // Note: Sends the current server time to allow the front-end to 
+  //       calculate an offset between the back- and front-end clocks.
+  socket.on('current game state', (fn) => {
+    fn(Date.now(), game.startTime);
+  });
+
+  // //////////////////////////////////////////////////////////////////////////
 });
 
 server.listen(app.get('port'), () => {
