@@ -31,7 +31,7 @@ class Game {
   startGame() {
     this.startTime = Date.now();
     this.previousTeam = 'WHITE';
-    this.api.startGame(this.startTime, this.currentTeam);
+    this.api.gameStarted(this.startTime, this.currentTeam);
   }
 
   get currentTeam() {
