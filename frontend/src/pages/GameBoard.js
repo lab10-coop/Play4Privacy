@@ -48,7 +48,7 @@ const GameBoard = inject('game')(observer(props =>
             <div className='item'>
               <span className='label'>Time to vote</span>
               <span className='value' id='timeToVote'>
-                {props.game.timeLeftInRound.getSeconds()}
+                {props.game.timeLeftInRound.getSeconds()}s
               </span>
             </div>
             <div className='item'>

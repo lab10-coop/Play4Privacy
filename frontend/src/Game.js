@@ -31,10 +31,10 @@ class GameState {
     socket.on('connect', () =>
       this.socket.emit('current game state', this.id, this.refreshGameState));
 
-    // Get notified when a new game starts
-    this.socket.on('start game', this.startGame);
+    // Get notified when a new game started
+    this.socket.on('game started', this.startGame);
 
-    // Get notified 
+    // Get notified when a roun finished
     socket.on('round finished', (newTeam) => {
       this.currentTeam = newTeam;
       this.myMove = '';

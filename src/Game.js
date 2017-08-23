@@ -1,4 +1,5 @@
 import GameSettings from '../frontend/src/GameSettings';
+import ServerApi from './api';
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
@@ -6,7 +7,7 @@ import GameSettings from '../frontend/src/GameSettings';
 //       and front-end clocks to display the correct temporal distance from game start
 class Game {
   constructor(io) {
-    this.io = io;
+    this.api = new ServerApi(io);
     this.boardSize = GameSettings.BOARD_SIZE;
     this.players = new Map();
     this.roundMoves = new Map();
@@ -17,13 +18,12 @@ class Game {
 
   updateTime() {
     if ((Date.now() - this.startTime) > GameSettings.MAX_GAME_DURATION) {
-      console.log('Game time finished!');
       this.startGame();
     } else {
       const nextTeam = this.currentTeam;
       if (this.previousTeam !== nextTeam) {
         this.previousTeam = nextTeam;
-        this.io.emit('round finished', nextTeam);
+        this.api.roundFinished(nextTeam);
       }
     }
   }
@@ -31,7 +31,7 @@ class Game {
   startGame() {
     this.startTime = Date.now();
     this.previousTeam = 'WHITE';
-    this.io.emit('start game', this.startTime, this.currentTeam);
+    this.api.startGame(this.startTime, this.currentTeam);
   }
 
   get currentTeam() {
