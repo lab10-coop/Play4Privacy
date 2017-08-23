@@ -1,4 +1,4 @@
-FROM node:6.11-alpine
+FROM node:6.11.2
 
 ARG WORK_DIR=/usr/src/app
 
