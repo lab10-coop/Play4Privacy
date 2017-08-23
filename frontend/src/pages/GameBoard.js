@@ -1,8 +1,9 @@
 import React from 'react';
+import { observer, inject } from 'mobx-react';
 import Board from '../Board';
 
-function GameBoard() {
-  return (
+const GameBoard = inject('game')(observer(props =>
+  (
     <div>
       <div className='layer showLayer' id='startGame'>
         <div className='layerInner'>
@@ -35,7 +36,8 @@ function GameBoard() {
             <h2>Current Game:</h2>
             <div className='item'>
               <span className='label'>Game-Clock</span>
-              <span className='value' id='gameclock'>11min 23sec</span>
+              <span className='value' id='gameclock'>{props.game.timeLeftInGame.getMinutes()}m&nbsp;
+                {props.game.timeLeftInGame.getSeconds()}s</span>
             </div>
             <div className='item'>
               <span className='label'>Active Team</span>
@@ -104,7 +106,7 @@ function GameBoard() {
       </div>
 
     </div>
-  );
-}
+  ),
+));
 
 export default GameBoard;
