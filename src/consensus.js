@@ -1,23 +1,23 @@
 import GameSettings from '../frontend/src/GameSettings';
 
-// find the move with the highest frequency
+// find the move with the highest frequency or return a random move
 export default function findConsensus(submittedMoves) {
-  const movesIdMap = new Map();
-  submittedMoves.forEach((move, id) => {
-    if (movesIdMap.has(move)) {
-      const idArray = movesIdMap.get(move);
-      idArray.push(id);
-    } else {
-      movesIdMap.set(move, [ id ]);
-    }
-  });
-
   let mostMoves = {
     move: Math.floor(Math.random() * GameSettings.BOARD_SIZE * GameSettings.BOARD_SIZE),
     ids: [],
   };
 
-  movesIdMap.forEach((ids, move) => {
+  const movesIdMap = new Map();
+  submittedMoves.forEach((move, id) => {
+    let ids = [];
+    if (movesIdMap.has(move)) {
+      ids = movesIdMap.get(move);
+      ids.push(id);
+    } else {
+      ids = [ id ];
+      movesIdMap.set(move, ids);
+    }
+
     if (ids.length > mostMoves.ids.length) {
       mostMoves = { move, ids };
     }
