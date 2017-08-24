@@ -9,17 +9,10 @@ export default function findConsensus(submittedMoves) {
 
   const movesIdMap = new Map();
   submittedMoves.forEach((move, id) => {
-    let ids = [];
-    if (movesIdMap.has(move)) {
-      ids = movesIdMap.get(move);
-      ids.push(id);
-    } else {
-      ids = [ id ];
-      movesIdMap.set(move, ids);
-    }
+    const length = (movesIdMap[move] || (movesIdMap[move] = [])).push(id);
 
-    if (ids.length > mostMoves.ids.length) {
-      mostMoves = { move, ids };
+    if (length > mostMoves.ids.length) {
+      mostMoves = { move, ids: movesIdMap[move] };
     }
   });
 
