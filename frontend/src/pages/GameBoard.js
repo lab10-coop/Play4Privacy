@@ -53,7 +53,7 @@ const GameBoard = inject('game')(observer(props =>
             </div>
             <div className='item'>
               <span className='label'>Placed on</span>
-              <span className='value' id='placedOn'>{props.game.myMove || '--'}</span>
+              <span className='value' id='placedOn'>{props.game.formattedMove || '--'}</span>
             </div>
             <div className='item'>
               <span className='label'>You are on team:</span>

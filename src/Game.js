@@ -23,14 +23,17 @@ class Game {
       const nextTeam = this.currentTeam;
       if (this.previousTeam !== nextTeam) {
         this.previousTeam = nextTeam;
+        this.roundMoves.clear();
         this.api.roundFinished(nextTeam);
       }
     }
   }
 
   startGame() {
-    this.startTime = Date.now();
     this.previousTeam = 'WHITE';
+    this.players.clear();
+    this.roundMoves.clear();
+    this.startTime = Date.now();
     this.api.gameStarted(this.startTime, this.currentTeam);
   }
 
@@ -51,6 +54,27 @@ class Game {
 
   hasJoined(id) {
     return this.players.has(id) ? this.players.get(id) : '';
+  }
+
+  submitMove(id, move) {
+    // Check if user has joined the current game
+    if (!this.players.has(id)) {
+      return 'Join the Game first!';
+    }
+
+    // Check if player is on the right team
+    if (this.players.get(id) !== this.currentTeam) {
+      return 'Wait your turn!';
+    }
+
+    // Check if already set a move in this round
+    if (this.roundMoves.has(id)) {
+      return this.roundMoves.get(id);
+    }
+
+    // Set the move and return
+    this.roundMoves.set(id, move);
+    return move;
   }
 
   playerMove(id) {

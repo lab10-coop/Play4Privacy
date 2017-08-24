@@ -95,20 +95,28 @@ class GameState {
     return new Date(duration);
   }
 
+  @computed get formattedMove() {
+    if (this.myMove === '' || isNaN(this.myMove)) {
+      // console.log('Move Rejected');
+      return this.myMove;
+    }
+    // console.log(`Formatting Move: ${this.myMove}`);
+    return GameSettings.idxToCoord(this.myMove);
+  }
+
   @action.bound
   joinGame() {
     this.socket.emit('join game', this.id, myTeam => (this.myTeam = myTeam));
   }
 
-  @computed get whiteIsNext() {
-    return (this.countSteps % 2) === 0;
-  }
-
-  @action.bound putStone(idx) {
-    if (!this.squares[idx]) {
-      this.squares[idx] = this.whiteIsNext ? 'white' : 'black';
-      this.countSteps += 1;
-    }
+  @action.bound
+  submitMove(move) {
+    // console.log(`Submitting Move: ${move}`);
+    this.socket.emit('submit move', this.id,
+      move, (confirmedMove) => {
+        // console.log(`Confirmed Move: ${confirmedMove}`);
+        this.myMove = confirmedMove;
+      });
   }
 }
 

@@ -21,7 +21,7 @@ class Board extends React.Component {
     return (
       <Square
         value={this.props.game.squares[i]}
-        onClick={() => this.props.game.putStone(i)}
+        onClick={() => this.props.game.submitMove(i)}
       />
     );
   }

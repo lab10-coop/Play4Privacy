@@ -9,6 +9,8 @@ export function defineClientApi(game, socket) {
   // returns the team you are assigned to, or an empty string
   // if joining failed.
   socket.on('join game', (id, fn) => fn(game.joinGame(id)));
+
+  socket.on('submit move', (id, move, fn) => fn(game.submitMove(id, move)));
 }
 
 export default class ServerApi {
