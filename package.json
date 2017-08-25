@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "concurrently \"nodemon src/server.js --exec babel-node\" \"npm run frontend\"",
-    "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register ./test/*.spec.js",
+    "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register --require source-map-support ./test/*.spec.js",
     "frontend": "node start-frontend.js",
     "server": "babel-node src/server.js",
     "lint": "eslint .",
