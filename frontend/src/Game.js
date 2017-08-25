@@ -12,7 +12,7 @@ function uuidv4() {
   });
 }
 
-class GameState {
+class Game {
   constructor(socket) {
     // todo: Use a real token
     this.id = uuidv4();
@@ -120,4 +120,4 @@ class GameState {
   }
 }
 
-export default GameState;
+export default Game;
