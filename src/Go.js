@@ -48,7 +48,7 @@ class Go {
 
   // Returns a random, but valid, move
   // Warning: May return "undefined" if no valid move is left
-  addRandomMove() {
+  getRandomMove() {
     const validMoves = this.board.reduce((acc, val, idx) => {
       if (this.validMove(idx)) {
         acc.push(idx);

@@ -35,7 +35,8 @@ class Game {
     this.socket.on('game started', this.startGame);
 
     // Get notified when a roun finished
-    socket.on('round finished', (newTeam) => {
+    socket.on('round finished', (newTeam, move) => {
+      this.squares[move] = this.currentTeam;
       this.currentTeam = newTeam;
       this.myMove = '';
     });
@@ -97,10 +98,8 @@ class Game {
 
   @computed get formattedMove() {
     if (this.myMove === '' || isNaN(this.myMove)) {
-      // console.log('Move Rejected');
       return this.myMove;
     }
-    // console.log(`Formatting Move: ${this.myMove}`);
     return GameSettings.idxToCoord(this.myMove);
   }
 
@@ -111,10 +110,8 @@ class Game {
 
   @action.bound
   submitMove(move) {
-    // console.log(`Submitting Move: ${move}`);
     this.socket.emit('submit move', this.id,
       move, (confirmedMove) => {
-        // console.log(`Confirmed Move: ${confirmedMove}`);
         this.myMove = confirmedMove;
       });
   }

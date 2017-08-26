@@ -6,9 +6,14 @@ function Square(props) {
   // Expects two props to be sent:
   // - onClick() - a function called when the Square is clicked
   // - value - the current value of this field, should be a single character in this particular case
-
+  let stoneColor = '';
+  if (props.value === 'WHITE') {
+    stoneColor = 'white';
+  } else if (props.value === 'BLACK') {
+    stoneColor = 'black';
+  }
   return (
-    <div className={[ 'place', props.value ].join(' ')} onClick={() => props.onClick()} />
+    <div className={[ 'place', stoneColor ].join(' ')} onClick={() => props.onClick()} />
   );
 }
 

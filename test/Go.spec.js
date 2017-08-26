@@ -26,7 +26,7 @@ describe('Go', () => {
   describe('"addRandomMove"', () => {
     it('should return a valid move, until no valid move is left', () => {
       const go = new Go();
-      expect(go.addRandomMove()).not.to.be.undefined;
+      expect(go.getRandomMove()).not.to.be.undefined;
     });
   });
 });

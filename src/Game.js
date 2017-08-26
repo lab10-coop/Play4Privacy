@@ -1,5 +1,6 @@
 import GameSettings from '../frontend/src/GameSettings';
 import ServerApi from './api';
+import Go from './Go';
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
@@ -8,6 +9,7 @@ import ServerApi from './api';
 class Game {
   constructor(io) {
     this.api = new ServerApi(io);
+    this.go = new Go();
     this.boardSize = GameSettings.BOARD_SIZE;
     this.players = new Map();
     this.roundMoves = new Map();
@@ -19,25 +21,25 @@ class Game {
   updateTime() {
     if ((Date.now() - this.startTime) > GameSettings.MAX_GAME_DURATION) {
       this.startGame();
-    } else {
-      const nextTeam = this.currentTeam;
-      if (this.previousTeam !== nextTeam) {
-        this.previousTeam = nextTeam;
-        this.roundMoves.clear();
-        this.api.roundFinished(nextTeam);
-      }
+    } else if (this.go.currentTeam() !== this.expectedTeam) {
+      // Todo: Handle the case where there is no valid move left
+      //       and this function returns undefined.
+      const roundMove = this.go.getRandomMove();
+      this.go.addMove(roundMove);
+      this.roundMoves.clear();
+      this.api.roundFinished(this.go.currentTeam(), roundMove);
     }
   }
 
   startGame() {
-    this.previousTeam = 'WHITE';
+    this.go.clearBoard();
     this.players.clear();
     this.roundMoves.clear();
     this.startTime = Date.now();
-    this.api.gameStarted(this.startTime, this.currentTeam);
+    this.api.gameStarted(this.startTime, this.go.currentTeam());
   }
 
-  get currentTeam() {
+  get expectedTeam() {
     // No need to store the current team,
     // calculate it from the current time and the round time on the fly.
     return (Math.floor((Date.now() - this.startTime) /
@@ -63,7 +65,7 @@ class Game {
     }
 
     // Check if player is on the right team
-    if (this.players.get(id) !== this.currentTeam) {
+    if (this.players.get(id) !== this.go.currentTeam()) {
       return 'Wait your turn!';
     }
 
