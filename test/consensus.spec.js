@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import GameSettings from '../frontend/src/GameSettings';
 import findConsensus from '../src/consensus';
 
 describe('consensus', () => {
@@ -8,11 +7,12 @@ describe('consensus', () => {
   });
 
   describe('"findConsensus"', () => {
-    it('should return a random number if no move has been made', () => {
+    it('should return undefined if no move has been made', () => {
       const roundMoves = new Map();
       const winningMove = findConsensus(roundMoves);
-      expect(winningMove.move).to.be.at.least(0);
-      expect(winningMove.move).to.be.below(GameSettings.BOARD_SIZE * GameSettings.BOARD_SIZE);
+      expect(winningMove.move).to.be.undefined;
+      // expect(winningMove.move).to.be.at.least(0);
+      // expect(winningMove.move).to.be.below(GameSettings.BOARD_SIZE * GameSettings.BOARD_SIZE);
       expect(winningMove.ids).to.have.length(0);
     });
     it('should return the move with the highest frequency', () => {

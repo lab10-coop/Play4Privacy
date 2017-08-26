@@ -1,9 +1,7 @@
-import GameSettings from '../frontend/src/GameSettings';
-
 // find the move with the highest frequency or return a random move
 export default function findConsensus(submittedMoves) {
   let mostMoves = {
-    move: Math.floor(Math.random() * GameSettings.BOARD_SIZE * GameSettings.BOARD_SIZE),
+    move: undefined,
     ids: [],
   };
 
