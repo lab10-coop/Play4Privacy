@@ -4,7 +4,7 @@ function GameSettings() {
   this.ONE_SECOND = 1000;
   this.ONE_MINUTE = this.ONE_SECOND * 60;
   this.MAX_GAME_DURATION = 4 * this.ONE_MINUTE;
-  this.ROUND_TIME = 20 * this.ONE_SECOND;
+  this.ROUND_TIME = 10 * this.ONE_SECOND;
 
   this.idxToCoord = (idx) => {
     let column = idx % this.BOARD_SIZE;
