@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import gs from '../frontend/src/GameSettings';
-import WGo from '../src/wgo/wgo';
+import WGo from '../src/wgo';
 
 describe('WGo', () => {
   describe('"Default export should be a function"', () => {
