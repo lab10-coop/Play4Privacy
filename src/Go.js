@@ -4,12 +4,12 @@ import gs from '../frontend/src/GameSettings';
 class Go {
   constructor() {
     this.board = new Array(gs.BOARD_SIZE_SQUARED);
-    this.numMoves = 0;
     this.clearBoard();
   }
 
   clearBoard() {
     this.board.fill('');
+    this.numMoves = 0;
   }
 
   fieldValue(idx) {
