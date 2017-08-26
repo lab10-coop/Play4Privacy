@@ -69,13 +69,13 @@ class Game {
     // No need to store the current team,
     // calculate it from the current time and the round time on the fly.
     return (Math.floor((Date.now() - this.startTime) /
-      GameSettings.ROUND_TIME) % 2) ? 'BLACK' : 'WHITE';
+      GameSettings.ROUND_TIME) % 2) ? 'WHITE' : 'BLACK';
   }
 
   joinGame(id) {
     if (!this.players.has(id)) {
       // assign teams round-robin
-      this.players.set(id, this.players.size % 2 ? 'BLACK' : 'WHITE');
+      this.players.set(id, this.players.size % 2 ? 'WHITE' : 'BLACK');
     }
     return this.players.get(id);
   }

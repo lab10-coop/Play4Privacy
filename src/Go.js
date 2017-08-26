@@ -17,7 +17,7 @@ class Go {
   }
 
   currentTeam() {
-    return (this.numMoves % 2) ? 'BLACK' : 'WHITE';
+    return (this.numMoves % 2) ? 'WHITE' : 'BLACK';
   }
 
   validMove(idx) {
