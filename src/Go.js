@@ -1,5 +1,5 @@
 import gs from '../frontend/src/GameSettings';
-import WGo from '../src/wgo';
+import WGo from './wgo/wgo';
 
 function wgoToP4P(value) {
   if (value === -1) {
