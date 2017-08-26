@@ -2,7 +2,8 @@ export function defineClientApi(game, socket) {
   // Emit this event to receive the current game state from cratch,
   // for example right after connecting/reconnecting to the server.
   socket.on('current game state', (id, fn) => {
-    fn(Date.now(), game.startTime, game.go.currentTeam(), game.hasJoined(id), game.playerMove(id));
+    fn(Date.now(), game.startTime, game.go.currentTeam(), game.hasJoined(id),
+      game.playerMove(id), game.go.board);
   });
 
   // Emit this event to join the currently running game,

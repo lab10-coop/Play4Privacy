@@ -18,7 +18,6 @@ class Game {
     this.id = uuidv4();
 
     this.socket = socket;
-    this.boardSize = GameSettings.BOARD_SIZE;
     this.maxGameDuration = new Date(GameSettings.MAX_GAME_DURATION);
 
     // Acquire the current game state
@@ -56,12 +55,16 @@ class Game {
 
   @action.bound
   startGame(startTime, currentTeam) {
-    this.refreshGameState(startTime, startTime, currentTeam, '', '');
+    this.refreshGameState(startTime, startTime, currentTeam, '', '',
+      Array(GameSettings.BOARD_SIZE_SQUARED).fill(''));
   }
 
   @action.bound
-  refreshGameState(serverTime, startTime, currentTeam, myTeam, myMove) {
+  refreshGameState(serverTime, startTime, currentTeam, myTeam, myMove, boardState) {
     const offset = Date.now() - serverTime;
+    for (let i = 0; i < GameSettings.BOARD_SIZE_SQUARED; i++) {
+      this.squares[i] = boardState[i];
+    }
     this.startTime = startTime + offset;
     this.currentTeam = currentTeam;
     this.myTeam = myTeam;
@@ -76,7 +79,7 @@ class Game {
   @observable currentTeam = '';
   @observable myTeam = '';
   @observable myMove = '';
-  @observable squares = Array(this.boardSize * this.boardSize).fill(null);
+  @observable squares = Array(GameSettings.BOARD_SIZE_SQUARED).fill('');
   @observable countSteps = 0;
 
   // Computes the time left in the current game

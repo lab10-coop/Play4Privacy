@@ -1,5 +1,6 @@
 function GameSettings() {
   this.BOARD_SIZE = 9;
+  this.BOARD_SIZE_SQUARED = this.BOARD_SIZE * this.BOARD_SIZE;
   this.ONE_SECOND = 1000;
   this.ONE_MINUTE = this.ONE_SECOND * 60;
   this.MAX_GAME_DURATION = 4 * this.ONE_MINUTE;

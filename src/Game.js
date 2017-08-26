@@ -1,6 +1,7 @@
 import GameSettings from '../frontend/src/GameSettings';
 import ServerApi from './api';
 import Go from './Go';
+import findConsensus from './consensus';
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
@@ -10,7 +11,6 @@ class Game {
   constructor(io) {
     this.api = new ServerApi(io);
     this.go = new Go();
-    this.boardSize = GameSettings.BOARD_SIZE;
     this.players = new Map();
     this.roundMoves = new Map();
 
@@ -22,12 +22,7 @@ class Game {
     if ((Date.now() - this.startTime) > GameSettings.MAX_GAME_DURATION) {
       this.startGame();
     } else if (this.go.currentTeam() !== this.expectedTeam) {
-      // Todo: Handle the case where there is no valid move left
-      //       and this function returns undefined.
-      const roundMove = this.go.getRandomMove();
-      this.go.addMove(roundMove);
-      this.roundMoves.clear();
-      this.api.roundFinished(this.go.currentTeam(), roundMove);
+      this.endRound();
     }
   }
 
@@ -37,6 +32,18 @@ class Game {
     this.roundMoves.clear();
     this.startTime = Date.now();
     this.api.gameStarted(this.startTime, this.go.currentTeam());
+  }
+
+  endRound() {
+    let roundMove = findConsensus(this.roundMoves).move;
+    if (roundMove === undefined) {
+      // Todo: Handle the case where there is no valid move left
+      //       and this function returns undefined.      
+      roundMove = this.go.getRandomMove();
+    }
+    this.go.addMove(roundMove);
+    this.roundMoves.clear();
+    this.api.roundFinished(this.go.currentTeam(), roundMove);
   }
 
   get expectedTeam() {

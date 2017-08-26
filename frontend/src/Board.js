@@ -1,5 +1,6 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
+import GameSettings from './GameSettings';
 import './index.css';
 
 function Square(props) {
@@ -42,8 +43,8 @@ class Board extends React.Component {
 
   render() {
     const outer = [];
-    for (let i = 0; i < this.props.game.boardSize; i++) {
-      outer.push(this.renderRow(this.props.game.boardSize, i));
+    for (let i = 0; i < GameSettings.BOARD_SIZE; i++) {
+      outer.push(this.renderRow(GameSettings.BOARD_SIZE, i));
     }
 
     return (

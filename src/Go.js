@@ -1,11 +1,9 @@
-import GameSettings from '../frontend/src/GameSettings';
+import gs from '../frontend/src/GameSettings';
 
 // Main interface to the Go game
 class Go {
   constructor() {
-    this.boardSize = GameSettings.BOARD_SIZE;
-    this.boardSizeSquared = GameSettings.BOARD_SIZE * GameSettings.BOARD_SIZE;
-    this.board = new Array(this.boardSizeSquared);
+    this.board = new Array(gs.BOARD_SIZE_SQUARED);
     this.numMoves = 0;
     this.clearBoard();
   }
@@ -24,7 +22,7 @@ class Go {
 
   validMove(idx) {
     // Check bounds
-    if (idx < 0 || idx >= this.boardSizeSquared) {
+    if (idx < 0 || idx >= gs.BOARD_SIZE_SQUARED) {
       return false;
     }
 
