@@ -100,6 +100,10 @@ class Game {
       return this.roundMoves.get(id);
     }
 
+    if (!this.go.validMove(move)) {
+      return 'Invalid Move!';
+    }
+
     // Set the move and return
     this.roundMoves.set(id, move);
     return move;

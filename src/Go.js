@@ -1,53 +1,62 @@
 import gs from '../frontend/src/GameSettings';
+import WGo from '../src/wgo/wgo';
+
+function wgoToP4P(value) {
+  if (value === -1) {
+    return 'WHITE';
+  } else if (value === 1) {
+    return 'BLACK';
+  }
+  return '';
+}
+
+function idxToWGo(idx) {
+  const x = Math.floor(idx / gs.BOARD_SIZE);
+  const y = Math.floor(idx % gs.BOARD_SIZE);
+  return [ x, y ];
+}
 
 // Main interface to the Go game
 class Go {
   constructor() {
-    this.board = new Array(gs.BOARD_SIZE_SQUARED);
+    this.wgo = new WGo(gs.BOARD_SIZE, 'NONE');
     this.clearBoard();
   }
 
+  get board() {
+    return this.wgo.getPosition().schema.map(wgoToP4P);
+  }
+
   clearBoard() {
-    this.board.fill('');
-    this.numMoves = 0;
+    this.wgo.firstPosition();
   }
 
   fieldValue(idx) {
-    return this.board[idx];
+    return wgoToP4P(this.wgo.getPosition().schema[idx]);
   }
 
   currentTeam() {
-    return (this.numMoves % 2) ? 'WHITE' : 'BLACK';
+    return this.wgo.turn === 1 ? 'BLACK' : 'WHITE';
   }
 
   validMove(idx) {
-    // Check bounds
-    if (idx < 0 || idx >= gs.BOARD_SIZE_SQUARED) {
-      return false;
-    }
-
-    // Check if already set
-    if (this.board[idx]) {
-      return false;
-    }
-
-    return true;
+    const coord = idxToWGo(idx);
+    return this.wgo.isValid(coord[0], coord[1]);
   }
 
   addMove(idx) {
-    if (!this.validMove(idx)) {
-      return false;
+    const coord = idxToWGo(idx);
+    const captured = this.wgo.play(coord[0], coord[1]);
+    if (Array.isArray(captured)) {
+      return true;
     }
-
-    this.board[idx] = this.currentTeam();
-    this.numMoves += 1;
-    return true;
+    return false;
   }
 
   // Returns a random, but valid, move
   // Warning: May return "undefined" if no valid move is left
   getRandomMove() {
-    const validMoves = this.board.reduce((acc, val, idx) => {
+    const validMoves = this.wgo.getPosition().schema.reduce((acc, val, idx) => {
       if (this.validMove(idx)) {
         acc.push(idx);
       }

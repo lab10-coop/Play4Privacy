@@ -74,7 +74,7 @@ describe('WGo', () => {
       expect(wgo.getStone(3, 2)).to.equal(1);
       wgo.firstPosition();
       expect(wgo.getStone(3, 2)).to.equal(0);
-      expect(wgo.stack.length).to.equal(1);      
+      expect(wgo.stack.length).to.equal(1);
     });
   });
 });
