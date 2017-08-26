@@ -170,6 +170,19 @@ var Game = function (size, checkRepeat, allowRewrite, allowSuicide) {
   });
 }
 
+// function for stone capturing
+var do_capture = function(position, captured, x, y, c) {
+	if(x >= 0 && x < position.size && y >= 0 && y < position.size && position.get(x,y) == c) {
+		position.set(x,y,0);
+		captured.push({x:x, y:y});
+
+		do_capture(position, captured, x, y-1, c);
+		do_capture(position, captured, x, y+1, c);
+		do_capture(position, captured, x-1, y, c);
+		do_capture(position, captured, x+1, y, c);
+	}
+}
+
 // looking at liberties
 var check_liberties = function(position, testing, x, y, c) {
 	// out of the board there aren't liberties
