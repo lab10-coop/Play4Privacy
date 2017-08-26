@@ -1,5 +1,6 @@
 build
 node_modules
+src/wgo
 
 frontend/build
 frontend/public
