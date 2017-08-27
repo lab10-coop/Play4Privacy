@@ -6,6 +6,10 @@ function GameSettings() {
   this.MAX_GAME_DURATION = 2 * this.ONE_MINUTE;
   this.ROUND_TIME = 10 * this.ONE_SECOND;
 
+  // WGo error codes
+  this.ERROR_ALREADY_OCCUPIED = 2;
+  this.ERROR_SUICIDE = 3;
+
   this.idxToCoord = (idx) => {
     let column = idx % this.BOARD_SIZE;
     const row = this.BOARD_SIZE - Math.floor(idx / this.BOARD_SIZE);

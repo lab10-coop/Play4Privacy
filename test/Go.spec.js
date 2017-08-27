@@ -17,8 +17,8 @@ describe('Go', () => {
   describe('"addMove"', () => {
     it('should not allow setting an already set move', () => {
       const go = new Go();
-      expect(go.addMove(0)).to.be.true;
-      expect(go.addMove(0)).to.be.false;
+      expect(go.addMove(0)).to.eql([]);
+      expect(go.addMove(0)).to.eql(gs.ERROR_ALREADY_OCCUPIED);
       go.clearBoard();
       expect(go.fieldValue(0)).to.equal('');
     });

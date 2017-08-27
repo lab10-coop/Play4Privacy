@@ -60,9 +60,9 @@ class Game {
       //       and this function returns undefined.      
       roundMove = this.go.getRandomMove();
     }
-    this.go.addMove(roundMove);
+    const captured = this.go.addMove(roundMove);
     this.roundMoves.clear();
-    this.api.roundFinished(this.go.currentTeam(), roundMove);
+    this.api.roundFinished(this.go.currentTeam(), roundMove, captured);
   }
 
   get expectedTeam() {

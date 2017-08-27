@@ -53,10 +53,15 @@ class Game {
     this.socket.on('game started', this.startGame);
 
     // Get notified when a roun finished
-    socket.on('round finished', (newTeam, move) => {
+    socket.on('round finished', (newTeam, move, captured) => {
       this.squares[move] = this.currentTeam;
       this.currentTeam = newTeam;
       this.myMove = '';
+      if (Array.isArray(captured)) {
+        for (const piece of captured) {
+          this.squares[piece] = '';
+        }
+      }
     });
 
     // ////////////////////////////////////////////////////////////////////////    

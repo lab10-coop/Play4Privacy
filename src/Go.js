@@ -16,6 +16,11 @@ function idxToWGo(idx) {
   return [ x, y ];
 }
 
+function WGoToIdx(x, y) {
+  // x is the vertical axis!!
+  return y + (x * gs.BOARD_SIZE);
+}
+
 // Main interface to the Go game
 class Go {
   constructor() {
@@ -48,9 +53,9 @@ class Go {
     const coord = idxToWGo(idx);
     const captured = this.wgo.play(coord[0], coord[1]);
     if (Array.isArray(captured)) {
-      return true;
+      return captured.map(value => WGoToIdx(value.x, value.y));
     }
-    return false;
+    return captured;
   }
 
   // Returns a random, but valid, move

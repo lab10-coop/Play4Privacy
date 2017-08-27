@@ -24,7 +24,7 @@ export default class ServerApi {
   }
 
   // Listen to this event to get notified when a round finished.
-  roundFinished(nextTeam, move) {
-    this.io.emit('round finished', nextTeam, move);
+  roundFinished(nextTeam, move, captured) {
+    this.io.emit('round finished', nextTeam, move, captured);
   }
 }
