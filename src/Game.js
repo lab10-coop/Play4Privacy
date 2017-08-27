@@ -32,14 +32,23 @@ class Game {
     this.go = new Go();
     this.players = new Map();
     this.roundMoves = new Map();
+    this.gameState = gs.RUNNING;
 
     setInterval(() => this.updateTime(), 1000);
     this.startGame();
   }
 
   updateTime() {
-    if ((Date.now() - this.startTime) > gs.MAX_GAME_DURATION) {
-      this.startGame();
+    if (this.gameState === gs.PAUSED) {
+      if ((Date.now() - this.startTime) > gs.PAUSE_DURATION) {
+        this.gameState = gs.RUNNING;
+        this.startGame();
+      }
+    } else if ((Date.now() - this.startTime) > gs.MAX_GAME_DURATION) {
+      this.endRound();
+      this.gameState = gs.PAUSED;
+      this.startTime = Date.now();
+      this.api.gameFinished(gs.PAUSE_DURATION);
     } else if (this.go.currentTeam() !== this.expectedTeam) {
       this.endRound();
     }

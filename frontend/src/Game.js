@@ -38,6 +38,7 @@ class Game {
 
     this.socket = socket;
     this.maxGameDuration = new Date(gs.MAX_GAME_DURATION);
+    this.gameState = gs.RUNNING;
 
     // Acquire the current game state
     socket.emit('current game state', this.id, this.refreshGameState);
@@ -51,6 +52,9 @@ class Game {
 
     // Get notified when a new game started
     this.socket.on('game started', this.startGame);
+
+    // Get notified when a new game started
+    this.socket.on('game finished', this.finishGame);
 
     // Get notified when a roun finished
     socket.on('round finished', (newTeam, move, captured) => {
@@ -79,12 +83,13 @@ class Game {
 
   @action.bound
   startGame(startTime, currentTeam) {
+    this.gameState = gs.RUNNING;
     this.refreshGameState(startTime, startTime, currentTeam, gs.UNSET, '',
-      Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET));
+      Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET), gs.RUNNING);
   }
 
   @action.bound
-  refreshGameState(serverTime, startTime, currentTeam, myTeam, myMove, boardState) {
+  refreshGameState(serverTime, startTime, currentTeam, myTeam, myMove, boardState, gameState) {
     const offset = Date.now() - serverTime;
     for (let i = 0; i < gs.BOARD_SIZE_SQUARED; i++) {
       this.squares[i] = boardState[i];
@@ -93,6 +98,13 @@ class Game {
     this.currentTeam = currentTeam;
     this.myTeam = myTeam;
     this.myMove = myMove;
+    this.gameState = gameState;
+  }
+
+  @action.bound
+  finishGame() {
+    this.gameState = gs.PAUSED;
+    this.startTime = Date.now();
   }
 
   // Ticker triggering updates of time-dependent computations by the magic
@@ -123,6 +135,12 @@ class Game {
     return new Date(duration);
   }
 
+  @computed get timeLeftInPause() {
+    const duration = Math.max(0, (gs.PAUSE_DURATION -
+      (this.localTime - this.startTime)));
+    return new Date(duration);
+  }
+
   @computed get formattedMove() {
     if (this.myMove === '' || isNaN(this.myMove)) {
       return this.myMove;
@@ -140,11 +158,17 @@ class Game {
 
   @action.bound
   joinGame() {
+    if (this.gameState === gs.PAUSED) {
+      return;
+    }
     this.socket.emit('join game', this.id, myTeam => (this.myTeam = myTeam));
   }
 
   @action.bound
   submitMove(move) {
+    if (this.gameState === gs.PAUSED) {
+      return;
+    }
     this.socket.emit('submit move', this.id,
       move, (confirmedMove) => {
         this.myMove = confirmedMove;

@@ -3,7 +3,7 @@ export function defineClientApi(game, socket) {
   // for example right after connecting/reconnecting to the server.
   socket.on('current game state', (id, fn) => {
     fn(Date.now(), game.startTime, game.go.currentTeam(), game.hasJoined(id),
-      game.playerMove(id), game.go.board);
+      game.playerMove(id), game.go.board, game.gameState);
   });
 
   // Emit this event to join the currently running game,
@@ -26,5 +26,10 @@ export default class ServerApi {
   // Listen to this event to get notified when a round finished.
   roundFinished(nextTeam, move, captured) {
     this.io.emit('round finished', nextTeam, move, captured);
+  }
+
+  // Listen to this event to get notified when a game finished.
+  gameFinished() {
+    this.io.emit('game finished');
   }
 }

@@ -38,17 +38,25 @@ const GameBoard = inject('game')(observer(props =>
             <h2>Current Game:</h2>
             <div className='item'>
               <span className='label'>Game-Clock</span>
-              <span className='value' id='gameclock'>{props.game.timeLeftInGame.getMinutes()}m&nbsp;
-                {props.game.timeLeftInGame.getSeconds()}s</span>
+              <span className='value' id='gameclock'>
+                {props.game.gameState ? '' : 'Next game starts in: '}
+                {props.game.gameState ?
+                  props.game.timeLeftInGame.getMinutes() : props.game.timeLeftInPause.getMinutes()}m
+                &nbsp;
+                {props.game.gameState ?
+                  props.game.timeLeftInGame.getSeconds() : props.game.timeLeftInPause.getSeconds()}s
+              </span>
             </div>
             <div className='item'>
               <span className='label'>Active Team</span>
-              <span className='value' id='activeTeam'>{props.game.formattedCurrentTeam}</span>
+              <span className='value' id='activeTeam'>
+                {props.game.gameState ? props.game.formattedCurrentTeam : '--'}
+              </span>
             </div>
             <div className='item'>
               <span className='label'>Time to vote</span>
               <span className='value' id='timeToVote'>
-                {props.game.timeLeftInRound.getSeconds()}s
+                {props.game.gameState ? `${props.game.timeLeftInRound.getSeconds()}s` : '--'}
               </span>
             </div>
             <div className='item'>

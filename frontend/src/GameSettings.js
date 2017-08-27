@@ -1,10 +1,18 @@
 function GameSettings() {
   this.BOARD_SIZE = 9;
   this.BOARD_SIZE_SQUARED = this.BOARD_SIZE * this.BOARD_SIZE;
+
   this.ONE_SECOND = 1000;
   this.ONE_MINUTE = this.ONE_SECOND * 60;
   this.MAX_GAME_DURATION = 2 * this.ONE_MINUTE;
   this.ROUND_TIME = 10 * this.ONE_SECOND;
+  this.PAUSE_DURATION = 10 * this.ONE_SECOND;
+
+  // Game states
+  this.PAUSED = 0;
+  this.RUNNING = 1;
+
+  // FIeld states
   this.BLACK = 1;
   this.WHITE = -1;
   this.UNSET = 0;
