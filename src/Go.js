@@ -1,15 +1,6 @@
 import gs from '../frontend/src/GameSettings';
 import WGo from './wgo/wgo';
 
-function wgoToP4P(value) {
-  if (value === -1) {
-    return 'WHITE';
-  } else if (value === 1) {
-    return 'BLACK';
-  }
-  return '';
-}
-
 function idxToWGo(idx) {
   const x = Math.floor(idx / gs.BOARD_SIZE);
   const y = Math.floor(idx % gs.BOARD_SIZE);
@@ -29,7 +20,7 @@ class Go {
   }
 
   get board() {
-    return this.wgo.getPosition().schema.map(wgoToP4P);
+    return this.wgo.getPosition().schema;
   }
 
   clearBoard() {
@@ -37,11 +28,11 @@ class Go {
   }
 
   fieldValue(idx) {
-    return wgoToP4P(this.wgo.getPosition().schema[idx]);
+    return this.wgo.getPosition().schema[idx];
   }
 
   currentTeam() {
-    return this.wgo.turn === 1 ? 'BLACK' : 'WHITE';
+    return this.wgo.turn === 1 ? gs.BLACK : gs.WHITE;
   }
 
   validMove(idx) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-import GameSettings from './GameSettings';
+import gs from './GameSettings';
 import './index.css';
 
 function Square(props) {
@@ -8,9 +8,9 @@ function Square(props) {
   // - onClick() - a function called when the Square is clicked
   // - value - the current value of this field, should be a single character in this particular case
   let stoneColor = '';
-  if (props.value === 'WHITE') {
+  if (props.value === gs.WHITE) {
     stoneColor = 'white';
-  } else if (props.value === 'BLACK') {
+  } else if (props.value === gs.BLACK) {
     stoneColor = 'black';
   }
   return (
@@ -43,8 +43,8 @@ class Board extends React.Component {
 
   render() {
     const outer = [];
-    for (let i = 0; i < GameSettings.BOARD_SIZE; i++) {
-      outer.push(this.renderRow(GameSettings.BOARD_SIZE, i));
+    for (let i = 0; i < gs.BOARD_SIZE; i++) {
+      outer.push(this.renderRow(gs.BOARD_SIZE, i));
     }
 
     return (

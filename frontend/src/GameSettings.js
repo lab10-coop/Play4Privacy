@@ -5,6 +5,9 @@ function GameSettings() {
   this.ONE_MINUTE = this.ONE_SECOND * 60;
   this.MAX_GAME_DURATION = 2 * this.ONE_MINUTE;
   this.ROUND_TIME = 10 * this.ONE_SECOND;
+  this.BLACK = 1;
+  this.WHITE = -1;
+  this.UNSET = 0;
 
   // WGo error codes
   this.ERROR_ALREADY_OCCUPIED = 2;
@@ -18,6 +21,15 @@ function GameSettings() {
       column += 1;
     }
     return String.fromCharCode('A'.charCodeAt(0) + column) + row.toString();
+  };
+
+  this.teamToString = (team) => {
+    if (team === this.BLACK) {
+      return 'BLACK';
+    } else if (team === this.WHITE) {
+      return 'WHITE';
+    }
+    return '';
   };
 }
 

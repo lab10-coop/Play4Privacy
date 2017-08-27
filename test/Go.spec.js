@@ -20,7 +20,7 @@ describe('Go', () => {
       expect(go.addMove(0)).to.eql([]);
       expect(go.addMove(0)).to.eql(gs.ERROR_ALREADY_OCCUPIED);
       go.clearBoard();
-      expect(go.fieldValue(0)).to.equal('');
+      expect(go.fieldValue(0)).to.equal(gs.UNSET);
     });
   });
   describe('"addRandomMove"', () => {

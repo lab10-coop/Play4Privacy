@@ -17,7 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import GameSettings from '../frontend/src/GameSettings';
+import gs from '../frontend/src/GameSettings';
 import ServerApi from './api';
 import Go from './Go';
 import findConsensus from './consensus';
@@ -38,7 +38,7 @@ class Game {
   }
 
   updateTime() {
-    if ((Date.now() - this.startTime) > GameSettings.MAX_GAME_DURATION) {
+    if ((Date.now() - this.startTime) > gs.MAX_GAME_DURATION) {
       this.startGame();
     } else if (this.go.currentTeam() !== this.expectedTeam) {
       this.endRound();
@@ -69,19 +69,19 @@ class Game {
     // No need to store the current team,
     // calculate it from the current time and the round time on the fly.
     return (Math.floor((Date.now() - this.startTime) /
-      GameSettings.ROUND_TIME) % 2) ? 'WHITE' : 'BLACK';
+      gs.ROUND_TIME) % 2) ? gs.WHITE : gs.BLACK;
   }
 
   joinGame(id) {
     if (!this.players.has(id)) {
       // assign teams round-robin
-      this.players.set(id, this.players.size % 2 ? 'WHITE' : 'BLACK');
+      this.players.set(id, this.players.size % 2 ? gs.WHITE : gs.BLACK);
     }
     return this.players.get(id);
   }
 
   hasJoined(id) {
-    return this.players.has(id) ? this.players.get(id) : '';
+    return this.players.has(id) ? this.players.get(id) : gs.NONE;
   }
 
   submitMove(id, move) {

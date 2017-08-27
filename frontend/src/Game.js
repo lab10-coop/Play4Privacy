@@ -18,7 +18,7 @@
  */
 
 import { observable, computed, action } from 'mobx';
-import GameSettings from './GameSettings';
+import gs from './GameSettings';
 
 // Temporary solution to identify the user uniquely
 // To be replaced by cryptographic tokens
@@ -37,7 +37,7 @@ class Game {
     this.id = uuidv4();
 
     this.socket = socket;
-    this.maxGameDuration = new Date(GameSettings.MAX_GAME_DURATION);
+    this.maxGameDuration = new Date(gs.MAX_GAME_DURATION);
 
     // Acquire the current game state
     socket.emit('current game state', this.id, this.refreshGameState);
@@ -59,7 +59,7 @@ class Game {
       this.myMove = '';
       if (Array.isArray(captured)) {
         for (const piece of captured) {
-          this.squares[piece] = '';
+          this.squares[piece] = gs.UNSET;
         }
       }
     });
@@ -79,14 +79,14 @@ class Game {
 
   @action.bound
   startGame(startTime, currentTeam) {
-    this.refreshGameState(startTime, startTime, currentTeam, '', '',
-      Array(GameSettings.BOARD_SIZE_SQUARED).fill(''));
+    this.refreshGameState(startTime, startTime, currentTeam, gs.UNSET, '',
+      Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET));
   }
 
   @action.bound
   refreshGameState(serverTime, startTime, currentTeam, myTeam, myMove, boardState) {
     const offset = Date.now() - serverTime;
-    for (let i = 0; i < GameSettings.BOARD_SIZE_SQUARED; i++) {
+    for (let i = 0; i < gs.BOARD_SIZE_SQUARED; i++) {
       this.squares[i] = boardState[i];
     }
     this.startTime = startTime + offset;
@@ -100,10 +100,10 @@ class Game {
   @observable localTime = 0;
 
   @observable startTime = 0;
-  @observable currentTeam = '';
-  @observable myTeam = '';
+  @observable currentTeam = gs.UNSET;
+  @observable myTeam = gs.UNSET;
   @observable myMove = '';
-  @observable squares = Array(GameSettings.BOARD_SIZE_SQUARED).fill('');
+  @observable squares = Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET);
   @observable countSteps = 0;
 
   // Computes the time left in the current game
@@ -111,15 +111,15 @@ class Game {
   // Note: Relies on "this.localTime" to be changed periodically to automatically
   //       trigger updates in code that uses this function.
   @computed get timeLeftInGame() {
-    const duration = Math.max(0, (GameSettings.MAX_GAME_DURATION -
+    const duration = Math.max(0, (gs.MAX_GAME_DURATION -
       (this.localTime - this.startTime)));
     return new Date(duration);
   }
 
   @computed get timeLeftInRound() {
-    let duration = Math.max(0, (GameSettings.MAX_GAME_DURATION -
+    let duration = Math.max(0, (gs.MAX_GAME_DURATION -
       (this.localTime - this.startTime)));
-    duration = Math.floor(duration % GameSettings.ROUND_TIME);
+    duration = Math.floor(duration % gs.ROUND_TIME);
     return new Date(duration);
   }
 
@@ -127,7 +127,15 @@ class Game {
     if (this.myMove === '' || isNaN(this.myMove)) {
       return this.myMove;
     }
-    return GameSettings.idxToCoord(this.myMove);
+    return gs.idxToCoord(this.myMove);
+  }
+
+  @computed get formattedMyTeam() {
+    return gs.teamToString(this.myTeam);
+  }
+
+  @computed get formattedCurrentTeam() {
+    return gs.teamToString(this.currentTeam);
   }
 
   @action.bound

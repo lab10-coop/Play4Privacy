@@ -42,16 +42,10 @@ describe('WGo', () => {
       const y = Math.floor(idx % gs.BOARD_SIZE);
       expect(wgo.position.get(x, y)).to.equal(-1);
 
-      const forFrontend = schema.map((value) => {
-        if (value === -1) {
-          return 'WHITE';
-        } else if (value === 1) {
-          return 'BLACK';
-        }
-        return '';
-      });
+      // WGo, back- and front-end are using the same format now
+      const forFrontend = schema;
 
-      expect(forFrontend[idx]).to.equal('WHITE');
+      expect(forFrontend[idx]).to.equal(gs.WHITE);
     });
     it('should give the active team color', () => {
       const wgo = new WGo(gs.BOARD_SIZE, 'NONE');
