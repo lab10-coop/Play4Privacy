@@ -32,4 +32,8 @@ export default class ServerApi {
   gameFinished() {
     this.io.emit('game finished');
   }
+
+  sendGameUpdates(numPlayers) {
+    this.io.emit('game updates', numPlayers);
+  }
 }

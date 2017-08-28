@@ -57,16 +57,10 @@ class Game {
     this.socket.on('game finished', this.finishGame);
 
     // Get notified when a roun finished
-    socket.on('round finished', (newTeam, move, captured) => {
-      this.squares[move] = this.currentTeam;
-      this.currentTeam = newTeam;
-      this.myMove = '';
-      if (Array.isArray(captured)) {
-        for (const piece of captured) {
-          this.squares[piece] = gs.UNSET;
-        }
-      }
-    });
+    socket.on('round finished', this.finishRound);
+
+    // For continuous game changes
+    this.socket.on('game updates', this.updateGame);
 
     // ////////////////////////////////////////////////////////////////////////    
 
@@ -102,9 +96,27 @@ class Game {
   }
 
   @action.bound
+  finishRound(newTeam, move, captured) {
+    this.squares[move] = this.currentTeam;
+    this.currentTeam = newTeam;
+    this.myMove = '';
+    if (Array.isArray(captured)) {
+      for (const piece of captured) {
+        this.squares[piece] = gs.UNSET;
+      }
+    }
+  }
+
+  @action.bound
   finishGame() {
     this.gameState = gs.PAUSED;
     this.startTime = Date.now();
+  }
+
+  @action.bound
+  updateGame(numPlayers) {
+    this.blackPlayers = numPlayers[0];
+    this.whitePlayers = numPlayers[1];
   }
 
   // Ticker triggering updates of time-dependent computations by the magic
@@ -117,6 +129,8 @@ class Game {
   @observable myMove = '';
   @observable squares = Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET);
   @observable countSteps = 0;
+  @observable blackPlayers = 0;
+  @observable whitePlayers = 0;
 
   // Computes the time left in the current game
   // Returns a "Date" type for convenience of extraction of Minutes and Seconds.
@@ -154,6 +168,15 @@ class Game {
 
   @computed get formattedCurrentTeam() {
     return gs.teamToString(this.currentTeam);
+  }
+
+  @computed get currentTeamPlayers() {
+    if (this.myTeam === gs.BLACK) {
+      return this.blackPlayers;
+    } else if (this.myTeam === gs.WHITE) {
+      return this.whitePlayers;
+    }
+    return '--';
   }
 
   @action.bound

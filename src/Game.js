@@ -41,16 +41,15 @@ class Game {
   updateTime() {
     if (this.gameState === gs.PAUSED) {
       if ((Date.now() - this.startTime) > gs.PAUSE_DURATION) {
-        this.gameState = gs.RUNNING;
         this.startGame();
       }
     } else if ((Date.now() - this.startTime) > gs.MAX_GAME_DURATION) {
       this.endRound();
-      this.gameState = gs.PAUSED;
-      this.startTime = Date.now();
-      this.api.gameFinished(gs.PAUSE_DURATION);
+      this.endGame();
     } else if (this.go.currentTeam() !== this.expectedTeam) {
       this.endRound();
+    } else {
+      this.sendGameUpdates();
     }
   }
 
@@ -59,6 +58,7 @@ class Game {
     this.players.clear();
     this.roundMoves.clear();
     this.startTime = Date.now();
+    this.gameState = gs.RUNNING;
     this.api.gameStarted(this.startTime, this.go.currentTeam());
   }
 
@@ -72,6 +72,28 @@ class Game {
     const captured = this.go.addMove(roundMove);
     this.roundMoves.clear();
     this.api.roundFinished(this.go.currentTeam(), roundMove, captured);
+  }
+
+  endGame() {
+    this.startTime = Date.now();
+    this.gameState = gs.PAUSED;
+    this.api.gameFinished(gs.PAUSE_DURATION);
+  }
+
+  sendGameUpdates() {
+    if (this.gameState === gs.PAUSED) {
+      console.error('sendGameStats should *never* be called when the game is paused!');
+      return;
+    }
+    // only send every 3rd second
+    if ((new Date()).getSeconds() % 3) {
+      return;
+    }
+    const numPlayers = [ ...this.players ].reduce((counts, elem) => {
+      (elem[1] === gs.BLACK) ? (counts[0] += 1) : (counts[1] += 1);
+      return counts;
+    }, [ 0, 0 ]);
+    this.api.sendGameUpdates(numPlayers);
   }
 
   get expectedTeam() {

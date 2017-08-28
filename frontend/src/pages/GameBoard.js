@@ -69,11 +69,15 @@ const GameBoard = inject('game')(observer(props =>
             </div>
             <div className='item'>
               <span className='label'>Players on your team</span>
-              <span className='value' id='yourTeamSize'>44</span>
+              <span className='value' id='yourTeamSize'>
+                {props.game.currentTeamPlayers}
+              </span>
             </div>
             <div className='item'>
               <span className='label'>Players total</span>
-              <span className='value' id='totalPlayers'>81</span>
+              <span className='value' id='totalPlayers'>
+                {props.game.blackPlayers + props.game.whitePlayers}
+              </span>
             </div>
 
             <h2>Tokens:</h2>
