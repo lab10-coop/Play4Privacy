@@ -4,7 +4,7 @@ import WGo from './wgo/wgo';
 function idxToWGo(idx) {
   const x = Math.floor(idx / gs.BOARD_SIZE);
   const y = Math.floor(idx % gs.BOARD_SIZE);
-  return [ x, y ];
+  return { x, y };
 }
 
 function WGoToIdx(x, y) {
@@ -28,7 +28,7 @@ class Go {
   }
 
   fieldValue(idx) {
-    return this.wgo.getPosition().schema[idx];
+    return this.board[idx];
   }
 
   currentTeam() {
@@ -37,12 +37,12 @@ class Go {
 
   validMove(idx) {
     const coord = idxToWGo(idx);
-    return this.wgo.isValid(coord[0], coord[1]);
+    return this.wgo.isValid(coord.x, coord.y);
   }
 
   addMove(idx) {
     const coord = idxToWGo(idx);
-    const captured = this.wgo.play(coord[0], coord[1]);
+    const captured = this.wgo.play(coord.x, coord.y);
     if (Array.isArray(captured)) {
       return captured.map(value => WGoToIdx(value.x, value.y));
     }
@@ -52,18 +52,17 @@ class Go {
   // Returns a random, but valid, move
   // Warning: May return "undefined" if no valid move is left
   getRandomMove() {
-    const validMoves = this.wgo.getPosition().schema.reduce((acc, val, idx) => {
+    const validMoves = this.board.reduce((acc, val, idx) => {
       if (this.validMove(idx)) {
         acc.push(idx);
       }
       return acc;
     }, []);
 
-    if (validMoves.length === 0) {
-      return undefined;
+    if (validMoves.length) {
+      return validMoves[Math.floor(Math.random() * validMoves.length)];
     }
-
-    return validMoves[Math.floor(Math.random() * validMoves.length)];
+    return undefined;
   }
 }
 
