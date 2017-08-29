@@ -19,7 +19,7 @@ describe('Go', () => {
       const go = new Go();
       expect(go.addMove(0)).to.eql([]);
       expect(go.addMove(0)).to.eql(gs.ERROR_ALREADY_OCCUPIED);
-      go.clearBoard();
+      go.clearGame();
       expect(go.fieldValue(0)).to.equal(gs.UNSET);
     });
   });

@@ -54,7 +54,7 @@ class Game {
   }
 
   startGame() {
-    this.go.clearBoard();
+    this.go.clearGame();
     this.players.clear();
     this.roundMoves.clear();
     this.startTime = Date.now();

@@ -16,15 +16,15 @@ function WGoToIdx(x, y) {
 class Go {
   constructor() {
     this.wgo = new WGo(gs.BOARD_SIZE, 'NONE');
-    this.clearBoard();
+    this.clearGame();
   }
 
   get board() {
     return this.wgo.getPosition().schema;
   }
 
-  clearBoard() {
-    this.wgo.firstPosition();
+  clearGame() {
+    this.wgo = new WGo(gs.BOARD_SIZE, 'NONE');
   }
 
   fieldValue(idx) {
