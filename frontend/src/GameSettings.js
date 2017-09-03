@@ -12,10 +12,12 @@ function GameSettings() {
   this.PAUSED = 0;
   this.RUNNING = 1;
 
-  // FIeld states
+  // Field states
   this.BLACK = 1;
   this.WHITE = -1;
   this.UNSET = 0;
+  this.PLACED = 2;
+  
 
   // WGo error codes
   this.ERROR_ALREADY_OCCUPIED = 2;

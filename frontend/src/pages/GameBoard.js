@@ -5,7 +5,7 @@ import Board from '../Board';
 const GameBoard = inject('game')(observer(props =>
   (
     <div>
-      <div className='layer showLayer' id='startGame'>
+      <div className={'layer ' + (props.game.myTeam ? '':'showLayer')} id='startGame'>
         <div className='layerInner'>
           <h2>Start a Game</h2>
           <p>Welcome to... You can join the game whenever you want. </p>

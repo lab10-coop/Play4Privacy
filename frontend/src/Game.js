@@ -192,9 +192,13 @@ class Game {
     if (this.gameState === gs.PAUSED) {
       return;
     }
+    
+    
     this.socket.emit('submit move', this.id,
       move, (confirmedMove) => {
         this.myMove = confirmedMove;
+    	
+    	this.squares[confirmedMove]=gs.PLACED;
       });
   }
 }

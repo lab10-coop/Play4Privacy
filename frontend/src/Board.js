@@ -12,7 +12,11 @@ function Square(props) {
     stoneColor = 'white';
   } else if (props.value === gs.BLACK) {
     stoneColor = 'black';
+  } else if (props.value === gs.PLACED) {
+    stoneColor = 'placed';
   }
+
+
   return (
     <div className={[ 'place', stoneColor ].join(' ')} onClick={() => props.onClick()} />
   );

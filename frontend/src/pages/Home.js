@@ -14,14 +14,17 @@ const Home = inject('game')(observer(props =>
       </div>
 
       <div className='creditsButton field'>
-        <a className='button' href='credits.html' title='Get Credits'>Get Credits</a>
+        <a className='button' href='credits' title='Get Credits'>Click here to get Credits</a>
       </div>
 
       <div className='currentGame field'>
         <h2>Current Game</h2>
 
         <div className='liveCam'>
-          <img src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg' alt='bix Livecam' />
+        	<figure>
+        		<img src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg' alt='bix Livecam' />
+				<figcaption>Current Live-Feed from BixCam </figcaption>
+        	</figure>
         </div>
 
         <div className='gameField'>
@@ -35,13 +38,7 @@ const Home = inject('game')(observer(props =>
           <span className='timeBar' />
         </div>
       </div>
-      <div className='partners field'>
-        <h2>Partners</h2>
-        <a href='#'>Partner #1</a>
-        <a href='#'>Partner #2</a>
-        <a href='#'>Partner #3</a>
-        <a href='#'>Partner #4</a>
-      </div>
+
     </div>
   ),
 ));

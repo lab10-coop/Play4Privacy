@@ -28,7 +28,7 @@ function Navigation() {
   return (
     <header>
       <div className='inner'>
-        <div className='logo'>Play 4 Privacy</div>
+        <div className='logo'>Play for Privacy</div>
         <nav>
           <ul>
             <li><Link to='/'>Home</Link></li>

@@ -5,6 +5,46 @@
  * Markus Bernsteiner, lab10 collective
 */
 
+@font-face {
+	font-family: 'Tram Joanneum';
+	src: url('fonts/TramJoanneum-Regular.eot');
+	src: url('fonts/TramJoanneum-Regular.eot?#iefix') format('embedded-opentype'),
+		url('fonts/TramJoanneum-Regular.woff') format('woff'),
+		url('fonts/TramJoanneum-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Tram Joanneum';
+	src: url('fonts/TramJoanneum-Light.eot');
+	src: url('fonts/TramJoanneum-Light.eot?#iefix') format('embedded-opentype'),
+		url('fonts/TramJoanneum-Light.woff') format('woff'),
+		url('fonts/TramJoanneum-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Tram Joanneum';
+	src: url('fonts/TramJoanneum-Medium.eot');
+	src: url('fonts/TramJoanneum-Medium.eot?#iefix') format('embedded-opentype'),
+		url('fonts/TramJoanneum-Medium.woff') format('woff'),
+		url('fonts/TramJoanneum-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Tram Joanneum';
+	src: url('fonts/TramJoanneum-Bold.eot');
+	src: url('fonts/TramJoanneum-Bold.eot?#iefix') format('embedded-opentype'),
+		url('fonts/TramJoanneum-Bold.woff') format('woff'),
+		url('fonts/TramJoanneum-Bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+
 
 
 html {
@@ -14,7 +54,7 @@ html {
 body {
     height: 100%;
     color: #000000;  
-    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-family: 'Tram Joanneum', 'Arial';
     position: relative;
     font-size: 13px;
     font-weight: 300;
@@ -56,35 +96,43 @@ img {
 	height: auto;
 }
 
+figure {
+	margin: 0px;
+}
 
 header .inner,
 .projectExplanation,
 .creditsButton,
 .currentGame,
-.partners {
-	width: 960px;
+footer .footerInner {
+	width: 990px;
 	margin: 0 auto;
 }
 
 
 header {
-	background: #FFFFFF;
+	background: #FFFFFF url(../img/header-bg-line.png) repeat-x 0px 75px / 5px auto;
+	border-bottom: 1px solid #FFFFFF;
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.25);
 	margin-bottom: 25px;
 	position: relative;
 	z-index: 10000;
+	
+	height: 80px;
 }
 
 
 header .logo {
-	width: 250px;
-	height: 50px;
+	width: 300px;
+	height: 80px;
 	display: block;
+	background: url(../img/logo-header.png) no-repeat 0px 0px / 300px auto;
+	font-size: 0px;
+	text-indent: -50000em;
 	float: left;
-	line-height: 50px;
-	font-weight: bold;
-	text-transform: uppercase;
 }
+
+
 
 header nav {
 	float: right;
@@ -99,11 +147,35 @@ header nav ul {
 header nav ul li {
 	float: left;
 	padding: 0px 10px;
-	line-height: 50px;
-	height: 50px;
 }
 
+header nav ul li a,
+header nav ul li a:visited {
+	height: 75px;
+	display: block;
+	line-height: 80px;
+	font-weight: bold;
+	font-size: 16px;
+	text-transform: uppercase;
+	
+	color: #666666;
+	border-bottom: 5px solid #d9d9d9;
 
+	transition: color .5s ease-in-out, border-color .5s ease-in-out;
+	-moz-transition: color .5s ease-in-out, border-color .5s ease-in-out;
+	-webkit-transition: color .5s ease-in-out, border-color .5s ease-in-out;
+}
+
+header nav ul li a:hover {
+	color: #252525;
+	border-color: #252525;
+	text-decoration: none;
+}
+
+header nav ul li a.active {
+	color: #3ba0d2;
+	border-color: #3ba0d2;
+}
 
 
 .field {
@@ -121,11 +193,33 @@ header nav ul li {
 	margin-right: auto;
 }
 
+.currentGame h2 {
+	font-size: 34px;
+	margin: 0px;
+	border-bottom: 5px solid #252525;
+}
 
 .currentGame .liveCam,
 .currentGame .gameField {
 	width: 50%;
 	float: left;
+}
+
+.currentGame .liveCam {
+	padding-top: 48px;
+}
+
+.currentGame .liveCam figcaption {
+	background: #252525;
+	color: #FFFFFF;
+	height: 37px;
+	line-height: 37px;
+	padding-left: 15px
+}
+
+
+.currentGame .goField {
+	
 }
 
 .currentGame .playTime {
@@ -142,7 +236,7 @@ header nav ul li {
 	/* min-height: calc(100% - 100px); */
 
 	/* display: none; */
-	display: block;
+	display: none;
 
 }
 
@@ -165,16 +259,25 @@ span.button {
 	
 	border: 3px solid #000000;
 	padding: 5px 15px 6px 15px;
-	margin-top: 5px;
+	margin: 5px 5px 5px 0px;
 
 	font-size: 16px;
 	color: #000000;
 	text-decoration: none;
 	text-align: center;	
 
-	transition: color .5s ease-in-out, background-color .5s ease-in-out;
-	-moz-transition: color .5s ease-in-out, background-color .5s ease-in-out;
-	-webkit-transition: color .5s ease-in-out, background-color .5s ease-in-out;
+	transition: color .5s ease-in-out, border-color .5s ease-in-out;
+	-moz-transition: color .5s ease-in-out, border-color .5s ease-in-out;
+	-webkit-transition: color .5s ease-in-out, border-color .5s ease-in-out;
+
+}
+
+a.button:hover,
+span.button:hover {
+	color: #3ba0d2;
+	border-color: #3ba0d2;
+	text-decoration: none;
+	cursor: pointer;
 
 }
 
@@ -205,9 +308,7 @@ input.submit {
 }
 
 
-input.submit:hover,
-a.button:hover,
-span.button:hover {
+input.submit:hover {
 	color: #FFFFFF;
 	background-color: #000000;
 	text-decoration: none;
@@ -257,25 +358,11 @@ span.button:hover {
 	
 }
 
-.partners {
-	text-align: center;
+
+.creditsButton .button {
+	width: calc(100% - 40px);
+	font-size: 34px;
 }
-
-.partners a {
-	width: 221px;
-	height: 125px;
-	border: 1px solid #e8e8e8;
-	background: #FFFFFF;
-	display: inline-block;
-	
-	font-size: 0em;
-	text-indent: -500000em;
-}
-
-
-.partners a:nth-child(3n) 	{	background: #e3f6f7; }
-.partners a:nth-child(3n-1) {	background: #e4f8e7; }
-.partners a:nth-child(3n+1) {	background: #f8f6e4; }
 
 
 
@@ -294,6 +381,13 @@ span.button:hover {
 	background: #d4e5ef;
 	float: left;
 }
+
+#gameField .goField {
+	float: left;
+	margin: 0px;
+	padding: 0px;
+}
+
 
 #gameField .gameInfo {
 	float: right;
@@ -328,6 +422,73 @@ span.button:hover {
 	padding-top: 25px;
 	margin-top: 25px;
 	border-top: 2px solid #000000;
+}
+
+
+
+.goField {
+    margin: auto;    
+	width: 450px;
+    height: 450px;
+    padding: 25px;
+	background: url(../img/goField.png) no-repeat center center / 450px;
+}
+
+.goField .place {
+	width: 40px;
+	height: 40px;
+	margin: 5px;
+	border-radius: 100%;
+	float: left;	
+	opacity: 0.95;
+
+	transition: color .5s ease-in-out, background-color .5s ease-in-out;
+	-moz-transition: color .5s ease-in-out, background-color .5s ease-in-out;
+	-webkit-transition: color .5s ease-in-out, background-color .5s ease-in-out;
+
+	color: #CCCCCC;
+	text-align: center;
+}
+
+.goField .place.black {
+	color: #FFFFFF;
+	background-color: #000000;
+	/*
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(0,0,0,0.8);
+	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(0,0,0,0.8);
+	box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(0,0,0,0.8); 
+	*/
+}
+
+.goField .place.white {
+	color: #000000;
+	background-color: #dbdbdb;
+	
+	/* 
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(255,255,255,0.8);
+	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(255,255,255,0.8);
+	box-shadow: 0 0 5px rgba(0,0,0,0.36), inset 0 0 50px rgba(255,255,255,0.8);
+	*/
+}
+
+.goField .place.placed {
+	background-color: rgba(121, 215, 21, 0.5);
+}
+
+
+.goField .place:hover {
+	cursor: pointer;
+	background-color: rgba(44, 216, 255, 0.50);
+}
+
+.goField .place.black:hover {
+	opacity: 1;	
+	background-color: #000000;
+}
+
+.goField .place.white:hover {
+	opacity: 1;	
+	background-color: #dbdbdb;
 }
 
 
@@ -377,14 +538,126 @@ span.button:hover {
 
 
 
+
+
+
+/* footer */
+
+footer {
+	background: url(../img/footer-bg.jpg) no-repeat center bottom;
+	height: 720px;
+	width: 100%;
+	display: block;
+}
+
+footer .footerInner {
+	padding-top: 525px;
+}
+
+footer p {
+	margin: 0px;
+	padding: 0px;
+}
+
+footer .footerLogo,
+footer .footerLogo p {
+	width: 170px;
+	height: 80px;
+	display: block;
+}
+
+footer .footerLogo p {
+	background: url(../img/logo-footer.png) no-repeat 0px 0px / 170px auto;
+	font-size: 0px;
+	text-indent: -500000em;
+}
+
+footer .cooperationText {
+	padding-top: 25px;
+	padding-bottom: 15px;
+}
+
+footer .cooperationText p {
+	font-size: 18px;
+	font-weight: 300;
+	color: #252525;
+}
+
+footer .cooperationText p a {
+	font-size: 18px;
+	font-weight: bold;
+	color: #252525;
+	transition: color .5s ease-in-out;
+	-moz-transition: color .5s ease-in-out;
+	-webkit-transition: color .5s ease-in-out;
+}
+
+footer .cooperationText p a:hover {
+	color: #3ba0d2;
+	text-decoration: none;
+}
+
+
+footer .partners {
+	border-top: 2px solid #252525;
+	height: 75px;
+	display: block;
+}
+
+footer .partners a {
+	height: 75px;
+	display: block;
+	font-size: 0px;
+	text-indent: -500000em;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	background-size: auto 75px;
+	float: left;
+}
+
+footer .partners a.kunsthaus-graz {	
+	width: 160px; 
+	background-image: url(../img/footer-kunsthaus-graz.png); 
+	padding-right: 130px;
+}
+
+footer .partners a.cep-eu {	
+	width: 250px; 
+	background-image: url(../img/footer-eu.png); 
+	padding-right: 190px;
+}
+
+footer .partners a.toolbox { 
+	width: 110px;
+	background-image: url(../img/footer-toolbox.png);
+}
+footer .partners a.drei {
+	width:  40px; 
+	background-image: url(../img/footer-drei.png); 
+	float: right
+}
+
+
+
+
+
+
+
 /* UseFul Informations */
 
 
 /*
 
+	font-family: 'Tram Joanneum';
 	
-	 font-family: 'Open Sans', 'Helvetica', 'Arial', sans-serif;
-	 types: 300,400,600,800,700,400italic
+	light		font-weight: 300
+	regular:	font-weight: normal;
+	medium: 	font-weight: 500
+	bold:		font-weight: bold;
+	
+	
+	light blue: 	#3ba0d2;
+
 	    
 	.1px	{ font-size: 0.07692em; }
 	.2px	{ font-size: 0.15385em; }

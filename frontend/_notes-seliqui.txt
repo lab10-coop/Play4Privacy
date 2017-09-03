@@ -125,3 +125,12 @@ Real Pages:
 
 
 
+
+
+
+
+
+
+gameboard.js
+      <div className={'layer ' + (props.game.myTeam ? '':'showLayer')} id='startGame'>
+
