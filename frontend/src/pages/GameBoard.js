@@ -35,17 +35,10 @@ const GameBoard = inject('game')(observer(props =>
           <Board />
 
           <div className='gameInfo'>
-            <h2>Current Game:</h2>
+            <h2>Player info:</h2>
             <div className='item'>
-              <span className='label'>Game-Clock</span>
-              <span className='value' id='gameclock'>
-                {props.game.gameState ? '' : 'Next game starts in: '}
-                {props.game.gameState ?
-                  props.game.timeLeftInGame.getMinutes() : props.game.timeLeftInPause.getMinutes()}m
-                &nbsp;
-                {props.game.gameState ?
-                  props.game.timeLeftInGame.getSeconds() : props.game.timeLeftInPause.getSeconds()}s
-              </span>
+              <span className='label'>You are on team:</span>
+              <span className='value' id='yourTeam'>{props.game.formattedMyTeam || '--'}</span>
             </div>
             <div className='item'>
               <span className='label'>Active Team</span>
@@ -63,9 +56,20 @@ const GameBoard = inject('game')(observer(props =>
               <span className='label'>Placed on</span>
               <span className='value' id='placedOn'>{props.game.formattedMove || '--'}</span>
             </div>
+            
+            
+            
+            <h2>Current game info:</h2>
             <div className='item'>
-              <span className='label'>You are on team:</span>
-              <span className='value' id='yourTeam'>{props.game.formattedMyTeam || '--'}</span>
+              <span className='label'>Game-Clock</span>
+              <span className='value' id='gameclock'>
+                {props.game.gameState ? '' : 'Next game starts in: '}
+                {props.game.gameState ?
+                  props.game.timeLeftInGame.getMinutes() : props.game.timeLeftInPause.getMinutes()}m
+                &nbsp;
+                {props.game.gameState ?
+                  props.game.timeLeftInGame.getSeconds() : props.game.timeLeftInPause.getSeconds()}s
+              </span>
             </div>
             <div className='item'>
               <span className='label'>Players on your team</span>
