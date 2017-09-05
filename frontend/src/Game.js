@@ -179,6 +179,18 @@ class Game {
     return '--';
   }
 
+  @computed get percentageLeftinGame() {
+    return ((this.timeLeftInGame.getTime().toFixed(2) / this.maxGameDuration.getTime()) * 100).toString() + '%';    
+  }
+
+  @computed get percentageLeftinRound() {
+    return ((this.timeLeftInRound.getTime().toFixed(2) / gs.ROUND_TIME) * 100).toString() + '%';
+  }  
+
+  @computed get myTeamActive() {
+    return this.myTeam === this.currentTeam;
+  }
+  
   @action.bound
   joinGame() {
     if (this.gameState === gs.PAUSED) {
