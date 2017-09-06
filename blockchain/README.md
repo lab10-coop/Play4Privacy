@@ -5,6 +5,11 @@ The Blockchain serves the following purposes in this project:
 * persist the history of played games (hash representing it)
 * assign GAME tokens to players
 
+## Environment
+
+In order to keep the entry barrier low, the application need to be fully functional in a normal (not Ethereum aware) browser.  
+If a "normal browser" is detected, web3 will connect to a lab10 provided node. An ad-hoc wallet is created locally. 
+
 ## Entry fees
 
 In order to actually collect funds for the donations, Eth holders are needed.  

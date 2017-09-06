@@ -1,10 +1,15 @@
 import Web3 from 'web3';
 import * as crypto from 'crypto'; // TODO: if needed only for random bytes, ditch!
+import ethUtil from 'ethereumjs-util'; // used for signature creation
+// TODO: this triggers an ugly warning: "There are multiple modules with names that only differ in casing"
+import Buffer from 'Buffer';
 
 class Blockchain {
     constructor() {
         this.ethInit();
         this.cryptoUtil = crypto;
+        this.Buffer = Buffer;
+        this.ethUtil = ethUtil;
     }
 
     ethInit() {
@@ -16,7 +21,7 @@ class Blockchain {
     }
 
     createAccount(username) {
-        const privKey = this.randomPrivateKey(username);
+        const privKey = this.createRandomPrivateKey(username);
         const account = this.web3.eth.accounts.privateKeyToAccount(privKey);
         console.log(`created ad hoc account: ${account.address}`);
         return account;
@@ -33,6 +38,13 @@ class Blockchain {
     // to download this as a file, do something like: https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
     createEncryptedKeystore(privKey, password) {
         return this.web3.eth.accounts.encrypt(privKey, password);
+    }
+
+    // TODO: are this conversions to a Buffer object correct?
+    signMessage(msg, privKey) {
+        const msgBuf = this.Buffer(this.web3.utils.hexToBytes(this.web3.utils.sha3(msg)));
+        const privKeyBuf = this.Buffer(this.web3.utils.hexToBytes(privKey));
+        return this.ethUtil.ecsign(msgBuf, privKeyBuf);
     }
 }
 
