@@ -24,10 +24,10 @@ const Home = inject('game')(observer((props) => {
         <h2>Current Game</h2>
 
         <div className='liveCam'>
-        	<figure>
-        		<img src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg' alt='bix Livecam' />
-				<figcaption>Current Live-Feed from BixCam </figcaption>
-        	</figure>
+          <figure>
+            <img src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg' alt='bix Livecam' />
+            <figcaption>Current Live-Feed from BixCam </figcaption>
+          </figure>
         </div>
 
         <div className='gameField'>
@@ -43,8 +43,8 @@ const Home = inject('game')(observer((props) => {
       </div>
 
     </div>
-  )
-  }
+  );
+},
 ));
 
 export default Home;

@@ -1,5 +1,5 @@
 import React from 'react';
-import $ from 'jquery';
+// import $ from 'jquery';
 
 class EndGame extends React.Component {
   componentDidMount() {
@@ -10,9 +10,9 @@ class EndGame extends React.Component {
       <div>
         <div className='field' id='gameSummary'>
           <div className='fieldInner'>
-  
+
             <h2>Game Summary</h2>
-  
+
             <div className='item'>
               <span className='label'>Who won the game</span>
               <span className='value' id='whoWon'>Black</span>
@@ -37,24 +37,24 @@ class EndGame extends React.Component {
               <span className='label'>Worst player</span>
               <span className='value' id='worstPlayer'>OIL</span>
             </div>
-  
+
             <h2>Your Statistics</h2>
-  
+
             <div className='item'>
               <span className='label'>ABC</span>
               <span className='value' id='abc'>abc</span>
             </div>
-  
+
             <div className='item'>
               <span className='label'>DEF</span>
               <span className='value' id='def' def />
             </div>
-  
+
             <div className='item'>
               <span className='label'>GHI</span>
               <span className='value' id='ghi'>ghi</span>
             </div>
-  
+
             <p>
               <a href='#'>Share on Twitter</a>
               <a href='#'>Share on Facebook</a>
@@ -62,16 +62,16 @@ class EndGame extends React.Component {
               <a href='#'>Share on Pinterest</a>
               <a href='#'>Share on WoopWoop</a>
             </p>
-  
+
             <p>
               <span className='button' id='redeemYourCoinButton'>Redeem your coin</span>
             </p>
           </div>
         </div>
-  
+
         <div className='field' id='redeemCoinDecision'>
           <div className='fieldInner'>
-  
+
             <h2>Redeem Coin</h2>
             <p>
               <span className='button' id='redeemCoinYesButton'>YES, give me the coin </span>
@@ -86,10 +86,10 @@ class EndGame extends React.Component {
               sanctus est Lorem ipsum dolor sit amet.</p>
           </div>
         </div>
-  
+
         <div className='field' id='redeemCoin'>
           <div className='fieldInner'>
-  
+
             <h2>Here&apos;s how to get your Coin</h2>
             <p>Instructions on how to the the Coin on the wallet.... Lorem ipsum dolor sit amet,
               consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
@@ -99,14 +99,14 @@ class EndGame extends React.Component {
             <p>
               <span className='button' id='redeemCoinSend'>send</span>
             </p>
-  
+
           </div>
         </div>
-  
-  
+
+
         <div className='field' id='redeemCoinSuccessful'>
           <div className='fieldInner'>
-  
+
             <h2>Redeem successful</h2>
             <p>You successfully redeemd your coin... Lorem ipsum dolor sit amet, consetetur
               sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
@@ -116,10 +116,10 @@ class EndGame extends React.Component {
             <p>
               <a className='button' href='gameboard.html'>back to the board</a>
             </p>
-  
+
           </div>
         </div>
-  
+
         <div className='field'>
           <div className='fieldInner'>
             <h2>Redeem your Kunsthaus Coin (Page #16)</h2>
@@ -127,12 +127,12 @@ class EndGame extends React.Component {
             <p>Instructions on how to get the coin to the wallet + SEND button (links to #17)</p>
           </div>
         </div>
-  
+
         <div className='layer' id='thankYou'>
           <h2>Thank you!</h2>
         </div>
-  
-  
+
+
       </div>
     );
   }

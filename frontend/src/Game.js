@@ -180,17 +180,17 @@ class Game {
   }
 
   @computed get percentageLeftinGame() {
-    return ((this.timeLeftInGame.getTime().toFixed(2) / this.maxGameDuration.getTime()) * 100).toString() + '%';    
+    return `${((this.timeLeftInGame.getTime() / this.maxGameDuration.getTime()) * 100)}%`;
   }
 
   @computed get percentageLeftinRound() {
-    return ((this.timeLeftInRound.getTime().toFixed(2) / gs.ROUND_TIME) * 100).toString() + '%';
-  }  
+    return `${((this.timeLeftInRound.getTime() / gs.ROUND_TIME) * 100)}%`;
+  }
 
   @computed get myTeamActive() {
     return this.myTeam === this.currentTeam;
   }
-  
+
   @action.bound
   joinGame() {
     if (this.gameState === gs.PAUSED) {
@@ -204,13 +204,11 @@ class Game {
     if (this.gameState === gs.PAUSED) {
       return;
     }
-    
-    
+
     this.socket.emit('submit move', this.id,
       move, (confirmedMove) => {
         this.myMove = confirmedMove;
-    	
-    	this.squares[confirmedMove]=gs.PLACED;
+        this.squares[confirmedMove] = gs.PLACED;
       });
   }
 }

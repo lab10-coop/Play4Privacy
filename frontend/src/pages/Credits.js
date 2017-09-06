@@ -3,9 +3,7 @@ import $ from 'jquery';
 
 class Credits extends React.Component {
   componentDidMount() {
-    $('#ethYesButton').click(function(){
-      alert("tadaaaaaa");
-    });    
+    $('#ethYesButton').click(() => alert('tadaaaaaa'));
   }
 
   render() {
@@ -56,7 +54,7 @@ class Credits extends React.Component {
               <span> free games remaining in this batch</span>
               <span className='freeGamesBar' />
             </div>
-  
+
             <div className='claimFreeGame'>
               <h2>claim a free game</h2>
               <p>Just answer the question below and claim your credit</p>
@@ -73,7 +71,7 @@ class Credits extends React.Component {
           </div>
         </div>
       </div>
-    );  
+    );
   }
 }
 

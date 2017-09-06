@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-import $ from 'jquery';
+// import $ from 'jquery';
 import Board from '../Board';
 
 @inject('game')
@@ -8,22 +8,22 @@ import Board from '../Board';
 class GameBoard extends React.Component {
   componentDidMount() {
   }
-  
+
   render() {
     const game = this.props.game;
- 
+
     const timeBarStyleGame = {
       width: game.percentageLeftinGame,
     };
- 
+
     const timeBarStyleRound = {
       width: game.percentageLeftinRound,
     };
-   
+
     // game.myTeamActive is true if my team is the active team
     return (
       <div>
-        <div className={'layer ' + (game.myTeam ? '':'showLayer')} id='startGame'>
+        <div className={`layer ${game.myTeam ? '' : 'showLayer'}`} id='startGame'>
           <div className='layerInner'>
             <h2>Start a Game</h2>
             <p>Welcome to... You can join the game whenever you want. </p>
@@ -46,12 +46,12 @@ class GameBoard extends React.Component {
             </p>
           </div>
         </div>
-  
+
         <div className='field' id='gameField'>
           <div className='fieldInner'>
-  
+
             <Board />
-  
+
             <div className='gameInfo'>
               <h2>Player info:</h2>
               <div className='item'>
@@ -74,18 +74,17 @@ class GameBoard extends React.Component {
                 <span className='label'>Placed on</span>
                 <span className='value' id='placedOn'>{game.formattedMove || '--'}</span>
               </div>
-              
 
-               
+
               <div className='item timeLeftInGame'>
                 <span className='timeBar' style={timeBarStyleGame} />
               </div>
-              
+
               <div className='item timeLeftInRound'>
                 <span className='timeBar' style={timeBarStyleRound} />
               </div>
-              
-              
+
+
               <h2>Current game info:</h2>
               <div className='item'>
                 <span className='label'>Game-Clock</span>
@@ -110,7 +109,7 @@ class GameBoard extends React.Component {
                   {game.blackPlayers + game.whitePlayers}
                 </span>
               </div>
-  
+
               <h2>Tokens:</h2>
               <div className='item'>
                 <span className='label'>Tokens you have</span>
@@ -120,41 +119,44 @@ class GameBoard extends React.Component {
                 <span className='label'>Money donated so far</span>
                 <span className='value' id='moneyDonated'>8888 €</span>
               </div>
-  
+
               <p><span className='button' id='buyTokensButton'>Buy Tokens</span></p>
-  
+
             </div>
-  
+
             <div className='liveCam clear'>
-              <img src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg' alt='bix Livecam' />
+              <img
+                src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg'
+                alt='bix Livecam'
+              />
             </div>
           </div>
         </div>
-  
+
         <div className='layer' id='helpLayer'>
           <div className='layerInner'>
-  
+
             <h2>Help: How to play, How Go Works (page #6)</h2>
-            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-              invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-              accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-              sanctus est Lorem ipsum dolor sit amet.</p>
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+              tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
+              eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+              takimata sanctus est Lorem ipsum dolor sit amet.</p>
           </div>
         </div>
-  
+
         <div className='layer' id='buyTokens'>
           <div className='layerInner'>
-  
+
             <h2>Send ETH to this Wallet:</h2>
             <p>Infotext, Infotext</p>
             <div className='walletQR'>HIER KOMMT DER WALLET-QR-CODE REIN</div>
-  
+
           </div>
         </div>
-  
+
       </div>
-    )
-  }  
+    );
+  }
 }
 
 export default GameBoard;
