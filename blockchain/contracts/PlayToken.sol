@@ -1,5 +1,16 @@
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.15;
 
+/* TODO: change this to an interface definition as soon as truffle accepts it. See https://github.com/trufflesuite/truffle/issues/560 */
+contract ITransferable {
+    function transfer(address _to, uint256 _value) public returns (bool success);
+}
+
+/**
+@title PLAY Token
+
+ERC20 Token with additional mint functionality.
+Implementation based on https://github.com/ConsenSys/Tokens
+*/
 contract PlayToken {
     uint256 public totalSupply = 0;
     string public name = "PLAY";
@@ -19,6 +30,10 @@ contract PlayToken {
         owner = msg.sender;
     }
 
+    /**
+    Creates new tokens for the given receiver.
+    Can be called only by the contract creator.
+    */
     function mint(address _receiver, uint _value) {
         require(msg.sender == owner);
         balances[_receiver] += _value;
@@ -27,7 +42,10 @@ contract PlayToken {
     }
 
     function transfer(address _to, uint256 _value) returns (bool success) {
+        /* Additional Restriction: don't accept token payments to the contract itself and to address 0 in order to avoid most
+         token losses by mistake - as is discussed in https://github.com/ethereum/EIPs/issues/223 */
         require((_to != 0) && (_to != address(this)));
+
         require(balances[msg.sender] >= _value);
         balances[msg.sender] -= _value;
         balances[_to] += _value;
@@ -63,10 +81,19 @@ contract PlayToken {
         allowed[msg.sender][_spender] = _value;
         Approval(msg.sender, _spender, _value);
 
-        //call the receiveApproval function on the contract you want to be notified. This crafts the function signature manually so one doesn't have to include a contract in here just for this.
-        //receiveApproval(address _from, uint256 _value, address _tokenContract, bytes _extraData)
-        //it is assumed that when does this that the call *should* succeed, otherwise one would use vanilla approve instead.
+        /* call the receiveApproval function on the contract you want to be notified. This crafts the function signature manually so one doesn't have to include a contract in here just for this.
+        receiveApproval(address _from, uint256 _value, address _tokenContract, bytes _extraData)
+        it is assumed that when does this that the call *should* succeed, otherwise one would use vanilla approve instead. */
         require(_spender.call(bytes4(bytes32(sha3("receiveApproval(address,uint256,address,bytes)"))), msg.sender, _value, this, _extraData));
         return true;
+    }
+
+    /**
+    Withdraws tokens held by the contract to a given account.
+    Motivation: see https://github.com/ethereum/EIPs/issues/223#issuecomment-317987571
+    */
+    function withdrawTokens(ITransferable _token, address _to, uint256 _amount) {
+        require(msg.sender == owner);
+        _token.transfer(_to, _amount);
     }
 }

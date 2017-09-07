@@ -1,3 +1,9 @@
+# How to run
+
+Needs truffle and testrpc installed: `npm install -g truffle ethereumjs-testrpc`  
+Start testrpc: `truffle-testrpc`  
+Then, in another tab run `./contract-changed.sh` for applying changes to the contract code.  
+
 # Role of the Blockchain
 
 The Blockchain serves the following purposes in this project:  
@@ -50,12 +56,9 @@ Optional: Timeline / Excel export
 general: 80% of moves  
 vouchers: + 1 selected move matching
 
-# Off-Topic
-
-How long does a game run?  
-If time capped: distribute token every 10 mins
-
 # Contracts
+
+(TODO: update)
 
 ## Token
 
