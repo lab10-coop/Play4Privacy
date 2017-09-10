@@ -273,7 +273,10 @@ header nav ul li a.active {
 
 .layer.showLayer {
 	display: block;
-	height: calc(100% - 130px);
+	/* height: calc(100% - 130px); 
+  		min-height: auto;	*/
+	height: auto;
+	min-height: calc(100% - 130px); 
 	padding: 25px 0px;
 	opacity: 1;
 }
