@@ -1,14 +1,34 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
-// import $ from 'jquery';
+import $ from 'jquery';
 import Board from '../Board';
 
 @inject('game')
 @observer
 class GameBoard extends React.Component {
   componentDidMount() {
-  }
+	  
+   // $('#helpButton').click(() => alert('tadaaaaaa'));
+  
+   $('#helpButton').click(function(){
+   	$('.layer#helpLayer').addClass('showLayer');
+   });
+   
+   $('#buyTokensButton').click(function(){
+   	$('.layer#buyTokens').addClass('showLayer');
+   });
+   
+   
+	// Hide Layer
+	$('.closeLayerButton').click(function(){
+		$(this).parent().removeClass('showLayer');
+	});
+   
+   
 
+	
+  }
+  
   render() {
     const game = this.props.game;
 
@@ -20,7 +40,6 @@ class GameBoard extends React.Component {
       width: game.percentageLeftinRound,
     };
 
-    // game.myTeamActive is true if my team is the active team
     return (
       <div>
         <div className={`layer ${game.myTeam ? '' : 'showLayer'}`} id='startGame'>
@@ -52,52 +71,51 @@ class GameBoard extends React.Component {
 
             <Board />
 
-            <div className='gameInfo'>
-              <h2>Player info:</h2>
-              <div className='item'>
+			<div className={`gameInfo ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
+              <h2>Player info: </h2>
+ 			  
+ 			  
+ 			  
+ 			  <div className={`infoBox  ${game.myTeam ? '' : 'joinGameFirst'}`}>
+	 			  <div className={`item placeStatus ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
+	              	<p className="yourTeamInfotext">Your turn! Place your Stone!</p>
+	 			  	<p className="otherTeamInfotext">Wait until the other team placed their stone!</p>
+	 			  	<p className="joinGameFirstInfotext">Join the game first!</p>
+	             </div>             
+             </div>
+ 			  
+ 			  
+              
+			  <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
                 <span className='label'>You are on team:</span>
                 <span className='value' id='yourTeam'>{game.formattedMyTeam || '--'}</span>
               </div>
+			  <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
+                <span className='label'>Placed on</span>
+                <span className='value' id='placedOn'>{game.formattedMove || '--'}</span>
+              </div>
+			  <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
+                <span className='label'>Time to vote</span>
+                <span className='value' id='timeToVote'>
+                  {game.gameState ? `${game.timeLeftInRound.getSeconds()}s` : '--'}
+                </span>
+				<div className='timeLeftInRound'>
+	                <span className='timeBar' style={timeBarStyleRound} />
+				</div>
+              </div>
+              
+              
+			  
+ 			  			  
+              
+              <h2>Current game info:</h2>
               <div className='item'>
                 <span className='label'>Active Team</span>
                 <span className='value' id='activeTeam'>
                   {game.gameState ? game.formattedCurrentTeam : '--'}
                 </span>
               </div>
-              <div className='item'>
-                <span className='label'>Time to vote</span>
-                <span className='value' id='timeToVote'>
-                  {game.gameState ? `${game.timeLeftInRound.getSeconds()}s` : '--'}
-                </span>
-              </div>
-              <div className='item'>
-                <span className='label'>Placed on</span>
-                <span className='value' id='placedOn'>{game.formattedMove || '--'}</span>
-              </div>
-
-
-              <div className='item timeLeftInGame'>
-                <span className='timeBar' style={timeBarStyleGame} />
-              </div>
-
-              <div className='item timeLeftInRound'>
-                <span className='timeBar' style={timeBarStyleRound} />
-              </div>
-
-
-              <h2>Current game info:</h2>
-              <div className='item'>
-                <span className='label'>Game-Clock</span>
-                <span className='value' id='gameclock'>
-                  {game.gameState ? '' : 'Next game starts in: '}
-                  {game.gameState ?
-                    game.timeLeftInGame.getMinutes() : game.timeLeftInPause.getMinutes()}m
-                  &nbsp;
-                  {game.gameState ?
-                    game.timeLeftInGame.getSeconds() : game.timeLeftInPause.getSeconds()}s
-                </span>
-              </div>
-              <div className='item'>
+			  <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
                 <span className='label'>Players on your team</span>
                 <span className='value' id='yourTeamSize'>
                   {game.currentTeamPlayers}
@@ -108,6 +126,20 @@ class GameBoard extends React.Component {
                 <span className='value' id='totalPlayers'>
                   {game.blackPlayers + game.whitePlayers}
                 </span>
+              </div>
+              <div className='item'>
+                <span className='label'>Game-Clock</span>
+                <span className='value' id='gameclock'>
+                  {game.gameState ? '' : 'Next game starts in: '}
+                  {game.gameState ?
+                    game.timeLeftInGame.getMinutes() : game.timeLeftInPause.getMinutes()}m
+                  &nbsp;
+                  {game.gameState ?
+                    game.timeLeftInGame.getSeconds() : game.timeLeftInPause.getSeconds()}s
+                </span>
+                <div className='timeLeftInGame'>
+                	<span className='timeBar' style={timeBarStyleGame} />
+				</div>
               </div>
 
               <h2>Tokens:</h2>
@@ -142,6 +174,7 @@ class GameBoard extends React.Component {
               eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
               takimata sanctus est Lorem ipsum dolor sit amet.</p>
           </div>
+          <div className="closeLayerButton"></div>
         </div>
 
         <div className='layer' id='buyTokens'>
@@ -152,6 +185,7 @@ class GameBoard extends React.Component {
             <div className='walletQR'>HIER KOMMT DER WALLET-QR-CODE REIN</div>
 
           </div>
+          <div className="closeLayerButton"></div>
         </div>
 
       </div>

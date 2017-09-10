@@ -3,12 +3,27 @@ import $ from 'jquery';
 
 class Credits extends React.Component {
   componentDidMount() {
-    $('#ethYesButton').click(() => alert('tadaaaaaa'));
+
+   $('#ethYesButton').click(function(){
+       $('.layer#ethYesField').addClass('showLayer');
+   });
+   
+   $('#ethNoButton').click(function(){
+       $('.layer#ethNoField').addClass('showLayer');
+   });
+  
+   $('.closeLayerButton').click(function(){
+       $(this).parent().removeClass('showLayer');
+   });
+   
+ 
+
   }
 
   render() {
     return (
       <div>
+      
         <div className='field' id='howToPlay'>
           <div className='fieldInner'>
             <h2>How to play</h2>
@@ -27,8 +42,9 @@ class Credits extends React.Component {
               takimata sanctus est Lorem ipsum dolor sit amet.</p>
           </div>
         </div>
-        <div className='field' id='ethYesField'>
-          <div className='fieldInner'>
+        
+        <div className='layer' id='ethYesField'>
+          <div className='layerInner'>
             <h2>Get your credits</h2>
             <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
               tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
@@ -40,9 +56,11 @@ class Credits extends React.Component {
               <span className='button' id='ethWalletNext'>NEXT</span>
             </p>
           </div>
+          <div className="closeLayerButton"></div>
         </div>
-        <div className='field' id='ethNoField'>
-          <div className='fieldInner'>
+        
+        <div className='layer' id='ethNoField'>
+          <div className='layerInner'>
             <h2>Get your credits</h2>
             <p>Instruction on how to get credits... Lorem ipsum dolor sit amet, consetetur
               sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
@@ -69,7 +87,9 @@ class Credits extends React.Component {
               </form>
             </div>
           </div>
+		  <div className="closeLayerButton"></div>
         </div>
+
       </div>
     );
   }

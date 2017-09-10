@@ -7,21 +7,102 @@
 
 
 
-.phonesOnly {
+.tabletsOnly {
 	display: none;
 }
 
 
 /* Phones */
-@media screen and (min-width: 1px) and (max-width: 767px) {
+@media screen and (min-width: 768px) and (max-width: 1023px) {
 
-	.phonesOnly {
+	.tabletsOnly {
 		display: block;
 	}
 	
-	.hideOnPhones {
-		display: none;
+
+
+
+	header .inner,
+	.projectExplanation,
+	.creditsButton,
+	.currentGame,
+	footer .footerInner {
+		width: 750px;
 	}
+	
+	
+	.field, 
+	.layer .layerInner {
+		width: 720px;
+		padding: 15px;
+	}
+	
+	
+	
+	header nav {
+	}
+
+	.creditsButton .button {
+		font-size: 30px;
+	}
+	
+	.currentGame .liveCam, 
+	.currentGame .gameField,
+	.c50l,
+	.c50r {
+		width: 100%;
+		float: none;
+		padding: 0px;
+
+	}
+
+	.currentGame .goField {
+		padding: 0px;
+		position: relative;
+		left: -10px;
+	}
+
+
+
+	.closeLayerButton {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+	}
+
+	footer {
+		background-size: 768px auto;
+		background-position: center top;
+		height: 500px;
+	}
+	
+	footer .footerInner {
+		padding-top: 300px;
+	}
+	
+
+
+	footer .partners a.kunsthaus-graz {
+		padding-right: 50px;
+	}
+	
+	footer .partners a.cep-eu {
+		padding-right: 70px;
+	}
+	
+	
+	
+
+	
+	
+
+
+
+
+
+
+
+
 
 
 
@@ -48,6 +129,108 @@
 
 	
 
+	header .inner,
+	.projectExplanation,
+	.creditsButton,
+	.currentGame,
+	footer .footerInner {
+		width: 460px;
+	}
+
+	.field, 
+	.layer .layerInner {
+		width: 430px;
+		padding: 15px;
+	}
+	
+	
+	header nav {
+		display: none;
+	}
+
+	header nav {
+		display: none;
+	}
+	
+	.currentGame .liveCam, 
+	.currentGame .gameField,
+	.c50l,
+	.c50r {
+		width: 100%;
+		float: none;
+		padding: 0px;
+
+	}
+
+
+	.creditsButton .button {
+		font-size: 30px;
+	}
+	
+	.currentGame .liveCam, 
+	.currentGame .gameField {
+		width: 100%;
+		float: none;
+	}
+
+	.currentGame .goField {
+		padding: 0px;
+		position: relative;
+		left: -10px;
+	}
+
+
+
+
+	.closeLayerButton {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+	}
+
+	footer {
+		background-size: 480px auto;
+		background-position: center top;
+		height: 400px;
+	}
+	
+	footer .footerInner {
+		padding-top: 200px;
+	}
+	
+
+
+	footer .partners a.kunsthaus-graz,
+	footer .partners a.cep-eu {
+		padding-right: 0px;
+	}
+	
+	footer .partners a.kunsthaus-graz {
+		width: 150px;
+	}
+	
+	footer .partners a.cep-eu {
+		width: 190px;
+	}
+	
+	footer .partners a.toolbox {
+		width: 80px;
+	}
+	
+	footer .partners a.drei {
+		width: 30px;
+	}
+	
+	
+	
+	
+	footer .partners a.kunsthaus-graz,
+	footer .partners a.cep-eu,
+	footer .partners a.toolbox,
+	footer .partners a.drei {
+		height: 50px;
+		background-size: auto 50px;
+	}
 
 
 
@@ -76,9 +259,83 @@
 
 
 
+	header .inner,
+	.projectExplanation,
+	.creditsButton,
+	.currentGame,
+	footer .footerInner {
+		width: 320px;
+	}
+
+	.field, 
+	.layer .layerInner {
+		width: 300px;
+		padding: 10px;
+	}
+
+	header nav {
+		display: none;
+	}
+
+	.currentGame .liveCam, 
+	.currentGame .gameField,
+	.c50l,
+	.c50r {
+		width: 100%;
+		float: none;
+		padding: 0px;
+	}
 
 
+	.closeLayerButton {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+	}
 
+	footer {
+		background-size: 480px auto;
+		background-position: center top;
+		height: 500px;
+	}
+	
+	footer .footerInner {
+		padding-top: 200px;
+	}
+	
+
+
+	footer .partners a.kunsthaus-graz,
+	footer .partners a.cep-eu {
+		padding-right: 0px;
+	}
+	
+	footer .partners a.kunsthaus-graz {
+		width: 150px;
+	}
+	
+	footer .partners a.cep-eu {
+		width: 190px;
+	}
+	
+	footer .partners a.toolbox {
+		width: 80px;
+	}
+	
+	footer .partners a.drei {
+		width: 30px;
+	}
+	
+	
+	
+	
+	footer .partners a.kunsthaus-graz,
+	footer .partners a.cep-eu,
+	footer .partners a.toolbox,
+	footer .partners a.drei {
+		height: 50px;
+		background-size: auto 50px;
+	}
 
 
 	@media 
