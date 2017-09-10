@@ -1,11 +1,15 @@
 import React from 'react';
 import $ from 'jquery';
+import 'jquery.scrollto';
 
 class EndGame extends React.Component {
   componentDidMount() {
 	
-	// Script.load("js/jquery.scrollTo.min.js");
-	
+   	$('.button').click(function(){
+       $.scrollTo(0, 250);
+   	});
+   
+   	
 	// Show Layers 	  
 	$('#redeemYourCoinButton').click(function(){
 		$('.layer#redeemCoinDecision').addClass('showLayer');

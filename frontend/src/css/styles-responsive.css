@@ -168,7 +168,8 @@
 	}
 	
 	.currentGame .liveCam, 
-	.currentGame .gameField {
+	.currentGame .gameField,
+	#gameField .gameInfo {
 		width: 100%;
 		float: none;
 	}
@@ -285,6 +286,23 @@
 		float: none;
 		padding: 0px;
 	}
+
+	
+	.goField {
+		width: 225px;
+		height: 225px;
+		background-size: 225px auto;
+		padding: 12.5px;
+	}
+	
+	.goField .place {
+		width: 20px;
+		height: 20px;
+		margin: 2.5px;
+	}
+
+
+
 
 
 	.closeLayerButton {

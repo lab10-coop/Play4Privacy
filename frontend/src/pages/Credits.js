@@ -1,8 +1,14 @@
 import React from 'react';
 import $ from 'jquery';
+import 'jquery.scrollto';
 
 class Credits extends React.Component {
   componentDidMount() {
+
+   $('.button').click(function(){
+       $.scrollTo(0, 250);
+   });
+
 
    $('#ethYesButton').click(function(){
        $('.layer#ethYesField').addClass('showLayer');

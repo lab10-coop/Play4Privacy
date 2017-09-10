@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import $ from 'jquery';
+import 'jquery.scrollto';
 import Board from '../Board';
 
 @inject('game')
@@ -9,6 +10,10 @@ class GameBoard extends React.Component {
   componentDidMount() {
 	  
    // $('#helpButton').click(() => alert('tadaaaaaa'));
+ 
+    $('.button').click(function(){
+       $.scrollTo(0, 250);
+   });
   
    $('#helpButton').click(function(){
    	$('.layer#helpLayer').addClass('showLayer');
