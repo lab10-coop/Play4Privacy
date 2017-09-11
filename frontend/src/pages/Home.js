@@ -7,6 +7,24 @@ import Board from '../Board';
 @observer
 class Home extends React.Component {
   componentDidMount() {
+
+    // Navigation Mobile
+    $('.navTrigger .showButton').click(function(){
+      $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
+      $('header nav').slideDown(500);
+    });
+    
+    $('.navTrigger .hideButton').click(function(){
+      $(this).slideUp(250).parent().find('.showButton').slideDown(250);
+      $('header nav').slideUp(500);
+    });
+    
+    $('header nav a').click(function(){
+      $('.navTrigger .hideButton').slideUp(250);
+      $('.navTrigger .showButton').slideDown(250);
+      $('header nav').fadeOut(200);
+    });
+
   }
 
   render() {

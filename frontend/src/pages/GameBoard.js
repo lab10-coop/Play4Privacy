@@ -171,9 +171,10 @@ class GameBoard extends React.Component {
 
               <h2>Tokens:</h2>
               <div className='item'>
-                <span className='label'>Tokens you have</span>
-                <span className='value' id='yourTokens'>123</span>
+                <span className='label'>Current Balance:</span>
+                <span className='value' id='yourTokens'>123 Token</span>
               </div>
+
               <div className='item'>
                 <span className='label'>Money donated so far</span>
                 <span className='value' id='moneyDonated'>8888 €</span>

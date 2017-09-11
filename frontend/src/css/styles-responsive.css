@@ -171,11 +171,14 @@
     height: 60px;
     background: #FFFFFF;
     z-index: 10010;
+    margin-bottom: 15px;
+    border-bottom: 0px;
 
   }
 
   header .inner {
     position: relative;
+    width: 100%;
   }
 
 	header .logo {
@@ -188,23 +191,32 @@
     top: 60px;
   }
   
+  .closeLayerButton {
+      border-bottom: 2px solid #1a6185;
+      border-top: 2px solid #1a6185;
+      display: block;
+      height: 40px;
+      right: 0;
+      top: 25px;
+      width: 45px;
+  }
   
   .navTrigger {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     
     position: absolute;
-    top: 5px;
+    top: 0px;
     right: 0px;
     z-index: 100;
   }
   
   .navTrigger .showButton,
   .navTrigger .hideButton {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 56px;
     display: block;
-    
+    border-bottom: 4px solid #1a6185;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -305,7 +317,6 @@
 @media screen and (min-width: 480px) and (max-width: 767px) {
 
 
-	header .inner,
 	.projectExplanation,
 	.creditsButton,
 	.currentGame,
@@ -359,11 +370,6 @@
 
 
 
-	.closeLayerButton {
-		position: absolute;
-		top: 15px;
-		right: 15px;
-	}
 
 	footer {
 		background-size: 480px auto;
@@ -436,7 +442,6 @@
 
 
 
-	header .inner,
 	.projectExplanation,
 	.creditsButton,
 	.currentGame,
@@ -485,11 +490,6 @@
   }
 
 
-	.closeLayerButton {
-		position: absolute;
-		top: 15px;
-		right: 15px;
-	}
 
 	footer {
 		background-size: 480px auto;
