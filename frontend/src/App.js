@@ -38,6 +38,10 @@ function Navigation() {
             <li><Link to='/endgame'>Endgame</Link></li>
           </ul>
         </nav>
+        <div className="navTrigger phonesOnly">
+          <div className="showButton">Show Navigation</div>
+          <div className="hideButton">Hide Navigation</div>
+        </div>
         <div className='clear' />
       </div>
     </header>

@@ -7,8 +7,17 @@
 
 
 
-.tabletsOnly {
+.tabletsOnly,
+.phonesOnly {
 	display: none;
+}
+
+@media screen and (min-width: 768px) {
+
+  	header nav {
+      display: block !important;
+    }
+
 }
 
 
@@ -62,6 +71,33 @@
 		left: -10px;
 	}
 
+  #gameField .goField {
+    float: none;
+    margin: 0 auto;
+  }
+  
+  #gameField .gameInfo {
+    width: 100%;
+    float: none;
+
+    border-top: 5px solid #1a6185;
+    margin-top: 20px;
+    padding-top: 20px;
+
+  }
+
+
+
+  #gameField .gameInfo h2, 
+  #gameField .gameInfo .item, 
+  #gameField .gameInfo p {
+    margin-left: 0px;
+  }
+  
+  
+  .layer#startGame {
+    text-align: center;
+  }
 
 
 	.closeLayerButton {
@@ -124,10 +160,150 @@
 
 }
 
+/* Phones, Portrait & Landscape  */
+@media screen and (min-width: 1px) and (max-width: 767px) {
+
+  .phonesOnly {
+    display: block;
+  }
+  
+  header {
+    height: 60px;
+    background: #FFFFFF;
+    z-index: 10010;
+
+  }
+
+  header .inner {
+    position: relative;
+  }
+
+	header .logo {
+  	width: 225px;
+  	height: 60px;
+  	background-size: 225px auto;
+  }
+  
+  .layer {
+    top: 60px;
+  }
+  
+  
+  .navTrigger {
+    width: 50px;
+    height: 50px;
+    
+    position: absolute;
+    top: 5px;
+    right: 0px;
+    z-index: 100;
+  }
+  
+  .navTrigger .showButton,
+  .navTrigger .hideButton {
+    width: 50px;
+    height: 50px;
+    display: block;
+    
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    
+    font-size: 0em;
+    text-indent: -500000em;
+    background-color: #3ba0d2;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50px auto;
+
+   	transition: background-color .5s ease-in-out;
+  	-moz-transition: background-color .5s ease-in-out;
+  	-webkit-transition: background-color .5s ease-in-out;
+  
+  }
+ 
+   .navTrigger .showButton {
+    background-image: url(../img/lines-100x100-white.png);
+  } 
+  
+  .navTrigger .hideButton {
+    background-image: url(../img/x-100x100-white.png);
+    display: none;
+  }
+
+
+  .navTrigger .showButton:hover,
+  .navTrigger .hideButton:hover {
+    cursor: pointer;
+    background-color: #000000;
+  }
+
+
+	header nav {
+		display: none;
+    background: #3ba0d2;
+    border-bottom: 4px solid #1a6185;
+    float: none;
+    position: absolute;
+    right: 0px;
+    top: 60px;
+    z-index: 10010;
+	}
+
+	header nav ul {
+    border-top: 1px solid #FFFFFF;
+  }
+	
+	header nav ul li {
+    float: none;
+    padding: 0px;
+    border-bottom: 1px solid #FFFFFF;
+  }	
+  
+  header nav ul li a,
+  header nav ul li a:visited {
+    border: none;
+    text-align: right;
+    height: auto;
+    line-height: 22px;
+    padding: 5px 15px 5px 35px;
+    color: #FFFFFF;   
+    font-weight: 300;
+  }
+  
+  header nav ul li a:hover {
+    color: #FFFFFF;
+    background: #000000;
+  }
+
+
+  #gameSummary .c50r h2 {
+    margin-top: 50px;
+  }
+  
+  
+  .gameInfo {
+    border-top: 5px solid #1a6185;
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+
+  #gameField .gameInfo h2, 
+  #gameField .gameInfo .item, 
+  #gameField .gameInfo p {
+    margin-left: 0px;
+  }
+
+
+  .button {
+    width: calc(100% - 36px);
+  }
+
+}
+
 /* Phones, Landscape Only */
 @media screen and (min-width: 480px) and (max-width: 767px) {
 
-	
 
 	header .inner,
 	.projectExplanation,
@@ -144,13 +320,7 @@
 	}
 	
 	
-	header nav {
-		display: none;
-	}
 
-	header nav {
-		display: none;
-	}
 	
 	.currentGame .liveCam, 
 	.currentGame .gameField,
@@ -180,6 +350,12 @@
 		left: -10px;
 	}
 
+
+  #gameField .goField  {
+    float: none;
+    position: relative;
+    left: -10px;
+  }
 
 
 
@@ -274,9 +450,6 @@
 		padding: 10px;
 	}
 
-	header nav {
-		display: none;
-	}
 
 	.currentGame .liveCam, 
 	.currentGame .gameField,
@@ -301,8 +474,15 @@
 		margin: 2.5px;
 	}
 
+  #gameField .goField {
+    margin: 0 auto;
+    float: none;
+  }
 
-
+  #gameField .gameInfo {
+    width: 300px;
+    float: none;
+  }
 
 
 	.closeLayerButton {

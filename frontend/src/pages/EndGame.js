@@ -5,37 +5,55 @@ import 'jquery.scrollto';
 class EndGame extends React.Component {
   componentDidMount() {
 	
-   	$('.button').click(function(){
-       $.scrollTo(0, 250);
-   	});
-   
-   	
-	// Show Layers 	  
-	$('#redeemYourCoinButton').click(function(){
-		$('.layer#redeemCoinDecision').addClass('showLayer');
-	});
-   
+  	 // Navigation Mobile
+    $('.navTrigger .showButton').click(function(){
+      $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
+      $('header nav').slideDown(500);
+    });
+    
+    $('.navTrigger .hideButton').click(function(){
+      $(this).slideUp(250).parent().find('.showButton').slideDown(250);
+      $('header nav').slideUp(500);
+    });
+ 
+    $('header nav a').click(function(){
+      $('.navTrigger .hideButton').slideUp(250);
+      $('.navTrigger .showButton').slideDown(250);
+      $('header nav').slideUp(500);
+    }); 
+
+  	// Button ScrollTo Layer / Top
+    $('.button').click(function(){
+      $.scrollTo(0, 250);
+    });
+     
+     	
+  	// Show Layers 	  
+  	$('#redeemYourCoinButton').click(function(){
+  		$('.layer#redeemCoinDecision').addClass('showLayer');
+  	});
+     
+  	
+  	$('#redeemCoinYesButton').click(function(){
+  		$('.layer#redeemCoin').addClass('showLayer');
+  	});
+     
+  	
+  	$('#ethNoButton').click(function(){
+  		$('.layer#thankYou').addClass('showLayer');
+  	});
+     
+    
+  	$('#redeemCoinSend').click(function(){
+  		$('.layer#redeemCoinSuccessful').addClass('showLayer');
+  	});
+    
 	
-	$('#redeemCoinYesButton').click(function(){
-		$('.layer#redeemCoin').addClass('showLayer');
-	});
-   
-	
-	$('#ethNoButton').click(function(){
-		$('.layer#thankYou').addClass('showLayer');
-	});
-   
-  
-	$('#redeemCoinSend').click(function(){
-		$('.layer#redeemCoinSuccessful').addClass('showLayer');
-	});
-  
-	
-	
-	// Hide Layer
-	$('.closeLayerButton').click(function(){
-		$(this).parent().removeClass('showLayer');
-	});
+  	
+  	// Hide Layer
+  	$('.closeLayerButton').click(function(){
+  		$(this).parent().removeClass('showLayer');
+  	});
    
  
 	

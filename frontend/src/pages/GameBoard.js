@@ -11,23 +11,45 @@ class GameBoard extends React.Component {
 	  
    // $('#helpButton').click(() => alert('tadaaaaaa'));
  
-    $('.button').click(function(){
-       $.scrollTo(0, 250);
-   });
+    // Navigation Mobile
+    $('.navTrigger .showButton').click(function(){
+      $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
+      $('header nav').slideDown(500);
+    });
+    
+    $('.navTrigger .hideButton').click(function(){
+      $(this).slideUp(250).parent().find('.showButton').slideDown(250);
+      $('header nav').slideUp(500);
+    });
+    
+    $('header nav a').click(function(){
+      $('.navTrigger .hideButton').slideUp(250);
+      $('.navTrigger .showButton').slideDown(250);
+      $('header nav').fadeOut(200);
+    });
+    
+    
   
-   $('#helpButton').click(function(){
-   	$('.layer#helpLayer').addClass('showLayer');
-   });
+  	// Button ScrollTo Layer / Top
+    $('.button').click(function(){
+      $.scrollTo(0, 250);
+    });
+  
+  
+    // Show Layers 	  
+    $('#helpButton').click(function(){
+      $('.layer#helpLayer').addClass('showLayer');
+    });
+    
+    $('#buyTokensButton').click(function(){
+      $('.layer#buyTokens').addClass('showLayer');
+    });
    
-   $('#buyTokensButton').click(function(){
-   	$('.layer#buyTokens').addClass('showLayer');
-   });
    
-   
-	// Hide Layer
-	$('.closeLayerButton').click(function(){
-		$(this).parent().removeClass('showLayer');
-	});
+    // Hide Layer
+    $('.closeLayerButton').click(function(){
+		  $(this).parent().removeClass('showLayer');
+	  });
    
    
 
