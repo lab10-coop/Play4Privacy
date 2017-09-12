@@ -7,8 +7,8 @@ import io from 'socket.io-client';
 import Game from './Game';
 import App from './App';
 
-import './css/styles-responsive.css';
 import './css/styles.css';
+import './css/styles-responsive.css';
 
 useStrict();
 const socket = io();

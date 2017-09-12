@@ -100,6 +100,20 @@ figure {
 	margin: 0px;
 }
 
+.c50l {
+	float: left;
+	width: 48%;
+	padding-right: 2%;
+}
+
+.c50r {
+	float: right;
+	width: 48%;
+	padding-left: 2%;
+}
+
+
+
 header .inner,
 .projectExplanation,
 .creditsButton,
@@ -236,20 +250,35 @@ header nav ul li a.active {
 	/* min-height: calc(100% - 100px); */
 
 	/* display: none; */
-	display: none;
+	display: block;
 	
 	position: absolute;
 	top:80px;
 	left: 0px;
-	width: calc(100% - 50px);
-	min-height: calc(100% - 130px);
+	/*  width: calc(100% - 50px); */
+	/* min-height: calc(100% - 130px); */
 	
 	z-index: 10000;
+
+	overflow: hidden;
+	height: 0px;
+	width: 100%;
+	padding: 0px;
+	opacity: 0;
+	transition: height .5s ease-in-out, padding .5s ease-in-out, opacity .5s ease-in-out;
+	-moz-transition: height .5s ease-in-out, padding .5s ease-in-out, opacity .5s ease-in-out;
+	-webkit-transition: height .5s ease-in-out, padding .5s ease-in-out, opacity .5s ease-in-out;
 
 }
 
 .layer.showLayer {
 	display: block;
+	/* height: calc(100% - 130px); 
+  		min-height: auto;	*/
+	height: auto;
+	min-height: calc(100% - 130px); 
+	padding: 25px 0px;
+	opacity: 1;
 }
 
 
@@ -325,6 +354,29 @@ input.submit:hover {
 
 
 
+.closeLayerButton {
+	position: absolute;
+	top: 35px;
+	right: 35px;
+	
+	width: 50px;
+	height: 50px;
+	display: block;
+	
+	background: #000000 url(../img/x-100x100-white.png) no-repeat center center / 50px auto;
+	
+
+	transition: background-color .5s ease-in-out;
+	-moz-transition: background-color .5s ease-in-out;
+	-webkit-transition: background-color .5s ease-in-out;	
+}
+
+.closeLayerButton:hover {
+	background-color: #3ba0d2;
+	cursor: pointer;
+}
+
+
 /* Home */
 
 
@@ -353,7 +405,7 @@ input.submit:hover {
 	height: 10px;
 	display: block;
 	
-	width: 70%;
+	width: 100%;
 	background: #3ba0d2; 
 	
 	position: absolute;
@@ -370,12 +422,20 @@ input.submit:hover {
 .creditsButton .button {
 	width: calc(100% - 40px);
 	font-size: 34px;
+	text-transform: uppercase;
 }
 
 
 
 
 /* GAMEBOARD */
+
+
+.layer#startGame {
+	position: relative;
+	top: 0px;
+}
+
 
 #gameField .goBoard {
 	width: 480px;
@@ -418,7 +478,28 @@ input.submit:hover {
 	padding-top: 6px;
 	padding-bottom: 7px;
 	border-top: 1px solid #acacac;
+	display: block;
 }
+
+
+
+
+#gameField .gameInfo .itemJoinGameFirst,
+#gameField .gameInfo .item.hideItem {
+	display: none;
+}
+
+#gameField .gameInfo .showItem {
+	display: block;
+}
+
+#gameField .gameInfo .itemJoinGameFirst p {
+	margin: 0px 0px 0px 25px;
+	font-size: 18px;
+}
+
+
+
 
 .item .label,
 #gameField .gameInfo .item .label {
@@ -430,6 +511,102 @@ input.submit:hover {
 	font-weight: bold;
 	float: right;
 }
+
+
+.timeLeftInGame,
+.timeLeftInRound {
+	padding: 0px;
+	margin-top: 3px;
+	border: 0px;
+	height: 5px;
+	width: 100%;
+	display: block;
+	background: #CCCCCC;
+	position: relative;
+
+}
+
+.timeLeftInGame .timeBar,
+.timeLeftInRound .timeBar {
+	width: 100%;
+	height: 5px;
+	display: block;
+	
+	background: #3ba0d2; 
+	
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	
+	transition: width .5s ease-in-out, background-color .5s ease-in-out;
+	-moz-transition: width .5s ease-in-out, background-color .5s ease-in-out;
+	-webkit-transition: width .5s ease-in-out, background-color .5s ease-in-out;
+	
+}
+
+#gameField .gameInfo .infoBox .item {
+	border: none;
+	margin-bottom: 20px;
+}
+
+.gameInfo.otherTeam .timeLeftInRound .timeBar {
+	background: #848484;
+}
+
+.gameInfo.yourTeam .timeLeftInRound .timeBar {
+	background: #3ba0d2;
+}
+
+
+.gameInfo .itemPlaceStone {
+	color: #66c006;
+}
+
+.gameInfo .placeStatus {
+	background-color: #66c006;
+	color: #FFFFFF;
+	
+	font-size: 18px;
+	text-align: center;
+	text-transform: uppercase;
+	
+	transition: background-color .5s ease-in-out;
+	-moz-transition: background-color .5s ease-in-out;
+	-webkit-transition: background-color .5s ease-in-out;
+	
+}
+
+.gameInfo .placeStatus.yourTeam {
+	background-color: #66c006;	
+}
+
+.gameInfo .placeStatus.otherTeam {
+	background-color: #bd0505;	
+}
+
+.gameInfo .joinGameFirst .placeStatus {
+	background-color: #3ba0d2;		
+}
+
+
+
+.gameInfo .placeStatus.yourTeam .yourTeamInfotext,
+.gameInfo .placeStatus.otherTeam .otherTeamInfotext,
+.gameInfo .joinGameFirst .placeStatus .joinGameFirstInfotext {
+	display: block;
+}
+
+.gameInfo .placeStatus.otherTeam .yourTeamInfotext,
+.gameInfo .placeStatus.yourTeam .otherTeamInfotext,
+.gameInfo .joinGameFirst .placeStatus .yourTeamInfotext,
+.gameInfo .joinGameFirst .placeStatus .otherTeamInfotext,
+.gameInfo .placeStatus .joinGameFirstInfotext {
+	display: none;
+}
+
+
+
+
 
 
 #gameField .liveCam img {
@@ -524,6 +701,10 @@ input.submit:hover {
 	background-color: #dbdbdb;
 }
 
+.currentGame .goField .place:hover {
+	cursor: default;
+	background-color: rgba(44, 216, 255, 0.0);
+}
 
 
 /* Credits */
@@ -559,6 +740,9 @@ input.submit:hover {
 }
 
 
+
+
+
 /* Endgame */
 
 #thankYou {
@@ -570,7 +754,27 @@ input.submit:hover {
 }
 
 
+.socialIcon {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	margin-right: 10px;
+	border-radius: 100%;
+	
+	background: #3ba0d2;
+	
+	font-size: 0px;
+	text-indent: -50000em;
 
+	transition: background-color .5s ease-in-out;
+	-moz-transition: background-color .5s ease-in-out;
+	-webkit-transition: background-color .5s ease-in-out;
+
+}
+
+.socialIcon:hover {
+	background-color: #000000;
+}
 
 
 
@@ -690,7 +894,7 @@ footer .partners a.drei {
 	
 	
 	light blue: 	#3ba0d2;
-
+  dark blue:  #1a6185;
 	    
 	.1px	{ font-size: 0.07692em; }
 	.2px	{ font-size: 0.15385em; }

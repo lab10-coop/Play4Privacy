@@ -7,21 +7,138 @@
 
 
 
+.tabletsOnly,
 .phonesOnly {
 	display: none;
 }
 
+@media screen and (min-width: 768px) {
+
+  	header nav {
+      display: block !important;
+    }
+
+}
+
 
 /* Phones */
-@media screen and (min-width: 1px) and (max-width: 767px) {
+@media screen and (min-width: 768px) and (max-width: 1023px) {
 
-	.phonesOnly {
+	.tabletsOnly {
 		display: block;
 	}
 	
-	.hideOnPhones {
-		display: none;
+
+
+
+	header .inner,
+	.projectExplanation,
+	.creditsButton,
+	.currentGame,
+	footer .footerInner {
+		width: 750px;
 	}
+	
+	
+	.field, 
+	.layer .layerInner {
+		width: 720px;
+		padding: 15px;
+	}
+	
+	
+	
+	header nav {
+	}
+
+	.creditsButton .button {
+		font-size: 30px;
+	}
+	
+	.currentGame .liveCam, 
+	.currentGame .gameField,
+	.c50l,
+	.c50r {
+		width: 100%;
+		float: none;
+		padding: 0px;
+
+	}
+
+	.currentGame .goField {
+		padding: 0px;
+		position: relative;
+		left: -10px;
+	}
+
+  #gameField .goField {
+    float: none;
+    margin: 0 auto;
+  }
+  
+  #gameField .gameInfo {
+    width: 100%;
+    float: none;
+
+    border-top: 5px solid #1a6185;
+    margin-top: 20px;
+    padding-top: 20px;
+
+  }
+
+
+
+  #gameField .gameInfo h2, 
+  #gameField .gameInfo .item, 
+  #gameField .gameInfo p {
+    margin-left: 0px;
+  }
+  
+  
+  .layer#startGame {
+    text-align: center;
+  }
+
+
+	.closeLayerButton {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+	}
+
+	footer {
+		background-size: 768px auto;
+		background-position: center top;
+		height: 500px;
+	}
+	
+	footer .footerInner {
+		padding-top: 300px;
+	}
+	
+
+
+	footer .partners a.kunsthaus-graz {
+		padding-right: 50px;
+	}
+	
+	footer .partners a.cep-eu {
+		padding-right: 70px;
+	}
+	
+	
+	
+
+	
+	
+
+
+
+
+
+
+
+
 
 
 
@@ -43,11 +160,260 @@
 
 }
 
+/* Phones, Portrait & Landscape  */
+@media screen and (min-width: 1px) and (max-width: 767px) {
+
+  .phonesOnly {
+    display: block;
+  }
+  
+  header {
+    height: 60px;
+    background: #FFFFFF;
+    z-index: 10010;
+    margin-bottom: 15px;
+    border-bottom: 0px;
+
+  }
+
+  header .inner {
+    position: relative;
+    width: 100%;
+  }
+
+	header .logo {
+  	width: 225px;
+  	height: 60px;
+  	background-size: 225px auto;
+  }
+  
+  .layer {
+    top: 60px;
+  }
+  
+  .closeLayerButton {
+      border-bottom: 2px solid #1a6185;
+      border-top: 2px solid #1a6185;
+      display: block;
+      height: 40px;
+      right: 0;
+      top: 25px;
+      width: 45px;
+  }
+  
+  .navTrigger {
+    width: 60px;
+    height: 60px;
+    
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 100;
+  }
+  
+  .navTrigger .showButton,
+  .navTrigger .hideButton {
+    width: 60px;
+    height: 56px;
+    display: block;
+    border-bottom: 4px solid #1a6185;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    
+    font-size: 0em;
+    text-indent: -500000em;
+    background-color: #3ba0d2;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50px auto;
+
+   	transition: background-color .5s ease-in-out;
+  	-moz-transition: background-color .5s ease-in-out;
+  	-webkit-transition: background-color .5s ease-in-out;
+  
+  }
+ 
+   .navTrigger .showButton {
+    background-image: url(../img/lines-100x100-white.png);
+  } 
+  
+  .navTrigger .hideButton {
+    background-image: url(../img/x-100x100-white.png);
+    display: none;
+  }
+
+
+  .navTrigger .showButton:hover,
+  .navTrigger .hideButton:hover {
+    cursor: pointer;
+    background-color: #000000;
+  }
+
+
+	header nav {
+		display: none;
+    background: #3ba0d2;
+    border-bottom: 4px solid #1a6185;
+    float: none;
+    position: absolute;
+    right: 0px;
+    top: 60px;
+    z-index: 10010;
+	}
+
+	header nav ul {
+    border-top: 1px solid #FFFFFF;
+  }
+	
+	header nav ul li {
+    float: none;
+    padding: 0px;
+    border-bottom: 1px solid #FFFFFF;
+  }	
+  
+  header nav ul li a,
+  header nav ul li a:visited {
+    border: none;
+    text-align: right;
+    height: auto;
+    line-height: 22px;
+    padding: 5px 15px 5px 35px;
+    color: #FFFFFF;   
+    font-weight: 300;
+  }
+  
+  header nav ul li a:hover {
+    color: #FFFFFF;
+    background: #000000;
+  }
+
+
+  #gameSummary .c50r h2 {
+    margin-top: 50px;
+  }
+  
+  
+  .gameInfo {
+    border-top: 5px solid #1a6185;
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+
+  #gameField .gameInfo h2, 
+  #gameField .gameInfo .item, 
+  #gameField .gameInfo p {
+    margin-left: 0px;
+  }
+
+
+  .button {
+    width: calc(100% - 36px);
+  }
+
+}
+
 /* Phones, Landscape Only */
 @media screen and (min-width: 480px) and (max-width: 767px) {
 
+
+	.projectExplanation,
+	.creditsButton,
+	.currentGame,
+	footer .footerInner {
+		width: 460px;
+	}
+
+	.field, 
+	.layer .layerInner {
+		width: 430px;
+		padding: 15px;
+	}
+	
 	
 
+	
+	.currentGame .liveCam, 
+	.currentGame .gameField,
+	.c50l,
+	.c50r {
+		width: 100%;
+		float: none;
+		padding: 0px;
+
+	}
+
+
+	.creditsButton .button {
+		font-size: 30px;
+	}
+	
+	.currentGame .liveCam, 
+	.currentGame .gameField,
+	#gameField .gameInfo {
+		width: 100%;
+		float: none;
+	}
+
+	.currentGame .goField {
+		padding: 0px;
+		position: relative;
+		left: -10px;
+	}
+
+
+  #gameField .goField  {
+    float: none;
+    position: relative;
+    left: -10px;
+  }
+
+
+
+
+	footer {
+		background-size: 480px auto;
+		background-position: center top;
+		height: 400px;
+	}
+	
+	footer .footerInner {
+		padding-top: 200px;
+	}
+	
+
+
+	footer .partners a.kunsthaus-graz,
+	footer .partners a.cep-eu {
+		padding-right: 0px;
+	}
+	
+	footer .partners a.kunsthaus-graz {
+		width: 150px;
+	}
+	
+	footer .partners a.cep-eu {
+		width: 190px;
+	}
+	
+	footer .partners a.toolbox {
+		width: 80px;
+	}
+	
+	footer .partners a.drei {
+		width: 30px;
+	}
+	
+	
+	
+	
+	footer .partners a.kunsthaus-graz,
+	footer .partners a.cep-eu,
+	footer .partners a.toolbox,
+	footer .partners a.drei {
+		height: 50px;
+		background-size: auto 50px;
+	}
 
 
 
@@ -76,9 +442,98 @@
 
 
 
+	.projectExplanation,
+	.creditsButton,
+	.currentGame,
+	footer .footerInner {
+		width: 320px;
+	}
+
+	.field, 
+	.layer .layerInner {
+		width: 300px;
+		padding: 10px;
+	}
+
+
+	.currentGame .liveCam, 
+	.currentGame .gameField,
+	.c50l,
+	.c50r {
+		width: 100%;
+		float: none;
+		padding: 0px;
+	}
+
+	
+	.goField {
+		width: 225px;
+		height: 225px;
+		background-size: 225px auto;
+		padding: 12.5px;
+	}
+	
+	.goField .place {
+		width: 20px;
+		height: 20px;
+		margin: 2.5px;
+	}
+
+  #gameField .goField {
+    margin: 0 auto;
+    float: none;
+  }
+
+  #gameField .gameInfo {
+    width: 300px;
+    float: none;
+  }
 
 
 
+	footer {
+		background-size: 480px auto;
+		background-position: center top;
+		height: 500px;
+	}
+	
+	footer .footerInner {
+		padding-top: 200px;
+	}
+	
+
+
+	footer .partners a.kunsthaus-graz,
+	footer .partners a.cep-eu {
+		padding-right: 0px;
+	}
+	
+	footer .partners a.kunsthaus-graz {
+		width: 150px;
+	}
+	
+	footer .partners a.cep-eu {
+		width: 190px;
+	}
+	
+	footer .partners a.toolbox {
+		width: 80px;
+	}
+	
+	footer .partners a.drei {
+		width: 30px;
+	}
+	
+	
+	
+	
+	footer .partners a.kunsthaus-graz,
+	footer .partners a.cep-eu,
+	footer .partners a.toolbox,
+	footer .partners a.drei {
+		height: 50px;
+		background-size: auto 50px;
+	}
 
 
 	@media 

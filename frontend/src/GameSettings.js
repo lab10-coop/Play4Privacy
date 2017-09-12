@@ -17,7 +17,7 @@ function GameSettings() {
   this.WHITE = -1;
   this.UNSET = 0;
   this.PLACED = 2;
-  
+
 
   // WGo error codes
   this.ERROR_ALREADY_OCCUPIED = 2;
