@@ -42,7 +42,7 @@ class Home extends React.Component {
         </div>
 
         <div className='creditsButton field'>
-          <a className='button' href='credits' title='Get Credits'>Click here to get Credits</a>
+          <a className='button' href='credits' title='Get Credits'>Click here to start playing</a>
         </div>
 
         <div className='currentGame field'>

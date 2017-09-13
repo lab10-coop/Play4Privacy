@@ -96,6 +96,10 @@ img {
 	height: auto;
 }
 
+strong {
+  font-weight: bold;
+}
+
 figure {
 	margin: 0px;
 }
@@ -776,6 +780,79 @@ input.submit:hover {
 	background-color: #000000;
 }
 
+
+
+/* ErrorLayer */
+
+.errorLayer {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 100000;
+  
+  width: 100%;
+  height: 0%;
+  display: block;
+  overflow: hidden;
+  
+  text-align: center;
+  vertical-align: middle;
+  
+  background: #3ba0d2;
+  color: #FFFFFF;
+  
+  opacity: 0;
+
+	transition: height .5s ease-in-out, opacity .5s ease-in-out;
+	-moz-transition: height .5s ease-in-out, opacity .5s ease-in-out;
+	-webkit-transition: height .5s ease-in-out, opacity .5s ease-in-out;
+
+}
+
+.errorLayer.showLayer {
+  height: 100%;
+  opacity: 0.98;
+}
+
+.errorLayer .errorLayerInner {
+  width: 256px;
+  height: 256px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -128px;
+  margin-top: -128px;
+  
+}
+
+.errorLayer .icon {
+  width: 128px;
+  height: 128px;
+  display: inline-block;
+  
+  background: url(../img/errorIcon.gif) no-repeat center center / 128px auto;
+}
+
+.errorLayer .headline {
+  width: 100%;
+  display: inline-block;
+  font-size: 24px;
+  font-weight: 300;
+}
+
+
+.errorLayer .headline strong {
+  font-size: 32px;
+}
+
+.errorLayer .errorMsg {
+  border-top: 2px solid #FFFFFF;
+  margin-top: 10px;
+  padding: 10px 20px 0px 10px;
+  display: inline-block;
+  
+}
 
 
 /* footer */
