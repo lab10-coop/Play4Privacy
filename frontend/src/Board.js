@@ -18,7 +18,7 @@ function Square(props) {
 
 
   return (
-    <div className={[ 'place', stoneColor ].join(' ')} onClick={() => props.onClick()} />
+    <div className={[ 'place', stoneColor ].join(' ')} onClick={props.onClick} />
   );
 }
 
