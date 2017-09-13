@@ -9,6 +9,9 @@ contract ITransferable {
 @title PLAY Token
 
 ERC20 Token with additional mint functionality.
+A "controller" (initialized to the contract creator) has exclusive permission to mint.
+The controller address can be changed until locked.
+
 Implementation based on https://github.com/ConsenSys/Tokens
 */
 contract PlayToken {
@@ -18,7 +21,8 @@ contract PlayToken {
     string public symbol = "PLAY";
     string public version = '1';
 
-    address owner;
+    address controller;
+    bool controllerLocked = false;
 
     mapping (address => uint256) balances;
     mapping (address => mapping (address => uint256)) allowed;
@@ -26,18 +30,35 @@ contract PlayToken {
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 
-    function PlayToken() {
-        owner = msg.sender;
+    modifier onlyController() {
+        require(msg.sender == controller);
+        _;
+    }
+
+    /** @dev constructor */
+    function PlayToken(address _controller) {
+        controller = _controller;
+    }
+
+    /** Sets a new controller address if the current controller isn't locked */
+    function setController(address _newController) onlyController {
+        require(! controllerLocked);
+        controller = _newController;
+    }
+
+    /** Locks the current controller address forever */
+    function lockController() onlyController {
+        controllerLocked = true;
     }
 
     /**
     Creates new tokens for the given receiver.
     Can be called only by the contract creator.
     */
-    function mint(address _receiver, uint _value) {
-        require(msg.sender == owner);
+    function mint(address _receiver, uint _value) onlyController {
         balances[_receiver] += _value;
         totalSupply += _value;
+        // (probably) recommended by the standard, see https://github.com/ethereum/EIPs/pull/610/files#diff-c846f31381e26d8beeeae24afcdf4e3eR99
         Transfer(0, _receiver, _value);
     }
 
@@ -92,8 +113,7 @@ contract PlayToken {
     Withdraws tokens held by the contract to a given account.
     Motivation: see https://github.com/ethereum/EIPs/issues/223#issuecomment-317987571
     */
-    function withdrawTokens(ITransferable _token, address _to, uint256 _amount) {
-        require(msg.sender == owner);
+    function withdrawTokens(ITransferable _token, address _to, uint256 _amount) onlyController {
         _token.transfer(_to, _amount);
     }
 }

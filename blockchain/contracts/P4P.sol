@@ -5,20 +5,15 @@ import "./PlayToken.sol";
 /**
 @title Contract for the Play4Privacy application.
 
-Persists games played (represented by a hash) and distributes PLAY tokens to players per game round.
-Can receive Ether (e.g. for game credits) which are distributed among registered receivers after every game round.
-The logic for such game credits (e.g. costs, validity etc.) is to be handled outside the contract.
-That way it poses no restrictions on how it can be used. This allows also e.g. voluntary donations.
+Persists games played (represented by a hash) and distributes PLAY tokens to players per game.
+This contract does not accept Ether payments.
 */
 contract P4P {
     address owner;
     PlayToken playToken;
     mapping(bytes32 => bool) gamesPlayed;
-    address[] fundReceivers;
 
-    event TokenCreated(address);
     event GamePlayed(bytes32 hash);
-    event FundsDistributed(uint _totalDistributed, address[] _receivers);
 
     modifier onlyOwner() {
         require(msg.sender == owner);
@@ -28,31 +23,11 @@ contract P4P {
     /**
     @dev Constructor
 
-    Creates a contract for the associated PLAY Token - which implies that only this contract
-    can call its mint() function.
+    Creates a contract for the associated PLAY Token
     */
     function P4P() {
         owner = msg.sender;
-        playToken = new PlayToken();
-        TokenCreated(address(playToken));
-    }
-
-    /**
-    Contract can receive Ether (e.g. for buying game credits)
-    TODO: do we need to trigger an event? Can we afford that (gas cost)?
-    */
-    function() payable {}
-
-    /**
-    For configuring who receives the Ether funds (donations) after every game round.
-    Limited to 10 addresses (arbitrary choice) in order to avoid gas issues (payout loop).
-    The contract balance is distributed evenly among the registered receivers.
-
-    NOTE: Calling this overwrites previously registered receivers (no "add" semantics)
-    */
-    function setFundReceivers(address[] _receivers) onlyOwner {
-        require(_receivers.length <= 10);
-        fundReceivers = _receivers;
+        playToken = new PlayToken(msg.sender);
     }
 
     /**
@@ -60,50 +35,34 @@ contract P4P {
 
     @param gameHash a reference to an offchain data record of the game end state (can contain arbitrary details).
     @param players array of addresses of players to which a PLAY token is distributed.
+    @param amounts array specifying the amount of tokens per given player. Needs to have the same size as the players array.
 
     NOTE: It's the callers responsibility not to exceed the gas limit ("too many" players).
-    If not all players don't "fit" into one transaction, "addPlayers()" should be used.
+    If not all players "fit" into one transaction, "addPlayers()" can be used to add them.
     */
-    function gamePlayed(bytes32 gameHash, address[] players) onlyOwner {
+    function gamePlayed(bytes32 gameHash, address[] players, uint8[] amounts) onlyOwner {
         /* TODO: what's the right order here? */
+        require(players.length == amounts.length);
         gamesPlayed[gameHash] = true;
         GamePlayed(gameHash);
-        payoutFunds();
-        payoutPlayers(players);
+        payoutPlayers(players, amounts);
     }
 
     /**
     Allows to add players to a game in case including them all
-    in a single call of gamePlayed() isn't feasible (e.g. due to the block gas limit.
+    in a single call of gamePlayed() isn't feasible (e.g. due to the block gas limit).
 
-    @param gameHash References the game to which the players should be added. Must exist!
+    @param gameHash References the game to which the players should be added. Must exist (call fails otherwise)!
     @param players array of addresses of players to which a PLAY token is distributed.
+    @param amounts array specifying the amount of tokens per given player. Needs to have the same size as the players array.
 
     NOTE: If there's (still) more players than can be processes in one transaction,
     call this multiple times with batches of them.
     */
-    function addPlayers(bytes32 gameHash, address[] players) onlyOwner {
+    function addPlayers(bytes32 gameHash, address[] players, uint8[] amounts) onlyOwner {
+        require(players.length == amounts.length);
         require(gamesPlayed[gameHash]);
-        payoutPlayers(players);
-    }
-
-    /**
-    Pays out Ether funds owned by the contract to the currently registered receivers.
-    A few wei may remain in the pool after this call if the balance can't be divided evenly.
-    This is called by gamePlayed().
-
-    NOTE: Since this contains a loop, it relies on the fundsReceiver array not containing more entries
-    than "fit" into the block gas limit.
-    */
-    function payoutFunds() internal {
-        if(fundReceivers.length > 0 && this.balance > 0) {
-            /* If the result isn't an integer, it is rounded (floor). */
-            var amountPerReceiver = this.balance / fundReceivers.length;
-            for (uint i = 0; i < fundReceivers.length; i++) {
-                fundReceivers[i].transfer(amountPerReceiver);
-            }
-            FundsDistributed(amountPerReceiver * fundReceivers.length, fundReceivers);
-        }
+        payoutPlayers(players, amounts);
     }
 
     /**
@@ -112,17 +71,13 @@ contract P4P {
     NOTE: Since this contains a loop, it relies on the caller providing enough gas
     and not exceeding the block gas limit because of a too large array.
     */
-    function payoutPlayers(address[] players) internal {
+    function payoutPlayers(address[] players, uint8[] amounts) internal {
         for (uint i = 0; i < players.length; i++) {
-            playToken.mint(players[i], 1);
+            playToken.mint(players[i], amounts[i]);
         }
     }
 
     function getTokenAddress() constant returns(address) {
         return address(playToken);
-    }
-
-    function getFundReceivers() constant returns(address[]) {
-        return fundReceivers;
     }
 }
