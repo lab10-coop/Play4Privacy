@@ -22,6 +22,7 @@ import ServerApi from './api';
 import Go from './Go';
 import findConsensus from './consensus';
 import Blockchain from './Blockchain';
+import PlayerData from './Models';
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
@@ -88,7 +89,10 @@ class Game {
     this.api.gameFinished(gs.PAUSE_DURATION);
 
     if (process.env.ETH_ON) {
-      const tokenReceivers = []; // TODO: construct an array of { address: <player id>, amount: <nr of legal moves the player submitted> }
+      // construct an array of { address: <player id>, amount: <nr of legal moves submitted> }
+      const tokenReceivers = [ ...this.players ].map(elem =>
+        ({ address: elem[0], amount: elem[1].validMoves }));
+      console.log(tokenReceivers);
       this.blockchain.persistGame('placeholder for game state', tokenReceivers,
         (txHash, success) => {
           console.log(`Blockchain transaction ${txHash} ${success ? 'succeeded' : 'failed'}`);
@@ -106,7 +110,7 @@ class Game {
       return;
     }
     const numPlayers = [ ...this.players ].reduce((counts, elem) => {
-      (elem[1] === gs.BLACK) ? (counts[0] += 1) : (counts[1] += 1);
+      (elem[1].team === gs.BLACK) ? (counts[0] += 1) : (counts[1] += 1);
       return counts;
     }, [ 0, 0 ]);
     this.api.sendGameUpdates(numPlayers);
@@ -122,13 +126,13 @@ class Game {
   joinGame(id) {
     if (!this.players.has(id)) {
       // assign teams round-robin
-      this.players.set(id, this.players.size % 2 ? gs.WHITE : gs.BLACK);
+      this.players.set(id, new PlayerData(this.players.size % 2 ? gs.WHITE : gs.BLACK, 0));
     }
-    return this.players.get(id);
+    return this.players.get(id).team;
   }
 
   hasJoined(id) {
-    return this.players.has(id) ? this.players.get(id) : gs.NONE;
+    return this.players.has(id) ? this.players.get(id).team : gs.UNSET;
   }
 
   submitMove(id, move, sig) {
@@ -140,7 +144,7 @@ class Game {
     }
 
     // Check if player is on the right team
-    if (this.players.get(id) !== this.go.currentTeam()) {
+    if (this.players.get(id).team !== this.go.currentTeam()) {
       return 'Wait your turn!';
     }
 
@@ -155,6 +159,7 @@ class Game {
 
     // Set the move and return
     this.roundMoves.set(id, move);
+    this.players.get(id).validMoves += 1;
     return move;
   }
 
