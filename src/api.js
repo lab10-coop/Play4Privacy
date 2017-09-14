@@ -10,7 +10,7 @@ export function defineClientApi(game, socket) {
   // returns the team you are assigned to, or an empty string
   // if joining failed.
   socket.on('join game', (id, fn) => fn(game.joinGame(id)));
-  socket.on('submit move', (id, move, fn) => fn(game.submitMove(id, move)));
+  socket.on('submit move', (id, move, sig, fn) => fn(game.submitMove(id, move, sig)));
 }
 
 export default class ServerApi {
@@ -24,8 +24,8 @@ export default class ServerApi {
   }
 
   // Listen to this event to get notified when a round finished.
-  roundFinished(nextTeam, move, captured) {
-    this.io.emit('round finished', nextTeam, move, captured);
+  roundFinished(nr, nextTeam, move, captured) {
+    this.io.emit('round finished', nr, nextTeam, move, captured);
   }
 
   // Listen to this event to get notified when a game finished.

@@ -1,4 +1,4 @@
-image: node:6.11-alpine
+image: node:6.11.2
 
 stages:
   - test
@@ -8,6 +8,7 @@ stages:
 test_frontend:
   stage: test
   script:
+    - apt-get install -y git
     - cd frontend
     - npm install
     - CI=true npm test

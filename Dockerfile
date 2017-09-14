@@ -1,5 +1,8 @@
 FROM node:6.11.2
 
+# Install git
+RUN apt-get install -y git
+
 ARG WORK_DIR=/usr/src/app
 
 # Create app directory and frontend directory
