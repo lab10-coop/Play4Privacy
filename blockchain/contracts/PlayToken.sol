@@ -17,12 +17,12 @@ Implementation based on https://github.com/ConsenSys/Tokens
 contract PlayToken {
     uint256 public totalSupply = 0;
     string public name = "PLAY";
-    uint8 public decimals = 0;
-    string public symbol = "PLAY";
+    uint8 public decimals = 18;
+    string public symbol = "PLY";
     string public version = '1';
 
-    address controller;
-    bool controllerLocked = false;
+    address public controller;
+    bool public controllerLocked = false;
 
     mapping (address => uint256) balances;
     mapping (address => mapping (address => uint256)) allowed;
@@ -55,7 +55,7 @@ contract PlayToken {
     Creates new tokens for the given receiver.
     Can be called only by the contract creator.
     */
-    function mint(address _receiver, uint _value) onlyController {
+    function mint(address _receiver, uint256 _value) onlyController {
         balances[_receiver] += _value;
         totalSupply += _value;
         // (probably) recommended by the standard, see https://github.com/ethereum/EIPs/pull/610/files#diff-c846f31381e26d8beeeae24afcdf4e3eR99

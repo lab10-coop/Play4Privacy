@@ -27,7 +27,17 @@ contract P4P {
     */
     function P4P() {
         owner = msg.sender;
-        playToken = new PlayToken(msg.sender);
+        playToken = new PlayToken(this);
+    }
+
+    /** Proxy function for Token */
+    function setTokenController(address _controller) onlyOwner {
+        playToken.setController(_controller);
+    }
+
+    /** Proxy function for Token */
+    function lockTokenController() onlyOwner {
+        playToken.lockController();
     }
 
     /**
@@ -73,7 +83,8 @@ contract P4P {
     */
     function payoutPlayers(address[] players, uint8[] amounts) internal {
         for (uint i = 0; i < players.length; i++) {
-            playToken.mint(players[i], amounts[i]);
+            // amounts are converted to the token base unit (including decimals)
+            playToken.mint(players[i], uint256(amounts[i]) * 1e18);
         }
     }
 
