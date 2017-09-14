@@ -40,19 +40,25 @@ While having fun, you contribute to the genuine project Play4Privacy (P4P), comb
 
           <div className="hotspots">
             <div className="c33l experience">
-              <h3>Experience the blockchain</h3>
-              <p>Our platform is running on a blockchain.</p>
-              <p>Get to know how this technology works in the most playful manner.</p>
+              <div className="hotspot">
+                <h3>Experience the <br />blockchain</h3>
+                <p>Our platform is running <br />on a blockchain.</p>
+                <p>Get to know how this technology works in the most playful manner.</p>
+              </div>
             </div>
             <div className="c33c reward">
-              <h3>Get rewarded</h3>
-              <p>P4P introduces a novel concept to “mine” crypto-currencies on a proof-of-PLAY basis.</p>
-              <p>Every player gets rewarded with these virtual tokens (coins).</p>
+              <div className="hotspot">
+                <h3>Get <br />rewarded</h3>
+                <p>P4P introduces a novel concept to “mine” crypto-currencies on a <br />proof-of-PLAY basis.</p>
+                <p>Every player gets rewarded with these virtual tokens (coins).</p>
+              </div>
             </div>
             <div className="c33r cause">                      
-              <h3>Play for a cause</h3>
-              <p>For every token mined, a supplement coin is generated to auction.</p>
-              <p>100% of the funds raised will be donated to non-profit organisations fighting for privacy.</p>
+              <div className="hotspot">
+                <h3>Play for<br /> a cause</h3>
+                <p>For every token mined, <br />a supplement coin is generated <br />to auction.</p>
+                <p>100% of the funds raised will be donated to non-profit organisations fighting for privacy.</p>
+              </div>
             </div>
             <div className="clear"></div>
           </div>

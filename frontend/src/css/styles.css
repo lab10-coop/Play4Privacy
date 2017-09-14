@@ -162,6 +162,7 @@ ul.numbered li {
   padding-left: 5%;
   padding-right: 5%;
 }
+
 .c33r {
   float: right;
 }
@@ -491,13 +492,46 @@ input.submit:hover {
 .experience,
 .reward,
 .cause {
-  text-align: center;
+
 }
 
 
 .hotspots {
-  
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
+
+.hotspots .c33l {
+  text-align: left;
+}
+
+.hotspots .c33c {
+  text-align: center;
+}
+
+.hotspots .c33r {
+  text-align: right;
+}
+
+
+.hotspots .hotspot {
+    color: #FFFFFF;
+    background: #3ba0d2;
+    border-bottom: 4px solid #1a6185;
+    
+    width: 240px;
+    min-height: 300px;
+    padding: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
+.hotspots .hotspot h3 {
+  text-transform: uppercase;
+  font-size: 22px;
+  font-weight: 300;
+}
+
 
 .howToPlayWithUs {
   font-size: 20px;
