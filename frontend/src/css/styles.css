@@ -79,6 +79,10 @@ a:hover {
 	clear: both;
 }
 
+.separator {
+  height: 50px;
+}
+
 .hide {
 	display: none !important;
 }
@@ -489,9 +493,11 @@ input.submit:hover {
 
 
 #gameField .gameInfo .itemJoinGameFirst,
+#gameField .gameInfo .waitForNextGame,
 #gameField .gameInfo .item.hideItem {
 	display: none;
 }
+
 
 #gameField .gameInfo .showItem {
 	display: block;
@@ -591,6 +597,11 @@ input.submit:hover {
 .gameInfo .joinGameFirst .placeStatus {
 	background-color: #3ba0d2;		
 }
+
+.gameInfo .waitForNextGame {
+	background-color: #d1b13a;		
+}
+
 
 
 
@@ -780,6 +791,14 @@ input.submit:hover {
 	background-color: #000000;
 }
 
+
+.playTokensAmount {
+  font-weight: bold;
+}
+
+.yourWalletAdress {
+  font-size: 18px;
+}
 
 
 /* ErrorLayer */

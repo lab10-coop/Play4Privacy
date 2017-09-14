@@ -41,9 +41,6 @@ class GameBoard extends React.Component {
       $('.layer#helpLayer').addClass('showLayer');
     });
     
-    $('#buyTokensButton').click(function(){
-      $('.layer#buyTokens').addClass('showLayer');
-    });
    
    
     // Hide Layer
@@ -106,8 +103,9 @@ class GameBoard extends React.Component {
  			  <div className={`infoBox  ${game.myTeam ? '' : 'joinGameFirst'}`}>
 	 			  <div className={`item placeStatus ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
 	              	<p className="yourTeamInfotext">Your turn! Place your Stone!</p>
-	 			  	<p className="otherTeamInfotext">Wait until the other team placed their stone!</p>
-	 			  	<p className="joinGameFirstInfotext">Join the game first!</p>
+                  <p className="otherTeamInfotext">Wait until the other team placed their stone!</p>
+                  <p className="joinGameFirstInfotext">Join the game first!</p>
+                  <p className="waitForNextGame">Wait for next game to start!</p>
 	             </div>             
              </div>
  			  
@@ -142,7 +140,7 @@ class GameBoard extends React.Component {
                   {game.gameState ? game.formattedCurrentTeam : '--'}
                 </span>
               </div>
-			  <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
+              <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
                 <span className='label'>Players on your team</span>
                 <span className='value' id='yourTeamSize'>
                   {game.currentTeamPlayers}
@@ -166,21 +164,18 @@ class GameBoard extends React.Component {
                 </span>
                 <div className='timeLeftInGame'>
                 	<span className='timeBar' style={timeBarStyleGame} />
-				</div>
+                </div>
               </div>
 
               <h2>Tokens:</h2>
               <div className='item'>
-                <span className='label'>Current Balance:</span>
+                <span className='label'>Current tokens mined by you:</span>
                 <span className='value' id='yourTokens'>123 Token</span>
               </div>
 
-              <div className='item'>
-                <span className='label'>Money donated so far</span>
-                <span className='value' id='moneyDonated'>8888 €</span>
-              </div>
-
-              <p><span className='button' id='buyTokensButton'>Buy Tokens</span></p>
+              <p className={`item ${game.myTeam ? '' : 'hideItem'}`}>
+                <a className='button' id='stopGame' href='endgame'>STOP GAME and redeem avaliable PLAY Tokens</a>
+              </p>
 
             </div>
 
@@ -205,16 +200,6 @@ class GameBoard extends React.Component {
           <div className="closeLayerButton"></div>
         </div>
 
-        <div className='layer' id='buyTokens'>
-          <div className='layerInner'>
-
-            <h2>Send ETH to this Wallet:</h2>
-            <p>Infotext, Infotext</p>
-            <div className='walletQR'>HIER KOMMT DER WALLET-QR-CODE REIN</div>
-
-          </div>
-          <div className="closeLayerButton"></div>
-        </div>
 
       </div>
     );
