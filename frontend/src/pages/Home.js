@@ -35,13 +35,14 @@ class Home extends React.Component {
       <div>
         <div className='field projectExplanation'>
           <h2>How does it work, and what is it all about?</h2>
-          <p><strong>Play `Go`</strong> (WeiQi, Baduk) on the public facade of the Museum of Modern Arts (Kunsthaus) in Graz/Austria!<br />
+          <p className="introduction"><strong>Play `Go`</strong> (WeiQi, Baduk) <br />on the public facade of the Museum of Modern Arts (Kunsthaus) in Graz/Austria!<br />
 While having fun, you contribute to the genuine project Play4Privacy (P4P), combining elements of game, arts and technology.</p>
 
           <div className="hotspots">
-            <div className="c33l experience">
+            <div className="c33l blockchain">
               <div className="hotspot">
                 <h3>Experience the <br />blockchain</h3>
+                <div className="icon"></div>
                 <p>Our platform is running <br />on a blockchain.</p>
                 <p>Get to know how this technology works in the most playful manner.</p>
               </div>
@@ -49,13 +50,15 @@ While having fun, you contribute to the genuine project Play4Privacy (P4P), comb
             <div className="c33c reward">
               <div className="hotspot">
                 <h3>Get <br />rewarded</h3>
+                <div className="icon"></div>
                 <p>P4P introduces a novel concept to “mine” crypto-currencies on a <br />proof-of-PLAY basis.</p>
                 <p>Every player gets rewarded with these virtual tokens (coins).</p>
               </div>
             </div>
-            <div className="c33r cause">                      
+            <div className="c33r privacy">                      
               <div className="hotspot">
                 <h3>Play for<br /> a cause</h3>
+                <div className="icon"></div>
                 <p>For every token mined, <br />a supplement coin is generated <br />to auction.</p>
                 <p>100% of the funds raised will be donated to non-profit organisations fighting for privacy.</p>
               </div>

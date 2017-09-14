@@ -514,13 +514,14 @@ input.submit:hover {
 }
 
 
+
 .hotspots .hotspot {
     color: #FFFFFF;
     background: #3ba0d2;
     border-bottom: 4px solid #1a6185;
     
     width: 240px;
-    min-height: 300px;
+    min-height: 340px;
     padding: 20px;
     display: inline-block;
     text-align: center;
@@ -532,6 +533,34 @@ input.submit:hover {
   font-weight: 300;
 }
 
+.hotspots .hotspot .icon {
+  width: 75px;
+  height: 75px;
+  display: inline-block;
+  
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  
+  margin-top: 20px;
+  
+}
+
+.hotspots .blockchain .icon { 
+  background-image: url(../img/hotspot-blockchain.png); 
+}
+
+.hotspots .privacy .icon {
+  background-image: url(../img/hotspot-privacy.png); 
+}
+
+.hotspots .reward .icon {
+  background-image: url(../img/hotspot-reward.png);
+}
+
+.introduction strong {
+  font-size: 48px;
+}
 
 .howToPlayWithUs {
   font-size: 20px;
