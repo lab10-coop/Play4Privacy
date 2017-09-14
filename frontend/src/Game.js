@@ -19,22 +19,16 @@
 
 import { observable, computed, action } from 'mobx';
 import gs from './GameSettings';
+import ethUtils from './EthereumUtils';
 
-// Temporary solution to identify the user uniquely
-// To be replaced by cryptographic tokens
-function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    // Note "|0" converts a Number to an integer
-    const r = Math.random() * 16 | 0; // eslint-disable-line no-bitwise
-    const v = c === 'x' ? r : (r & 0x3 | 0x8); // eslint-disable-line no-bitwise,no-mixed-operators
-    return v.toString(16);
-  });
-}
+// TODO: remove (for debugging only)
+window.eth = ethUtils;
+window.web3 = ethUtils.web3;
 
 class Game {
   constructor(socket) {
     // todo: Use a real token
-    this.id = uuidv4();
+    this.id = ethUtils.loadWallet();
 
     this.socket = socket;
     this.maxGameDuration = new Date(gs.MAX_GAME_DURATION);

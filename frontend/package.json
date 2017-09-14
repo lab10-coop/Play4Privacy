@@ -13,10 +13,7 @@
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.2",
     "socket.io-client": "^2.0.3",
-    "web3": "^1.0.0-beta.18",
-    "crypto-browserify": "^3.11.1",
-    "ethereumjs-util": "^5.1.2",
-    "Buffer": "^0.0.0"
+    "web3": "^1.0.0-beta.18"
   },
   "devDependencies": {},
   "scripts": {

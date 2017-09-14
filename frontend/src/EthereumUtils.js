@@ -1,10 +1,7 @@
 import Web3 from 'web3';
-import * as crypto from 'crypto'; // TODO: if needed only for random bytes, ditch!
-import ethUtil from 'ethereumjs-util'; // used for signature creation
-// TODO: this triggers an ugly warning: "There are multiple modules with names that only differ in casing"
-import Buffer from 'Buffer';
 
 let instance = null;
+let web3;
 
 /** Singleton class with functionality needed for Ethereum-unaware browsers */
 class EthereumUtils {
@@ -14,11 +11,8 @@ class EthereumUtils {
     /** @returns an instance of this class */
     constructor() {
         if (!instance) {
-            this.cryptoUtil = crypto;
-            this.Buffer = Buffer;
-            this.ethUtil = ethUtil;
             // givenProvider will be null in non-Ethereum browsers. The functionaly we need works anyway.
-            this.web3 = new Web3(Web3.givenProvider);
+            web3 = new Web3(Web3.givenProvider);
 
             instance = this;
         }
@@ -26,55 +20,66 @@ class EthereumUtils {
     }
 
     /**
-     * Creates an Ethereum account
-     * @param username is used as additional entropy
-     * @returns an object representing the account
-     *
-     * Do NOT leak this object anywhere, because it contains the private key.
+     * Loads an Ethereum wallet if exists, creates a new one with a single account otherwise.
+     * @param forceNew if true a new wallet will be created even if one already exists (in localStorage)
+     * @returns the address of the first account in the wallet
      */
-    createAccount(username) {
-        const privKey = this.createRandomPrivateKey(username);
-        const account = this.web3.eth.accounts.privateKeyToAccount(privKey);
-        console.log(`created ad hoc account: ${account.address}`);
-        return account;
+    loadWallet(forceNew) {
+        if(! forceNew) {
+            // try to load an existing wallet. See http://web3js.readthedocs.io/en/1.0/web3-eth-accounts.html#wallet-load
+            try {
+                // This will return an empty wallet if nothing is stored and throw an exception (password missing) if a wallet is stored.
+                // This is not documented behaviour, but was determined by testing.
+                this.wallet = web3.eth.accounts.wallet.load();
+            } catch (e) {
+                // A wallet is stored and needs a password
+                console.log(`There seems to be a previously stored wallet available, needs password to load`);
+                // TODO: retrieve password from user
+                try {
+                    // Mahrer mode: hardcoded password. TODO: remove
+                    this.wallet = web3.eth.accounts.wallet.load("FckingDifficultPasswordForMahrerDemo");
+                    return this.getAddress();
+                } catch (e) {
+                    console.error(`dude, that password sucks!`)
+                }
+            }
+        }
+
+        // If we got here, a new wallet is needed
+        console.log(`Creating new wallet`);
+        this.wallet = web3.eth.accounts.wallet.create(1);
+        console.log(`Address: ${this.getAddress()}`);
+        return this.getAddress();
+    }
+
+    /** @returns the address of the first account of the loaded wallet. A wallet needs to be loaded first! */
+    getAddress() {
+        return this.wallet ? this.wallet[0].address : null;
+    }
+
+    /** Saves the wallet in the browser (localStorage), locked with the given password */
+    persistWallet(password) {
+        web3.eth.accounts.wallet.save(password);
     }
 
     /** @returns an encrypted keystore object as specified by https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition */
-    createEncryptedKeystore(privKey, password) {
-        // fortunately web3 1.0 added the possibility to create keystore objects. This considerably reduces required code size here.
-        return this.web3.eth.accounts.encrypt(privKey, password);
+    createEncryptedKeystore(password) {
+        return this.wallet ? this.wallet.encrypt(password) : null;
     }
 
-    /**
-     * Signs a message (ECDSA)
-     * @param message String
-     * @param account object representing an Ethereum account
-     * @returns a signature object {r, s, v}
-     *
-     * TODO: this should probably return the signature in a more useful format, e.g. as JSON Web Signature
+    /** Signs the given data with the loaded account
+     * @param data arbitrary data
+     * @returns the signature as hex string
      */
-    signMessage(message, account) {
-        return this.internalSignMessage(message, account.privateKey);
+    sign(data) {
+        return this.wallet ? web3.eth.accounts.sign(data, this.wallet[0].privateKey).signature : null;
     }
 
     /* END OF PUBLIC INTERFACE */
 
-    // generates a private key by concatenating the username and a random string (32 bytes entropy (?)) 5000 times and taking the sha3 of it
-    // implementation as suggested here: https://www.reddit.com/r/ethereum/comments/535ovp/is_there_a_javascript_library_for_generating/d7q8hq7/
-    createRandomPrivateKey(username) {
-        const randomStr = this.cryptoUtil.randomBytes(32).toString('hex');
-        const inputStr = Array(5000).join(username + ":" + randomStr);
-        return this.web3.utils.sha3(inputStr);
-    }
-
-    // uses web3 and ethereumjs-util to first hash the message and then create a signature for it
-    /* TODO: web3 1.0 seems to have everything needed to generate signed Eth transactions without interacting with the node. Check that! */
-    internalSignMessage(msg, privKey) {
-        // TODO: are this conversions to a Buffer object correct?
-        const msgBuf = this.Buffer(this.web3.utils.hexToBytes(this.web3.utils.sha3(msg)));
-        const privKeyBuf = this.Buffer(this.web3.utils.hexToBytes(privKey));
-        return this.ethUtil.ecsign(msgBuf, privKeyBuf);
+    get web3() {
+        return web3;
     }
 }
 
-export default EthereumUtils;
+export default new EthereumUtils();
