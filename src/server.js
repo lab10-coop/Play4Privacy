@@ -16,6 +16,18 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('frontend/build'));
 }
 
+// REST endpoint serving Board in JSON for Processing
+app.get('/board', (request, response) => {
+  const res = {
+    "time" : Date.now(),
+    "startTime" : game.startTime,
+    "currentTeam": game.go.currentTeam(),
+    "board": game.go.board,
+    "gameState": game.gameState
+  };
+  response.send(JSON.stringify(res));
+});
+
 // handle every other route with index.html to support
 // direct access to any client-side routes.
 app.get('*', (request, response) => {
