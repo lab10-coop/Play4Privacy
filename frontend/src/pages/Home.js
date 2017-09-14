@@ -38,29 +38,36 @@ class Home extends React.Component {
           <p><strong>Play `Go`</strong> (WeiQi, Baduk) on the public facade of the Museum of Modern Arts (Kunsthaus) in Graz/Austria!<br />
 While having fun, you contribute to the genuine project Play4Privacy (P4P), combining elements of game, arts and technology.</p>
 
-          <div className="c33l experience">
-            <h3>Experience the blockchain</h3>
-            <p>Our platform is running on a blockchain.</p>
-            <p>Get to know how this technology works in the most playful manner.</p>
+          <div className="hotspots">
+            <div className="c33l experience">
+              <h3>Experience the blockchain</h3>
+              <p>Our platform is running on a blockchain.</p>
+              <p>Get to know how this technology works in the most playful manner.</p>
+            </div>
+            <div className="c33c reward">
+              <h3>Get rewarded</h3>
+              <p>P4P introduces a novel concept to “mine” crypto-currencies on a proof-of-PLAY basis.</p>
+              <p>Every player gets rewarded with these virtual tokens (coins).</p>
+            </div>
+            <div className="c33r cause">                      
+              <h3>Play for a cause</h3>
+              <p>For every token mined, a supplement coin is generated to auction.</p>
+              <p>100% of the funds raised will be donated to non-profit organisations fighting for privacy.</p>
+            </div>
+            <div className="clear"></div>
           </div>
-          <div className="c33c reward">
-            <h3>Get rewarded</h3>
-            <p>P4P introduces a novel concept to “mine” crypto-currencies on a proof-of-PLAY basis.</p>
-            <p>Every player gets rewarded with these virtual tokens (coins).</p>
-          </div>
-          <div className="c33r cause">                      
-            <h3>Play for a cause</h3>
-            <p>For every token mined, a supplement coin is generated to auction.</p>
-            <p>100% of the funds raised will be donated to non-profit organisations fighting for privacy.</p>
-          </div>
-          <div className="clear"></div>
-          
           
           
           <h3>How to play</h3>
-          <p>Use your PC or smart phone to join one of the two teams. <br />
-          Supported by a consensus algorithm each team sets their stones in their quest for surrounding more territory than the opponent. For every move you make, you earn one token.</p>
-          <p><strong>Join the game, play Go with us - from September 27th until October 27th - daily from 7pm to 10pm CEST.</strong></p> 
+          <div className="c50l howToIntro">
+            <p>Use your PC or smart phone to join one of the two teams. <br />
+            Supported by a consensus algorithm each team sets their stones in their quest for surrounding more territory than the opponent. <br />
+            For every move you make, you earn one token.</p>
+          </div>
+          <div className="c50r howToPlayWithUs">
+            <p><strong>Join the game, play Go with us!<br />From September 27th until October 27th. <br />Daily from 7pm to 10pm CEST.</strong></p> 
+          </div>
+          <div className="clear"></div>
           
         </div>
 

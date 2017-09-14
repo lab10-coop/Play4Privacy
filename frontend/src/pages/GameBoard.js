@@ -205,11 +205,38 @@ class GameBoard extends React.Component {
         <div className='layer' id='helpLayer'>
           <div className='layerInner'>
 
-            <h2>Help: How to play, How Go Works (page #6)</h2>
-            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-              tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
-              eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-              takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            <h2>Happy to help :)</h2>
+            
+            <h3>To play the game you simply:</h3>
+            <ul className="numbered">
+              <li>Click join game</li>
+              <li>You get randomly assigned to a team</li>
+              <li>You can begin playing GO</li>
+              <li>You have 20 sec to pick a move</li>
+              <li>The majority move of your team is picked and executed</li>
+              <li>The team that has the ---- at the end of the max play time of 30 min wins</li>
+            </ul>
+            
+            <hr />
+            
+            <h3>How to play GO</h3>
+            <p>To play GO you need to know the basic rules. <br />
+            Check out the <a href="https://senseis.xmp.net/?BasicRulesOfGo" target="_blank" title="Simple GO Rules at senseis.xmp.net">simple rules here</a> or dive a little deeper with the <a href="http://gobase.org/studying/rules/doc/a4.pdf" target="_blank" title="Advanced GO Rules at gobase.org">advanced rules here.</a>
+            </p>
+
+            <hr />
+
+            <h3>PLAY Token</h3>
+            <ul className="numbered">
+              <li>You simply play the game</li>
+              <li>Every legal move you pick will serve as proof-of-play</li>
+              <li>2 PLAY token will be mined – one of those will be awarded to you – the second one serves as a complimentary token that will be donated for charity purpose</li>
+              <li>At the end of the game the tokens will be sent to your wallet (if you already have one linked) or you can simply create a new wallet.</li>
+            </ul>
+
+            <hr />
+
+            <p>Still things unclear? <a href="mailto:play@lab10.coop">Contact us</a></p>
           </div>
           <div className="closeLayerButton"></div>
         </div>
