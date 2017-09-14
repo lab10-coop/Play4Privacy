@@ -60,7 +60,7 @@ While having fun, you contribute to the genuine project Play4Privacy (P4P), comb
                 <h3>Play for<br /> a cause</h3>
                 <div className="icon"></div>
                 <p>For every token mined, <br />a supplement coin is generated <br />to auction.</p>
-                <p>100% of the funds raised will be donated to non-profit organisations fighting for privacy.</p>
+                <p>100% of the funds raised will be donated to non-profit organizations fighting for privacy.</p>
               </div>
             </div>
             <div className="clear"></div>

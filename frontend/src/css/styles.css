@@ -498,19 +498,21 @@ input.submit:hover {
 
 .hotspots {
   padding-top: 20px;
-  padding-bottom: 20px;
 }
 
 .hotspots .c33l {
   text-align: left;
+  margin-bottom: 20px;
 }
 
 .hotspots .c33c {
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .hotspots .c33r {
   text-align: right;
+  margin-bottom: 20px;
 }
 
 

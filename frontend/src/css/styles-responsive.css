@@ -127,8 +127,11 @@
 	}
 	
 	
-	
-
+  .hotspots .hotspot {
+    padding: 15px 10px 15px 10px;
+    width: 200px;
+    min-height: 400px;
+  }
 	
 	
 
@@ -310,6 +313,13 @@
   .button {
     width: calc(100% - 36px);
   }
+
+  .hotspots .c33l,
+  .hotspots .c33c,
+  .hotspots .c33r {
+    text-align: center;
+  }
+
 
 }
 
