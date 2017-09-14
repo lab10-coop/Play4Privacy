@@ -21,7 +21,7 @@ import gs from '../frontend/src/GameSettings';
 import ServerApi from './api';
 import Go from './Go';
 import findConsensus from './consensus';
-import Blockchain from './Blockchain'
+import Blockchain from './Blockchain';
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
@@ -34,10 +34,10 @@ class Game {
     this.players = new Map();
     this.roundMoves = new Map();
     this.gameState = gs.RUNNING;
-    if(process.env.ETH_ON) {
-        this.blockchain = new Blockchain(() => {
-            console.log("Blockchain connected");
-        });
+    if (process.env.ETH_ON) {
+      this.blockchain = new Blockchain(() => {
+        console.log('Blockchain connected');
+      });
     }
 
     setInterval(() => this.updateTime(), 1000);
@@ -87,11 +87,12 @@ class Game {
     this.gameState = gs.PAUSED;
     this.api.gameFinished(gs.PAUSE_DURATION);
 
-    if(process.env.ETH_ON) {
+    if (process.env.ETH_ON) {
       const tokenReceivers = []; // TODO: construct an array of { address: <player id>, amount: <nr of legal moves the player submitted> }
-      this.blockchain.persistGame("placeholder for game state", tokenReceivers, (txHash, success) => {
-          console.log(`Blockchain transaction ${txHash} ${success ? "succeeded" : "failed"}`);
-      });
+      this.blockchain.persistGame('placeholder for game state', tokenReceivers,
+        (txHash, success) => {
+          console.log(`Blockchain transaction ${txHash} ${success ? 'succeeded' : 'failed'}`);
+        });
     }
   }
 
