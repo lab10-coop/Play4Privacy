@@ -68,7 +68,7 @@ class Blockchain {
             console.error(`Malformed parameter tokenReceivers`);
             return null;
         }
-        
+
         this.contract.methods.gamePlayed(gameHash, addresses, amounts).estimateGas().then( gasEstimate => {
             let gasLimit = gasEstimate + Math.round(gasEstimate * 0.1); // estimate + 10%
             if(gasLimit > gasReasonableLimit) {
@@ -117,7 +117,7 @@ class Blockchain {
         let address = null;
         for(let networkId in this.contractMetadata.networks) {
             address = this.contractMetadata.networks[networkId].address;
-            console.log(`guessed: ${contract.networks[networkId]}`);
+            console.log(`guessed: ${this.contractMetadata.networks[networkId]}`);
         }
         return address;
     }
@@ -157,7 +157,7 @@ class Blockchain {
                 /* This is a guess about what's a safe value for max gas limit per TX.
                 Shouldn't be too high (risk: tx remains in pool if not offering elevated gas price)
                 or too low (need to split up work into many transactions when there's many players) */
-                this.maxGasPerTx = block.gasLimit / 4;
+                this.maxGasPerTx = block.gasLimit / 2;
             })
             if(gasPrice != null) {
                 console.log(`setting gasPrice to ${gasPrice / 1E9} GWei`);
