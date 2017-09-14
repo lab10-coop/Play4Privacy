@@ -206,15 +206,14 @@ class EndGame extends React.Component {
               <p><span className='button' id='sendTokensToLinkedWallet'>Click here to sent PLAY Tokens to your linked wallet</span></p>
             
             
-              <p><strong>### DEV-INFO: ELSE - NO WALLET IS ALREADY LINKED ###</strong></p>
+              <p><strong>### DEV-INFO: ELSE - WALLET FOUND BUT NOT LINKED YET ###</strong></p>
             
               <p>Please enter a strong password below (number, capital letter) to encrypt your wallet. Make sure to remember your password as this will be the only way to open your wallet for now.</p>
             
-            <form>
+             <div className="WIRD-SPAETER-EIN-FORM-TAG">
               <input name='walletPassword' type='password' className='text' placeholder='Password' />
               <input type='submit' value='Create Wallet' className='submit' id='createWallet' />
-            </form>
-
+            </div>
 
           </div>
           <div className="closeLayerButton"></div>
@@ -228,10 +227,10 @@ class EndGame extends React.Component {
             <h2>Your wallet was successfully created. </h2>
             <p>Just enter your email address and we will send you your wallet file via email.</p>
             
-            <form>
+             <div className="WIRD-SPAETER-EIN-FORM-TAG">
               <input name='email' type='text' className='text' placeholder='Your email adress' />
               <input type='submit' value='Send' className='submit' id='sendWalletFile' />
-            </form>
+            </div>
             
             <p>If you do not want to share your email address - simply press <a href="#" title="Download Wallet File">here to download</a> 
             the file to your computer.</p>

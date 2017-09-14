@@ -32,9 +32,7 @@ function Navigation() {
         <nav>
           <ul>
             <li><Link to='/'>Home</Link></li>
-            <li><Link to='/credits'>Credits</Link></li>
             <li><Link to='/gameboard'>Gameboard</Link></li>
-            <li><Link to='/leaderboard'>Leaders</Link></li>
             <li><Link to='/endgame'>Endgame</Link></li>
           </ul>
         </nav>

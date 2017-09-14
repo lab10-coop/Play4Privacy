@@ -81,7 +81,7 @@ While having fun, you contribute to the genuine project Play4Privacy (P4P), comb
         </div>
 
         <div className='creditsButton field'>
-          <p><a className='button' href='credits' title='Get Credits'>Click here to start playing</a></p>
+          <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>Click here to start playing</a></p>
           <p className="centered">Or watch the current game here on the livecam.</p>
 
         </div>

@@ -571,6 +571,11 @@ input.submit:hover {
 /* GAMEBOARD */
 
 
+#joinGameButton {
+ 	width: calc(100% - 40px);
+	font-size: 34px; 
+}
+
 .layer#startGame {
 	position: relative;
 	top: 0px;

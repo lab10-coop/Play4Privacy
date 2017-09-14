@@ -69,28 +69,33 @@ class GameBoard extends React.Component {
         <div className={`layer ${game.myTeam ? '' : 'showLayer'}`} id='startGame'>
           <div className='layerInner'>
             <h2>Start a Game</h2>
-            <p>You can join the game whenever you want. </p>
-            <p>
-              If you want to have an instruction of the game or the mechanism click
-              on the button below:<br />
-              <span className='button' id='helpButton'>Need help?</span>
-            </p>
             
-            
-            <h3>Optional:</h3>
-            <p>You can add a 3 digit name for our leaderboard</p>
-            <form>
-              <input name='username' type='text' className='text leaderboardDigits' placeholder='Enter 3 Digits' />
-              <input type='submit' value='Save' className='submit' />
-            </form>
-            
+            <div className="c50l">
+              <p>You can join the game whenever you want. </p>
+              <p>
+                If you want to have an instruction of the game or the mechanism click
+                on the button below:<br />
+                <span className='button' id='helpButton'>Need help?</span>
+              </p>
+            </div>
+            <div className="c50r">
+              <h3>Optional:</h3>
+              <p>You can add a 3 digit name for our leaderboard</p>
+              <div className="WIRD-SPAETER-EIN-FORM-TAG">
+                <input name='username' type='text' className='text leaderboardDigits' placeholder='Enter 3 Digits' />
+                <input type='submit' value='Save' className='submit' />
+              </div>
+            </div>
+            <div className="clear"></div>
+                      
+            <hr />
             <p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p>
             <p>Please enter your wallet password to start the game. <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>
-            <form>
+             <div className="WIRD-SPAETER-EIN-FORM-TAG">
               <input name='linkWalletPassword' type='password' className='text' placeholder='Your Wallet-Password' />
               <input type='submit' value='OK' className='submit' id='linkWallet' />
-            </form>            
-            
+             </div>
+            <hr />
             
             <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED OR NO WALLET FOUND###</strong></p>
             <p>
