@@ -21,6 +21,8 @@ import gs from '../frontend/src/GameSettings';
 import ServerApi from './api';
 import Go from './Go';
 import findConsensus from './consensus';
+import Blockchain from './Blockchain';
+import PlayerData from './Models';
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
@@ -33,6 +35,11 @@ class Game {
     this.players = new Map();
     this.roundMoves = new Map();
     this.gameState = gs.RUNNING;
+    if (process.env.ETH_ON) {
+      this.blockchain = new Blockchain(() => {
+        console.log('Blockchain connected');
+      });
+    }
 
     setInterval(() => this.updateTime(), 1000);
     this.startGame();
@@ -57,6 +64,7 @@ class Game {
     this.go.clearGame();
     this.players.clear();
     this.roundMoves.clear();
+    this.roundNr = 1;
     this.startTime = Date.now();
     this.gameState = gs.RUNNING;
     this.api.gameStarted(this.startTime, this.go.currentTeam());
@@ -69,15 +77,27 @@ class Game {
       //       and this function returns undefined.      
       roundMove = this.go.getRandomMove();
     }
+    const roundNr = this.roundNr++;
     const captured = this.go.addMove(roundMove);
     this.roundMoves.clear();
-    this.api.roundFinished(this.go.currentTeam(), roundMove, captured);
+    this.api.roundFinished(roundNr, this.go.currentTeam(), roundMove, captured);
   }
 
   endGame() {
     this.startTime = Date.now();
     this.gameState = gs.PAUSED;
     this.api.gameFinished(gs.PAUSE_DURATION);
+
+    if (process.env.ETH_ON) {
+      // construct an array of { address: <player id>, amount: <nr of legal moves submitted> }
+      const tokenReceivers = [ ...this.players ].map(elem =>
+        ({ address: elem[0], amount: elem[1].validMoves }));
+      console.log(tokenReceivers);
+      this.blockchain.persistGame('placeholder for game state', tokenReceivers,
+        (txHash, success) => {
+          console.log(`Blockchain transaction ${txHash} ${success ? 'succeeded' : 'failed'}`);
+        });
+    }
   }
 
   sendGameUpdates() {
@@ -90,7 +110,7 @@ class Game {
       return;
     }
     const numPlayers = [ ...this.players ].reduce((counts, elem) => {
-      (elem[1] === gs.BLACK) ? (counts[0] += 1) : (counts[1] += 1);
+      (elem[1].team === gs.BLACK) ? (counts[0] += 1) : (counts[1] += 1);
       return counts;
     }, [ 0, 0 ]);
     this.api.sendGameUpdates(numPlayers);
@@ -106,23 +126,25 @@ class Game {
   joinGame(id) {
     if (!this.players.has(id)) {
       // assign teams round-robin
-      this.players.set(id, this.players.size % 2 ? gs.WHITE : gs.BLACK);
+      this.players.set(id, new PlayerData(this.players.size % 2 ? gs.WHITE : gs.BLACK, 0));
     }
-    return this.players.get(id);
+    return this.players.get(id).team;
   }
 
   hasJoined(id) {
-    return this.players.has(id) ? this.players.get(id) : gs.NONE;
+    return this.players.has(id) ? this.players.get(id).team : gs.UNSET;
   }
 
-  submitMove(id, move) {
+  submitMove(id, move, sig) {
+    // TODO: add the signature to the game state
+
     // Check if user has joined the current game
     if (!this.players.has(id)) {
       return 'Join the Game first!';
     }
 
     // Check if player is on the right team
-    if (this.players.get(id) !== this.go.currentTeam()) {
+    if (this.players.get(id).team !== this.go.currentTeam()) {
       return 'Wait your turn!';
     }
 
@@ -137,6 +159,7 @@ class Game {
 
     // Set the move and return
     this.roundMoves.set(id, move);
+    this.players.get(id).validMoves += 1;
     return move;
   }
 

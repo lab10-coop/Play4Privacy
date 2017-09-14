@@ -19,22 +19,16 @@
 
 import { observable, computed, action } from 'mobx';
 import gs from './GameSettings';
+import ethUtils from './EthereumUtils';
 
-// Temporary solution to identify the user uniquely
-// To be replaced by cryptographic tokens
-function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    // Note "|0" converts a Number to an integer
-    const r = Math.random() * 16 | 0; // eslint-disable-line no-bitwise
-    const v = c === 'x' ? r : (r & 0x3 | 0x8); // eslint-disable-line no-bitwise,no-mixed-operators
-    return v.toString(16);
-  });
-}
+// TODO: remove (for debugging only)
+window.eth = ethUtils;
+window.web3 = ethUtils.web3;
 
 class Game {
   constructor(socket) {
     // todo: Use a real token
-    this.id = uuidv4();
+    this.id = ethUtils.loadWallet();
 
     this.socket = socket;
     this.maxGameDuration = new Date(gs.MAX_GAME_DURATION);
@@ -56,7 +50,7 @@ class Game {
     // Get notified when a new game started
     this.socket.on('game finished', this.finishGame);
 
-    // Get notified when a roun finished
+    // Get notified when a round finished
     socket.on('round finished', this.finishRound);
 
     // For continuous game changes
@@ -96,7 +90,8 @@ class Game {
   }
 
   @action.bound
-  finishRound(newTeam, move, captured) {
+  finishRound(nr, newTeam, move, captured) {
+    this.roundNr = nr + 1; // point to the next round
     this.squares[move] = this.currentTeam;
     this.currentTeam = newTeam;
     this.myMove = '';
@@ -125,6 +120,7 @@ class Game {
 
   @observable startTime = 0;
   @observable currentTeam = gs.UNSET;
+  @observable roundNr = 1;
   @observable myTeam = gs.UNSET;
   @observable myMove = '';
   @observable squares = Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET);
@@ -205,8 +201,10 @@ class Game {
       return;
     }
 
+    const sig = ethUtils.sign(`${this.startTime}_${this.roundNr}_${move}`);
+
     this.socket.emit('submit move', this.id,
-      move, (confirmedMove) => {
+      move, sig, (confirmedMove) => {
         this.myMove = confirmedMove;
         this.squares[confirmedMove] = gs.PLACED;
       });

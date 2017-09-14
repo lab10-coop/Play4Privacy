@@ -8,6 +8,7 @@
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register --require source-map-support ./test/*.spec.js",
     "frontend": "node start-frontend.js",
     "server": "babel-node src/server.js",
+    "server-dev": "nodemon src/server.js --exec \"babel-node --inspect\"",
     "lint": "eslint .",
     "build-clean": "rm -rf build && mkdir build",
     "build-server": "babel -d ./build ./src -s",
@@ -41,6 +42,7 @@
     "babel-plugin-transform-object-entries": "^1.0.0",
     "babel-preset-es2015": "^6.24.1",
     "express": "^4.15.4",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "web3": "^1.0.0-beta.18"
   }
 }
