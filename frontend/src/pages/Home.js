@@ -35,32 +35,48 @@ class Home extends React.Component {
       <div>
         <div className='field projectExplanation'>
           <h2>How does it work, and what is it all about?</h2>
-          <p><strong>Play `Go`</strong> (WeiQi, Baduk) on the public facade of the Museum of Modern Arts (Kunsthaus) in Graz/Austria!<br />
+          <p className="introduction"><strong>Play `Go`</strong> (WeiQi, Baduk) <br />on the public facade of the Museum of Modern Arts (Kunsthaus) in Graz/Austria!<br />
 While having fun, you contribute to the genuine project Play4Privacy (P4P), combining elements of game, arts and technology.</p>
 
-          <div className="c33l experience">
-            <h3>Experience the blockchain</h3>
-            <p>Our platform is running on a blockchain.</p>
-            <p>Get to know how this technology works in the most playful manner.</p>
+          <div className="hotspots">
+            <div className="c33l blockchain">
+              <div className="hotspot">
+                <h3>Experience the <br />blockchain</h3>
+                <div className="icon"></div>
+                <p>Our platform is running <br />on a blockchain.</p>
+                <p>Get to know how this technology works in the most playful manner.</p>
+              </div>
+            </div>
+            <div className="c33c reward">
+              <div className="hotspot">
+                <h3>Get <br />rewarded</h3>
+                <div className="icon"></div>
+                <p>P4P introduces a novel concept to “mine” crypto-currencies on a <br />proof-of-PLAY basis.</p>
+                <p>Every player gets rewarded with these virtual tokens (coins).</p>
+              </div>
+            </div>
+            <div className="c33r privacy">                      
+              <div className="hotspot">
+                <h3>Play for<br /> a cause</h3>
+                <div className="icon"></div>
+                <p>For every token mined, <br />a supplement coin is generated <br />to auction.</p>
+                <p>100% of the funds raised will be donated to non-profit organizations fighting for privacy.</p>
+              </div>
+            </div>
+            <div className="clear"></div>
           </div>
-          <div className="c33c reward">
-            <h3>Get rewarded</h3>
-            <p>P4P introduces a novel concept to “mine” crypto-currencies on a proof-of-PLAY basis.</p>
-            <p>Every player gets rewarded with these virtual tokens (coins).</p>
-          </div>
-          <div className="c33r cause">                      
-            <h3>Play for a cause</h3>
-            <p>For every token mined, a supplement coin is generated to auction.</p>
-            <p>100% of the funds raised will be donated to non-profit organisations fighting for privacy.</p>
-          </div>
-          <div className="clear"></div>
-          
           
           
           <h3>How to play</h3>
-          <p>Use your PC or smart phone to join one of the two teams. <br />
-          Supported by a consensus algorithm each team sets their stones in their quest for surrounding more territory than the opponent. For every move you make, you earn one token.</p>
-          <p><strong>Join the game, play Go with us - from September 27th until October 27th - daily from 7pm to 10pm CEST.</strong></p> 
+          <div className="c50l howToIntro">
+            <p>Use your PC or smart phone to join one of the two teams. <br />
+            Supported by a consensus algorithm each team sets their stones in their quest for surrounding more territory than the opponent. <br />
+            For every move you make, you earn one token.</p>
+          </div>
+          <div className="c50r howToPlayWithUs">
+            <p><strong>Join the game, play Go with us!<br />From September 27th until October 27th. <br />Daily from 7pm to 10pm CEST.</strong></p> 
+          </div>
+          <div className="clear"></div>
           
         </div>
 
