@@ -50,7 +50,7 @@ class Game {
     // Get notified when a new game started
     this.socket.on('game finished', this.finishGame);
 
-    // Get notified when a roun finished
+    // Get notified when a round finished
     socket.on('round finished', this.finishRound);
 
     // For continuous game changes
@@ -90,7 +90,8 @@ class Game {
   }
 
   @action.bound
-  finishRound(newTeam, move, captured) {
+  finishRound(nr, newTeam, move, captured) {
+    this.roundNr = nr + 1; // point to the next round
     this.squares[move] = this.currentTeam;
     this.currentTeam = newTeam;
     this.myMove = '';
@@ -119,6 +120,7 @@ class Game {
 
   @observable startTime = 0;
   @observable currentTeam = gs.UNSET;
+  @observable roundNr = 1;
   @observable myTeam = gs.UNSET;
   @observable myMove = '';
   @observable squares = Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET);
@@ -199,8 +201,10 @@ class Game {
       return;
     }
 
+    const sig = ethUtils.sign(`${this.startTime}_${this.roundNr}_${move}`);
+
     this.socket.emit('submit move', this.id,
-      move, (confirmedMove) => {
+      move, sig, (confirmedMove) => {
         this.myMove = confirmedMove;
         this.squares[confirmedMove] = gs.PLACED;
       });

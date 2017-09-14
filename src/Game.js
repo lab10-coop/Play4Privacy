@@ -21,6 +21,7 @@ import gs from '../frontend/src/GameSettings';
 import ServerApi from './api';
 import Go from './Go';
 import findConsensus from './consensus';
+import Blockchain from './Blockchain'
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
@@ -33,6 +34,11 @@ class Game {
     this.players = new Map();
     this.roundMoves = new Map();
     this.gameState = gs.RUNNING;
+    if(process.env.ETH_ON) {
+        this.blockchain = new Blockchain(() => {
+            console.log("Blockchain connected");
+        });
+    }
 
     setInterval(() => this.updateTime(), 1000);
     this.startGame();
@@ -57,6 +63,7 @@ class Game {
     this.go.clearGame();
     this.players.clear();
     this.roundMoves.clear();
+    this.roundNr = 1;
     this.startTime = Date.now();
     this.gameState = gs.RUNNING;
     this.api.gameStarted(this.startTime, this.go.currentTeam());
@@ -69,15 +76,23 @@ class Game {
       //       and this function returns undefined.      
       roundMove = this.go.getRandomMove();
     }
+    const roundNr = this.roundNr++;
     const captured = this.go.addMove(roundMove);
     this.roundMoves.clear();
-    this.api.roundFinished(this.go.currentTeam(), roundMove, captured);
+    this.api.roundFinished(roundNr, this.go.currentTeam(), roundMove, captured);
   }
 
   endGame() {
     this.startTime = Date.now();
     this.gameState = gs.PAUSED;
     this.api.gameFinished(gs.PAUSE_DURATION);
+
+    if(process.env.ETH_ON) {
+      const tokenReceivers = []; // TODO: construct an array of { address: <player id>, amount: <nr of legal moves the player submitted> }
+      this.blockchain.persistGame("placeholder for game state", tokenReceivers, (txHash, success) => {
+          console.log(`Blockchain transaction ${txHash} ${success ? "succeeded" : "failed"}`);
+      });
+    }
   }
 
   sendGameUpdates() {
@@ -115,7 +130,9 @@ class Game {
     return this.players.has(id) ? this.players.get(id) : gs.NONE;
   }
 
-  submitMove(id, move) {
+  submitMove(id, move, sig) {
+    // TODO: add the signature to the game state
+
     // Check if user has joined the current game
     if (!this.players.has(id)) {
       return 'Join the Game first!';
