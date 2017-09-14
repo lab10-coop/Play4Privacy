@@ -1,4 +1,5 @@
-import Web3 from 'web3';
+// TODO: switch back to module once this is solved: https://github.com/ethereum/web3.js/issues/977
+//import Web3 from 'web3';
 
 let instance = null;
 let web3;
@@ -12,7 +13,7 @@ class EthereumUtils {
     constructor() {
         if (!instance) {
             // givenProvider will be null in non-Ethereum browsers. The functionaly we need works anyway.
-            web3 = new Web3(Web3.givenProvider);
+            web3 = new window.Web3(window.Web3.givenProvider);
 
             instance = this;
         }
