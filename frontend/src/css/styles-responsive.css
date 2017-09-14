@@ -336,7 +336,10 @@
 	.currentGame .liveCam, 
 	.currentGame .gameField,
 	.c50l,
-	.c50r {
+	.c50r,
+	.c33l,  
+  .c33c,
+  .c33r {
 		width: 100%;
 		float: none;
 		padding: 0px;
@@ -459,7 +462,10 @@
 	.currentGame .liveCam, 
 	.currentGame .gameField,
 	.c50l,
-	.c50r {
+	.c50r,
+	.c33l,  
+  .c33c,
+  .c33r {
 		width: 100%;
 		float: none;
 		padding: 0px;

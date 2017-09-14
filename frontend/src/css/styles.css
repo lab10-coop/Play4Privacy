@@ -56,11 +56,11 @@ body {
     color: #000000;  
     font-family: 'Tram Joanneum', 'Arial';
     position: relative;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 300;
-	background: #FAFAFA !important;
-	padding: 0px !important;
-	margin: 0px !important;
+  	background: #FAFAFA !important;
+  	padding: 0px !important;
+  	margin: 0px !important;
 }
 
 
@@ -104,6 +104,10 @@ strong {
   font-weight: bold;
 }
 
+.centered {
+  text-align: center;
+}
+
 figure {
 	margin: 0px;
 }
@@ -119,6 +123,27 @@ figure {
 	width: 48%;
 	padding-left: 2%;
 }
+
+
+.c33l,
+.c33c,
+.c33r {
+  width: 30%;
+}
+
+.c33l {
+  float: left;
+}
+
+.c33c {
+  float: left;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.c33r {
+  float: right;
+}
+
 
 
 
@@ -333,7 +358,12 @@ input.text {
 	height: 35px;
 	line-height: 35px;
 	margin: 0px;
-	width: 108px;
+	width: 208px;
+}
+
+input.leaderboardDigits {
+	width: 78px;
+  
 }
 
 input.submit {
@@ -433,8 +463,14 @@ input.submit:hover {
 	text-transform: uppercase;
 }
 
+.projectExplanation {
+}
 
-
+.experience,
+.reward,
+.cause {
+  text-align: center;
+}
 
 /* GAMEBOARD */
 
@@ -487,8 +523,8 @@ input.submit:hover {
 	padding-bottom: 7px;
 	border-top: 1px solid #acacac;
 	display: block;
-}
 
+}
 
 
 
@@ -514,12 +550,14 @@ input.submit:hover {
 .item .label,
 #gameField .gameInfo .item .label {
 	text-transform: uppercase;
+	font-size: 13px;
 }
 
 .item .value,
 #gameField .gameInfo .item .value {
 	font-weight: bold;
 	float: right;
+	font-size: 13px;
 }
 
 
