@@ -35,6 +35,7 @@ class Game {
     this.players = new Map();
     this.roundMoves = new Map();
     this.gameState = gs.RUNNING;
+    this.submittedMoves = [];
     if (process.env.ETH_ON) {
       this.blockchain = new Blockchain(() => {
         console.log('Blockchain connected');
@@ -92,8 +93,14 @@ class Game {
       // construct an array of { address: <player id>, amount: <nr of legal moves submitted> }
       const tokenReceivers = [ ...this.players ].map(elem =>
         ({ address: elem[0], amount: elem[1].validMoves }));
-      console.log(tokenReceivers);
-      this.blockchain.persistGame('placeholder for game state', tokenReceivers,
+      console.log(`tokenReceivers: ${JSON.stringify(tokenReceivers)}`);
+      const endState = {
+        startTime: this.startTime,
+        board: this.go.board,
+        submittedMoves: this.submittedMoves
+      };
+      console.log(`endState: ${JSON.stringify(endState)}`)
+      this.blockchain.persistGame(endState, tokenReceivers,
         (txHash, success) => {
           console.log(`Blockchain transaction ${txHash} ${success ? 'succeeded' : 'failed'}`);
         });
@@ -160,6 +167,11 @@ class Game {
     // Set the move and return
     this.roundMoves.set(id, move);
     this.players.get(id).validMoves += 1;
+    this.submittedMoves.push({
+      round: this.roundNr,
+      move: move,
+      sig: sig
+    });
     return move;
   }
 
