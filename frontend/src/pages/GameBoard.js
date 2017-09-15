@@ -87,7 +87,8 @@ class GameBoard extends React.Component {
               </div>
             </div>
             <div className="clear"></div>
-                      
+
+              {/*
             <hr />
             <p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p>
             <p>Please enter your wallet password to start the game. <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>
@@ -96,8 +97,9 @@ class GameBoard extends React.Component {
               <input type='submit' value='OK' className='submit' id='linkWallet' />
              </div>
             <hr />
+            */}
             
-            <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED OR NO WALLET FOUND###</strong></p>
+              {/* <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED OR NO WALLET FOUND###</strong></p> */}
             <p>
               Ready? Good!<br />
               <span className='button' onClick={game.joinGame} id='joinGameButton'>
@@ -188,8 +190,8 @@ class GameBoard extends React.Component {
 
               <h2>Tokens:</h2>
               <div className='item'>
-                <span className='label'>Current tokens mined by you:</span>
-                <span className='value' id='yourTokens'>123 Token</span>
+                <span className='label'>PLAY tokens earned so far:</span>
+                <span className='value' id='yourTokens'>{game.earnedTokens} Token</span>
               </div>
 
               <p className={`item ${game.myTeam ? '' : 'hideItem'}`}>

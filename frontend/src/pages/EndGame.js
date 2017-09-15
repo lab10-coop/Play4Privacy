@@ -179,7 +179,7 @@ class EndGame extends React.Component {
           <div className='layerInner'>
 
             <h2>Congratulations!</h2>
-            <p>You earned <span className="playTokensAmount">13</span> PLAY tokens by proof-of-play.</p>
+            <p>You earned <span className="playTokensAmount">?</span> PLAY tokens by proof-of-play.</p>
             <p>Now you can decide if you want to redeem the token or if you want to donate it to the development team to help further development of the project.</p>
             
             <h2>Redeem Coin</h2>

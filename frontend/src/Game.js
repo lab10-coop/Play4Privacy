@@ -94,6 +94,9 @@ class Game {
     this.roundNr = nr + 1; // point to the next round
     this.squares[move] = this.currentTeam;
     this.currentTeam = newTeam;
+    if(this.myMove !== "" && ! isNaN(this.myMove)) {
+        this.earnedTokens++;
+    }
     this.myMove = '';
     if (Array.isArray(captured)) {
       for (const piece of captured) {
@@ -123,6 +126,7 @@ class Game {
   @observable roundNr = 1;
   @observable myTeam = gs.UNSET;
   @observable myMove = '';
+  @observable earnedTokens = 0;
   @observable squares = Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET);
   @observable countSteps = 0;
   @observable blackPlayers = 0;
@@ -192,6 +196,7 @@ class Game {
     if (this.gameState === gs.PAUSED) {
       return;
     }
+    this.earnedTokens = 0;
     this.socket.emit('join game', this.id, myTeam => (this.myTeam = myTeam));
   }
 
