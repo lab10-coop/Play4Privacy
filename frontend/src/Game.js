@@ -131,6 +131,8 @@ class Game {
   @observable countSteps = 0;
   @observable blackPlayers = 0;
   @observable whitePlayers = 0;
+  @observable gameState = gs.PAUSED;
+
 
   // Computes the time left in the current game
   // Returns a "Date" type for convenience of extraction of Minutes and Seconds.

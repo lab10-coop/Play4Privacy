@@ -122,7 +122,7 @@ class GameBoard extends React.Component {
             */}
             
               {/* <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED OR NO WALLET FOUND###</strong></p> */}
-            <p className="joinGameWrapper _gamePaused">
+            <p className="{`joinGameWrapper  ${game.paused ? 'gamePaused' : ''}`}">
               Ready? Good!<br />
               <span className='button' onClick={game.joinGame} id='joinGameButton'>
                 JOIN GAME NOW
@@ -133,7 +133,7 @@ class GameBoard extends React.Component {
           </div>
         </div>
 
-        <div className='field _gamePaused' id='gameField'>
+        <div className='{`field  ${game.paused ? 'gamePaused' : ''}`}' id='gameField'>
           <div className='fieldInner'>
 
             <Board />
@@ -143,9 +143,8 @@ class GameBoard extends React.Component {
             </div>
             <div className={`gameInfo ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
               <h2>Player info: </h2>
+                            
               
-              
-              {${game.paused}}
               
               
               <div className={`infoBox  ${game.myTeam ? '' : 'joinGameFirst'}`}>
