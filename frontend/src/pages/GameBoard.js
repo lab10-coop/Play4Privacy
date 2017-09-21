@@ -133,7 +133,7 @@ class GameBoard extends React.Component {
           </div>
         </div>
 
-        <div className='{`field  ${game.paused ? 'gamePaused' : ''}`}' id='gameField'>
+        <div className="{`field  ${game.paused ? 'gamePaused' : ''}`}" id='gameField'>
           <div className='fieldInner'>
 
             <Board />

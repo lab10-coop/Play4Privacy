@@ -77,14 +77,14 @@ class Home extends React.Component {
         </div>
 
 
-        <div className='{`creditsButton field  ${game.paused ? 'gamePaused' : ''}`}'>
+        <div className="{`creditsButton field  ${game.paused ? 'gamePaused' : ''}`}">
           <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>Click here to start playing</a></p>
           <p className="centered">and earn tokens for your decision.</p>
 
         </div>
         
 
-        <div className='{`currentGame field  ${game.paused ? 'gamePaused' : ''}`}'>
+        <div className="{`currentGame field  ${game.paused ? 'gamePaused' : ''}`}">
           
           <h2>Current game in progress</h2>
 
@@ -159,7 +159,7 @@ class Home extends React.Component {
         </div>
 
 
-        <div className='{`creditsButton field ${game.paused ? 'gamePaused' : ''}`}'>
+        <div className="{`creditsButton field ${game.paused ? 'gamePaused' : ''}`}">
           <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>PLAY NOW!</a></p>
           <p className="centered">and earn tokens for your decision.</p>
         </div>
