@@ -48,7 +48,7 @@ class Credits extends React.Component {
         <div className='field' id='frequentlyAskedQuestions'>
           <div className='fieldInner'>
             <h2>Frequently Asked Questions</h2>
-            <h3>GENERAL QUESTIONS</h3
+            <h3>GENERAL QUESTIONS</h3>
             
             <div className="accordion">           
               <h3 className="accordionTitle">What is the Blockchain?</h3>
@@ -89,7 +89,7 @@ class Credits extends React.Component {
   
 
 
-            <h3>PARTICIPATION</h3
+            <h3>PARTICIPATION</h3>
 
 
             <div className="accordion">           
@@ -131,7 +131,7 @@ class Credits extends React.Component {
             </div>
             
             
-            <h3>THE CONCEPT OF PROOF-OF-PLAY AND FUTURE OUTLOOK<h3>
+            <h3>THE CONCEPT OF PROOF-OF-PLAY AND FUTURE OUTLOOK</h3>
             
             <div className="accordion">           
               <h3 className="accordionTitle">What is Proof-of-Play?</h3>
