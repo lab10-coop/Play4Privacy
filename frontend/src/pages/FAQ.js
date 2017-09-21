@@ -48,7 +48,7 @@ class Credits extends React.Component {
         <div className='field' id='frequentlyAskedQuestions'>
           <div className='fieldInner'>
             <h2>Frequently Asked Questions</h2>
-            
+            <h3>GENERAL QUESTIONS</h3
             
             <div className="accordion">           
               <h3 className="accordionTitle">What is the Blockchain?</h3>
@@ -60,10 +60,7 @@ class Credits extends React.Component {
               </div>
             </div>
             
-            
-
-
-
+          
 
             <div className="accordion">           
               <h3 className="accordionTitle">What is the reason behind this project?</h3>
@@ -90,93 +87,90 @@ class Credits extends React.Component {
             </div>
   
   
-            
-            <div className="accordion">           
-              <h3 className="accordionTitle">How does a blockchain work?</h3>
-              <div className="accordionContent">
-                <p>Lore Ipsum dolor sit Amet.</p>
-              </div>
-            </div>
-            
-            
-            <div className="accordion">           
-              <h3 className="accordionTitle">Why is this game and PLAY-Blockchain transparent?</h3>
-              <div className="accordionContent">
-                <p>Lore Ipsum dolor sit Amet.</p>
-              </div>
-            </div>
-            
-            
-            <div className="accordion">           
-              <h3 className="accordionTitle">What is “mining” in the blockchain and how are tokens mined in this blockchain?</h3>
-              <div className="accordionContent">
-                <p>Lore Ipsum dolor sit Amet.</p>
-              </div>
-            </div>
-            
-            
-            <div className="accordion">           
-              <h3 className="accordionTitle">What is a wallet?</h3>
-              <div className="accordionContent">
-                <p>Lore Ipsum dolor sit Amet.</p>
-              </div>
-            </div>
-            
-            <div className="accordion">           
-              <h3 className="accordionTitle">How can I create my own personal wallet?</h3>
-              <div className="accordionContent">
-                <p>Lore Ipsum dolor sit Amet.</p>
-              </div>
-            </div>
-            
-            <div className="accordion">           
-              <h3 className="accordionTitle">How can I move tokens (coins) from one wallet to the next wallet?</h3>
-              <div className="accordionContent">
-                <p>Lore Ipsum dolor sit Amet.</p>
-              </div>
-            </div>
-            
-            
-            
-            <div className="accordion">           
-              <h3 className="accordionTitle">What shall I do with the tokens that I have earned?</h3>
-              <div className="accordionContent">
-                <p>Lore Ipsum dolor sit Amet.</p>
-              </div>
-            </div>
-            
-            
-            
-            
-            <div className="accordion">           
-              <h3 className="accordionTitle">What is the worth of one token?</h3>
-              <div className="accordionContent">
-                <p>Lore Ipsum dolor sit Amet.</p>
-              </div>
-            </div>
-            
-            
-            <div className="accordion">           
-              <h3 className="accordionTitle">Is PLAY a cryptocurrency?</h3>
-              <div className="accordionContent">
-                <p>Lore Ipsum dolor sit Amet.</p>
-              </div>
-            </div>
-            
-            
-            <div className="accordion">           
-              <h3 className="accordionTitle">What is the museum of modern Arts in Graz?</h3>
-              <div className="accordionContent">
-                <p>Lore Ipsum dolor sit Amet.</p>
-              </div>
-            </div>
-            
-            
 
 
+            <h3>PARTICIPATION</h3
 
-           
-      
+
+            <div className="accordion">           
+              <h3 className="accordionTitle">How do I participate?</h3>
+              <div className="accordionContent">
+                <p>Just join the game and start playing. That is all you need to do – no need to sign up or enter anything else.</p>
+              </div>
+            </div>
+            
+            
+            <div className="accordion">           
+              <h3 className="accordionTitle">What do I need to to when I joined the game?</h3>
+              <div className="accordionContent">
+                <p>All you have to do is play the game. If you do not know how to play „Go“ just look at our help screen, we prepared an instruction and some videos for you. You can also just try to play the game and look at what other players do.</p>
+              </div>
+            </div>
+            
+            
+            <div className="accordion">           
+              <h3 className="accordionTitle">What is the game duration?</h3>
+              <div className="accordionContent">
+                <p>Each team has 20 sec each per move. If you game trigger goes green you can make your move. Every game lasts for 20 min and immediately restarts after the time is over. You can always join a new game.</p>
+              </div>
+            </div>
+            
+            
+            <div className="accordion">           
+              <h3 className="accordionTitle">How do I get PLAY tokens?</h3>
+              <div className="accordionContent">
+                <p>Collect one token for every move, every 20 seconds. Just continue playing and collect more tokens. For every token mined, a supplement coin is generated and donated to non-profit organisations fighting for privacy.</p>
+              </div>
+            </div>
+            
+            <div className="accordion">           
+              <h3 className="accordionTitle">When does a game end?</h3>
+              <div className="accordionContent">
+                <p>The game ends automatically after 20 min. But you can always hit the „End Game“ button if you do not want to play anymore. In this case you will be redirected to the summary screen where you can redeem your PLAY tokens.</p>
+              </div>
+            </div>
+            
+            
+            <h3>THE CONCEPT OF PROOF-OF-PLAY AND FUTURE OUTLOOK<h3>
+            
+            <div className="accordion">           
+              <h3 className="accordionTitle">What is Proof-of-Play?</h3>
+              <div className="accordionContent">
+                <p>Our intent is to explain the topic of Blockchain, we not only want to excite people who already know about cryptocurrency, but also those who never heard about it before. We want to offer a playful way to develop an understanding how such systems work. Such systems usually create value by proof-of-work (burning energy).</p>
+                <p>With P4P however we want to put the human at the centre of value creation, not machines. In the P4P project it is the act of playing a game which generates the cryptocurrency. The mining method of Bitcoin is called „proof of work“, but in P4P it is „proof of play“.</p>
+              </div>
+            </div>
+            
+            
+            
+            <div className="accordion">           
+              <h3 className="accordionTitle">How do I get this cryptocurrency?</h3>
+              <div className="accordionContent">
+                <p>At the end of each game all players get the option to get a token.</p>
+                <p>All who already have a virtual wallet will get that coin added there.</p>
+                <p>Players without a virtual wallet get instructions how to create such a wallet or can choose the option to donate the token to the development team – if they do not want to create a wallet.</p>
+              </div>
+            </div>
+            
+            
+            
+            
+            <div className="accordion">           
+              <h3 className="accordionTitle">Can you say anything about the initial value of this crypto-token?</h3>
+              <div className="accordionContent">
+                <p>As your Proof-of-Play you get the token after you played and therefore it will already have some inherent value as you your time to play the game. Of course – this is no investment advice and prices cannot be predicted.</p>
+              </div>
+            </div>
+            
+            
+            <div className="accordion">           
+              <h3 className="accordionTitle">But what can I do with the PLAY-tokens after the project?</h3>
+              <div className="accordionContent">
+                <p>After the project phase the tokens can be traded and we offer the possibility to redeem the tokens to host further games like play4privacy in the future – in exchange for tokens.</p>
+                <p>We want to build a platform of glocal gaming with that. In this stage the whole process does not necessarily have to be about donating funds to charity anymore.</p>
+                <p>So, token holders could host games for other causes or profits and give out self-issued tokens (e.g. ICO tokens of their project) as a proof-of-play (e.g. during bounty hunting for an ICO-project).</p>                
+              </div>
+            </div>
             
             
 
