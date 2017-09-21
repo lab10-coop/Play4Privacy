@@ -500,12 +500,31 @@
     float: none;
   }
 
+
+  .gamePaused .pausedStatusMsg {
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 260px;
+    float: none;
+    font-size: 16px;
+  }
+
+
+  .comePlayWithUs p {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 125px;
+    padding-bottom: 25px;
+    text-align: center;
+    background-position: center top;
+  }
+
+
   #gameField .gameInfo {
     width: 300px;
     float: none;
   }
-
-
+  
 
 	footer {
 		background-size: 480px auto;
