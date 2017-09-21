@@ -48,6 +48,19 @@ class GameBoard extends React.Component {
 		  $(this).parent().removeClass('showLayer');
 	  });
    
+
+
+
+ 
+
+    // Refresh LiveCam Feed
+    var liveCamPhoto = document.getElementById("liveFeedImage");
+    function updateImage() {
+      liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + new Date().getTime();
+    }
+    
+    setInterval(updateImage, 1000);
+
    
 
 	
@@ -68,20 +81,29 @@ class GameBoard extends React.Component {
       <div>
         <div className={`layer ${game.myTeam ? '' : 'showLayer'}`} id='startGame'>
           <div className='layerInner'>
-            <h2>Start a Game</h2>
+            <h2>How does it work?</h2>
             
             <div className="c50l">
-              <p>You can join the game whenever you want. </p>
-              <p>
-                If you want to have an instruction of the game or the mechanism click
-                on the button below:<br />
-                <span className='button' id='helpButton'>Need help?</span>
-              </p>
+              <p>You can join the current Go game at any point of time. <br />The rules are easy to learn! </p>
+                <span className='button' id='helpButton'>Rules of the game</span>
+              <p>When you join, you will be assigned to one of the two teams (black, white). </p>
+              <p>Every valid move you make will serve as proof-of-PLAY and mine (generate) two tokens:</p>
+              <ul>
+                <li>The first token is your reward for playing</li>
+                <li>The second (supplementary) token will be donated to a charity.</li>
+              </ul>
             </div>
             <div className="c50r">
+                          <p>The game automatically ends after 30 minutes. However, you can leave the game any time you wish</p>
+              <p>In either case, you can redeem your tokens:</p>
+              <ul>
+                <li>Send the tokens to an existing wallet.</li>
+                <li>Create a new wallet….</li>
+              </ul>
+              
               <h3>Optional:</h3>
-              <p>You can add a 3 digit name for our leaderboard</p>
-              <div className="WIRD-SPAETER-EIN-FORM-TAG">
+              <p>If you want, you can enter a 3-letter name to be displayed on our leader board:</p>
+              <div className="formWrapper">
                 <input name='username' type='text' className='text leaderboardDigits' placeholder='Enter 3 Digits' />
                 <input type='submit' value='Save' className='submit' />
               </div>
@@ -92,7 +114,7 @@ class GameBoard extends React.Component {
             <hr />
             <p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p>
             <p>Please enter your wallet password to start the game. <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>
-             <div className="WIRD-SPAETER-EIN-FORM-TAG">
+             <div className="formWrapper">
               <input name='linkWalletPassword' type='password' className='text' placeholder='Your Wallet-Password' />
               <input type='submit' value='OK' className='submit' id='linkWallet' />
              </div>
@@ -100,7 +122,7 @@ class GameBoard extends React.Component {
             */}
             
               {/* <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED OR NO WALLET FOUND###</strong></p> */}
-            <p>
+            <p className="joinGameWrapper _gamePaused">
               Ready? Good!<br />
               <span className='button' onClick={game.joinGame} id='joinGameButton'>
                 JOIN GAME NOW
@@ -111,21 +133,26 @@ class GameBoard extends React.Component {
           </div>
         </div>
 
-        <div className='field' id='gameField'>
+        <div className='field _gamePaused' id='gameField'>
           <div className='fieldInner'>
 
             <Board />
-
+            
+            <div className="pausedStatusMsg">
+              <p>The Game is currently paused.<br />Please check back between 7pm to 10pm CEST.</p>
+            </div>
             <div className={`gameInfo ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
               <h2>Player info: </h2>
- 			  
- 			  
- 			  
+              
+              
+              {${game.paused}}
+              
+              
               <div className={`infoBox  ${game.myTeam ? '' : 'joinGameFirst'}`}>
                 <div className={`item placeStatus ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
 	              	<p className="yourTeamInfotext">Your turn! Place your Stone!</p>
                   <p className="otherTeamInfotext">Wait until the other team placed their stone!</p>
-                  <p className="joinGameFirstInfotext">Join the game first!</p>
+                  <p className="joinGameFirstInfotext" onClick={game.joinGame}>Join the game first!</p>
                   <p className="waitForNextGame">Wait for next game to start!</p>
 	             </div>             
              </div>
@@ -201,10 +228,7 @@ class GameBoard extends React.Component {
             </div>
 
             <div className='liveCam clear'>
-              <img
-                src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg'
-                alt='bix Livecam'
-              />
+              <img id="liveFeedImage" src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg' alt='bix Livecam' />
             </div>
           </div>
         </div>

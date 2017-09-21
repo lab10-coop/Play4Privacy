@@ -20,6 +20,7 @@
 import React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import Home from './pages/Home';
+import FAQ from './pages/FAQ';
 import Credits from './pages/Credits';
 import GameBoard from './pages/GameBoard';
 import EndGame from './pages/EndGame';
@@ -33,7 +34,7 @@ function Navigation() {
           <ul>
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/gameboard'>Gameboard</Link></li>
-            <li><Link to='/endgame'>Endgame</Link></li>
+            <li><Link to='/faq'>FAQ</Link></li>
           </ul>
         </nav>
         <div className="navTrigger phonesOnly">
@@ -51,6 +52,7 @@ function App() {
     <div>
       <Navigation />
       <Switch>
+        <Route path='/faq' component={FAQ} />
         <Route path='/credits' component={Credits} />
         <Route path='/gameboard' component={GameBoard} />
         <Route path='/endgame' component={EndGame} />

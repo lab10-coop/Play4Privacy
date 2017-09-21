@@ -190,6 +190,10 @@ class Game {
   @computed get myTeamActive() {
     return this.myTeam === this.currentTeam;
   }
+  
+  @computed get paused() {
+    return this.gameState === gs.PAUSED;
+  }
 
   @action.bound
   joinGame() {
