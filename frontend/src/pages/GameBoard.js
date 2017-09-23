@@ -10,25 +10,25 @@ import ethUtils from '../EthereumUtils';
 class GameBoard extends React.Component {
   componentDidMount() {
     this.game = this.props.game;
-	  
-   // $('#helpButton').click(() => alert('tadaaaaaa'));
+
+    // $('#helpButton').click(() => alert('tadaaaaaa'));
     if(ethUtils.needsUnlock()) {
       $('.layer#unlockWalletLayer').addClass('showLayer');
     } else {
       $('.layer#unlockWalletLayer').removeClass('showLayer');
     }
- 
+
     // Navigation Mobile
     $('.navTrigger .showButton').click(function(){
       $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
       $('header nav').slideDown(500);
     });
-    
+
     $('.navTrigger .hideButton').click(function(){
       $(this).slideUp(250).parent().find('.showButton').slideDown(250);
       $('header nav').slideUp(500);
     });
-    
+
     $('header nav a').click(function(){
       $('.navTrigger .hideButton').slideUp(250);
       $('.navTrigger .showButton').slideDown(250);
@@ -48,43 +48,43 @@ class GameBoard extends React.Component {
         $('.layer#unlockWalletLayer').removeClass('showLayer');
       }
     });
-  
-  	// Button ScrollTo Layer / Top
+
+    // Button ScrollTo Layer / Top
     $('.button').click(function(){
       $.scrollTo(0, 250);
     });
-  
-  
+
+
     // Show Layers 	  
     $('#helpButton').click(function(){
       $('.layer#helpLayer').addClass('showLayer');
     });
-    
-   
-   
+
+
+
     // Hide Layer
     $('.closeLayerButton').click(function(){
-		  $(this).parent().removeClass('showLayer');
-	  });
-   
+      $(this).parent().removeClass('showLayer');
+    });
 
 
 
- 
+
+
 
     // Refresh LiveCam Feed
     var liveCamPhoto = document.getElementById("liveFeedImage");
     function updateImage() {
       liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + new Date().getTime();
     }
-    
+
     setInterval(updateImage, 1000);
 
-   
 
-	
+
+
   }
-  
+
   render() {
     const game = this.props.game;
 
@@ -101,10 +101,10 @@ class GameBoard extends React.Component {
         <div className={`layer ${game.myTeam ? '' : 'showLayer'}`} id='startGame'>
           <div className='layerInner'>
             <h2>How does it work?</h2>
-            
+
             <div className="c50l">
               <p>You can join the current Go game at any point of time. <br />The rules are easy to learn! </p>
-                <span className='button' id='helpButton'>Rules of the game</span>
+              <span className='button' id='helpButton'>Rules of the game</span>
               <p>When you join, you will be assigned to one of the two teams (black, white). </p>
               <p>Every valid move you make will serve as proof-of-PLAY and mine (generate) two tokens:</p>
               <ul>
@@ -113,13 +113,13 @@ class GameBoard extends React.Component {
               </ul>
             </div>
             <div className="c50r">
-                          <p>The game automatically ends after 30 minutes. However, you can leave the game any time you wish</p>
+              <p>The game automatically ends after 30 minutes. However, you can leave the game any time you wish</p>
               <p>In either case, you can redeem your tokens:</p>
               <ul>
                 <li>Send the tokens to an existing wallet.</li>
                 <li>Create a new wallet….</li>
               </ul>
-              
+
               <h3>Optional:</h3>
               <p>If you want, you can enter a 3-letter name to be displayed on our leader board:</p>
               <div className="formWrapper">
@@ -131,24 +131,24 @@ class GameBoard extends React.Component {
 
             <div className='layer' id='unlockWalletLayer'>
               <hr />
-            <p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p>
-            <p>Please enter your wallet password to start the game. <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>
-             <div className="formWrapper">
-              <input name='linkWalletPassword' type='password' className='text' placeholder='Your Wallet-Password' />
-              <input type='submit' value='OK' className='submit' id='linkWallet' />
-             </div>
+              <p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p>
+              <p>Please enter your wallet password to start the game. <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>
+              <div className="formWrapper">
+                <input name='linkWalletPassword' type='password' className='text' placeholder='Your Wallet-Password' />
+                <input type='submit' value='OK' className='submit' id='linkWallet' />
+              </div>
             </div>
             <hr />
-            
-              {/* <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED OR NO WALLET FOUND###</strong></p> */}
+
+            {/* <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED OR NO WALLET FOUND###</strong></p> */}
             <p className={`joinGameWrapper  ${game.paused ? 'gamePaused' : ''}`}>
               Ready? Good!<br />
               <span className='button' onClick={game.joinGame} id='joinGameButton'>
                 JOIN GAME NOW
               </span>
             </p>
-            
-            
+
+
           </div>
         </div>
 
@@ -156,28 +156,28 @@ class GameBoard extends React.Component {
           <div className='fieldInner'>
 
             <Board />
-            
+
             <div className="pausedStatusMsg">
               <p>The Game is currently paused.<br />Please check back between 7pm to 10pm CEST.</p>
             </div>
             <div className={`gameInfo ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
               <h2>Player info: </h2>
-                            
-              
-              
-              
+
+
+
+
               <div className={`infoBox  ${game.myTeam ? '' : 'joinGameFirst'}`}>
                 <div className={`item placeStatus ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
-	              	<p className="yourTeamInfotext">Your turn! Place your Stone!</p>
+                  <p className="yourTeamInfotext">Your turn! Place your Stone!</p>
                   <p className="otherTeamInfotext">Wait until the other team placed their stone!</p>
                   <p className="joinGameFirstInfotext" onClick={game.joinGame}>Join the game first!</p>
                   <p className="waitForNextGame">Wait for next game to start!</p>
-	             </div>             
-             </div>
- 			  
- 			  
-              
-             <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
+                </div>
+              </div>
+
+
+
+              <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
                 <span className='label'>You are on team:</span>
                 <span className='value' id='yourTeam'>{game.formattedMyTeam || '--'}</span>
               </div>
@@ -191,14 +191,14 @@ class GameBoard extends React.Component {
                   {game.gameState ? `${game.timeLeftInRound.getSeconds()}s` : '--'}
                 </span>
                 <div className='timeLeftInRound'>
-	                <span className='timeBar' style={timeBarStyleRound} />
+                  <span className='timeBar' style={timeBarStyleRound} />
                 </div>
               </div>
-              
-              
-			  
- 			  			  
-              
+
+
+
+
+
               <h2>Current game info:</h2>
               <div className='item'>
                 <span className='label'>Active Team</span>
@@ -229,7 +229,7 @@ class GameBoard extends React.Component {
                     game.timeLeftInGame.getSeconds() : game.timeLeftInPause.getSeconds()}s
                 </span>
                 <div className='timeLeftInGame'>
-                	<span className='timeBar' style={timeBarStyleGame} />
+                  <span className='timeBar' style={timeBarStyleGame} />
                 </div>
               </div>
 
@@ -255,7 +255,7 @@ class GameBoard extends React.Component {
           <div className='layerInner'>
 
             <h2>Happy to help :)</h2>
-            
+
             <h3>To play the game you simply:</h3>
             <ul className="numbered">
               <li>Click join game</li>
@@ -265,12 +265,12 @@ class GameBoard extends React.Component {
               <li>The majority move of your team is picked and executed</li>
               <li>The team that has the ---- at the end of the max play time of 30 min wins</li>
             </ul>
-            
+
             <hr />
-            
+
             <h3>How to play GO</h3>
             <p>To play GO you need to know the basic rules. <br />
-            Check out the <a href="https://senseis.xmp.net/?BasicRulesOfGo" target="_blank" title="Simple GO Rules at senseis.xmp.net">simple rules here</a> or dive a little deeper with the <a href="http://gobase.org/studying/rules/doc/a4.pdf" target="_blank" title="Advanced GO Rules at gobase.org">advanced rules here.</a>
+              Check out the <a href="https://senseis.xmp.net/?BasicRulesOfGo" target="_blank" title="Simple GO Rules at senseis.xmp.net">simple rules here</a> or dive a little deeper with the <a href="http://gobase.org/studying/rules/doc/a4.pdf" target="_blank" title="Advanced GO Rules at gobase.org">advanced rules here.</a>
             </p>
 
             <hr />

@@ -17,50 +17,50 @@ class EndGame extends React.Component {
     explorerLink.href = explorerWalletUrl;
     explorerLink.innerHTML = explorerWalletUrl;
 
-  	 // Navigation Mobile
+    // Navigation Mobile
     $('.navTrigger .showButton').click(function(){
       $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
       $('header nav').slideDown(500);
     });
-    
+
     $('.navTrigger .hideButton').click(function(){
       $(this).slideUp(250).parent().find('.showButton').slideDown(250);
       $('header nav').slideUp(500);
     });
- 
+
     $('header nav a').click(function(){
       $('.navTrigger .hideButton').slideUp(250);
       $('.navTrigger .showButton').slideDown(250);
       $('header nav').slideUp(500);
-    }); 
+    });
 
-  	// Button ScrollTo Layer / Top
+    // Button ScrollTo Layer / Top
     $('.button').click(function(){
       $.scrollTo(0, 250);
     });
-     
-     	
-  	// Show Layers 	  
-  	$('#redeemYourCoinButton').click(function(){
-  		$('.layer#redeemCoinDecision').addClass('showLayer');
-  	});
-     
 
-  	$('#redeemCoinYesButton').click(() => {
-  		$('.layer#redeemCoin').addClass('showLayer');
+
+    // Show Layers
+    $('#redeemYourCoinButton').click(function(){
+      $('.layer#redeemCoinDecision').addClass('showLayer');
+    });
+
+
+    $('#redeemCoinYesButton').click(() => {
+      $('.layer#redeemCoin').addClass('showLayer');
       if(ethUtils.needsPersist()) {
         $('.layer#newWallet').addClass('showLayer');
       } else {
         $('.layer#linkedWallet').addClass('showLayer');
       }
-  	});
-     
-  	
-  	$('#ethNoButton').click(() => {
+    });
+
+
+    $('#ethNoButton').click(() => {
       this.socket.emit('donate tokens', this.game.id);
-  		$('.layer#thankYou').addClass('showLayer');
-  	});
-     
+      $('.layer#thankYou').addClass('showLayer');
+    });
+
     /*
   	$('#redeemCoinSend').click(function(){
   		$('.layer#redeemCoinSuccessful').addClass('showLayer');
@@ -96,30 +96,30 @@ class EndGame extends React.Component {
         this.socket.emit('email wallet', this.game.id, email, JSON.stringify(ethUtils.getEncryptedKeystore()));
         $('.layer#redeemCoinSuccessful').addClass('showLayer');
       }
-  	});
-    
-   	$('#sendTokensToLinkedWallet').click(() => {
+    });
+
+    $('#sendTokensToLinkedWallet').click(() => {
       this.socket.emit('redeem tokens', this.game.id);
-  		$('.layer#redeemCoinSuccessful').addClass('showLayer');
-  	});
-    
-    
-    
-    
-    
-    
-    
-	
-  	
-  	// Hide Layer
-  	$('.closeLayerButton').click(function(){
-  		$(this).parent().removeClass('showLayer');
-  	});
-   
- 
-	
+      $('.layer#redeemCoinSuccessful').addClass('showLayer');
+    });
+
+
+
+
+
+
+
+
+
+    // Hide Layer
+    $('.closeLayerButton').click(function(){
+      $(this).parent().removeClass('showLayer');
+    });
+
+
+
   }
-  
+
 
   render() {
     return (
@@ -128,91 +128,91 @@ class EndGame extends React.Component {
           <div className='fieldInner'>
 
             <div className="c50l">
-	            <h2>Game Summary</h2>
-	
-	            <div className='item'>
-	              <span className='label'>Who won the game</span>
-	              <span className='value' id='whoWon'>Black</span>
-	            </div>
-	            <div className='item'>
-	              <span className='label'>Play time</span>
-	              <span className='value' id='playTime'>13:37</span>
-	            </div>
-	            <div className='item'>
-	              <span className='label'>Total moves</span>
-	              <span className='value' id='totalMoves'>88</span>
-	            </div>
-	            <div className='item'>
-	              <span className='label'>Executed moves</span>
-	              <span className='value' id='executedMoves'>76</span>
-	            </div>
-	            <div className='item'>
-	              <span className='label'>Best player</span>
-	              <span className='value' id='bestPlayer'>SIU</span>
-	            </div>
-	            <div className='item'>
-	              <span className='label'>Worst player</span>
-	              <span className='value' id='worstPlayer'>OIL</span>
-	            </div>
+              <h2>Game Summary</h2>
+
+              <div className='item'>
+                <span className='label'>Who won the game</span>
+                <span className='value' id='whoWon'>Black</span>
+              </div>
+              <div className='item'>
+                <span className='label'>Play time</span>
+                <span className='value' id='playTime'>13:37</span>
+              </div>
+              <div className='item'>
+                <span className='label'>Total moves</span>
+                <span className='value' id='totalMoves'>88</span>
+              </div>
+              <div className='item'>
+                <span className='label'>Executed moves</span>
+                <span className='value' id='executedMoves'>76</span>
+              </div>
+              <div className='item'>
+                <span className='label'>Best player</span>
+                <span className='value' id='bestPlayer'>SIU</span>
+              </div>
+              <div className='item'>
+                <span className='label'>Worst player</span>
+                <span className='value' id='worstPlayer'>OIL</span>
+              </div>
             </div>
             <div className="c50r">
-	            <h2>Your Statistics</h2>
-	
-	            <div className='item'>
-	              <span className='label'>Lorem</span>
-	              <span className='value' id='lorem'>1x</span>
-	            </div>
-	
-	            <div className='item'>
-	              <span className='label'>Ipsum</span>
-	              <span className='value' id='ipsum'>13x</span>
-	            </div>
-	
-	            <div className='item'>
-	              <span className='label'>Dolor</span>
-	              <span className='value' id='dolor'>2</span>
-	            </div>
-	            
-	            <div className='item'>
-	              <span className='label'>Sit amet</span>
-	              <span className='value' id='dolor'>17</span>
-	            </div>
-	            
-	            <div className='item'>
-	              <span className='label'>Conseceur</span>
-	              <span className='value' id='dolor'>No</span>
-	            </div>
-	            
-	            <div className='item'>
-	              <span className='label'>Et ast</span>
-	              <span className='value' id='dolor'>17x</span>
-	            </div>
+              <h2>Your Statistics</h2>
+
+              <div className='item'>
+                <span className='label'>Lorem</span>
+                <span className='value' id='lorem'>1x</span>
+              </div>
+
+              <div className='item'>
+                <span className='label'>Ipsum</span>
+                <span className='value' id='ipsum'>13x</span>
+              </div>
+
+              <div className='item'>
+                <span className='label'>Dolor</span>
+                <span className='value' id='dolor'>2</span>
+              </div>
+
+              <div className='item'>
+                <span className='label'>Sit amet</span>
+                <span className='value' id='dolor'>17</span>
+              </div>
+
+              <div className='item'>
+                <span className='label'>Conseceur</span>
+                <span className='value' id='dolor'>No</span>
+              </div>
+
+              <div className='item'>
+                <span className='label'>Et ast</span>
+                <span className='value' id='dolor'>17x</span>
+              </div>
             </div>
             <div className="clear separator"></div>
-            
-          
+
+
             <div className="c50l">
               <h2>Share on:</h2>
-	            <p>
-	              <a className='socialIcon socialIconTwitter' href='#'>Share on Twitter</a>
-	              <a className='socialIcon socialIconFacebook' href='#'>Share on Facebook</a>
-	              <a className='socialIcon socialIconTwitter' href='#'>Share on Steem.it</a>
-	              <a className='socialIcon socialIconTwitter' href='#'>Share on Pinterest</a>
-	              <a className='socialIcon socialIconTwitter' href='#'>Share on WoopWoop</a>
-	            </p>
+              <p>
+                <a className='socialIcon socialIconTwitter' href='#'>Share on Twitter</a>
+                <a className='socialIcon socialIconFacebook' href='#'>Share on Facebook</a>
+                <a className='socialIcon socialIconTwitter' href='#'>Share on Steem.it</a>
+                <a className='socialIcon socialIconTwitter' href='#'>Share on Pinterest</a>
+                <a className='socialIcon socialIconTwitter' href='#'>Share on WoopWoop</a>
+              </p>
             </div>
             <div className="c50r">
-            	 <h2>Redeem your PLAY Token</h2>
-            	 <p>
-	              <span className='button' id='redeemYourCoinButton'>Click here to start the redeem-process</span>
-	            </p>
+              <h2>Redeem your PLAY Token</h2>
+              <p>
+                <span className='button' id='redeemYourCoinButton'>Click here to start the redeem-process</span>
+              </p>
             </div>
             <div className="clear"></div>
- 
 
 
-          
-          
+
+
+
           </div>
         </div>
 
@@ -222,7 +222,7 @@ class EndGame extends React.Component {
             <h2>Congratulations!</h2>
             <p>You earned <span className="playTokensAmount">?</span> PLAY tokens by proof-of-play.</p>
             <p>Now you can decide if you want to redeem the token or if you want to donate it to the development team to help further development of the project.</p>
-            
+
             <h2>Redeem Coin</h2>
             <p>
               <span className='button' id='redeemCoinYesButton'>YES, give me the coin </span>
@@ -239,51 +239,51 @@ class EndGame extends React.Component {
 
             <h2>Here&apos;s how to get your Coin</h2>
 
-              <div className='layer' id='linkedWallet'>
+            <div className='layer' id='linkedWallet'>
               <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED ###</strong></p>
-              
+
               <p>Your PLAY tokens will be automatically sent to the wallet that is linked to your account:<br />
-              <span className="yourWalletAdress">Wallet ADDRESS</span></p>
-              
+                <span className="yourWalletAdress">Wallet ADDRESS</span></p>
+
               <p><span className='button' id='sendTokensToLinkedWallet'>Click here to sent PLAY Tokens to your linked wallet</span></p>
-              </div>
+            </div>
 
             <div className='layer' id='newWallet'>
               <p><strong>### DEV-INFO: ELSE - WALLET FOUND BUT NOT LINKED YET ###</strong></p>
-            
+
               <p>Please enter a strong password below (number, capital letter) to encrypt your wallet. Make sure to remember your password as this will be the only way to open your wallet for now.</p>
-            
-             <div className="WIRD-SPAETER-EIN-FORM-TAG">
-              <input name='walletPassword' type='password' className='text' placeholder='Password' />
-              <input type='submit' value='Create Wallet' className='submit' id='createWallet' />
-            </div>
+
+              <div className="WIRD-SPAETER-EIN-FORM-TAG">
+                <input name='walletPassword' type='password' className='text' placeholder='Password' />
+                <input type='submit' value='Create Wallet' className='submit' id='createWallet' />
+              </div>
             </div>
 
           </div>
           <div className="closeLayerButton"></div>
         </div>
-        
-        
-        
-         <div className='layer' id='walletCreated'>
+
+
+
+        <div className='layer' id='walletCreated'>
           <div className='layerInner'>
 
             <h2>Your wallet was successfully created. </h2>
             <p>Just enter your email address and we will send you your wallet file via email.</p>
-            
-             <form className="IST-JETZT-EIN-FORM-TAG">
+
+            <form className="IST-JETZT-EIN-FORM-TAG">
               <input name='email' type='email' className='text' placeholder='Your email adress' />
               <input type='button' value='Send' className='submit' id='sendWalletFile' />
             </form>
-            
+
             <p>If you do not want to share your email address - simply <a href="#" id="walletDownloadLink" title="Download Wallet File">click here to download</a> the file to your computer.</p>
 
           </div>
           <div className="closeLayerButton"></div>
         </div>
-        
-               
-        
+
+
+
 
 
         <div className='layer' id='redeemCoinSuccessful'>
@@ -292,8 +292,8 @@ class EndGame extends React.Component {
             <h2>The tokens are underway.</h2>
             <p>This process can take few minutes to several hours - depening on the state of the blockchain.</p>
             <p>
-            You can check the state of your wallet using the following link:<br/>
-            <a id="explorerLink" href="#" target="_blank" title="Check transaction at etherscan.io">#</a>
+              You can check the state of your wallet using the following link:<br/>
+              <a id="explorerLink" href="#" target="_blank" title="Check transaction at etherscan.io">#</a>
             </p>
             <p>
               <a className='button' href='gameboard'>back to the board</a>
@@ -309,9 +309,9 @@ class EndGame extends React.Component {
 
         <div className='layer' id='thankYou'>
           <div className='layerInner'>
-	          <h2>Thank you!</h2>
-	          <p> Thanks for donating you coin to us for further development.</p>
-	          <p><a className='button' href='gameboard'>back to the board</a></p>
+            <h2>Thank you!</h2>
+            <p> Thanks for donating you coin to us for further development.</p>
+            <p><a className='button' href='gameboard'>back to the board</a></p>
           </div>
           <div className="closeLayerButton"></div>
         </div>
