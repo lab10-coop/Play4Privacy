@@ -40,6 +40,14 @@ class Blockchain {
         return this.contractInitialized;
     }
 
+    getGameHash(gameData) {
+        return web3.utils.sha3(web3.utils.toHex(gameData));
+    }
+
+    isSignatureValid(address, sig) {
+      return web3.eth.accounts.recover(sig) == address;
+    }
+
     /**
      * @param gameData an object representing the final state of the game. Should include all proposed moves, ideally with signatures.
      * @param tokenReceivers represents players entitled to PLAY tokens based on the last game.
@@ -50,7 +58,7 @@ class Blockchain {
      * A non-null return value does NOT guarantee correct execution on the Blockchain (use the callback to check that).
      */
     persistGame(gameData, tokenReceivers, callback) {
-        const gameHash = web3.utils.sha3(web3.utils.toHex(gameData));
+        const gameHash = this.getGameHash(gameData);
         const startTs = Date.now();
 
         // educated worst case guess which acts as upper (safety) limit

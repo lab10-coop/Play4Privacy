@@ -3,13 +3,20 @@ import { observer, inject } from 'mobx-react';
 import $ from 'jquery';
 import 'jquery.scrollto';
 import Board from '../Board';
+import ethUtils from '../EthereumUtils';
 
 @inject('game')
 @observer
 class GameBoard extends React.Component {
   componentDidMount() {
+    this.game = this.props.game;
 	  
    // $('#helpButton').click(() => alert('tadaaaaaa'));
+    if(ethUtils.needsUnlock()) {
+      $('.layer#unlockWalletLayer').addClass('showLayer');
+    } else {
+      $('.layer#unlockWalletLayer').removeClass('showLayer');
+    }
  
     // Navigation Mobile
     $('.navTrigger .showButton').click(function(){
@@ -27,8 +34,20 @@ class GameBoard extends React.Component {
       $('.navTrigger .showButton').slideDown(250);
       $('header nav').fadeOut(200);
     });
-    
-    
+
+    $('#linkWallet').click(() => {
+      const pass = document.getElementsByName("linkWalletPassword")[0].value;
+      if(ethUtils.unlockWallet(pass) === null){
+        //alert("wrong password. ")
+        if(window.confirm("Wrong password. If you want to try again, click cancel. Click ok to create a new account.\nTODO: prettify this!")) {
+          ethUtils.createNewWallet();
+          this.game.id = ethUtils.getAddress(); // TODO: this is not elegant
+          $('.layer#unlockWalletLayer').removeClass('showLayer');
+        }
+      } else {
+        $('.layer#unlockWalletLayer').removeClass('showLayer');
+      }
+    });
   
   	// Button ScrollTo Layer / Top
     $('.button').click(function(){
@@ -110,16 +129,16 @@ class GameBoard extends React.Component {
             </div>
             <div className="clear"></div>
 
-              {/*
-            <hr />
+            <div className='layer' id='unlockWalletLayer'>
+              <hr />
             <p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p>
             <p>Please enter your wallet password to start the game. <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>
              <div className="formWrapper">
               <input name='linkWalletPassword' type='password' className='text' placeholder='Your Wallet-Password' />
               <input type='submit' value='OK' className='submit' id='linkWallet' />
              </div>
+            </div>
             <hr />
-            */}
             
               {/* <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED OR NO WALLET FOUND###</strong></p> */}
             <p className={`joinGameWrapper  ${game.paused ? 'gamePaused' : ''}`}>

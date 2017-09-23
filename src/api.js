@@ -11,6 +11,10 @@ export function defineClientApi(game, socket) {
   // if joining failed.
   socket.on('join game', (id, fn) => fn(game.joinGame(id)));
   socket.on('submit move', (id, move, sig, fn) => fn(game.submitMove(id, move, sig)));
+
+  socket.on('redeem tokens', (id) => { console.log("TODO: implement 'redeem tokens'"); });
+  socket.on('donate tokens', (id) => { console.log("TODO: implement 'donate tokens'"); });
+  socket.on('email wallet', (id, email, keystore) => { console.log("TODO: implement 'email wallet'"); })
 }
 
 export default class ServerApi {

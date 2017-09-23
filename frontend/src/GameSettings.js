@@ -42,6 +42,11 @@ function GameSettings() {
     }
     return '';
   };
+
+
+  // Blockchain stuff
+  this.bcExplorerBaseUrl = "https://rinkeby.etherscan.io";
+  this.bcTokenContractAddr = "0xa84c4f24bd820aec9aab8dff14afca950f04e994";
 }
 
 const gameSettings = new GameSettings();

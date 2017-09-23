@@ -1,10 +1,22 @@
 import React from 'react';
+import { inject } from 'mobx-react';
 import $ from 'jquery';
 import 'jquery.scrollto';
+import gs from '../GameSettings';
+import ethUtils from '../EthereumUtils';
 
+@inject('game')
 class EndGame extends React.Component {
   componentDidMount() {
-	
+    // TODO: Check with David if this is ok
+    this.game = this.props.game;
+    this.socket = this.game.socket;
+
+    const explorerWalletUrl = `${gs.bcExplorerBaseUrl}/token/${gs.bcTokenContractAddr}?a=${this.game.id}`;
+    const explorerLink = document.getElementById("explorerLink");
+    explorerLink.href = explorerWalletUrl;
+    explorerLink.innerHTML = explorerWalletUrl;
+
   	 // Navigation Mobile
     $('.navTrigger .showButton').click(function(){
       $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
@@ -33,13 +45,19 @@ class EndGame extends React.Component {
   		$('.layer#redeemCoinDecision').addClass('showLayer');
   	});
      
-  	
-  	$('#redeemCoinYesButton').click(function(){
+
+  	$('#redeemCoinYesButton').click(() => {
   		$('.layer#redeemCoin').addClass('showLayer');
+      if(ethUtils.needsPersist()) {
+        $('.layer#newWallet').addClass('showLayer');
+      } else {
+        $('.layer#linkedWallet').addClass('showLayer');
+      }
   	});
      
   	
-  	$('#ethNoButton').click(function(){
+  	$('#ethNoButton').click(() => {
+      this.socket.emit('donate tokens', this.game.id);
   		$('.layer#thankYou').addClass('showLayer');
   	});
      
@@ -48,17 +66,40 @@ class EndGame extends React.Component {
   		$('.layer#redeemCoinSuccessful').addClass('showLayer');
   	});
     */
-    
-    $('#createWallet').click(function(){
-  		$('.layer#walletCreated').addClass('showLayer');
+    $('#createWallet').click(() => {
+      const pass = document.getElementsByName("walletPassword")[0].value;
+      try {
+        ethUtils.persistWallet(pass);
+        const docDlLink = document.getElementById("walletDownloadLink");
+        ethUtils.updateDownloadLink(docDlLink);
+        $('.layer#walletCreated').addClass('showLayer');
+      } catch(e) { // this can happen if this view is opened in a new session with a wallet persisted
+        alert("Sorry, the wallet could not be created. Did you refresh the page?\n" +
+          "You can always play again.");
+      }
+    });
+
+    // we interpret this as intent to keep the tokens.
+    // Note that we are not sure if the wallet was really saved. The user may also have cancelled. In that case: Sorry :-/
+    $('#walletDownloadLink').click(() => {
+      this.socket.emit('redeem tokens', this.game.id);
+      $('.layer#redeemCoinSuccessful').addClass('showLayer');
+    })
+
+    $('#sendWalletFile').click(() => {
+      const inputElem = document.getElementsByName("email")[0];
+      if(! inputElem.validity.valid) {
+        alert("Entered E-Mail address is not valid");
+      } else {
+        const email = inputElem.value;
+        this.socket.emit('redeem tokens', this.game.id);
+        this.socket.emit('email wallet', this.game.id, email, JSON.stringify(ethUtils.getEncryptedKeystore()));
+        $('.layer#redeemCoinSuccessful').addClass('showLayer');
+      }
   	});
     
-    
-    $('#sendWalletFile').click(function(){
-  		$('.layer#redeemCoinSuccessful').addClass('showLayer');
-  	});
-    
-   	$('#sendTokensToLinkedWallet').click(function(){
+   	$('#sendTokensToLinkedWallet').click(() => {
+      this.socket.emit('redeem tokens', this.game.id);
   		$('.layer#redeemCoinSuccessful').addClass('showLayer');
   	});
     
@@ -198,14 +239,16 @@ class EndGame extends React.Component {
 
             <h2>Here&apos;s how to get your Coin</h2>
 
+              <div className='layer' id='linkedWallet'>
               <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED ###</strong></p>
               
               <p>Your PLAY tokens will be automatically sent to the wallet that is linked to your account:<br />
               <span className="yourWalletAdress">Wallet ADDRESS</span></p>
               
               <p><span className='button' id='sendTokensToLinkedWallet'>Click here to sent PLAY Tokens to your linked wallet</span></p>
-            
-            
+              </div>
+
+            <div className='layer' id='newWallet'>
               <p><strong>### DEV-INFO: ELSE - WALLET FOUND BUT NOT LINKED YET ###</strong></p>
             
               <p>Please enter a strong password below (number, capital letter) to encrypt your wallet. Make sure to remember your password as this will be the only way to open your wallet for now.</p>
@@ -213,6 +256,7 @@ class EndGame extends React.Component {
              <div className="WIRD-SPAETER-EIN-FORM-TAG">
               <input name='walletPassword' type='password' className='text' placeholder='Password' />
               <input type='submit' value='Create Wallet' className='submit' id='createWallet' />
+            </div>
             </div>
 
           </div>
@@ -227,13 +271,12 @@ class EndGame extends React.Component {
             <h2>Your wallet was successfully created. </h2>
             <p>Just enter your email address and we will send you your wallet file via email.</p>
             
-             <div className="WIRD-SPAETER-EIN-FORM-TAG">
-              <input name='email' type='text' className='text' placeholder='Your email adress' />
-              <input type='submit' value='Send' className='submit' id='sendWalletFile' />
-            </div>
+             <form className="IST-JETZT-EIN-FORM-TAG">
+              <input name='email' type='email' className='text' placeholder='Your email adress' />
+              <input type='button' value='Send' className='submit' id='sendWalletFile' />
+            </form>
             
-            <p>If you do not want to share your email address - simply press <a href="#" title="Download Wallet File">here to download</a> 
-            the file to your computer.</p>
+            <p>If you do not want to share your email address - simply <a href="#" id="walletDownloadLink" title="Download Wallet File">click here to download</a> the file to your computer.</p>
 
           </div>
           <div className="closeLayerButton"></div>
@@ -246,11 +289,11 @@ class EndGame extends React.Component {
         <div className='layer' id='redeemCoinSuccessful'>
           <div className='layerInner'>
 
-            <h2>The transfer was successfully initiated.</h2>
-            <p>The process can take less than a minute to several hours - depening on the state of the blockchain.</p>
+            <h2>The tokens are underway.</h2>
+            <p>This process can take few minutes to several hours - depening on the state of the blockchain.</p>
             <p>
-            You can check the transaction using the following link:<br/>
-            <a href="https://etherscan.io/XYZXYZXYZXYZXYZ" target="_blank" title="Check transaction at etherscan.io">https://etherscan.io/XYZXYZXYZXYZXYZ</a>
+            You can check the state of your wallet using the following link:<br/>
+            <a id="explorerLink" href="#" target="_blank" title="Check transaction at etherscan.io">#</a>
             </p>
             <p>
               <a className='button' href='gameboard'>back to the board</a>
