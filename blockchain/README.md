@@ -1,10 +1,12 @@
-# How to run
+# Setup
+
+## How to run
 
 Needs truffle and testrpc installed: `npm install -g truffle ethereumjs-testrpc`  
 Start testrpc: `truffle-testrpc`  
 Then, in another tab run `./contract-changed.sh` for applying changes to the contract code.
 
-# How to test
+## How to test
 
 * Start testrpc: `truffle-testrpc`
 * Deploy the contracts: `truffle migrate --reset`
@@ -15,10 +17,52 @@ Note that a node engine with async/await support is required. Tested with v8.4.0
 Tests are supposed to run on testrpc. If run on a public testnet, a lot of tests will fail because failed transactions don't trigger Promise rejections.  
 Could be fixed by adding an assertion which checks for "all gas consumed".
 
-# Mainnet
+## Mainnet
 
-* Token address: 0xfb41f7b63c8e84f4ba1ecd4d393fd9daa5d14d61
-* P4P address (preliminary): 0x8d9a49dcc42e365d9cd353b5aef88ebe664c11a6 (set as controller)
+* Owner: 0xFe4E89f620a8663d03136bee040904fe3A623f5D
+* Token address: 0xfB41f7b63c8e84f4BA1eCD4D393fd9daa5d14D61
+* Game address: 0x2A8A3008d7f2ba87fd339941E362FC9FBD9A1B57 (first version was: 0x8d9a49dCc42E365D9Cd353b5AeF88eBe664C11a6)
+* Pool address: 0x7e0C7676be340EE8eFB4321abfA4634a7Abfb92c
+
+In order to re-broadcast a stuck transaction with too low gasPrice, do:  
+```
+badTx = web3.eth.pendingTransactions[<index>]
+badTx.data = badTx.input
+badTx.gasPrice = <new gas price>
+web3.eth.sendTransaction(badTx)
+```
+source: https://ethereum.stackexchange.com/questions/9374/geth-can-not-resend-transaction-transaction-not-found
+
+### Gas
+
+The minimal gas price required to get transactions through in few minutes recently fluctuates between 1 and 5 GWei.    
+Since in general mainnet is quite saturated, this can sharply increase during e.g. ICO induced peaks.  
+http://ethgasstation.info/ provides quite up to date and accurate info.
+
+I usually don't use exact GWei numbers, but slightly more, hoping that will cheat our TXs in front of those with round GWei numbers.
+
+## About truffle
+
+Truffle has it peculiarities, but is quite useful.  
+Migrations are still a bit of a mystery to me. There's too much magic going on which is painful to debug if not working as expected.  
+For example the role of the Migrations contract is not very clear. Initially I tried to do without on mainnet, but couldn't figure out how to get contracts deployed that way. The internal logic for deploying and figuring out addresses seems to depend on the existence of a Migration contract.  
+Deployment of the 3 contracts was split into 3 migration files because I couldn't get it working in one with chained promises or await/async.
+
+On mainnet I deployed manually through truffle console after 3 failed attempts with the normal migration way.  
+That's because the already deployed token contract could not be handled by the migrate command.
+
+The manual commands were:
+```
+tokenAddress = "0xfb41f7b63c8e84f4ba1ecd4d393fd9daa5d14d61"
+P4PGame.new(tokenAddress)
+P4PPool.new(tokenAddress)
+game = P4PGame.at("0x2A8A3008d7f2ba87fd339941E362FC9FBD9A1B57")
+game.setPoolContract("0x7e0C7676be340EE8eFB4321abfA4634a7Abfb92c", {gas: 30000})
+# failed with out of gas :-(
+gameV1 = P4PGameV1.at("0x8d9a49dCc42E365D9Cd353b5AeF88eBe664C11a6")
+gameV1.setTokenController("0x2A8A3008d7f2ba87fd339941E362FC9FBD9A1B57")
+game.setPoolContract("0x7e0C7676be340EE8eFB4321abfA4634a7Abfb92c", {gas: 30000})
+```
 
 # Role of the Blockchain
 

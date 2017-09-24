@@ -34,6 +34,8 @@ contract P4PPool {
 
     mapping(address => uint256) round1Donations;
     mapping(address => uint256) round2Donations;
+
+    // glitch: forgot to rename those from "phase" to "round" too
     uint256 public totalPhase1Donations = 0;
     uint256 public totalPhase2Donations = 0;
 
@@ -75,13 +77,14 @@ contract P4PPool {
     Remembers which address payed how much, doubling round 1 contributions.
     */
     function () payable onlyDuringDonationRounds {
-        if(currentState == STATE_DONATION_ROUND_1) {
-            round1Donations[msg.sender] += msg.value;
-            totalPhase1Donations += msg.value;
-        } else if(currentState == STATE_DONATION_ROUND_2) {
-            round2Donations[msg.sender] += msg.value;
-            totalPhase2Donations += msg.value;
-        }
+        donateForImpl(msg.sender);
+    }
+
+    /** Receives Eth on behalf of somebody else
+    Can be used for proxy payments.
+    */
+    function donateFor(address _donor) payable onlyDuringDonationRounds {
+        donateForImpl(_donor);
     }
 
     function startNextPhase() onlyOwner {
@@ -157,5 +160,15 @@ contract P4PPool {
         var virtualEthBalance = (((totalPhase1Donations*2 + totalPhase2Donations) * 100) / (100 - ownerTokenSharePct) + 1);
         // use 18 decimals precision. No danger of overflow with 256 bits.
         return tokenBalance * 1E18 / (virtualEthBalance);
+    }
+
+    function donateForImpl(address _donor) internal onlyDuringDonationRounds {
+        if(currentState == STATE_DONATION_ROUND_1) {
+            round1Donations[_donor] += msg.value;
+            totalPhase1Donations += msg.value;
+        } else if(currentState == STATE_DONATION_ROUND_2) {
+            round2Donations[_donor] += msg.value;
+            totalPhase2Donations += msg.value;
+        }
     }
 }
