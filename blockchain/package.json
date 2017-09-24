@@ -16,6 +16,9 @@
   "scripts": {
     "test": "truffle test"
   },
+  "engines": {
+    "node": ">=v8.4.0"
+  },
   "author": "dho@lab10.coop",
   "license": "ISC"
 }

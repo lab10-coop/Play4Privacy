@@ -8,145 +8,154 @@ Contract which receives donations for privacy projects.
 Donators will be rewarded with PLAY tokens.
 
 The donation process is 2-phased.
-Donations of the first phase will be weighted twice as much compared to later donations.
+Donations of the first round will be weighted twice as much compared to later donations.
 
 The received Ether funds will not be accessible during the donation period.
-Once the donation period is over, the contract owner can set the payout addresses.
+Donated Eth can be retrieved only after the donation rounds are over and the set unlock timestamp is reached.
+In order to never own the funds, the contract owner can set and lock the receiver address beforehand.
+The receiver address can be an external account or a distribution contract.
 
-As a fallback mechanism, if no payout addresses are set for a while,
-the contract owner will be able to withdraw contract owner Ether.
-
-After all is done, the contract commits suicide in order to prevent haywire due to 32 bit timer wraps.
-
-TODO: what happens to tokens which aren't withdrawn? Leave in pool or unlock for donation after some time?
+Note that there's no way for the owner to withdraw tokens assigned to donators which aren't withdrawn.
+In case destroy() is invoked, they will effectively be burned.
 */
 contract P4PPool {
     address public owner;
     PlayToken public playToken;
-    // timestamps and time intervals are in seconds
-    // 0: not started. 1: phase1. 2: phase2. 3: donation over
-    uint8 public currentPhase = 0;
+
+    uint8 public currentState = 0;
+    // valid states (not using enum in order to be able to simply increment in startNextPhase()):
+    uint8 public constant STATE_NOT_STARTED = 0;
+    uint8 public constant STATE_DONATION_ROUND_1 = 1;
+    uint8 public constant STATE_PLAYING = 2;
+    uint8 public constant STATE_DONATION_ROUND_2 = 3;
+    uint8 public constant STATE_PAYOUT = 4;
+
     uint256 public tokenPerEth; // calculated after finishing donation rounds
-    //uint32 public startTs = 0xffff;
-    //uint32 public durationPhase1 = 0;
-    //uint32 public durationPhase2 = 0;
-    //uint32 public payoutUnlockedTs;
-    mapping(address => uint256) phase1Donations;
-    mapping(address => uint256) phase2Donations;
+
+    mapping(address => uint256) round1Donations;
+    mapping(address => uint256) round2Donations;
     uint256 public totalPhase1Donations = 0;
     uint256 public totalPhase2Donations = 0;
+
+    // 1509494400 = 2017 Nov 01, 00:00 (UTC)
+    uint32 public donationUnlockTs = uint32(now); //1509494400;
+
+    // share of the pooled tokens the owner (developers) gets in percent
+    uint8 public constant ownerTokenSharePct = 20;
+
+    address public donationReceiver;
+    bool public donationReceiverLocked = false;
+
+    event StateChanged(uint8 newState);
+    event DonatedEthPayout(address receiver, uint256 amount);
 
     modifier onlyOwner() {
         require(msg.sender == owner);
         _;
     }
 
-    modifier onlyDuringDonationPhase() {
-        //require(inPhase1() || inPhase2());
-        require(currentPhase == 1 || currentPhase == 2);
+    modifier onlyDuringDonationRounds() {
+        require(currentState == STATE_DONATION_ROUND_1 || currentState == STATE_DONATION_ROUND_2);
         _;
     }
 
     modifier onlyIfPayoutUnlocked() {
-        //require(uint32(now) > payoutUnlockedTs);
-        require(currentPhase == 3);
+        require(currentState == STATE_PAYOUT);
+        require(uint32(now) >= donationUnlockTs);
         _;
     }
 
     /** @dev constructor */
     function P4PPool(address _tokenAddr) {
         owner = msg.sender;
-        setTestValues(); // TODO: change before deploy
         playToken = PlayToken(_tokenAddr);
     }
 
     /** So called "fallback function" which handles incoming Ether payments
-    Remembers which address payed how much, doubling phase 1 contributions.
+    Remembers which address payed how much, doubling round 1 contributions.
     */
-    function () payable onlyDuringDonationPhase {
-        if(inPhase1()) {
-            phase1Donations[msg.sender] += msg.value;
+    function () payable onlyDuringDonationRounds {
+        if(currentState == STATE_DONATION_ROUND_1) {
+            round1Donations[msg.sender] += msg.value;
             totalPhase1Donations += msg.value;
-        } else if(inPhase2()) {
-            phase2Donations[msg.sender] += msg.value;
+        } else if(currentState == STATE_DONATION_ROUND_2) {
+            round2Donations[msg.sender] += msg.value;
             totalPhase2Donations += msg.value;
-        } else {
-            revert(); // should not be reachable
         }
     }
 
-    function startNextPhase() onlyOwner returns(uint8) {
-        require(currentPhase <= 3);
-        currentPhase++;
-
-        if(currentPhase == 3) {
+    function startNextPhase() onlyOwner {
+        require(currentState <= STATE_PAYOUT);
+        currentState++;
+        if(currentState == STATE_PAYOUT) {
             // donation ended. Calculate and persist the distribution key:
             tokenPerEth = calcTokenPerEth();
         }
-        return currentPhase;
+        StateChanged(currentState);
     }
 
-    function payoutDonations(address _to) onlyOwner onlyIfPayoutUnlocked {
-        require(_to.send(this.balance));
+    function setDonationUnlockTs(uint32 _newTs) onlyOwner {
+        require(_newTs > donationUnlockTs);
+        donationUnlockTs = _newTs;
+    }
+
+    function setDonationReceiver(address _receiver) onlyOwner {
+        require(! donationReceiverLocked);
+        donationReceiver = _receiver;
+    }
+
+    function lockDonationReceiver() onlyOwner {
+        require(donationReceiver != 0);
+        donationReceiverLocked = true;
+    }
+
+    // this could be left available to everybody instead of owner only
+    function payoutDonations() onlyOwner onlyIfPayoutUnlocked {
+        require(donationReceiver != 0);
+        var amount = this.balance;
+        require(donationReceiver.send(amount));
+        DonatedEthPayout(donationReceiver, amount);
+    }
+
+    /** Emergency fallback for retrieving funds
+    In case something goes horribly wrong, this allows to retrieve Eth from the contract.
+    Becomes available at March 1 2018.
+    If called, all tokens still owned by the contract (not withdrawn by anybody) are burned.
+    */
+    function destroy() onlyOwner {
+        require(currentState == STATE_PAYOUT);
+        require(now > 1519862400);
+        selfdestruct(owner);
     }
 
     /** Allows donators to withdraw the share of tokens they are entitled to */
     function withdrawTokenShare() {
         require(tokenPerEth > 0); // this implies that donation rounds have closed
         require(playToken.transfer(msg.sender, calcTokenShareOf(msg.sender)));
-        phase1Donations[msg.sender] = 0;
-        phase2Donations[msg.sender] = 0;
+        round1Donations[msg.sender] = 0;
+        round2Donations[msg.sender] = 0;
     }
 
+    // ######### INTERNAL FUNCTIONS ##########
+
     function calcTokenShareOf(address _addr) constant internal returns(uint256) {
-        return (tokenPerEth * (phase1Donations[_addr]*2 + phase2Donations[_addr])) / 1E18;
+        if(_addr == owner) {
+            // TODO: this could probably be simplified. But does the job without requiring additional storage
+            var virtualEthBalance = (((totalPhase1Donations*2 + totalPhase2Donations) * 100) / (100 - ownerTokenSharePct) + 1);
+            return ((tokenPerEth * virtualEthBalance) * ownerTokenSharePct) / (100 * 1E18);
+        } else {
+            return (tokenPerEth * (round1Donations[_addr]*2 + round2Donations[_addr])) / 1E18;
+        }
     }
 
     // Will throw if no donations were received.
     function calcTokenPerEth() constant internal returns(uint256) {
         var tokenBalance = playToken.balanceOf(this);
-        var virtualEthBalance = totalPhase1Donations*2 + totalPhase2Donations;
+        // the final + 1 makes sure we're not running out of tokens due to rounding artifacts.
+        // that would otherwise be (theoretically, if all tokens are withdrawn) possible,
+        // because this number acts as divisor for the return value.
+        var virtualEthBalance = (((totalPhase1Donations*2 + totalPhase2Donations) * 100) / (100 - ownerTokenSharePct) + 1);
         // use 18 decimals precision. No danger of overflow with 256 bits.
-        return tokenBalance * 1E18 / virtualEthBalance;
-    }
-
-    function inPhase1() constant internal returns(bool) {
-        //return (uint32(now) >= startTs) && (uint32(now) < startTs + durationPhase1);
-        return currentPhase == 1;
-    }
-
-    function inPhase2() constant internal returns(bool) {
-        //return (uint32(now) >= startTs + durationPhase1) && (uint32(now) < startTs + durationPhase1 + durationPhase2);
-        return currentPhase == 2;
-    }
-
-    // ############### TESTING STUFF ################
-    function getCurrentTime() returns(uint32) {
-        return uint32(now);
-    }
-
-    function setZero() {
-        phase1Donations[msg.sender] = 0;
-    }
-
-    function setTestValues() {
-        //address _tokenAddr = 0xaaa8080b22aee06b2dc722816bd2af61e296209f;
-        //playToken = ITransferable(_tokenAddr);
-        //playToken = new PlayTokenCopy(this);
-        //playToken.mint(this, 1000000007);
-        //startTs = uint32(now);
-        //payoutUnlockedTs = startTs + 30;
-    }
-
-    function ethBalOf(address _to) constant returns(uint256) {
-        return _to.balance;
-    }
-
-    function poolEthBal() constant returns(uint256) {
-        return ethBalOf(this);
-    }
-
-    function myEthBal() constant returns(uint256) {
-        return ethBalOf(msg.sender);
+        return tokenBalance * 1E18 / (virtualEthBalance);
     }
 }

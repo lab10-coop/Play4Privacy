@@ -8,11 +8,12 @@ import "./PlayToken.sol";
 Persists games played (represented by a hash) and distributes PLAY tokens to players and to a pool per game.
 This contract does not accept Ether payments.
 */
-contract P4P {
-    address owner;
+contract P4PGame {
+    address public owner;
     address public pool;
     PlayToken playToken;
     mapping(bytes32 => bool) gamesPlayed;
+    bool public active = true;
 
     event GamePlayed(bytes32 hash, bytes32 boardEndState);
 
@@ -21,12 +22,17 @@ contract P4P {
         _;
     }
 
+    modifier onlyIfActive() {
+        require(active);
+        _;
+    }
+
     /**
     @dev Constructor
 
     Creates a contract for the associated PLAY Token
     */
-    function P4P(address _tokenAddr) {
+    function P4PGame(address _tokenAddr) {
         owner = msg.sender;
         playToken = PlayToken(_tokenAddr);
     }
@@ -57,8 +63,7 @@ contract P4P {
     NOTE: It's the callers responsibility not to exceed the gas limit ("too many" players).
     If not all players "fit" into one transaction, "addPlayers()" can be used to add them.
     */
-    function gamePlayed(bytes32 gameHash, bytes32 boardEndState, address[] players, uint16[] amounts) onlyOwner {
-        /* TODO: what's the right order here? */
+    function gamePlayed(bytes32 gameHash, bytes32 boardEndState, address[] players, uint16[] amounts) onlyOwner onlyIfActive {
         require(players.length == amounts.length);
         gamesPlayed[gameHash] = true;
         GamePlayed(gameHash, boardEndState);
@@ -77,12 +82,27 @@ contract P4P {
     NOTE: If there's (still) more players than can be processes in one transaction,
     call this multiple times with batches of them.
     */
-    function addPlayers(bytes32 gameHash, address[] players, uint16[] amounts) onlyOwner {
+    function addPlayers(bytes32 gameHash, address[] players, uint16[] amounts) onlyOwner onlyIfActive {
         require(players.length == amounts.length);
         require(gamesPlayed[gameHash]);
         var totalAmount = payoutPlayers(players, amounts);
         payoutPool(totalAmount);
     }
+
+    /** Disables the contract
+    Once this is called, no more games can be played and no more players added.
+    This also implies that no more PLAY tokens can be minted since this contract has exclusive permission to do so
+    - assuming that this contract is locked as controller in the Token contract.
+    */
+    function shutdown() onlyOwner {
+        active = false;
+    }
+
+    function getTokenAddress() constant returns(address) {
+        return address(playToken);
+    }
+
+    // ######### INTERNAL FUNCTIONS ##########
 
     /**
     Redeems PLAY tokens to the given set of players by invoking mint() of the associated token contract.
@@ -106,9 +126,5 @@ contract P4P {
     function payoutPool(uint256 amount) internal {
         require(pool != 0);
         playToken.mint(pool, amount * 1e18);
-    }
-
-    function getTokenAddress() constant returns(address) {
-        return address(playToken);
     }
 }

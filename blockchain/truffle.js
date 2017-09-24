@@ -9,6 +9,7 @@ module.exports = {
       host: "rinkeby.eth.lab10.io",
       port: 80,
       network_id: "4",
+      gas: 3000000,
       gasPrice: 22000000000
     },
     mainnet: {

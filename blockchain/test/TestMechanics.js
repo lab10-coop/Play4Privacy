@@ -1,16 +1,16 @@
 var PlayToken = artifacts.require("PlayToken")
-var P4P = artifacts.require("P4P")
-var P4PPool = artifacts.require("P4PPool")
+var Game = artifacts.require("P4PGame")
+var Pool = artifacts.require("P4PPool")
 
 var BigNumber = require('bignumber.js');
 var should = require('should');
 
-contract('P4P', accounts => {
+contract('P4P mechanics', accounts => {
     console.log(`accounts: ${accounts}`)
 
     const token = PlayToken.at(PlayToken.address);
-    const game = P4P.at(P4P.address);
-    const pool = P4PPool.at(P4PPool.address);
+    const game = Game.at(Game.address);
+    const pool = Pool.at(Pool.address);
 
     console.log(`
     token: ${token.address}
@@ -37,24 +37,28 @@ contract('P4P', accounts => {
         await pool.sendTransaction({from: accounts[1], value: web3.toWei(1)}).should.be.rejected();
     })
 
-    it("only owner can change phase", async () => {
+    it("permission restriction enforced for startNextPhase(), [set|lock]TokenController(), setPoolContract(), shutdown()", async () => {
         await pool.startNextPhase({from: user1}).should.be.rejected();
+        await game.setTokenController(user1, {from: user1}).should.be.rejected();
+        await game.lockTokenController(user1, {from: user1}).should.be.rejected();
+        await game.setPoolContract(user1, {from: user1}).should.be.rejected();
+        await game.shutdown({from: user1}).should.be.rejected();
     })
 
     function randDonAmount() {
-        return Math.pow(Math.random()*2, 4); // something a la power law
+        return Math.pow(Math.random()*1.5, 3); // something a la power law
     }
 
     // in order to select the deterministic amounts, change the mappings to map(e => [e[0], e[1]])
     const donations = {
-        phase1: [
+        round1: [
             [user1, 3, randDonAmount()],
             [user2, 5, randDonAmount()],
             [user2, 1, randDonAmount()],
             [user1, 0.13, randDonAmount()],
             [user2, 2.5, randDonAmount()]
         ].map(e => [e[0], e[2]]),
-        phase2: [
+        round2: [
             [user3, 0.42, randDonAmount()],
             [user1, 0.055, randDonAmount()],
             [user4, 1, randDonAmount()]
@@ -62,30 +66,33 @@ contract('P4P', accounts => {
     };
     //console.log(`donations: ${JSON.stringify(donations)}`)
 
-    const totalDonated = donations.phase1.concat(donations.phase2).map(d => d[1]).reduce( (sum, e) => {
+    const totalDonated = donations.round1.concat(donations.round2).map(d => d[1]).reduce( (sum, e) => {
         return sum + e;
     })
     // 27,1153 tok per Eth
 
     it("donations are correctly counted", async () => {
-        // starting phase 1
+        // starting donation_round 1
         await pool.startNextPhase();
 
-        for(e of donations.phase1) {
+        for(e of donations.round1) {
             await pool.sendTransaction({from: e[0], value: web3.toWei(e[1])});
         }
 
-        // switching to phase 2
+        // switching to playing
         await pool.startNextPhase();
 
-        for(e of donations.phase2) {
+        // switching to donation_round 2
+        await pool.startNextPhase();
+
+        for(e of donations.round2) {
             await pool.sendTransaction({from: e[0], value: web3.toWei(e[1])});
         }
 
-        const ethBal = web3.eth.getBalance(P4PPool.address);
-        const phase1 = await pool.totalPhase1Donations();
-        const phase2 = await pool.totalPhase2Donations();
-        assert.equal(ethBal.toString(), phase1.plus(phase2), `Eth balance doesn't equal the summed donations`);
+        const ethBal = web3.eth.getBalance(Pool.address);
+        const round1 = await pool.totalPhase1Donations();
+        const round2 = await pool.totalPhase2Donations();
+        assert.equal(ethBal.toString(), round1.plus(round2), `Eth balance doesn't equal the summed donations`);
     })
 
     function randTokAmount() {
@@ -133,7 +140,7 @@ contract('P4P', accounts => {
     })
 
     it("don't allow token withdrawal or Ether payout before donation rounds close", async () => {
-        await pool.withdrawTokenShare({from: donations.phase1[0]}).should.be.rejected();
+        await pool.withdrawTokenShare({from: donations.round1[0]}).should.be.rejected();
         await pool.payoutDonations(randomPrivacyOrg, {from: owner}).should.be.rejected();
     })
 
@@ -143,11 +150,11 @@ contract('P4P', accounts => {
         //token.mint(P4PPool.address, totalTokens);
         const poolInitBal = await token.balanceOf(pool.address);
 
-        // switching to payout phase
+        // switching to payout state
         await pool.startNextPhase();
 
         let totalWithdrawn = new BigNumber(0);
-        for(e of donations.phase1.concat(donations.phase2)) {
+        for(e of donations.round1.concat(donations.round2)) {
             const tokInitBal = await token.balanceOf(e[0]);
             await pool.withdrawTokenShare({from: e[0]});
             const tokBal = await token.balanceOf(e[0]);
@@ -160,24 +167,43 @@ contract('P4P', accounts => {
             totalWithdrawn = totalWithdrawn.plus(tokAdded);
         }
 
-        // toNumber() removes precision, accounting for remainders. TODO: should be more precise
+        const poolBal = await token.balanceOf(pool.address);
+        const ownerTokenSharePct = await pool.ownerTokenSharePct();
+        console.log(`ownerPct: ${ownerTokenSharePct}, poolInitBal: ${poolInitBal}, poolBalance: ${poolBal}, totalWithdrawn: ${totalWithdrawn}`);
+        await pool.withdrawTokenShare({from: owner});
+        const ownerTokBal = await token.balanceOf(owner);
+
+        totalWithdrawn = totalWithdrawn.plus(ownerTokBal);
+        const ownerFairShare = totalWithdrawn.times(ownerTokenSharePct).dividedToIntegerBy(100);
+        // toNumber() removes precision, accounting for remainders. TODO: can we do better?
+        assert.equal(ownerFairShare.toNumber(), ownerTokBal.toNumber(), "owner didn't receive the fair share");
         assert.equal(poolInitBal.toNumber(), totalWithdrawn.toNumber(), "pool wasn't fully paid out");
 
         const poolEndBal = await token.balanceOf(pool.address);
+        console.log(`finally remaining in pool: ${poolEndBal}`);
+
+        const approxEndBal = new BigNumber(poolEndBal).times(1E-18).plus(1);
 
         // TODO: be less arbitrary
-        assert.equal(Math.floor(poolEndBal.toNumber() / 1000), 0, "pool isn't (nearly) empty");
+        assert.equal(approxEndBal.toNumber(), 1, "pool isn't (nearly) empty");
     })
 
-    it("only owner can pay out donations, payout sum correct", async () => {
+    it("only owner can set donation receiver, pay out donations, payout sum correct", async () => {
         const initEthBal = web3.fromWei(await web3.eth.getBalance(pool.address));
-        await pool.payoutDonations(randomPrivacyOrg, {from: user1}).should.be.rejected();
-        // but this one this should succeed
-        await pool.payoutDonations(randomPrivacyOrg, {from: owner});
+        await pool.setDonationReceiver(randomPrivacyOrg, {from: user1}).should.be.rejected();
+        await pool.setDonationReceiver(randomPrivacyOrg, {from: owner});
+        await pool.lockDonationReceiver({from: user1}).should.be.rejected();
+        await pool.lockDonationReceiver({from: owner});
+        await pool.setDonationReceiver(randomPrivacyOrg, {from: owner}).should.be.rejected();
+        await pool.payoutDonations({from: user1}).should.be.rejected();
+        await pool.payoutDonations({from: owner});
         const privacyOrgBal = web3.fromWei(await web3.eth.getBalance(randomPrivacyOrg));
         assert.equal(initEthBal.toString(), privacyOrgBal.toString(), "donations weren't fully received");
     })
 
+    it("destroy not (yet) callable", async() => {
+        await pool.destroy({from: owner}).should.be.rejected();
+    })
 
         //return game.getTokenAddress().then( tokenAddr => {
 //            assert.equal(tok, "", `contracts don't have same token address. Game: ${gameTok}, pool: ${poolTok}`)

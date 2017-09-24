@@ -2,7 +2,23 @@
 
 Needs truffle and testrpc installed: `npm install -g truffle ethereumjs-testrpc`  
 Start testrpc: `truffle-testrpc`  
-Then, in another tab run `./contract-changed.sh` for applying changes to the contract code.  
+Then, in another tab run `./contract-changed.sh` for applying changes to the contract code.
+
+# How to test
+
+* Start testrpc: `truffle-testrpc`
+* Deploy the contracts: `truffle migrate --reset`
+* Run tests: `truffle test`
+
+Note that a node engine with async/await support is required. Tested with v8.4.0.
+
+Tests are supposed to run on testrpc. If run on a public testnet, a lot of tests will fail because failed transactions don't trigger Promise rejections.  
+Could be fixed by adding an assertion which checks for "all gas consumed".
+
+# Mainnet
+
+* Token address: 0xfb41f7b63c8e84f4ba1ecd4d393fd9daa5d14d61
+* P4P address (preliminary): 0x8d9a49dcc42e365d9cd353b5aef88ebe664c11a6 (set as controller)
 
 # Role of the Blockchain
 
