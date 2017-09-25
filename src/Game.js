@@ -68,6 +68,7 @@ class Game {
     this.roundNr = 1;
     this.startTime = Date.now();
     this.gameState = gs.RUNNING;
+    console.log(`starting new game at ${new Date(this.startTime).toLocaleString()}`);
     this.api.gameStarted(this.startTime, this.go.currentTeam());
   }
 
@@ -87,6 +88,7 @@ class Game {
   endGame() {
     this.startTime = Date.now();
     this.gameState = gs.PAUSED;
+    console.log(`game ended at ${new Date().toLocaleString()} after ${this.roundNr} rounds and with ${this.submittedMoves.length} user submitted moves`);
     this.api.gameFinished(gs.PAUSE_DURATION);
 
     if (process.env.ETH_ON) {
@@ -131,6 +133,7 @@ class Game {
   }
 
   joinGame(id) {
+    console.log(`player ${id} connected`)
     if (!this.players.has(id)) {
       // assign teams round-robin
       this.players.set(id, new PlayerData(this.players.size % 2 ? gs.WHITE : gs.BLACK, 0));
@@ -143,7 +146,13 @@ class Game {
   }
 
   submitMove(id, move, sig) {
-    // TODO: add the signature to the game state
+    console.log(`new move submitted: player ${id}, move ${move}`);
+    if (process.env.ETH_ON) {
+      if (!this.blockchain.isSignatureValid(id, sig)) {
+        console.error(`invalid signature ${sig}`);
+        return 'Invalid signature';
+      }
+    }
 
     // Check if user has joined the current game
     if (!this.players.has(id)) {

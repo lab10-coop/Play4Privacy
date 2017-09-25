@@ -22,13 +22,13 @@ import gs from './GameSettings';
 import ethUtils from './EthereumUtils';
 
 // TODO: remove (for debugging only)
-window.eth = ethUtils;
+window.ethUtils = ethUtils;
 window.web3 = ethUtils.web3;
 
 class Game {
   constructor(socket) {
-    // todo: Use a real token
-    this.id = ethUtils.loadWallet();
+    // note that this can be null. Relies on the UI requesting a password (will set the id) before letting the user play.
+    this.id = ethUtils.getAddress();
 
     this.socket = socket;
     this.maxGameDuration = new Date(gs.MAX_GAME_DURATION);
@@ -131,6 +131,8 @@ class Game {
   @observable countSteps = 0;
   @observable blackPlayers = 0;
   @observable whitePlayers = 0;
+  @observable gameState = gs.PAUSED;
+
 
   // Computes the time left in the current game
   // Returns a "Date" type for convenience of extraction of Minutes and Seconds.
@@ -189,6 +191,10 @@ class Game {
 
   @computed get myTeamActive() {
     return this.myTeam === this.currentTeam;
+  }
+  
+  @computed get paused() {
+    return this.gameState === gs.PAUSED;
   }
 
   @action.bound

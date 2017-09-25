@@ -480,11 +480,6 @@ input.submit:hover {
 }
 
 
-.creditsButton .button {
-	width: calc(100% - 40px);
-	font-size: 34px;
-	text-transform: uppercase;
-}
 
 .projectExplanation {
 }
@@ -564,17 +559,50 @@ input.submit:hover {
   font-size: 48px;
 }
 
-.howToPlayWithUs {
+
+
+.comePlayWithUs p {
+  padding-left: 20px;
+  background: #3ba0d2 url(../img/errorIcon.gif) no-repeat left center / 128px;
+  padding-left: 150px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  color: #FFFFFF;
+  
+	box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
+	border: 1px solid #FFFFFF;
+}
+
+.comePlayWithUs p strong {
   font-size: 20px;
 }
+
 
 /* GAMEBOARD */
 
 
-#joinGameButton {
+#joinGameButton,
+.creditsButton .button {
  	width: calc(100% - 40px);
 	font-size: 34px; 
+	border-color: #3ba0d2;
+	background: #3ba0d2;
+  color: #FFFFFF;
 }
+
+.creditsButton .button {
+	text-transform: uppercase;
+}
+
+
+
+#joinGameButton:hover,
+.creditsButton .button:hover {
+	border-color: #3ba0d2;
+	background: #FFFFFF;
+  color: #3ba0d2;
+}
+
 
 .layer#startGame {
 	position: relative;
@@ -758,7 +786,9 @@ input.submit:hover {
 	display: none;
 }
 
-
+.joinGameFirstInfotext:hover {
+  cursor: pointer;
+}
 
 
 
@@ -861,6 +891,11 @@ input.submit:hover {
 }
 
 
+
+
+
+
+
 /* Credits */
 
 #howToPlay,
@@ -940,9 +975,38 @@ input.submit:hover {
 }
 
 
-/* ErrorLayer */
+/* ErrorLayer & GamePaused */
 
-.errorLayer {
+/* Game Paused */
+.gamePaused {
+  opacity: 0.25;
+}
+
+.joinGameWrapper.gamePaused,
+#gameField.gamePaused .gameInfo {
+  display: none;
+}
+
+.pausedStatusMsg {
+  display: none;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 22px;
+	width: 480px;
+  float: right;
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.gamePaused .pausedStatusMsg {
+  display: block;
+}
+
+
+.errorLayer,
+.gamePausedLayer {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -967,12 +1031,39 @@ input.submit:hover {
 
 }
 
+.gamePausedLayer {
+  position: absolute;
+  z-index: 100000;
+  
+  height: 100%;
+  opacity: 1;
+  overflow: visible;  
+  display: none;
+}
+
+.gamePaused .gamePausedLayer {
+  display: block;
+}
+
+.field.currentGame.gamePaused {
+  position: relative;
+  opacity: 1;
+}
+
+.field.creditsButton.gamePaused {
+  display: none;
+}
+  
+
+
+
 .errorLayer.showLayer {
   height: 100%;
   opacity: 0.98;
 }
 
-.errorLayer .errorLayerInner {
+.errorLayer .errorLayerInner,
+.gamePausedLayer .gamePausedLayerInner {
   width: 256px;
   height: 256px;
   display: block;
@@ -984,7 +1075,8 @@ input.submit:hover {
   
 }
 
-.errorLayer .icon {
+.errorLayer .icon,
+.gamePausedLayer .icon {
   width: 128px;
   height: 128px;
   display: inline-block;
@@ -992,7 +1084,8 @@ input.submit:hover {
   background: url(../img/errorIcon.gif) no-repeat center center / 128px auto;
 }
 
-.errorLayer .headline {
+.errorLayer .headline,
+.gamePausedLayer .headline {
   width: 100%;
   display: inline-block;
   font-size: 24px;
@@ -1000,7 +1093,8 @@ input.submit:hover {
 }
 
 
-.errorLayer .headline strong {
+.errorLayer .headline strong,
+.gamePausedLayer .headline strong {
   font-size: 32px;
 }
 
@@ -1011,6 +1105,35 @@ input.submit:hover {
   display: inline-block;
   
 }
+
+
+
+/* FAQ */
+
+.accordion {
+  border-top: 1px solid #d3d3d3;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.accordion .accordionTitle {
+  margin: 0px;
+	transition: color .5s ease-in-out;
+	-moz-transition: color .5s ease-in-out;
+	-webkit-transition: color .5s ease-in-out;
+}
+
+.accordion .accordionTitle:hover {
+  cursor: pointer;
+	color: #3ba0d2;
+
+}
+
+.accordionContent {
+  display: none;
+}
+
+
 
 
 /* footer */
