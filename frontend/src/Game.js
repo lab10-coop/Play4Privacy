@@ -20,6 +20,7 @@
 import { observable, computed, action } from 'mobx';
 import gs from './GameSettings';
 import ethUtils from './EthereumUtils';
+import Averager from './utilities/AddAndAverage';
 
 // TODO: remove (for debugging only)
 window.ethUtils = ethUtils;
@@ -34,15 +35,17 @@ class Game {
     this.maxGameDuration = new Date(gs.MAX_GAME_DURATION);
     this.gameState = gs.RUNNING;
 
-    // Acquire the current game state
-    socket.emit('current game state', this.id, this.refreshGameState);
-
     // ////////////////////////////////////////////////////////////////////////
     // Subscriptions to socket.io Events
 
     // Re-acqure the current game state on a re-connect
-    socket.on('connect', () =>
-      this.socket.emit('current game state', this.id, this.refreshGameState));
+    socket.on('connect', this.requestGameState);
+    socket.on('reconnect', this.requestGameState);
+    socket.on('pong', (ms) => {
+      this.latency.add(ms);
+      console.log(`Latency measured by pong: ${ms}`);
+      console.log(`Latency measured by Averager: ${this.latency.value()}`);
+    });        
 
     // Get notified when a new game started
     this.socket.on('game started', this.startGame);
@@ -74,6 +77,12 @@ class Game {
     this.gameState = gs.RUNNING;
     this.refreshGameState(startTime, startTime, currentTeam, gs.UNSET, '',
       Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET), gs.RUNNING);
+  }
+
+  @action.bound
+  requestGameState() {
+    //this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState);
+    this.socket.emit('current game state', this.id, this.refreshGameState)
   }
 
   @action.bound
@@ -116,6 +125,9 @@ class Game {
     this.blackPlayers = numPlayers[0];
     this.whitePlayers = numPlayers[1];
   }
+
+  // Averages the last 3 latency values to avoid spikes
+  latency = new Averager(3);
 
   // Ticker triggering updates of time-dependent computations by the magic
   // of mobx functional-reactive programming.
