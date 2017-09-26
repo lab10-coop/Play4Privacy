@@ -39,13 +39,15 @@ class Game {
     // Subscriptions to socket.io Events
 
     // Re-acqure the current game state on a re-connect
-    socket.on('connect', this.requestGameState);
-    socket.on('reconnect', this.requestGameState);
+    socket.on('connect',
+      () => this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState));
+    socket.on('reconnect',
+      () => this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState));
     socket.on('pong', (ms) => {
       this.latency.add(ms);
       console.log(`Latency measured by pong: ${ms}`);
       console.log(`Latency measured by Averager: ${this.latency.value()}`);
-    });        
+    });
 
     // Get notified when a new game started
     this.socket.on('game started', this.startGame);
@@ -91,17 +93,13 @@ class Game {
   }
 
   @action.bound
-  requestGameState() {
-    this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState)
-  }
-
-  @action.bound
-  refreshGameState(clientTimeStamp, elapsedTime, currentTeam, myTeam, myMove, boardState, gameState) {
+  refreshGameState(clientTimeStamp, elapsedTime, currentTeam,
+    myTeam, myMove, boardState, gameState) {
     const ms = (Date.now() - clientTimeStamp) / 2.0;
     this.latency.add(ms);
     console.log(`Latency measured by Averager: ${ms}ms`);
     console.log(`Latency measured by refreshGameState: ${this.latency.value()}ms`);
-    this.setGameState(elapsedTime, currentTeam, myTeam, myMove, boardState, gameState)
+    this.setGameState(elapsedTime, currentTeam, myTeam, myMove, boardState, gameState);
   }
 
   @action.bound
@@ -210,7 +208,7 @@ class Game {
   @computed get myTeamActive() {
     return this.myTeam === this.currentTeam;
   }
-  
+
   @computed get paused() {
     return this.gameState === gs.PAUSED;
   }
