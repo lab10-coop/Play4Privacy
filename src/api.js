@@ -1,8 +1,8 @@
 export function defineClientApi(game, socket) {
   // Emit this event to receive the current game state from cratch,
   // for example right after connecting/reconnecting to the server.
-  socket.on('current game state', (id, fn) => {
-    fn(Date.now(), game.startTime, game.go.currentTeam(), game.hasJoined(id),
+  socket.on('current game state', (id, timestamp, fn) => {
+    fn(timestamp, Date.now() - game.startTime, game.go.currentTeam(), game.hasJoined(id),
       game.playerMove(id), game.go.board, game.gameState);
   });
 
@@ -23,8 +23,8 @@ export default class ServerApi {
   }
 
   // Listen to this event to get notified when a new game starts.
-  gameStarted(startTime, currentTeam) {
-    this.io.emit('game started', startTime, currentTeam);
+  gameStarted(currentTeam) {
+    this.io.emit('game started', currentTeam);
   }
 
   // Listen to this event to get notified when a round finished.

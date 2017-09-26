@@ -68,8 +68,8 @@ class Game {
     this.roundNr = 1;
     this.startTime = Date.now();
     this.gameState = gs.RUNNING;
-    console.log(`starting new game at ${new Date(this.startTime).toLocaleString()}`);
-    this.api.gameStarted(this.startTime, this.go.currentTeam());
+    this.api.gameStarted(this.go.currentTeam());
+    console.log(`starting new game at ${new Date(this.startTime).toLocaleString()}`);    
   }
 
   endRound() {

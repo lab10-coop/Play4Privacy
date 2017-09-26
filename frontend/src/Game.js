@@ -73,29 +73,35 @@ class Game {
   }
 
   @action.bound
-  startGame(startTime, currentTeam) {
+  startGame(currentTeam) {
     this.gameState = gs.RUNNING;
-    this.refreshGameState(startTime, startTime, currentTeam, gs.UNSET, '',
+    this.setGameState(0, currentTeam, gs.UNSET, '',
       Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET), gs.RUNNING);
   }
 
-  @action.bound
-  requestGameState() {
-    //this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState);
-    this.socket.emit('current game state', this.id, this.refreshGameState)
-  }
-
-  @action.bound
-  refreshGameState(serverTime, startTime, currentTeam, myTeam, myMove, boardState, gameState) {
-    const offset = Date.now() - serverTime;
+  setGameState(elapsedTime, currentTeam, myTeam, myMove, boardState, gameState) {
     for (let i = 0; i < gs.BOARD_SIZE_SQUARED; i++) {
       this.squares[i] = boardState[i];
     }
-    this.startTime = startTime + offset;
+    this.startTime = Date.now() - elapsedTime - this.latency.value();
     this.currentTeam = currentTeam;
     this.myTeam = myTeam;
     this.myMove = myMove;
     this.gameState = gameState;
+  }
+
+  @action.bound
+  requestGameState() {
+    this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState)
+  }
+
+  @action.bound
+  refreshGameState(clientTimeStamp, elapsedTime, currentTeam, myTeam, myMove, boardState, gameState) {
+    const ms = (Date.now() - clientTimeStamp) / 2.0;
+    this.latency.add(ms);
+    console.log(`Latency measured by Averager: ${ms}ms`);
+    console.log(`Latency measured by refreshGameState: ${this.latency.value()}ms`);
+    this.setGameState(elapsedTime, currentTeam, myTeam, myMove, boardState, gameState)
   }
 
   @action.bound
