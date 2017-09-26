@@ -131,7 +131,7 @@ class GameBoard extends React.Component {
 
             <div className='layer' id='unlockWalletLayer'>
               <hr />
-              <p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p>
+              {/*<p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p> */}
               <p>Please enter your wallet password to start the game. <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>
               <div className="formWrapper">
                 <input name='linkWalletPassword' type='password' className='text' placeholder='Your Wallet-Password' />

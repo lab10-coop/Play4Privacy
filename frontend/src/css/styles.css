@@ -1065,6 +1065,8 @@ input.submit:hover {
 
 }
 
+
+
 .gamePausedLayer {
   position: absolute;
   z-index: 100000;
@@ -1333,6 +1335,12 @@ footer .projectLinks a:hover {
 }
 
 
+
+/* cough... fixes... cough ;) */
+footer,
+.errorLayer {
+  display: block !important;
+}
 
 
 

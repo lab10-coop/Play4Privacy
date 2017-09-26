@@ -232,8 +232,8 @@ class EndGame extends React.Component {
 
             <h2>Here&apos;s how to get your Coin</h2>
 
-            <div className='layer' id='linkedWallet'>
-              <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED ###</strong></p>
+            <div id='linkedWallet'>
+              {/* <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED ###</strong></p> */} 
 
               <p>Your PLAY tokens will be automatically sent to the wallet that is linked to your account:<br />
                 <span className="yourWalletAdress">Wallet ADDRESS</span></p>
@@ -241,12 +241,12 @@ class EndGame extends React.Component {
               <p><span className='button' id='sendTokensToLinkedWallet'>Click here to sent PLAY Tokens to your linked wallet</span></p>
             </div>
 
-            <div className='layer' id='newWallet'>
-              <p><strong>### DEV-INFO: ELSE - WALLET FOUND BUT NOT LINKED YET ###</strong></p>
+            <div id='newWallet'>
+               {/* <p><strong>### DEV-INFO: ELSE - WALLET FOUND BUT NOT LINKED YET ###</strong></p> */} 
 
               <p>Please enter a strong password below (number, capital letter) to encrypt your wallet. Make sure to remember your password as this will be the only way to open your wallet for now.</p>
 
-              <div className="WIRD-SPAETER-EIN-FORM-TAG">
+              <div className="formWrapper">
                 <input name='walletPassword' type='password' className='text' placeholder='Password' />
                 <input type='submit' value='Create Wallet' className='submit' id='createWallet' />
               </div>
@@ -264,7 +264,7 @@ class EndGame extends React.Component {
             <h2>Your wallet was successfully created. </h2>
             <p>Just enter your email address and we will send you your wallet file via email.</p>
 
-            <form className="IST-JETZT-EIN-FORM-TAG">
+            <form className="formWrapper">
               <input name='email' type='email' className='text' placeholder='Your email adress' />
               <input type='button' value='Send' className='submit' id='sendWalletFile' />
             </form>
