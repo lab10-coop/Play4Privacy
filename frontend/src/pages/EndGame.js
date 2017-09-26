@@ -131,11 +131,11 @@ class EndGame extends React.Component {
               <h2>Game Summary</h2>
 
               <div className='item'>
-                <span className='label'>Who won the game</span>
+                <span className='label'>Winning team</span>
                 <span className='value' id='whoWon'>Black</span>
               </div>
               <div className='item'>
-                <span className='label'>Play time</span>
+                <span className='label'>time played</span>
                 <span className='value' id='playTime'>13:37</span>
               </div>
               <div className='item'>
@@ -149,10 +149,6 @@ class EndGame extends React.Component {
               <div className='item'>
                 <span className='label'>Best player</span>
                 <span className='value' id='bestPlayer'>SIU</span>
-              </div>
-              <div className='item'>
-                <span className='label'>Worst player</span>
-                <span className='value' id='worstPlayer'>OIL</span>
               </div>
             </div>
             <div className="c50r">
@@ -183,19 +179,16 @@ class EndGame extends React.Component {
                 <span className='value' id='dolor'>No</span>
               </div>
 
-              <div className='item'>
-                <span className='label'>Et ast</span>
-                <span className='value' id='dolor'>17x</span>
-              </div>
+
             </div>
             <div className="clear separator"></div>
 
 
             <div className="c50l">
-              <h2>Share on:</h2>
+              <h2>Share your score and let your friends benefit from the #blockchain in real life!</h2>
               <p>
-                <a className='socialIcon socialIconTwitter' href='#'>Share on Twitter</a>
-                <a className='socialIcon socialIconFacebook' href='#'>Share on Facebook</a>
+                <a className='socialIcon socialIconTwitter' href='https://twitter.com/home?status=https%3A//play.lab10.coop/' target="_blank">Share on Twitter</a>
+                <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/'>Share on Facebook</a>
                 <a className='socialIcon socialIconTwitter' href='#'>Share on Steem.it</a>
                 <a className='socialIcon socialIconTwitter' href='#'>Share on Pinterest</a>
                 <a className='socialIcon socialIconTwitter' href='#'>Share on WoopWoop</a>
@@ -300,7 +293,6 @@ class EndGame extends React.Component {
             </p>
 
           </div>
-          <div className="closeLayerButton"></div>
         </div>
 
 
@@ -313,7 +305,6 @@ class EndGame extends React.Component {
             <p> Thanks for donating you coin to us for further development.</p>
             <p><a className='button' href='gameboard'>back to the board</a></p>
           </div>
-          <div className="closeLayerButton"></div>
         </div>
 
 

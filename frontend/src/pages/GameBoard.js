@@ -159,6 +159,10 @@ class GameBoard extends React.Component {
 
             <div className="pausedStatusMsg">
               <p>The Game is currently paused.<br />Please check back between 7pm to 10pm CEST.</p>
+            
+              <p className="redeemTokensButtonIfGamePaused">
+                <a className='button' id='stopGame' href='endgame'>The game is currently paused. If you still have Tokens to redeem - click here!</a>
+            </p>   
             </div>
             <div className={`gameInfo ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
               <h2>Player info: </h2>
@@ -178,7 +182,7 @@ class GameBoard extends React.Component {
 
 
               <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
-                <span className='label'>You are on team:</span>
+                <span className='label'>Your team:</span>
                 <span className='value' id='yourTeam'>{game.formattedMyTeam || '--'}</span>
               </div>
               <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
@@ -219,7 +223,7 @@ class GameBoard extends React.Component {
                 </span>
               </div>
               <div className='item'>
-                <span className='label'>Game-Clock</span>
+                <span className='label'>Time to complete current game</span>
                 <span className='value' id='gameclock'>
                   {game.gameState ? '' : 'Next game starts in: '}
                   {game.gameState ?
@@ -240,10 +244,13 @@ class GameBoard extends React.Component {
               </div>
 
               <p className={`item ${game.myTeam ? '' : 'hideItem'}`}>
-                <a className='button' id='stopGame' href='endgame'>STOP GAME and redeem avaliable PLAY Tokens</a>
+                <a className='button' id='stopGame' href='endgame'>Leave game, redeem your tokens</a>
               </p>
 
             </div>
+ 
+        
+            
 
             <div className='liveCam clear'>
               <img id="liveFeedImage" src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg' alt='bix Livecam' />

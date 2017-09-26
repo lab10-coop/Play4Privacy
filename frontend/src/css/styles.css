@@ -577,6 +577,10 @@ input.submit:hover {
   font-size: 20px;
 }
 
+.comePlayWithUs a {
+  color: #FFFFFF;
+}
+
 
 /* GAMEBOARD */
 
@@ -1110,6 +1114,18 @@ input.submit:hover {
 
 /* FAQ */
 
+#frequentlyAskedQuestions h3 {
+  margin-bottom: 15px;
+  margin-top: 50px;
+  color: #3ba0d2;
+}
+
+#frequentlyAskedQuestions h4 {
+  font-size: 16px;
+}
+
+
+
 .accordion {
   border-top: 1px solid #d3d3d3;
   padding-top: 25px;
@@ -1154,6 +1170,10 @@ footer p {
 	padding: 0px;
 }
 
+footer .footerLogo {
+  float: left;
+}
+
 footer .footerLogo,
 footer .footerLogo p {
 	width: 170px;
@@ -1170,6 +1190,7 @@ footer .footerLogo p {
 footer .cooperationText {
 	padding-top: 10px;
 	padding-bottom: 10px;
+	clear: both;
 }
 
 footer .cooperationText p {
@@ -1233,6 +1254,53 @@ footer .partners a.drei {
 }
 
 
+footer .projectLinks {
+  float: left;
+  padding-left: 20px;
+  padding-top: 28px;
+}
+
+
+footer .projectLinks a {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  border-radius: 100%;
+  margin: 0px 3px;
+  
+  text-indent: -50000em;
+  font-size: 0px;
+  
+  background-color: #141414;
+  background-position: center center;
+  background-size: 30px auto;
+  background-repeat: no-repeat;
+
+	transition: background-color .5s ease-in-out;
+	-moz-transition: background-color .5s ease-in-out;
+	-webkit-transition: background-color .5s ease-in-out;
+}
+
+footer .projectLinks a.twitter {
+  background-image: url(../img/footer-twitter.png);
+}
+
+footer .projectLinks a.medium {
+  background-image: url(../img/footer-medium.png);
+}
+
+footer .projectLinks a.bitcointalk {
+  background-image: url(../img/footer-bitcointalk.png);
+}
+
+footer .projectLinks a.p4pinfo {
+  background-image: url(../img/footer-link.png);
+}
+
+footer .projectLinks a:hover {
+  background-color: #3ba0d2;
+  cursor: pointer;
+}
 
 
 

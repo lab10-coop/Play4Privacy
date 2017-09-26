@@ -62,7 +62,18 @@ class Home extends React.Component {
           
           </div>
           <div className="c50r comePlayWithUs">
-            <p><strong>Join the game, play with us!</strong><br />From September 27th until October 27th. <br />Daily from 7pm to 10pm CEST.</p> 
+            <p>
+            
+              <a href='gameboard' title='Play Go and get PLAY Tokens!'>
+                <strong>Join the game, play with us!</strong><br />From September 27th until October 27th. <br />Daily from 7pm to 10pm CEST.
+              </a>
+              
+            </p>
+            
+
+            
+            
+            
           </div>
           <div className="clear"></div>
           
@@ -78,7 +89,7 @@ class Home extends React.Component {
 
 
         <div className={`creditsButton field  ${this.props.game.paused ? 'gamePaused' : ''}`}>
-          <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>Click here to start playing</a></p>
+          <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>PLAY NOW!</a></p>
           <p className="centered">and earn tokens for your decision.</p>
 
         </div>
@@ -160,7 +171,7 @@ class Home extends React.Component {
 
 
         <div className={`creditsButton field ${this.props.game.paused ? 'gamePaused' : ''}`}>
-          <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>PLAY NOW!</a></p>
+          <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>Click here to start playing</a></p>
           <p className="centered">and earn tokens for your decision.</p>
         </div>
         
