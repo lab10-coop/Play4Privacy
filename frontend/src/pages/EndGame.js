@@ -54,7 +54,8 @@ class EndGame extends React.Component {
       if(ethUtils.needsPersist()) {
         $('#newWallet').addClass('visible');
       } else {
-        $('#linkedWallet').addClass('visible');
+        this.socket.emit('redeem tokens', this.game.id);
+        $('#redeemCoinSuccessful').addClass('showLayer');
       }
     });
 
@@ -101,10 +102,6 @@ class EndGame extends React.Component {
       }
     });
 
-    $('#sendTokensToLinkedWallet').click(() => {
-      this.socket.emit('redeem tokens', this.game.id);
-      $('#redeemCoinSuccessful').addClass('showLayer');
-    });
 
 
 
@@ -176,16 +173,7 @@ class EndGame extends React.Component {
           <div className='layerInner'>
 
             <h2>Redeem</h2>
-
-            <div id='linkedWallet'>
-              {/* <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED ###</strong></p> */} 
-
-              <p>Your PLAY tokens will be automatically sent to the wallet that is linked to your account:<br />
-                <span className="yourWalletAdress">Wallet ADDRESS</span></p>
-
-              <p><span className='button' id='sendTokensToLinkedWallet'>Click here to sent PLAY Tokens to your linked wallet</span></p>
-            </div>
-
+            
             <div id='newWallet'>
                {/* <p><strong>### DEV-INFO: ELSE - WALLET FOUND BUT NOT LINKED YET ###</strong></p> */} 
 
