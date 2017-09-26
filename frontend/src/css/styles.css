@@ -555,8 +555,37 @@ input.submit:hover {
   background-image: url(../img/hotspot-reward.png);
 }
 
-.introduction strong {
-  font-size: 48px;
+.introduction {
+  font-size: 18px;
+}
+
+.introduction strong.intro {
+  font-size: 34px;
+}
+
+.newToBlockchainWrapper {
+  width: 1004px;
+  padding: 0px;
+  margin: 0 auto;
+  border: 3px solid #3ba0d2;
+  margin-bottom: 15px;
+  text-align: right;
+}
+
+.newToBlockchainWrapper span {
+    color: #FFFFFF;
+    background: #3ba0d2;
+    display: inline-block;
+    padding: 15px 25px;
+    text-transform: uppercase;
+  	transition: background-color .5s ease-in-out;
+  	-moz-transition: background-color .5s ease-in-out;
+  	-webkit-transition: background-color .5s ease-in-out;
+}
+
+.newToBlockchainWrapper span:hover {
+  background: #151515;
+  cursor: pointer;
 }
 
 
@@ -982,7 +1011,8 @@ input.submit:hover {
 /* ErrorLayer & GamePaused */
 
 /* Game Paused */
-.gamePaused {
+#gameField.gamePaused .goField,
+#gameField.gamePaused .liveCam {
   opacity: 0.25;
 }
 
@@ -1116,7 +1146,7 @@ input.submit:hover {
 
 #frequentlyAskedQuestions h3 {
   margin-bottom: 15px;
-  margin-top: 50px;
+  margin-top: 50  px;
   color: #3ba0d2;
 }
 
