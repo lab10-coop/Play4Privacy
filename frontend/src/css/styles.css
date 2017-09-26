@@ -564,16 +564,17 @@ input.submit:hover {
 }
 
 .newToBlockchainWrapper {
-  width: 1004px;
+  width: 1010px;
   padding: 0px;
   margin: 0 auto;
-  border: 3px solid #3ba0d2;
-  margin-bottom: 15px;
+  margin-bottom: 0px;
   text-align: right;
+  
 }
 
 .newToBlockchainWrapper span {
     color: #FFFFFF;
+    border-top: 3px solid #1a6185;
     background: #3ba0d2;
     display: inline-block;
     padding: 15px 25px;
