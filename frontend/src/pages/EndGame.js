@@ -52,16 +52,16 @@ class EndGame extends React.Component {
     $('#redeemCoinYesButton').click(() => {
       $('.layer#redeemCoin').addClass('showLayer');
       if(ethUtils.needsPersist()) {
-        $('.layer#newWallet').addClass('showLayer');
+        $('#newWallet').addClass('visible');
       } else {
-        $('.layer#linkedWallet').addClass('showLayer');
+        $('#linkedWallet').addClass('visible');
       }
     });
 
 
     $('#ethNoButton').click(() => {
       this.socket.emit('donate tokens', this.game.id);
-      $('.layer#thankYou').addClass('showLayer');
+      $('#thankYou').addClass('showLayer');
     });
 
     /*
@@ -75,7 +75,7 @@ class EndGame extends React.Component {
         ethUtils.persistWallet(pass);
         const docDlLink = document.getElementById("walletDownloadLink");
         ethUtils.updateDownloadLink(docDlLink);
-        $('.layer#walletCreated').addClass('showLayer');
+        $('#walletCreated').addClass('showLayer');
       } catch(e) { // this can happen if this view is opened in a new session with a wallet persisted
         alert("Sorry, the wallet could not be created. Did you refresh the page?\n" +
           "You can always play again.");
@@ -132,7 +132,7 @@ class EndGame extends React.Component {
 
             <h2>Congratulations!</h2>
             <p>You earned <span className="playTokensAmount">?</span> PLAY tokens as proof-of-play.</p>
-            <p>Do you want to <strong>redeem these tokens</strong> and create an Ethereum wallet (Hyperlink to FAQ/Wallet) to store them?</p>    
+            <p>Do you want to <strong>redeem these tokens</strong> and create an Ethereum wallet to store them?</p>    
             <p>Or, do you want to donate your PLAY tokens to the further development of the project?</p>
 
             <p>
@@ -159,10 +159,10 @@ class EndGame extends React.Component {
 
               <p className="socialIcons">
                 <a className='socialIcon socialIconTwitter' href='https://twitter.com/home?status=https%3A//play.lab10.coop/' target="_blank">Share on Twitter</a>
-                <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/'>Share on Facebook</a>
-                <a className='socialIcon socialIconTwitter' href='#'>Share on Steem.it</a>
-                <a className='socialIcon socialIconTwitter' href='#'>Share on Pinterest</a>
-                <a className='socialIcon socialIconTwitter' href='#'>Share on WoopWoop</a>
+                <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/' target="_blank">Share on Facebook</a>
+                <a className='socialIcon socialIconGplus' href='https://plus.google.com/share?url=https%3A//play.lab10.coop/' target="_blank">Share on Google+</a>
+                <a className='socialIcon socialIconSteem' href='https://steemit.com' target="_blank">Share on Steem.it</a>
+                <a className='socialIcon socialIconReddit' href='https://reddit.com' target="_blank">Share on Reddit</a>
               </p>
                           </div>
             <div className="clear"></div>
@@ -189,7 +189,7 @@ class EndGame extends React.Component {
                {/* <p><strong>### DEV-INFO: ELSE - WALLET FOUND BUT NOT LINKED YET ###</strong></p> */} 
 
               <p>Please enter a strong password (including numbers, lower case and upper case letters) to encrypt your wallet.</p>
-              <p>Make sure to remember your password as this will be the only way to open your wallet for now.</p>
+              <p>Make sure to remember your password as this will be the ONLY way to open your wallet and access your PLAY tokens.</p>
               
               <div className="formWrapper">
                 <input name='walletPassword' type='password' className='text' placeholder='Password' />
@@ -208,7 +208,6 @@ class EndGame extends React.Component {
 
             <h2>Success!</h2>
             <p>Congratulations, you have just created a wallet for yourself that hold your PLAY tokens.</p>
-            
             <p>Just enter your email address and we will send you your wallet file via email.</p>
 
             <form className="formWrapper">
@@ -218,6 +217,15 @@ class EndGame extends React.Component {
 
             <p>If you do not want to share your email address - simply <a href="#" id="walletDownloadLink" title="Download Wallet File">click here to download</a> the file to your computer.</p>
 
+            
+            <p>To access your wallet, visit <a href="https://www.myetherwallet.com/#send-transaction">https://www.myetherwallet.com/#send-transaction</a>, 
+            upload your Keystore file and enter your password.</p>
+            <p>You can check your account address and PLAY balance there.<br />
+            You could even send your tokens to another address (if you have Ether to pay for your transaction fees).</p>
+            <p>Welcome to the world of crypto!</p>
+            <p>Invite your friends to also explore the concepts of crypto-currencies and PLAY with us. </p>
+            
+            
           </div>
           <div className="closeLayerButton"></div>
         </div>
@@ -229,8 +237,8 @@ class EndGame extends React.Component {
         <div className='layer' id='redeemCoinSuccessful'>
           <div className='layerInner'>
 
-            <h2>The tokens are underway.</h2>
-            <p>This process can take few minutes to several hours - depening on the state of the blockchain.</p>
+            <h2>The token transaction is underway.</h2>
+            <p>This process can take a few minutes up to several hours - depending on the state of the blockchain.</p>
             <p>
               You can check the state of your wallet using the following link:<br/>
               <a id="explorerLink" href="#" target="_blank" title="Check transaction at etherscan.io">#</a>
@@ -249,7 +257,7 @@ class EndGame extends React.Component {
         <div className='layer' id='thankYou'>
           <div className='layerInner'>
             <h2>Thank you!</h2>
-            <p>Thanks for donating you coins to us for further development.</p>
+            <p>Thanks for donating you tokens to us for further development.</p>
             <p><a className='button' href='gameboard'>back to the board</a></p>
           </div>
         </div>

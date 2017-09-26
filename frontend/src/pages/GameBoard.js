@@ -13,9 +13,9 @@ class GameBoard extends React.Component {
 
     // $('#helpButton').click(() => alert('tadaaaaaa'));
     if(ethUtils.needsUnlock()) {
-      $('.layer#unlockWalletLayer').addClass('showLayer');
+      $('#unlockWalletLayer').addClass('visible');
     } else {
-      $('.layer#unlockWalletLayer').removeClass('showLayer');
+      $('#unlockWalletLayer').removeClass('visible');
     }
 
     // Navigation Mobile
@@ -42,10 +42,10 @@ class GameBoard extends React.Component {
         if(window.confirm("Wrong password. If you want to try again, click cancel. Click ok to create a new account.\nTODO: prettify this!")) {
           ethUtils.createNewWallet();
           this.game.id = ethUtils.getAddress(); // TODO: this is not elegant
-          $('.layer#unlockWalletLayer').removeClass('showLayer');
+          $('#unlockWalletLayer').removeClass('visible');
         }
       } else {
-        $('.layer#unlockWalletLayer').removeClass('showLayer');
+        $('#unlockWalletLayer').removeClass('visible');
       }
     });
 
@@ -117,7 +117,7 @@ class GameBoard extends React.Component {
               <p>In either case, you can redeem your tokens:</p>
               <ul>
                 <li>Send the tokens to an existing wallet.</li>
-                <li>Create a new wallet….</li>
+                <li>Create a new wallet and transfer the tokens to this new created wallet</li>
               </ul>
 
               <h3>Optional:</h3>
@@ -129,7 +129,7 @@ class GameBoard extends React.Component {
             </div>
             <div className="clear"></div>
 
-            <div className='layer' id='unlockWalletLayer'>
+            <div id='unlockWalletLayer'>
               <hr />
               {/*<p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p> */}
               <p>Please enter your wallet password to start the game. <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>

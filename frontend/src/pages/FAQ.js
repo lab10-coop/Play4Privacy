@@ -235,12 +235,7 @@ We share the vision: `We want to support the transition to a free, educated and 
               </div>
             </div>
             
-            <div className="accordion">           
-              <h4 className="accordionTitle">Which privacy organisations will receive the funds?</h4>
-              <div className="accordionContent">
-                <p>This information will be avaliable soon!</p>
-              </div>
-            </div>
+    
             
 
 

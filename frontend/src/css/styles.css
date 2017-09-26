@@ -990,6 +990,9 @@ input.submit:hover {
 	border-radius: 100%;
 	
 	background: #3ba0d2;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 30px auto;
 	
 	font-size: 0px;
 	text-indent: -50000em;
@@ -1003,6 +1006,29 @@ input.submit:hover {
 .socialIcon:hover {
 	background-color: #000000;
 }
+
+.socialIcon.socialIconTwitter {
+    background-image: url(../img/footer-twitter.png);
+}
+
+.socialIcon.socialIconFacebook {
+    background-image: url(../img/footer-facebook.png);
+}
+
+.socialIcon.socialIconSteem {
+    background-image: url(../img/footer-steemit.png);
+}
+
+.socialIcon.socialIconReddit {
+    background-image: url(../img/footer-reddit.png);
+}
+
+.socialIcon.socialIconGplus {
+    background-image: url(../img/footer-gplus.png);
+}
+
+
+
 
 
 .playTokensAmount {
@@ -1343,10 +1369,20 @@ footer .projectLinks a:hover {
 
 
 /* cough... fixes... cough ;) */
+
+#newWallet,
+#linkedWallet,
+#unlockWalletLayer {
+  display: none;
+}
+
 footer,
-.errorLayer {
+.errorLayer,
+.visible {
   display: block !important;
 }
+
+
 
 
 
