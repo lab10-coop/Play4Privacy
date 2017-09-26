@@ -41,9 +41,12 @@ class EndGame extends React.Component {
 
 
     // Show Layers
+    
+    /*
     $('#redeemYourCoinButton').click(function(){
       $('.layer#redeemCoinDecision').addClass('showLayer');
     });
+    */
 
 
     $('#redeemCoinYesButton').click(() => {
@@ -83,7 +86,7 @@ class EndGame extends React.Component {
     // Note that we are not sure if the wallet was really saved. The user may also have cancelled. In that case: Sorry :-/
     $('#walletDownloadLink').click(() => {
       this.socket.emit('redeem tokens', this.game.id);
-      $('.layer#redeemCoinSuccessful').addClass('showLayer');
+      $('#redeemCoinSuccessful').addClass('showLayer');
     })
 
     $('#sendWalletFile').click(() => {
@@ -94,13 +97,13 @@ class EndGame extends React.Component {
         const email = inputElem.value;
         this.socket.emit('redeem tokens', this.game.id);
         this.socket.emit('email wallet', this.game.id, email, JSON.stringify(ethUtils.getEncryptedKeystore()));
-        $('.layer#redeemCoinSuccessful').addClass('showLayer');
+        $('#redeemCoinSuccessful').addClass('showLayer');
       }
     });
 
     $('#sendTokensToLinkedWallet').click(() => {
       this.socket.emit('redeem tokens', this.game.id);
-      $('.layer#redeemCoinSuccessful').addClass('showLayer');
+      $('#redeemCoinSuccessful').addClass('showLayer');
     });
 
 
@@ -127,110 +130,51 @@ class EndGame extends React.Component {
         <div className='field' id='gameSummary'>
           <div className='fieldInner'>
 
-            <div className="c50l">
-              <h2>Game Summary</h2>
+            <h2>Congratulations!</h2>
+            <p>You earned <span className="playTokensAmount">?</span> PLAY tokens as proof-of-play.</p>
+            <p>Do you want to <strong>redeem these tokens</strong> and create an Ethereum wallet (Hyperlink to FAQ/Wallet) to store them?</p>    
+            <p>Or, do you want to donate your PLAY tokens to the further development of the project?</p>
 
-              <div className='item'>
-                <span className='label'>Winning team</span>
-                <span className='value' id='whoWon'>Black</span>
-              </div>
-              <div className='item'>
-                <span className='label'>time played</span>
-                <span className='value' id='playTime'>13:37</span>
-              </div>
-              <div className='item'>
-                <span className='label'>Total moves</span>
-                <span className='value' id='totalMoves'>88</span>
-              </div>
-              <div className='item'>
-                <span className='label'>Executed moves</span>
-                <span className='value' id='executedMoves'>76</span>
-              </div>
-              <div className='item'>
-                <span className='label'>Best player</span>
-                <span className='value' id='bestPlayer'>SIU</span>
-              </div>
-            </div>
-            <div className="c50r">
-              <h2>Your Statistics</h2>
-
-              <div className='item'>
-                <span className='label'>Lorem</span>
-                <span className='value' id='lorem'>1x</span>
-              </div>
-
-              <div className='item'>
-                <span className='label'>Ipsum</span>
-                <span className='value' id='ipsum'>13x</span>
-              </div>
-
-              <div className='item'>
-                <span className='label'>Dolor</span>
-                <span className='value' id='dolor'>2</span>
-              </div>
-
-              <div className='item'>
-                <span className='label'>Sit amet</span>
-                <span className='value' id='dolor'>17</span>
-              </div>
-
-              <div className='item'>
-                <span className='label'>Conseceur</span>
-                <span className='value' id='dolor'>No</span>
-              </div>
+            <p>
+              <span className='button' id='redeemCoinYesButton'>REDEEM</span>
+              <span className='button' id='ethNoButton'>DONATE</span>
+            </p>
 
 
-            </div>
-            <div className="clear separator"></div>
 
+
+
+
+
+          </div>
+        </div>
+
+        <div className='field' id='gameSummary'>
+          <div className='fieldInner'>
 
             <div className="c50l">
               <h2>Share your score and let your friends benefit from the #blockchain in real life!</h2>
-              <p>
+            </div>
+            <div className="c50r">
+
+              <p className="socialIcons">
                 <a className='socialIcon socialIconTwitter' href='https://twitter.com/home?status=https%3A//play.lab10.coop/' target="_blank">Share on Twitter</a>
                 <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/'>Share on Facebook</a>
                 <a className='socialIcon socialIconTwitter' href='#'>Share on Steem.it</a>
                 <a className='socialIcon socialIconTwitter' href='#'>Share on Pinterest</a>
                 <a className='socialIcon socialIconTwitter' href='#'>Share on WoopWoop</a>
               </p>
-            </div>
-            <div className="c50r">
-              <h2>Redeem your PLAY Token</h2>
-              <p>
-                <span className='button' id='redeemYourCoinButton'>Click here to start the redeem-process</span>
-              </p>
-            </div>
+                          </div>
             <div className="clear"></div>
 
-
-
-
-
           </div>
         </div>
 
-        <div className='layer' id='redeemCoinDecision'>
-          <div className='layerInner'>
-
-            <h2>Congratulations!</h2>
-            <p>You earned <span className="playTokensAmount">?</span> PLAY tokens by proof-of-play.</p>
-            <p>Now you can decide if you want to redeem the token or if you want to donate it to the development team to help further development of the project.</p>
-
-            <h2>Redeem Coin</h2>
-            <p>
-              <span className='button' id='redeemCoinYesButton'>YES, give me the coin </span>
-              <span className='button' id='ethNoButton'>
-                NO thanks, I&apos;ll donate it to you for further development
-              </span>
-            </p>
-          </div>
-          <div className="closeLayerButton"></div>
-        </div>
 
         <div className='layer' id='redeemCoin'>
           <div className='layerInner'>
 
-            <h2>Here&apos;s how to get your Coin</h2>
+            <h2>Redeem</h2>
 
             <div id='linkedWallet'>
               {/* <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED ###</strong></p> */} 
@@ -244,8 +188,9 @@ class EndGame extends React.Component {
             <div id='newWallet'>
                {/* <p><strong>### DEV-INFO: ELSE - WALLET FOUND BUT NOT LINKED YET ###</strong></p> */} 
 
-              <p>Please enter a strong password below (number, capital letter) to encrypt your wallet. Make sure to remember your password as this will be the only way to open your wallet for now.</p>
-
+              <p>Please enter a strong password (including numbers, lower case and upper case letters) to encrypt your wallet.</p>
+              <p>Make sure to remember your password as this will be the only way to open your wallet for now.</p>
+              
               <div className="formWrapper">
                 <input name='walletPassword' type='password' className='text' placeholder='Password' />
                 <input type='submit' value='Create Wallet' className='submit' id='createWallet' />
@@ -261,7 +206,9 @@ class EndGame extends React.Component {
         <div className='layer' id='walletCreated'>
           <div className='layerInner'>
 
-            <h2>Your wallet was successfully created. </h2>
+            <h2>Success!</h2>
+            <p>Congratulations, you have just created a wallet for yourself that hold your PLAY tokens.</p>
+            
             <p>Just enter your email address and we will send you your wallet file via email.</p>
 
             <form className="formWrapper">
@@ -302,7 +249,7 @@ class EndGame extends React.Component {
         <div className='layer' id='thankYou'>
           <div className='layerInner'>
             <h2>Thank you!</h2>
-            <p> Thanks for donating you coin to us for further development.</p>
+            <p>Thanks for donating you coins to us for further development.</p>
             <p><a className='button' href='gameboard'>back to the board</a></p>
           </div>
         </div>

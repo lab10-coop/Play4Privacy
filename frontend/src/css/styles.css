@@ -975,12 +975,18 @@ input.submit:hover {
 	margin: 0px;
 }
 
+.socialIcons {
+  margin-top: 0px;
+  vertical-align: top;
+  height: 60px;
+  line-height: 60px;
+}
 
 .socialIcon {
-	width: 40px;
-	height: 40px;
+	width: 60px;
+	height: 60px;
 	display: inline-block;
-	margin-right: 10px;
+	margin-left: 20px;
 	border-radius: 100%;
 	
 	background: #3ba0d2;
