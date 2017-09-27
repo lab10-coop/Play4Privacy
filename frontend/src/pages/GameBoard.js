@@ -14,8 +14,12 @@ class GameBoard extends React.Component {
     // $('#helpButton').click(() => alert('tadaaaaaa'));
     if(ethUtils.needsUnlock()) {
       $('#unlockWalletLayer').addClass('visible');
+      $('.joinGameWrapper').slideUp(350);
+      // $('.joinGameFirstInfotext').slideUp(350);   
     } else {
       $('#unlockWalletLayer').removeClass('visible');
+      $('.joinGameWrapper').slideDown(350);
+      // $('.joinGameFirstInfotext').slideDown(350);   
     }
 
     // Navigation Mobile
@@ -41,7 +45,9 @@ class GameBoard extends React.Component {
         //alert("wrong password. ")
         
         $('#unlockWalletLayer .errorMessage').slideDown(350);
-        
+        $('.joinGameWrapper').slideUp(350);
+        // $('.joinGameFirstInfotext').slideUp(350);   
+
         
         $('.button#createNewWallet').click(function(){
           
@@ -49,6 +55,9 @@ class GameBoard extends React.Component {
           $('#unlockWalletLayer .unlockInfoMessage').slideUp(350);
           $('#unlockWalletLayer .formWrapper').slideUp(350);
           $('#unlockWalletLayer .newWalletCreatedMessage').slideDown(350);
+          $('.joinGameWrapper').slideDown(350);
+          // $('.joinGameFirstInfotext').slideDown(350);   
+          
           
           ethUtils.createNewWallet();
           this.game.id = ethUtils.getAddress(); 
@@ -215,7 +224,7 @@ class GameBoard extends React.Component {
                 <div className={`item placeStatus ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
                   <p className="yourTeamInfotext">Your turn! Place your Stone!</p>
                   <p className="otherTeamInfotext">Wait until the other team placed their stone!</p>
-                  <p className="joinGameFirstInfotext" onClick={game.joinGame}>Join the game first!</p>
+                  <p className="joinGameFirstInfotext">Join the game first!</p>
                   <p className="waitForNextGame">Wait for next game to start!</p>
                 </div>
               </div>
