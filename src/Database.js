@@ -55,7 +55,18 @@ class DatabaseWrapper {
 }
 
 export class DatabaseWrapperDummy {
+  constructor() {
+    this.users = new Map();
+  }
   saveUser(id, fn) {
+    if (!this.users.has(id)) {
+      const newUser = new User({
+        userId: id,
+        creationDate: new Date(),
+        score: 0,
+      });
+      this.users.set(id, newUser);
+    }
     fn();
   }
 }

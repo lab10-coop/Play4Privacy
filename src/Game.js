@@ -23,7 +23,7 @@ import Go from './Go';
 import findConsensus from './consensus';
 import Blockchain from './Blockchain';
 import PlayerData from './Models';
-import DatabaseWrapper, { DatabaseWrapperDummy, connectToDb } from '../src/Database';
+import DatabaseWrapper, { DatabaseWrapperDummy, connectToDb } from './Database';
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
