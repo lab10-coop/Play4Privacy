@@ -13,11 +13,15 @@ function GameSettings() {
   this.PAUSED = 0;
   this.RUNNING = 1;
 
-  // Field states
+  // Game limits
+  this.MAX_PLAYERS = 100;
+
+  // Field/team states
   this.BLACK = 1;
   this.WHITE = -1;
   this.UNSET = 0;
   this.PLACED = 2;
+  this.PLAYER_LIMIT_EXCEEDED = -2;
 
 
   // WGo error codes
@@ -39,6 +43,8 @@ function GameSettings() {
       return 'BLACK';
     } else if (team === this.WHITE) {
       return 'WHITE';
+    } else if (team === this.PLAYER_LIMIT_EXCEEDED) {
+      return 'Maximum Users Exceeded!';
     }
     return '';
   };

@@ -69,7 +69,7 @@ class Game {
     this.startTime = Date.now();
     this.gameState = gs.RUNNING;
     this.api.gameStarted(this.go.currentTeam());
-    console.log(`starting new game at ${new Date(this.startTime).toLocaleString()}`);    
+    console.log(`starting new game at ${new Date(this.startTime).toLocaleString()}`);
   }
 
   endRound() {
@@ -100,9 +100,9 @@ class Game {
       const endState = {
         startTime: this.startTime,
         board: this.go.board,
-        submittedMoves: this.submittedMoves
+        submittedMoves: this.submittedMoves,
       };
-      console.log(`endState: ${JSON.stringify(endState)}`)
+      console.log(`endState: ${JSON.stringify(endState)}`);
       this.blockchain.persistGame(endState, tokenReceivers,
         (txHash, success) => {
           console.log(`Blockchain transaction ${txHash} ${success ? 'succeeded' : 'failed'}`);
@@ -134,8 +134,16 @@ class Game {
   }
 
   joinGame(id) {
-    console.log(`player ${id} connected`)
+    console.log(`player ${id} connected`);
     if (!this.players.has(id)) {
+      if (this.gameState === gs.PAUSED) {
+        return gs.UNSET;
+      }
+
+      if (this.players.size >= gs.MAX_PLAYERS) {
+        return gs.PLAYER_LIMIT_EXCEEDED;
+      }
+
       // assign teams round-robin
       this.players.set(id, new PlayerData(this.players.size % 2 ? gs.WHITE : gs.BLACK, 0));
     }
@@ -182,7 +190,7 @@ class Game {
     this.submittedMoves.push({
       round: this.roundNr,
       move: move,
-      sig: sig
+      sig: sig,
     });
     return move;
   }
