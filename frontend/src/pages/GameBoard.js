@@ -49,7 +49,7 @@ class GameBoard extends React.Component {
         // $('.joinGameFirstInfotext').slideUp(350);   
 
         
-        $('.button#createNewWallet').click(function(){
+        $('.button#createNewWallet').click( () => {
           
           $('#unlockWalletLayer .errorMessage').slideUp(350);
           $('#unlockWalletLayer .unlockInfoMessage').slideUp(350);
