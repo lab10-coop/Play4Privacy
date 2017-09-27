@@ -66,7 +66,7 @@ class Blockchain {
     // educated worst case guess which acts as upper (safety) limit
     // that is because if the call throws, estimateGas() will return a wrong (much too high) value
     // so this is basically for checking if the transaction is going to succeed
-    const gasReasonableLimit = 100000 + 35000*tokenReceivers.length;
+    const gasReasonableLimit = 100000 + 50000*tokenReceivers.length;
 
     const addresses = tokenReceivers.map(e => e.address);
     const amounts = tokenReceivers.map(e => e.amount);
@@ -89,6 +89,8 @@ class Blockchain {
         return null;
       }
       if(gasLimit > this.maxGasPerTx) {
+
+
         // TODO: split into multiple transactions
         console.error(`Transaction larger than allowed. I can't yet handle as many tokenReceivers without batching (not yet implemented)!`);
         return null;
