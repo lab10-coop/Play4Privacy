@@ -9,10 +9,12 @@ const app = express();
 const server = http.Server(app);
 const io = socketio(server);
 
-let mongodbName = 'p4p_dev';
+let mongodbName = '';
 if (process.env.MONGO_DB_NAME) {
   mongodbName = process.env.MONGO_DB_NAME;
 }
+
+console.log(`Configured MongoDB Database Name: ${mongodbName}`);
 
 const game = new Game(io, mongodbName);
 
