@@ -69,6 +69,7 @@ class GameBoard extends React.Component {
         // if(window.confirm("Wrong password. If you want to try again, click cancel. Click ok to create a new account.\nTODO: prettify this!")) {
         // }
       } else {
+        this.game.id = ethUtils.getAddress();
         $('#unlockWalletLayer').removeClass('visible');
         $('.joinGameWrapper').slideDown(350);
 
