@@ -836,7 +836,8 @@ input.submit:hover {
 	color: #66c006;
 }
 
-.gameInfo .placeStatus {
+.gameInfo .placeStatus,
+.gameInfo .maximumUsersExceedet {
 	background-color: #66c006;
 	color: #FFFFFF;
 	
@@ -854,6 +855,7 @@ input.submit:hover {
 	background-color: #66c006;	
 }
 
+.gameInfo .maximumUsersExceedet,
 .gameInfo .placeStatus.otherTeam {
 	background-color: #bd0505;	
 }
@@ -866,11 +868,15 @@ input.submit:hover {
 	background-color: #d1b13a;		
 }
 
+.gameInfo .maximumUsersExceedet {
+  padding: 20px;
+}
 
 
 
 .gameInfo .placeStatus.yourTeam .yourTeamInfotext,
 .gameInfo .placeStatus.otherTeam .otherTeamInfotext,
+.gameInfo .placeStatus .maximumUsersExceedet,
 .gameInfo .joinGameFirst .placeStatus .joinGameFirstInfotext {
 	display: block;
 }
@@ -883,7 +889,10 @@ input.submit:hover {
 	display: none;
 }
 
-
+.gameInfo .placeStatus .maximumUsersExceedet {
+  position: relative;
+  z-index: 20;
+}
 
 
 
@@ -1464,11 +1473,22 @@ footer .projectLinks a:hover {
   display: none;
 }
 
+
+
 footer,
 .errorLayer,
 .visible {
   display: block !important;
 }
+
+#unlockWalletLayer.maxUsersReaced,
+.joinGameWrapper.maxUsersReaced,
+.gameInfo .infoBox.maxUsersReaced .placeStatus,
+.gameInfo .infoBox.goodToGo .maximumUsersExceedet {
+  display: none !important;
+}
+
+
 
 
 

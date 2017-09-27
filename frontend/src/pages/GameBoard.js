@@ -127,6 +127,19 @@ class GameBoard extends React.Component {
       width: game.percentageLeftinRound,
     };
 
+
+    var maximumUsersStatus;   
+    if ((game.whitePlayers + game.blackPlayers) >= game.MAX_PLAYERS) {
+      maximumUsersStatus = "maxUsersReaced";
+    } else {
+      maximumUsersStatus = "goodToGo";  
+    }
+    
+    
+    
+
+
+
     return (
       <div>
         <div className={`layer ${game.myTeam ? '' : 'showLayer'}`} id='startGame'>
@@ -162,9 +175,10 @@ class GameBoard extends React.Component {
               */}
             </div>
             <div className="clear"></div>
+            
             <hr />
               
-            <div id='unlockWalletLayer'>
+            <div id='unlockWalletLayer' className={`${maximumUsersStatus}`}>
               <div className="unlockInner">
                 {/*<p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p> */}
                 <p className="unlockInfoMessage"><strong>Please enter your wallet password to start the game.</strong> <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>
@@ -191,12 +205,14 @@ class GameBoard extends React.Component {
             </div>
             
             {/* <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED OR NO WALLET FOUND###</strong></p> */}
-            <p className={`joinGameWrapper  ${game.paused ? 'gamePaused' : ''}`}>
+            <p className={`joinGameWrapper ${maximumUsersStatus} ${game.paused ? 'gamePaused' : ''}`}>
               Ready? Good!<br />
               <span className='button' onClick={game.joinGame} id='joinGameButton'>
                 JOIN GAME NOW
               </span>
             </p>
+            
+       
 
 
           </div>
@@ -221,15 +237,14 @@ class GameBoard extends React.Component {
               <h2>Player info: </h2>
 
 
-
-
-              <div className={`infoBox  ${game.myTeam ? '' : 'joinGameFirst'}`}>
+              <div className={`${maximumUsersStatus} infoBox ${game.myTeam ? '' : 'joinGameFirst'}`}>
                 <div className={`item placeStatus ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
                   <p className="yourTeamInfotext">Your turn! Place your Stone!</p>
                   <p className="otherTeamInfotext">Wait until the other team placed their stone!</p>
                   <p className="joinGameFirstInfotext">Join the game first!</p>
                   <p className="waitForNextGame">Wait for next game to start!</p>
                 </div>
+                <p className="maximumUsersExceedet">Maximum Users exceedet.<br /> please try later!</p>    
               </div>
 
 
