@@ -210,8 +210,8 @@ class GameBoard extends React.Component {
 
             <div className="pausedStatusMsg">
               <p>The Game is currently paused.<br />Please check back between 7pm to 10pm CEST.</p>
-            
-              <p className="redeemTokensButtonIfGamePaused">
+
+              <p className={`redeemTokensButtonIfGamePaused ${game.earnedTokens > 0 ? '' : 'item hide'}`}>
                 <a className='button' id='stopGame' href='endgame'>The game is currently paused. If you still have Tokens to redeem - click here!</a>
               </p>  
                

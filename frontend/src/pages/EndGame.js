@@ -17,6 +17,10 @@ class EndGame extends React.Component {
     explorerLink.href = explorerWalletUrl;
     explorerLink.innerHTML = explorerWalletUrl;
 
+    // TODO: this is lost on page load. Would need session store
+    //document.getElementsByClassName("playTokensAmount")[0].innerHTML = this.game.earnedTokens;
+    // TODO: if this is 0, redirect to board?
+
     // Navigation Mobile
     $('.navTrigger .showButton').click(function(){
       $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
@@ -128,7 +132,7 @@ class EndGame extends React.Component {
           <div className='fieldInner'>
 
             <h2>Congratulations!</h2>
-            <p>You earned <span className="playTokensAmount">?</span> PLAY tokens as proof-of-play.</p>
+            <p>You earned<span className="playTokensAmount"></span> PLAY tokens as proof-of-play.</p>
             <p>Do you want to <strong>redeem these tokens</strong> and create an Ethereum wallet to store them?</p>    
             <p>Or, do you want to donate your PLAY tokens to the further development of the project?</p>
 
