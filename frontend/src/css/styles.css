@@ -1124,6 +1124,12 @@ input.submit:hover {
   font-size: 18px;
 }
 
+.emailWarning {
+  border: 2px solid #ff8500;
+  color: #ff8500;
+  padding: 15px 25px;
+}
+
 
 /* ErrorLayer & GamePaused */
 

@@ -181,7 +181,12 @@ class EndGame extends React.Component {
               <input name='email' type='email' className='text' placeholder='Your email adress' />
               <input type='button' value='Send' className='submit' id='sendWalletFile' />
             </form>
-
+            
+            <p className="emailWarning">
+              Due to the high expected load on our servers during the first hours, please be patient if you do not recieve the email right away.<br/>
+              <strong>Your wallet should arrive within the next hours.</strong>
+            </p>
+            
             <p>If you do not want to share your email address - simply <a href="#" id="walletDownloadLink" title="Download Wallet File">click here to download</a> the file to your computer.</p>
 
             
