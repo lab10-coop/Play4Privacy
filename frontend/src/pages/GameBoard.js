@@ -133,9 +133,9 @@ class GameBoard extends React.Component {
             <h2>How does it work?</h2>
 
             <div className="c50l">
-              <p>You can join the current 'Go' game <br />at any point of time. <br />The rules are easy to learn! </p>
+              <p>You can join the current 'Go' game <br className="desktopOnly" />at any point of time. <br />The rules are easy to learn! </p>
               <span className='button' id='helpButton'>Rules of the game</span>
-              <p>When you join, you will be assigned <br />to one of the two teams (black, white). </p>
+              <p>When you join, you will be assigned <br className="desktopOnly" />to one of the two teams (black, white). </p>
  
             </div>
             <div className="c50r">

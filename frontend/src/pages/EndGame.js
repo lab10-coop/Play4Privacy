@@ -250,7 +250,7 @@ class EndGame extends React.Component {
         <div className='layer' id='thankYou'>
           <div className='layerInner'>
             <h2>Thank you!</h2>
-            <p>Thanks for donating you tokens to us for further development.</p>
+            <p>Thanks for donating your tokens to us for further development.</p>
             <p><a className='button' href='gameboard'>back to the board</a></p>
           </div>
         </div>
