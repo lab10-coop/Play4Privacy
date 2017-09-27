@@ -223,7 +223,6 @@ class EndGame extends React.Component {
                 <a className='socialIcon socialIconTwitter' href='https://twitter.com/home?status=I%20just%20received%20a%20few%20tokens%20for%20playing%20a%20game.%20Benefit%20from%20the%20%23blockchain%20in%20real%20life!%20%23p4p%20www.play4privacy.org' target="_blank">Share on Twitter</a>
                 <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/' target="_blank">Share on Facebook</a>
                 <a className='socialIcon socialIconGplus' href='https://plus.google.com/share?url=https%3A//play.lab10.coop/' target="_blank">Share on Google+</a>
-                <a className='socialIcon socialIconSteem' href='https://steemit.com' target="_blank">Share on Steem.it</a>
                 <a className='socialIcon socialIconReddit' href='http://www.reddit.com/submit?url=https%3A//play.lab10.coop/&title=Play4Privacy' target="_blank">Share on Reddit</a>
               </p>          
             </div>
@@ -249,7 +248,6 @@ class EndGame extends React.Component {
                 <a className='socialIcon socialIconTwitter' href='https://twitter.com/home?status=I%20just%20received%20a%20few%20tokens%20for%20playing%20a%20game.%20Benefit%20from%20the%20%23blockchain%20in%20real%20life!%20%23p4p%20www.play4privacy.org' target="_blank">Share on Twitter</a>
                 <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/' target="_blank">Share on Facebook</a>
                 <a className='socialIcon socialIconGplus' href='https://plus.google.com/share?url=https%3A//play.lab10.coop/' target="_blank">Share on Google+</a>
-                <a className='socialIcon socialIconSteem' href='https://steemit.com' target="_blank">Share on Steem.it</a>
                 <a className='socialIcon socialIconReddit' href='http://www.reddit.com/submit?url=https%3A//play.lab10.coop/&title=Play4Privacy' target="_blank">Share on Reddit</a>
               </p>          
             </div>
