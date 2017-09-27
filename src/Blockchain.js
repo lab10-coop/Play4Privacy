@@ -45,6 +45,8 @@ class Blockchain {
   }
 
   isSignatureValid(address, sig) {
+    // TODO: this broke down for unknown reason. Now throws
+    // web3.min.js:1 Uncaught TypeError: Cannot read property 'slice' of undefined at Object.slice (web3.min.js:1)
     return web3.eth.accounts.recover(sig) == address;
   }
 
@@ -77,8 +79,9 @@ class Blockchain {
       return null;
     }
 
-    // TODO: add game end state (2nd param: bitmap of board)
-    this.contract.methods.gamePlayed(gameHash, addresses, amounts).estimateGas().then( gasEstimate => {
+    // TODO: add game end state bitmap
+    const boardBitmap = "0x0000000000000000000000000000000000000000000000000000000000000000";
+    this.contract.methods.gamePlayed(gameHash, boardBitmap, addresses, amounts).estimateGas().then( gasEstimate => {
       let gasLimit = gasEstimate + Math.round(gasEstimate * 0.1); // estimate + 10%
       if(gasLimit > gasReasonableLimit) {
         /* Something may be wrong here (e.g. contract exception, see https://ethereum.stackexchange.com/a/8093/4298), thus interrupting */
@@ -93,9 +96,10 @@ class Blockchain {
 
       console.log(`sending tx for gamePlayed() with params:
             ${gameHash},
+            ${boardBitmap},
             ${addresses},
             ${amounts}`);
-      this.contract.methods.gamePlayed(gameHash, addresses, amounts).send({gas: gasLimit})
+      this.contract.methods.gamePlayed(gameHash, boardBitmap, addresses, amounts).send({gas: gasLimit})
         .once('transactionHash', txHash => {
           console.log(`tx ${txHash} sent: gamePlayed with ${tokenReceivers.length} token receivers, gas limit set to ${gasLimit}`)
         }).once('receipt', receipt => {

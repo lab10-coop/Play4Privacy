@@ -25,6 +25,21 @@ class Home extends React.Component {
       $('header nav').fadeOut(200);
     });
 
+
+
+    // Show Layers 	  
+    $('#newToBockchainButton').click(function(){
+      $('.layer#newToBC').addClass('showLayer');
+    });
+    
+    
+    // Hide Layer
+    $('.closeLayerButton').click(function(){
+      $(this).parent().removeClass('showLayer');
+    });
+
+
+
     // Refresh LiveCam Feed
     var liveCamPhoto = document.getElementById("liveFeedImage");
     function updateImage() {
@@ -42,9 +57,14 @@ class Home extends React.Component {
     };
     return (
       <div>
+        
+        <div className="newToBlockchainWrapper">
+          <span id='newToBockchainButton'>New to the blockchain? Click here!</span>
+        </div>
+
         <div className='field projectExplanation'>
           <h2>Play for fun and benefit from the blockchain in real life!</h2>
-          <p className="introduction"><strong>Play `Go`</strong> (WeiQi, Baduk) <br />on a public facade and earn crypto tokens for every move you make!</p>
+          <p className="introduction"><strong className="intro">Play `Go`</strong> (WeiQi, Baduk) <br />on a public facade and <strong>earn crypto tokens</strong> for every move you make!</p>
           
           
           <div className="c50l">
@@ -62,7 +82,19 @@ class Home extends React.Component {
           
           </div>
           <div className="c50r comePlayWithUs">
-            <p><strong>Join the game, play with us!</strong><br />From September 27th until October 27th. <br />Daily from 7pm to 10pm CEST.</p> 
+            <p>
+            
+              <a href='gameboard' title='Play Go and get PLAY Tokens!'>
+                <strong>Join the game, play with us!</strong><br />From September 27th until October 27th. <br />Daily from 7pm to 10pm CEST.
+              </a>
+            
+              
+            </p>
+            
+
+            
+            
+            
           </div>
           <div className="clear"></div>
           
@@ -78,7 +110,7 @@ class Home extends React.Component {
 
 
         <div className={`creditsButton field  ${this.props.game.paused ? 'gamePaused' : ''}`}>
-          <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>Click here to start playing</a></p>
+          <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>PLAY NOW!</a></p>
           <p className="centered">and earn tokens for your decision.</p>
 
         </div>
@@ -160,7 +192,7 @@ class Home extends React.Component {
 
 
         <div className={`creditsButton field ${this.props.game.paused ? 'gamePaused' : ''}`}>
-          <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>PLAY NOW!</a></p>
+          <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>Click here to start playing</a></p>
           <p className="centered">and earn tokens for your decision.</p>
         </div>
         
@@ -176,6 +208,30 @@ class Home extends React.Component {
             
           </div>
         </div>       
+
+
+        <div className='layer' id='newToBC'>
+          <div className='layerInner'>
+            <h2>New to blockchain..? I am a newbie!</h2>
+            <p>When playing this game, you will understand how the blockchain works and even get rewarded.</p>
+            
+            <h3>Understand the Blockchain!</h3>
+            <p>Board games like Go show how decision-making works and convey the underlying principles of `consensus` and `finality` in complex networks. These paradigms are also used by the blockchain, the underlying technology of crypto-currencies like Bitcoin. The blockchain allows `transparent anonymity` that allows anybody to participate anonymously while displaying the results publicly.</p>
+
+            <h3>Support Privacy!</h3>
+            <p>By playing Go, the project Play4Privacy creates awareness for privacy in general and the blockchain in particular in the most playful and interesting manner possible. However, it is not required for the participants to understand the underlying technology to experience its value.</p>
+
+
+            <h3>Get rewarded!</h3>
+            <p>Nevertheless, you will get rewarded with a PLAY-token for your every move you join. Just join in and figure out the rules of the game and the blockchain. You do not need any prior knowledge. We will guide you through!</p>
+
+            <h3>Still things unclear?</h3>
+            <p>Check out our <a href="faq" title="Show Frequenty Asked Questions">Frequently Asked Questions</a></p>
+
+          </div>
+          <div className="closeLayerButton"></div>
+        </div>
+
         
 
 

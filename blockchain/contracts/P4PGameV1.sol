@@ -3,12 +3,15 @@ pragma solidity ^0.4.15;
 import "./PlayToken.sol";
 
 /**
+!!! OUTDATED VERSION !!!
+This was the initial version deployed on mainnet. Nomore active.
+
 @title Contract for the Play4Privacy application.
 
 Persists games played (represented by a hash) and distributes PLAY tokens to players per game.
 This contract does not accept Ether payments.
 */
-contract P4P {
+contract P4PGameV1 {
     address owner;
     PlayToken playToken;
     mapping(bytes32 => bool) gamesPlayed;
@@ -25,7 +28,7 @@ contract P4P {
 
     Creates a contract for the associated PLAY Token
     */
-    function P4P() {
+    function P4PGameV1() {
         owner = msg.sender;
         playToken = new PlayToken(this);
     }

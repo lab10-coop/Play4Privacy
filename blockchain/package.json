@@ -1,0 +1,24 @@
+{
+  "name": "p4p_contracts",
+  "version": "1.0.0",
+  "description": "Needs truffle and testrpc installed: `npm install -g truffle ethereumjs-testrpc`   Start testrpc: `truffle-testrpc`   Then, in another tab run `./contract-changed.sh` for applying changes to the contract code.",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "bignumber.js": "^4.0.4",
+    "chai-bignumber": "^2.0.1",
+    "should": "^13.0.1",
+    "solc": "^0.4.15",
+    "zeppelin-solidity": "^1.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "truffle test"
+  },
+  "engines": {
+    "node": ">=v8.4.0"
+  },
+  "author": "dho@lab10.coop",
+  "license": "ISC"
+}

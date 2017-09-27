@@ -39,6 +39,9 @@
 		width: 750px;
 	}
 	
+	.newToBlockchainWrapper {
+    width: 750px;
+  }
 	
 	.field, 
 	.layer .layerInner {
@@ -190,6 +193,7 @@
   	background-size: 225px auto;
   }
   
+
   .layer {
     top: 60px;
   }
@@ -340,7 +344,18 @@
 		padding: 15px;
 	}
 	
-	
+  .newToBlockchainWrapper {
+    width: 456px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .newToBlockchainWrapper span {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  	
 
 	
 	.currentGame .liveCam, 
@@ -468,6 +483,20 @@
 		padding: 10px;
 	}
 
+  .newToBlockchainWrapper {
+    width: 316px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .newToBlockchainWrapper span {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  	
+
+
 
 	.currentGame .liveCam, 
 	.currentGame .gameField,
@@ -524,6 +553,12 @@
     width: 300px;
     float: none;
   }
+ 
+  .socialIcon {
+	  width: 40px;
+    height: 40px;
+    margin-left: 16px;
+	}
   
 
 	footer {

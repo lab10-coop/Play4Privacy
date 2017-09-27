@@ -68,8 +68,8 @@ class Game {
     this.roundNr = 1;
     this.startTime = Date.now();
     this.gameState = gs.RUNNING;
-    console.log(`starting new game at ${new Date(this.startTime).toLocaleString()}`);
-    this.api.gameStarted(this.startTime, this.go.currentTeam());
+    this.api.gameStarted(this.go.currentTeam());
+    console.log(`starting new game at ${new Date(this.startTime).toLocaleString()}`);    
   }
 
   endRound() {
@@ -94,7 +94,8 @@ class Game {
     if (process.env.ETH_ON) {
       // construct an array of { address: <player id>, amount: <nr of legal moves submitted> }
       const tokenReceivers = [ ...this.players ].map(elem =>
-        ({ address: elem[0], amount: elem[1].validMoves }));
+        ({ address: elem[0], amount: elem[1].validMoves }))
+        .filter(elem => elem.amount > 0);
       console.log(`tokenReceivers: ${JSON.stringify(tokenReceivers)}`);
       const endState = {
         startTime: this.startTime,
@@ -146,12 +147,14 @@ class Game {
   }
 
   submitMove(id, move, sig) {
-    console.log(`new move submitted: player ${id}, move ${move}`);
+    console.log(`new move submitted: player ${id}, move ${move}, sig ${sig}`);
     if (process.env.ETH_ON) {
+      /* check disabled because currently not working
       if (!this.blockchain.isSignatureValid(id, sig)) {
         console.error(`invalid signature ${sig}`);
         return 'Invalid signature';
       }
+      */
     }
 
     // Check if user has joined the current game

@@ -555,8 +555,38 @@ input.submit:hover {
   background-image: url(../img/hotspot-reward.png);
 }
 
-.introduction strong {
-  font-size: 48px;
+.introduction {
+  font-size: 18px;
+}
+
+.introduction strong.intro {
+  font-size: 34px;
+}
+
+.newToBlockchainWrapper {
+  width: 1010px;
+  padding: 0px;
+  margin: 0 auto;
+  margin-bottom: 0px;
+  text-align: right;
+  
+}
+
+.newToBlockchainWrapper span {
+    color: #FFFFFF;
+    border-top: 3px solid #1a6185;
+    background: #3ba0d2;
+    display: inline-block;
+    padding: 15px 25px;
+    text-transform: uppercase;
+  	transition: background-color .5s ease-in-out;
+  	-moz-transition: background-color .5s ease-in-out;
+  	-webkit-transition: background-color .5s ease-in-out;
+}
+
+.newToBlockchainWrapper span:hover {
+  background: #151515;
+  cursor: pointer;
 }
 
 
@@ -575,6 +605,10 @@ input.submit:hover {
 
 .comePlayWithUs p strong {
   font-size: 20px;
+}
+
+.comePlayWithUs a {
+  color: #FFFFFF;
 }
 
 
@@ -609,6 +643,69 @@ input.submit:hover {
 	top: 0px;
 }
 
+
+#unlockWalletLayer {
+  border-top: 3px solid #3ba0d2;
+  border-left: 3px solid #3ba0d2;
+  border-right: 3px solid #3ba0d2;
+  text-align: center;
+  font-size: 16px;
+
+}
+
+#unlockWalletLayer .unlockInner {
+  margin-left: 15px;
+  margin-right: 15px;
+  border-bottom: 2px solid #000000;
+  padding-bottom: 15px;
+}
+
+
+#unlockWalletLayer .errorMessage {
+  font-size: 18px;
+  color: #a80000;
+  border-top: 1px solid #a80000;
+  padding-top: 15px;
+  display: none;
+}
+
+#unlockWalletLayer .errorMessage .button {
+  border-color: #a80000;
+  color: #a80000;
+  font-weight: bold;
+}
+
+#unlockWalletLayer .errorMessage .button:hover {
+  border-color: #a80000;
+  color: #FFFFFF;
+  background-color: #a80000;
+  cursor: pointer; 
+}
+
+
+#unlockWalletLayer .newWalletCreatedMessage {
+  font-size: 18px;
+  color: #00aa0c;
+  border-top: 1px solid #00aa0c;
+  padding-top: 15px;
+  display: none;
+}
+
+
+
+
+.joinGameWrapper {
+  text-align: center;
+}
+
+#startGame ul {
+  padding-left: 20px;
+}
+
+#startGame .c50l,
+#startGame .c50l .button {
+  font-size: 22px;
+}
 
 #gameField .goBoard {
 	width: 480px;
@@ -786,9 +883,7 @@ input.submit:hover {
 	display: none;
 }
 
-.joinGameFirstInfotext:hover {
-  cursor: pointer;
-}
+
 
 
 
@@ -875,6 +970,16 @@ input.submit:hover {
 	background-color: rgba(44, 216, 255, 0.50);
 }
 
+
+.boardWrapper.BLACK .goField .place:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.boardWrapper.WHITE .goField .place:hover {
+  background-color: rgba(200, 200, 200, 0.5);
+}
+
+
 .goField .place.black:hover {
 	opacity: 1;	
 	background-color: #000000;
@@ -942,15 +1047,24 @@ input.submit:hover {
 	margin: 0px;
 }
 
+.socialIcons {
+  margin-top: 0px;
+  vertical-align: top;
+  height: 60px;
+  line-height: 60px;
+}
 
 .socialIcon {
-	width: 40px;
-	height: 40px;
+	width: 60px;
+	height: 60px;
 	display: inline-block;
-	margin-right: 10px;
+	margin-left: 20px;
 	border-radius: 100%;
 	
 	background: #3ba0d2;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 30px auto;
 	
 	font-size: 0px;
 	text-indent: -50000em;
@@ -965,6 +1079,29 @@ input.submit:hover {
 	background-color: #000000;
 }
 
+.socialIcon.socialIconTwitter {
+    background-image: url(../img/footer-twitter.png);
+}
+
+.socialIcon.socialIconFacebook {
+    background-image: url(../img/footer-facebook.png);
+}
+
+.socialIcon.socialIconSteem {
+    background-image: url(../img/footer-steemit.png);
+}
+
+.socialIcon.socialIconReddit {
+    background-image: url(../img/footer-reddit.png);
+}
+
+.socialIcon.socialIconGplus {
+    background-image: url(../img/footer-gplus.png);
+}
+
+
+
+
 
 .playTokensAmount {
   font-weight: bold;
@@ -978,7 +1115,8 @@ input.submit:hover {
 /* ErrorLayer & GamePaused */
 
 /* Game Paused */
-.gamePaused {
+#gameField.gamePaused .goField,
+#gameField.gamePaused .liveCam {
   opacity: 0.25;
 }
 
@@ -1002,6 +1140,18 @@ input.submit:hover {
 
 .gamePaused .pausedStatusMsg {
   display: block;
+}
+
+.gamePaused .pausedStatusMsg .redeemTokensButtonIfGamePaused .button {
+  color: #3ba0d2;
+  border-color: #3ba0d2;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.gamePaused .pausedStatusMsg .redeemTokensButtonIfGamePaused .button:hover {
+  color: #FFFFFF;
+  border-color: #FFFFFF;
 }
 
 
@@ -1030,6 +1180,8 @@ input.submit:hover {
 	-webkit-transition: height .5s ease-in-out, opacity .5s ease-in-out;
 
 }
+
+
 
 .gamePausedLayer {
   position: absolute;
@@ -1110,6 +1262,18 @@ input.submit:hover {
 
 /* FAQ */
 
+#frequentlyAskedQuestions h3 {
+  margin-bottom: 15px;
+  margin-top: 50  px;
+  color: #3ba0d2;
+}
+
+#frequentlyAskedQuestions h4 {
+  font-size: 16px;
+}
+
+
+
 .accordion {
   border-top: 1px solid #d3d3d3;
   padding-top: 25px;
@@ -1154,6 +1318,10 @@ footer p {
 	padding: 0px;
 }
 
+footer .footerLogo {
+  float: left;
+}
+
 footer .footerLogo,
 footer .footerLogo p {
 	width: 170px;
@@ -1170,6 +1338,7 @@ footer .footerLogo p {
 footer .cooperationText {
 	padding-top: 10px;
 	padding-bottom: 10px;
+	clear: both;
 }
 
 footer .cooperationText p {
@@ -1233,6 +1402,69 @@ footer .partners a.drei {
 }
 
 
+footer .projectLinks {
+  float: left;
+  padding-left: 20px;
+  padding-top: 28px;
+}
+
+
+footer .projectLinks a {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  border-radius: 100%;
+  margin: 0px 3px;
+  
+  text-indent: -50000em;
+  font-size: 0px;
+  
+  background-color: #141414;
+  background-position: center center;
+  background-size: 30px auto;
+  background-repeat: no-repeat;
+
+	transition: background-color .5s ease-in-out;
+	-moz-transition: background-color .5s ease-in-out;
+	-webkit-transition: background-color .5s ease-in-out;
+}
+
+footer .projectLinks a.twitter {
+  background-image: url(../img/footer-twitter.png);
+}
+
+footer .projectLinks a.medium {
+  background-image: url(../img/footer-medium.png);
+}
+
+footer .projectLinks a.bitcointalk {
+  background-image: url(../img/footer-bitcointalk.png);
+}
+
+footer .projectLinks a.p4pinfo {
+  background-image: url(../img/footer-link.png);
+}
+
+footer .projectLinks a:hover {
+  background-color: #3ba0d2;
+  cursor: pointer;
+}
+
+
+
+/* cough... fixes... cough ;) */
+
+#newWallet,
+#linkedWallet,
+#unlockWalletLayer {
+  display: none;
+}
+
+footer,
+.errorLayer,
+.visible {
+  display: block !important;
+}
 
 
 

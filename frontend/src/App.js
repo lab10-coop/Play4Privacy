@@ -21,6 +21,7 @@ import React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import FAQ from './pages/FAQ';
+import Imprint from './pages/Imprint';
 import Credits from './pages/Credits';
 import GameBoard from './pages/GameBoard';
 import EndGame from './pages/EndGame';
@@ -35,6 +36,7 @@ function Navigation() {
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/gameboard'>Gameboard</Link></li>
             <li><Link to='/faq'>FAQ</Link></li>
+            <li><Link to='/imprint'>Imprint</Link></li>
           </ul>
         </nav>
         <div className="navTrigger phonesOnly">
@@ -53,6 +55,7 @@ function App() {
       <Navigation />
       <Switch>
         <Route path='/faq' component={FAQ} />
+        <Route path='/imprint' component={Imprint} />
         <Route path='/credits' component={Credits} />
         <Route path='/gameboard' component={GameBoard} />
         <Route path='/endgame' component={EndGame} />
