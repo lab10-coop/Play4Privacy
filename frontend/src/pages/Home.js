@@ -122,7 +122,7 @@ class Home extends React.Component {
 
           <div className='liveCam'>
             <figure>
-              <img id="liveFeedImage" src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg' alt='bix Livecam' />
+              <img id="liveFeedImage" src='https://play.lab10.coop/bixcam' alt='bix Livecam' />
               <figcaption>Current Live-Feed from BixCam </figcaption>
             </figure>
           </div>
