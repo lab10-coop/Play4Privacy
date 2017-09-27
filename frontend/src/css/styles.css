@@ -1047,6 +1047,10 @@ input.submit:hover {
 	margin: 0px;
 }
 
+.socialIconsWrapper {
+  text-align: center;
+}
+
 .socialIcons {
   margin-top: 0px;
   vertical-align: top;
