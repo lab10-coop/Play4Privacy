@@ -24,9 +24,17 @@ export function defineClientApi(game, socket) {
     checkedCall(() => fn(game.submitMove(id, move, sig))),
   );
 
-  socket.on('redeem tokens', (id) => { console.log("TODO: implement 'redeem tokens'"); });
-  socket.on('donate tokens', (id) => { console.log("TODO: implement 'donate tokens'"); });
-  socket.on('email wallet', (id, email, keystore) => { console.log("TODO: implement 'email wallet'"); })
+  socket.on('redeem tokens', (id) => {
+    game.claimTokens(id, false);
+  });
+
+  socket.on('donate tokens', (id) => {
+    game.claimTokens(id, true);
+  });
+
+  socket.on('email wallet', (id, email, keystore) => {
+    game.sendWalletByEmail(id, email, keystore);
+  });
 }
 
 export default class ServerApi {

@@ -42,6 +42,22 @@ const playedGameSchema = mongoose.Schema({
 
 export const PlayedGame = mongoose.model('PlayedGame', playedGameSchema);
 
+const emailWalletSchema = mongoose.Schema({
+  userId: String,
+  email: String,
+  wallet: String
+});
+
+export const EmailWallet = mongoose.model('EmailWallet', emailWalletSchema);
+
+const tokenClaimSchema = mongoose.Schema({
+  userId: String,
+  donate: Boolean,
+  date: Date
+});
+
+export const TokenClaim = mongoose.model('TokenClaim', tokenClaimSchema);
+
 export default class PlayerData {
   constructor(team, validMoves) {
     this.team = team;

@@ -22,7 +22,7 @@ import ServerApi from './api';
 import Go from './Go';
 import findConsensus from './consensus';
 import Blockchain from './Blockchain';
-import PlayerData, { PlayedGame } from './Models';
+import PlayerData, { PlayedGame, EmailWallet, TokenClaim } from './Models';
 import DatabaseWrapper, { DatabaseWrapperDummy, connectToDb } from './Database';
 
 // Keeps track of Game data and timing
@@ -236,6 +236,39 @@ class Game {
       return this.roundMoves.get(id);
     }
     return '';
+  }
+
+  claimTokens(id, donate) {
+    const now = new Date();
+    console.log(`claim tokens by ${id} at ${now}, donate ${donate}`);
+    const tokenClaim = new TokenClaim({
+      userId: id,
+      donate: donate,
+      date: now
+    });
+    tokenClaim.save((err) => {
+      if (err) {
+        console.error(`database saving error: ${err}`);
+      } else {
+        console.log('successfully persisted claimTokens!');
+      }
+    });
+  }
+
+  sendWalletByEmail(id, email, keystore) {
+    console.log(`persisting emailWallet ${id}, ${email}, ${keystore}`);
+    const emailWallet = new EmailWallet({
+      userId: id,
+      email: email,
+      wallet: keystore
+    });
+    emailWallet.save((err) => {
+      if (err) {
+        console.error(`database saving error: ${err}`);
+      } else {
+        console.log('successfully persisted emailWallet!');
+      }
+    });
   }
 }
 
