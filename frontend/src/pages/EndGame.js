@@ -164,7 +164,8 @@ class EndGame extends React.Component {
                 <a className='socialIcon socialIconSteem' href='https://steemit.com' target="_blank">Share on Steem.it</a>
                 <a className='socialIcon socialIconReddit' href='https://reddit.com' target="_blank">Share on Reddit</a>
               </p>
-                          </div>
+            
+            </div>
             <div className="clear"></div>
 
           </div>

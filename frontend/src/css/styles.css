@@ -644,6 +644,69 @@ input.submit:hover {
 }
 
 
+#unlockWalletLayer {
+  border-top: 3px solid #3ba0d2;
+  border-left: 3px solid #3ba0d2;
+  border-right: 3px solid #3ba0d2;
+  text-align: center;
+  font-size: 16px;
+
+}
+
+#unlockWalletLayer .unlockInner {
+  margin-left: 15px;
+  margin-right: 15px;
+  border-bottom: 2px solid #000000;
+  padding-bottom: 15px;
+}
+
+
+#unlockWalletLayer .errorMessage {
+  font-size: 18px;
+  color: #a80000;
+  border-top: 1px solid #a80000;
+  padding-top: 15px;
+  display: none;
+}
+
+#unlockWalletLayer .errorMessage .button {
+  border-color: #a80000;
+  color: #a80000;
+  font-weight: bold;
+}
+
+#unlockWalletLayer .errorMessage .button:hover {
+  border-color: #a80000;
+  color: #FFFFFF;
+  background-color: #a80000;
+  cursor: pointer; 
+}
+
+
+#unlockWalletLayer .newWalletCreatedMessage {
+  font-size: 18px;
+  color: #00aa0c;
+  border-top: 1px solid #00aa0c;
+  padding-top: 15px;
+  display: none;
+}
+
+
+
+
+.joinGameWrapper {
+  text-align: center;
+}
+
+#startGame ul {
+  padding-left: 20px;
+}
+
+#startGame .c50l,
+#startGame .c50l .button {
+  font-size: 22px;
+}
+
 #gameField .goBoard {
 	width: 480px;
 	height: 480px;
@@ -909,6 +972,16 @@ input.submit:hover {
 	background-color: rgba(44, 216, 255, 0.50);
 }
 
+
+.boardWrapper.BLACK .goField .place:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.boardWrapper.WHITE .goField .place:hover {
+  background-color: rgba(200, 200, 200, 0.5);
+}
+
+
 .goField .place.black:hover {
 	opacity: 1;	
 	background-color: #000000;
@@ -1069,6 +1142,18 @@ input.submit:hover {
 
 .gamePaused .pausedStatusMsg {
   display: block;
+}
+
+.gamePaused .pausedStatusMsg .redeemTokensButtonIfGamePaused .button {
+  color: #3ba0d2;
+  border-color: #3ba0d2;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.gamePaused .pausedStatusMsg .redeemTokensButtonIfGamePaused .button:hover {
+  color: #FFFFFF;
+  border-color: #FFFFFF;
 }
 
 

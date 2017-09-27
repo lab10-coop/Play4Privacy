@@ -39,11 +39,26 @@ class GameBoard extends React.Component {
       const pass = document.getElementsByName("linkWalletPassword")[0].value;
       if(ethUtils.unlockWallet(pass) === null){
         //alert("wrong password. ")
-        if(window.confirm("Wrong password. If you want to try again, click cancel. Click ok to create a new account.\nTODO: prettify this!")) {
+        
+        $('#unlockWalletLayer .errorMessage').slideDown(350);
+        
+        
+        $('.button#createNewWallet').click(function(){
+          
+          $('#unlockWalletLayer .errorMessage').slideUp(350);
+          $('#unlockWalletLayer .unlockInfoMessage').slideUp(350);
+          $('#unlockWalletLayer .formWrapper').slideUp(350);
+          $('#unlockWalletLayer .newWalletCreatedMessage').slideDown(350);
+          
           ethUtils.createNewWallet();
-          this.game.id = ethUtils.getAddress(); // TODO: this is not elegant
-          $('#unlockWalletLayer').removeClass('visible');
-        }
+          this.game.id = ethUtils.getAddress(); 
+          // TODO: this is not elegant
+          // $('#unlockWalletLayer').removeClass('visible');
+        
+        });
+        
+        // if(window.confirm("Wrong password. If you want to try again, click cancel. Click ok to create a new account.\nTODO: prettify this!")) {
+        // }
       } else {
         $('#unlockWalletLayer').removeClass('visible');
       }
@@ -51,6 +66,10 @@ class GameBoard extends React.Component {
 
     // Button ScrollTo Layer / Top
     $('.button').click(function(){
+      $.scrollTo(0, 250);
+    });
+
+    $('.joinGameFirstInfotext').click(function(){
       $.scrollTo(0, 250);
     });
 
@@ -103,43 +122,62 @@ class GameBoard extends React.Component {
             <h2>How does it work?</h2>
 
             <div className="c50l">
-              <p>You can join the current Go game at any point of time. <br />The rules are easy to learn! </p>
+              <p>You can join the current 'Go' game <br />at any point of time. <br />The rules are easy to learn! </p>
               <span className='button' id='helpButton'>Rules of the game</span>
-              <p>When you join, you will be assigned to one of the two teams (black, white). </p>
-              <p>Every valid move you make will serve as proof-of-PLAY and mine (generate) two tokens:</p>
+              <p>When you join, you will be assigned <br />to one of the two teams (black, white). </p>
+ 
+            </div>
+            <div className="c50r">
+             <p>Every valid move you make will serve as proof-of-PLAY and mine (generate) two tokens:</p>
               <ul>
                 <li>The first token is your reward for playing</li>
                 <li>The second (supplementary) token will be donated to a charity.</li>
               </ul>
-            </div>
-            <div className="c50r">
               <p>The game automatically ends after 30 minutes. However, you can leave the game any time you wish</p>
               <p>In either case, you can redeem your tokens:</p>
               <ul>
                 <li>Send the tokens to an existing wallet.</li>
                 <li>Create a new wallet and transfer the tokens to this new created wallet</li>
               </ul>
-
+              
+              {/* 
               <h3>Optional:</h3>
               <p>If you want, you can enter a 3-letter name to be displayed on our leader board:</p>
               <div className="formWrapper">
                 <input name='username' type='text' className='text leaderboardDigits' placeholder='Enter 3 Digits' />
                 <input type='submit' value='Save' className='submit' />
               </div>
+              */}
             </div>
             <div className="clear"></div>
-
+            <hr />
+              
             <div id='unlockWalletLayer'>
-              <hr />
-              {/*<p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p> */}
-              <p>Please enter your wallet password to start the game. <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>
-              <div className="formWrapper">
-                <input name='linkWalletPassword' type='password' className='text' placeholder='Your Wallet-Password' />
-                <input type='submit' value='OK' className='submit' id='linkWallet' />
+              <div className="unlockInner">
+                {/*<p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p> */}
+                <p className="unlockInfoMessage"><strong>Please enter your wallet password to start the game.</strong> <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>
+                
+
+                <div className="formWrapper">
+                  <input name='linkWalletPassword' type='password' className='text' placeholder='Your Wallet-Password' />
+                  <input type='submit' value='OK' className='submit' id='linkWallet' />
+                </div>
+                
+                <p className="errorMessage">
+                  Wrong password - please try again. <br />
+                  <span className="button" id="createNewWallet">or create a new wallet</span>
+                </p>
+
+                <p className="newWalletCreatedMessage">
+                  <strong>Your new wallet has been created!</strong><br />
+                  You can start playing by clicking the button below.
+                </p>
+
+
+                
               </div>
             </div>
-            <hr />
-
+            
             {/* <p><strong>### DEV-INFO: IF WALLET IS ALREADY LINKED OR NO WALLET FOUND###</strong></p> */}
             <p className={`joinGameWrapper  ${game.paused ? 'gamePaused' : ''}`}>
               Ready? Good!<br />
@@ -154,15 +192,18 @@ class GameBoard extends React.Component {
 
         <div className={`field  ${game.paused ? 'gamePaused' : ''}`} id='gameField'>
           <div className='fieldInner'>
-
+            
+            <div className={`boardWrapper ${game.formattedMyTeam || '--'}`}>
             <Board />
+            </div>
 
             <div className="pausedStatusMsg">
               <p>The Game is currently paused.<br />Please check back between 7pm to 10pm CEST.</p>
             
               <p className="redeemTokensButtonIfGamePaused">
                 <a className='button' id='stopGame' href='endgame'>The game is currently paused. If you still have Tokens to redeem - click here!</a>
-            </p>   
+              </p>  
+               
             </div>
             <div className={`gameInfo ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
               <h2>Player info: </h2>
@@ -249,8 +290,7 @@ class GameBoard extends React.Component {
 
             </div>
  
-        
-            
+
 
             <div className='liveCam clear'>
               <img id="liveFeedImage" src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg' alt='bix Livecam' />
