@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "concurrently \"nodemon src/server.js --exec babel-node\" \"npm run frontend\"",
-    "start-devdb": "cross-env MONGO_DB_NAME=devdb concurrently \"nodemon src/server.js --exec babel-node\" \"npm run frontend\"",    
+    "start-devdb": "cross-env MONGO_DB_NAME=devdb concurrently \"nodemon src/server.js --exec babel-node\" \"npm run frontend\"",
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register --require source-map-support ./test/*.spec.js",
     "frontend": "node start-frontend.js",
     "server": "babel-node src/server.js",
@@ -44,6 +44,7 @@
     "babel-preset-es2015": "^6.24.1",
     "express": "^4.15.4",
     "mongoose": "^4.11.11",
+    "nodemailer": "^4.1.1",
     "socket.io": "^2.0.3",
     "web3": "^1.0.0-beta.18"
   }
