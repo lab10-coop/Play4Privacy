@@ -54,4 +54,10 @@ class DatabaseWrapper {
   }
 }
 
+export class DatabaseWrapperDummy {
+  saveUser(id, fn) {
+    fn();
+  }
+}
+
 export default DatabaseWrapper;

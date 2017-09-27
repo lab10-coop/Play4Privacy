@@ -23,19 +23,36 @@ import Go from './Go';
 import findConsensus from './consensus';
 import Blockchain from './Blockchain';
 import PlayerData from './Models';
+import DatabaseWrapper, { DatabaseWrapperDummy, connectToDb } from '../src/Database';
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
 // Note: Care needs to be taken to account for differences in the back-end
 //       and front-end clocks to display the correct temporal distance from game start
 class Game {
-  constructor(io) {
+  constructor(io, mongodbName) {
     this.api = new ServerApi(io);
     this.go = new Go();
     this.players = new Map();
     this.roundMoves = new Map();
-    this.gameState = gs.RUNNING;
+    this.gameState = gs.PAUSED;
     this.submittedMoves = [];
+
+    if (mongodbName !== '') {
+      this.db = new DatabaseWrapper();
+      connectToDb(`mongodb://mongo:27017/${mongodbName}`, () => {
+        this.startGame();
+        console.log('Database connected!');
+      }, () => {
+        console.log('Database disconnected!');
+      }, () => {
+        console.log('Database reconnected!');
+      });
+    } else {
+      this.db = new DatabaseWrapperDummy();
+      this.startGame();
+    }
+
     if (process.env.ETH_ON) {
       this.blockchain = new Blockchain(() => {
         console.log('Blockchain connected');
@@ -43,7 +60,6 @@ class Game {
     }
 
     setInterval(() => this.updateTime(), 1000);
-    this.startGame();
   }
 
   updateTime() {
