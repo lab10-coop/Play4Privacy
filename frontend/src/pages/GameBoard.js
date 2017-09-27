@@ -105,7 +105,7 @@ class GameBoard extends React.Component {
     // Refresh LiveCam Feed
     var liveCamPhoto = document.getElementById("liveFeedImage");
     function updateImage() {
-      const secondClockedTs = Math.floor(t / 1000) * 1000;
+      const secondClockedTs = Math.floor(new Date().getTime() / 1000) * 1000;
       liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + secondClockedTs;
     }
 
