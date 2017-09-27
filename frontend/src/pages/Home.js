@@ -43,7 +43,8 @@ class Home extends React.Component {
     // Refresh LiveCam Feed
     var liveCamPhoto = document.getElementById("liveFeedImage");
     function updateImage() {
-      liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + new Date().getTime();
+      const secondClockedTs = Math.floor(new Date().getTime() / 1000) * 1000;
+      liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + secondClockedTs;
     }
     
     setInterval(updateImage, 1000);
