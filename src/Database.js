@@ -5,26 +5,30 @@
 import mongoose from 'mongoose';
 import { User } from './Models';
 
-class Database {
-  constructor(mongodbAddress, connected, disconnected, reconnected) {
-    mongoose.connect(mongodbAddress, {
-      useMongoClient: true,
-    }).then(() => {
-      connected();
-      mongoose.connection.on('disconnected', () => {
-        console.log('DATABASE DISCONNECTED');
+export function connectToDb(mongodbAddress, connected, disconnected, reconnected) {
+  mongoose.connect(mongodbAddress, {
+    useMongoClient: true,
+  }).then(() => {
+    connected();
+    mongoose.connection.on('disconnected', () => {
+      console.log('DATABASE DISCONNECTED');
+      if (disconnected) {
         disconnected();
-      });
-      mongoose.connection.on('reconnected', () => {
-        console.log('DATABASE RECONNECTED');
-        reconnected();
-      });
-    }, (err) => {
-      // @todo handle case where the database is unavalabile right at startup
-      console.log(`MongoDB connection failed!!\n${err}`);
+      }
     });
-  }
+    mongoose.connection.on('reconnected', () => {
+      console.log('DATABASE RECONNECTED');
+      if (reconnected) {
+        reconnected();
+      }
+    });
+  }, (err) => {
+    // @todo handle case where the database is unavalabile right at startup
+    console.log(`MongoDB connection failed!!\n${err}`);
+  });
+}
 
+class DatabaseWrapper {
   saveUser(id, fn) {
     User.find({ userId: id }, (err, users) => {
       if (err) {
@@ -50,4 +54,4 @@ class Database {
   }
 }
 
-export default Database;
+export default DatabaseWrapper;
