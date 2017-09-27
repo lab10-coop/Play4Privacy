@@ -8,6 +8,6 @@ set -u
 # --reset makes sure a new instance of the contract is deployed
 truffle migrate --reset
 
-node json_to_js.js build/contracts/P4P.json ../src/_P4PContract.js
+node json_to_js.js build/contracts/P4PGame.json ../src/_P4PContract.js
 
 echo "update applied"
