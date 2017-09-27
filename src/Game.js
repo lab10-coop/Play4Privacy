@@ -22,7 +22,7 @@ import ServerApi from './api';
 import Go from './Go';
 import findConsensus from './consensus';
 import Blockchain from './Blockchain';
-import PlayerData from './Models';
+import PlayerData, { PlayedGame } from './Models';
 import DatabaseWrapper, { DatabaseWrapperDummy, connectToDb } from './Database';
 
 // Keeps track of Game data and timing
@@ -36,7 +36,9 @@ class Game {
     this.players = new Map();
     this.roundMoves = new Map();
     this.gameState = gs.PAUSED;
-    this.submittedMoves = [];
+    this.currentGame = new PlayedGame({
+      startDate: new Date(),
+    });
 
     if (mongodbName !== '') {
       this.db = new DatabaseWrapper();
@@ -62,12 +64,16 @@ class Game {
     setInterval(() => this.updateTime(), 1000);
   }
 
+  startTime() {
+    return this.currentGame.startDate.getTime();
+  }
+
   updateTime() {
     if (this.gameState === gs.PAUSED) {
-      if ((Date.now() - this.startTime) > gs.PAUSE_DURATION) {
+      if ((Date.now() - this.startTime()) > gs.PAUSE_DURATION) {
         this.startGame();
       }
-    } else if ((Date.now() - this.startTime) > gs.MAX_GAME_DURATION) {
+    } else if ((Date.now() - this.startTime()) > gs.MAX_GAME_DURATION) {
       this.endRound();
       this.endGame();
     } else if (this.go.currentTeam() !== this.expectedTeam) {
@@ -82,10 +88,12 @@ class Game {
     this.players.clear();
     this.roundMoves.clear();
     this.roundNr = 1;
-    this.startTime = Date.now();
+    this.currentGame = new PlayedGame({
+      startDate: new Date(),
+    });    
     this.gameState = gs.RUNNING;
     this.api.gameStarted(this.go.currentTeam());
-    console.log(`starting new game at ${new Date(this.startTime).toLocaleString()}`);
+    console.log(`starting new game at ${new Date(this.startTime()).toLocaleString()}`);
   }
 
   endRound() {
@@ -102,10 +110,22 @@ class Game {
   }
 
   endGame() {
-    this.startTime = Date.now();
     this.gameState = gs.PAUSED;
-    console.log(`game ended at ${new Date().toLocaleString()} after ${this.roundNr} rounds and with ${this.submittedMoves.length} user submitted moves`);
+    console.log(`game ended at ${new Date().toLocaleString()} after ${this.roundNr} rounds and with ${this.currentGame.submittedMoves.length} user submitted moves`);
     this.api.gameFinished(gs.PAUSE_DURATION);
+
+    this.currentGame.board = this.go.board;
+    this.players.forEach((value, key) => {
+      this.currentGame.players.push({userId: key});
+      //console.log(`Persisting player with id: ${key}`)
+    })
+    this.currentGame.save((err) => {
+      if (err) {
+        console.error(`database saving error: ${err}`);
+      } else {
+        console.log('successfully persisted game!');
+      }
+    });
 
     if (process.env.ETH_ON) {
       // construct an array of { address: <player id>, amount: <nr of legal moves submitted> }
@@ -114,9 +134,9 @@ class Game {
         .filter(elem => elem.amount > 0);
       console.log(`tokenReceivers: ${JSON.stringify(tokenReceivers)}`);
       const endState = {
-        startTime: this.startTime,
+        startTime: this.startTime(),
         board: this.go.board,
-        submittedMoves: this.submittedMoves,
+        submittedMoves: this.currentGame.submittedMoves,
       };
       console.log(`endState: ${JSON.stringify(endState)}`);
       this.blockchain.persistGame(endState, tokenReceivers,
@@ -145,7 +165,7 @@ class Game {
   get expectedTeam() {
     // No need to store the current team,
     // calculate it from the current time and the round time on the fly.
-    return (Math.floor((Date.now() - this.startTime) /
+    return (Math.floor((Date.now() - this.startTime()) /
       gs.ROUND_TIME) % 2) ? gs.WHITE : gs.BLACK;
   }
 
@@ -203,7 +223,7 @@ class Game {
     // Set the move and return
     this.roundMoves.set(id, move);
     this.players.get(id).validMoves += 1;
-    this.submittedMoves.push({
+    this.currentGame.submittedMoves.push({
       round: this.roundNr,
       move: move,
       sig: sig,

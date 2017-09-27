@@ -11,7 +11,7 @@ export function defineClientApi(game, socket) {
   // for example right after connecting/reconnecting to the server.
   socket.on('current game state', (id, timestamp, fn) => {
     checkedCall(() => {
-      fn(timestamp, Date.now() - game.startTime, game.go.currentTeam(), game.hasJoined(id),
+      fn(timestamp, Date.now() - game.startTime(), game.go.currentTeam(), game.hasJoined(id),
         game.playerMove(id), game.go.board, game.gameState);
     });
   });

@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
 app.get('/board', (request, response) => {
   const res = {
     time: Date.now(),
-    startTime: game.startTime,
+    startTime: game.startTime(),
     currentTeam: game.go.currentTeam(),
     board: game.go.board,
     gameState: game.gameState,

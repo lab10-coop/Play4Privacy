@@ -1,7 +1,7 @@
 import { before, after } from 'mocha';
 import { expect } from 'chai';
 import mongoose from 'mongoose';
-import { Move, User, Player, Game } from '../src/Models';
+import { Move, User, Player, PlayedGame } from '../src/Models';
 
 describe('MongoClient', () => {
   before((done) => {
@@ -88,8 +88,8 @@ describe('MongoClient', () => {
         sig: 'anothersig',
       } ];
 
-      const testGame = new Game({
-        gameStart: new Date(),
+      const testGame = new PlayedGame({
+        startDate: new Date(),
         board: [ 4, 5, 7 ],
         submittedMoves,
         tokenReceivers: [],
@@ -101,7 +101,7 @@ describe('MongoClient', () => {
       testGame.save(done);
     });
     it('should contain correct user', (done) => {
-      Game.find({}, (err, games) => {
+      PlayedGame.find({}, (err, games) => {
         if (err) { throw err; }
         expect(games.length).to.equal(1);
         expect(games[0].players[0].userId).to.equal('davidf');

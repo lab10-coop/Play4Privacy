@@ -26,8 +26,8 @@ const moveSchema = mongoose.Schema({
 
 export const Move = mongoose.model('Move', moveSchema);
 
-const gameSchema = mongoose.Schema({
-  gameStart: Date,
+const playedGameSchema = mongoose.Schema({
+  startDate: Date,
   board: [],
   submittedMoves: [ {
     round: Number,
@@ -40,7 +40,7 @@ const gameSchema = mongoose.Schema({
   } ],
 });
 
-export const Game = mongoose.model('Game', gameSchema);
+export const PlayedGame = mongoose.model('PlayedGame', playedGameSchema);
 
 export default class PlayerData {
   constructor(team, validMoves) {
