@@ -9,7 +9,12 @@ const app = express();
 const server = http.Server(app);
 const io = socketio(server);
 
-const game = new Game(io);
+let mongodbName = 'p4p_dev';
+if (process.env.MONGO_DB_NAME) {
+  mongodbName = process.env.MONGO_DB_NAME;
+}
+
+const game = new Game(io, mongodbName);
 
 app.set('port', process.env.PORT || 3001);
 
@@ -35,7 +40,6 @@ app.get('/board', (request, response) => {
 app.get('*', (request, response) => {
   response.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
-
 
 io.on('connection', (socket) => {
   console.log('a user connected');

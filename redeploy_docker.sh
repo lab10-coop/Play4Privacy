@@ -1,6 +1,7 @@
 CONTAINER=$1
-PORT=$2
-IMAGE_TAG=$3
+MONGO_DB_NAME=$2
+PORT=$3
+IMAGE_TAG=$4
 
 if [ "a${CONTAINER}" == "a" ]; then
   echo "The first argument needs to be a container id or friendly name"
@@ -31,4 +32,4 @@ if [ "$RUNNING" == "true" ]; then
     docker rm $CONTAINER
 fi
 
-docker run --name=$CONTAINER --restart=always -p$PORT:3001 -d docker.dev.lab10.io/p4p:$IMAGE_TAG
+docker run --name=$CONTAINER -e "MONGO_DB_NAME=${MONGO_DB_NAME}" --restart=always -p$PORT:3001 --link mongo -d docker.dev.lab10.io/p4p:$IMAGE_TAG

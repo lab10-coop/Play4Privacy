@@ -21,6 +21,8 @@ test_backend:
   script: 
     - npm install
     - CI=true npm test
+  services:
+    - mongo    
   cache:
     paths:
       - node_modules/        
@@ -35,7 +37,7 @@ deploy_staging:
   stage: deploy
   image: docker:latest
   script:
-    - /bin/sh redeploy_docker.sh staging-p4p 3001 $CI_PIPELINE_ID
+    - /bin/sh redeploy_docker.sh staging-p4p staging_p4p 3001 $CI_PIPELINE_ID
   environment:
     name: staging
     url: https://staging-p4p.dev.lab10.io
@@ -46,7 +48,7 @@ deploy_prod:
   stage: deploy
   image: docker:latest
   script:
-    - /bin/sh redeploy_docker.sh p4p 3000 $CI_PIPELINE_ID
+    - /bin/sh redeploy_docker.sh p4p p4p 3000 $CI_PIPELINE_ID
   environment:
     name: production
     url: https://p4p.dev.lab10.io
