@@ -47,7 +47,7 @@ class Home extends React.Component {
       liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + secondClockedTs;
     }
     
-    setInterval(updateImage, 1000);
+    setInterval(updateImage, 5000);
 
 
   }
