@@ -26,6 +26,22 @@ const moveSchema = mongoose.Schema({
 
 export const Move = mongoose.model('Move', moveSchema);
 
+const gameSchema = mongoose.Schema({
+  gameStart: Date,
+  board: [],
+  submittedMoves: [ {
+    round: Number,
+    move: Number,
+    sig: String,
+  } ],
+  tokenReceivers: [ String ],
+  players: [ {
+    userId: String,
+  } ],
+});
+
+export const Game = mongoose.model('Game', gameSchema);
+
 export default class PlayerData {
   constructor(team, validMoves) {
     this.team = team;
