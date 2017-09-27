@@ -142,35 +142,9 @@ class EndGame extends React.Component {
             </p>
 
 
-
-
-
-
-
           </div>
         </div>
 
-        <div className='field' id='gameSummary'>
-          <div className='fieldInner'>
-
-            <div className="c50l">
-              <h2>Share your score and let your friends benefit from the #blockchain in real life!</h2>
-            </div>
-            <div className="c50r">
-
-              <p className="socialIcons">
-                <a className='socialIcon socialIconTwitter' href='https://twitter.com/home?status=https%3A//play.lab10.coop/' target="_blank">Share on Twitter</a>
-                <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/' target="_blank">Share on Facebook</a>
-                <a className='socialIcon socialIconGplus' href='https://plus.google.com/share?url=https%3A//play.lab10.coop/' target="_blank">Share on Google+</a>
-                <a className='socialIcon socialIconSteem' href='https://steemit.com' target="_blank">Share on Steem.it</a>
-                <a className='socialIcon socialIconReddit' href='https://reddit.com' target="_blank">Share on Reddit</a>
-              </p>
-            
-            </div>
-            <div className="clear"></div>
-
-          </div>
-        </div>
 
 
         <div className='layer' id='redeemCoin'>
@@ -199,7 +173,7 @@ class EndGame extends React.Component {
         <div className='layer' id='walletCreated'>
           <div className='layerInner'>
 
-            <h2>Success!</h2>
+            <h2>Export your wallet</h2>
             <p>Congratulations, you have just created a wallet for yourself that hold your PLAY tokens.</p>
             <p>Just enter your email address and we will send you your wallet file via email.</p>
 
@@ -211,6 +185,7 @@ class EndGame extends React.Component {
             <p>If you do not want to share your email address - simply <a href="#" id="walletDownloadLink" title="Download Wallet File">click here to download</a> the file to your computer.</p>
 
             
+            <h3>Access your tokens</h3>
             <p>To access your wallet, visit <a href="https://www.myetherwallet.com/#send-transaction">https://www.myetherwallet.com/#send-transaction</a>, 
             upload your Keystore file and enter your password.</p>
             <p>You can check your account address and PLAY balance there.<br />
@@ -239,6 +214,20 @@ class EndGame extends React.Component {
             <p>
               <a className='button' href='gameboard'>back to the board</a>
             </p>
+            
+
+            <hr />
+            <div className="socialIconsWrapper">
+              <p><strong>Share and let your friends benefit from the #blockchain in real life!</strong></p>
+              <p className="socialIcons">
+                <a className='socialIcon socialIconTwitter' href='https://twitter.com/home?status=I%20just%20received%20a%20few%20tokens%20for%20playing%20a%20game.%20Benefit%20from%20the%20%23blockchain%20in%20real%20life!%20%23p4p%20www.play4privacy.org' target="_blank">Share on Twitter</a>
+                <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/' target="_blank">Share on Facebook</a>
+                <a className='socialIcon socialIconGplus' href='https://plus.google.com/share?url=https%3A//play.lab10.coop/' target="_blank">Share on Google+</a>
+                <a className='socialIcon socialIconSteem' href='https://steemit.com' target="_blank">Share on Steem.it</a>
+                <a className='socialIcon socialIconReddit' href='https://reddit.com' target="_blank">Share on Reddit</a>
+              </p>          
+            </div>
+            
 
           </div>
         </div>
@@ -252,6 +241,19 @@ class EndGame extends React.Component {
             <h2>Thank you!</h2>
             <p>Thanks for donating your tokens to us for further development.</p>
             <p><a className='button' href='gameboard'>back to the board</a></p>
+          
+            <hr />
+            <div className="socialIconsWrapper">
+              <p><strong>Share and let your friends benefit from the #blockchain in real life!</strong></p>
+              <p className="socialIcons">
+                <a className='socialIcon socialIconTwitter' href='https://twitter.com/home?status=I%20just%20received%20a%20few%20tokens%20for%20playing%20a%20game.%20Benefit%20from%20the%20%23blockchain%20in%20real%20life!%20%23p4p%20www.play4privacy.org' target="_blank">Share on Twitter</a>
+                <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/' target="_blank">Share on Facebook</a>
+                <a className='socialIcon socialIconGplus' href='https://plus.google.com/share?url=https%3A//play.lab10.coop/' target="_blank">Share on Google+</a>
+                <a className='socialIcon socialIconSteem' href='https://steemit.com' target="_blank">Share on Steem.it</a>
+                <a className='socialIcon socialIconReddit' href='https://reddit.com' target="_blank">Share on Reddit</a>
+              </p>          
+            </div>
+          
           </div>
         </div>
 
