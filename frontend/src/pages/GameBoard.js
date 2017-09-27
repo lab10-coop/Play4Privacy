@@ -304,7 +304,7 @@ class GameBoard extends React.Component {
 
 
             <div className='liveCam clear'>
-              <img id="liveFeedImage" src='http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg' alt='bix Livecam' />
+              <img id="liveFeedImage" src='https://play.lab10.coop/bixcam' alt='bix Livecam' />
             </div>
           </div>
         </div>
