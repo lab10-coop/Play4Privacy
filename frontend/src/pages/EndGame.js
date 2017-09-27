@@ -224,7 +224,7 @@ class EndGame extends React.Component {
                 <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/' target="_blank">Share on Facebook</a>
                 <a className='socialIcon socialIconGplus' href='https://plus.google.com/share?url=https%3A//play.lab10.coop/' target="_blank">Share on Google+</a>
                 <a className='socialIcon socialIconSteem' href='https://steemit.com' target="_blank">Share on Steem.it</a>
-                <a className='socialIcon socialIconReddit' href='https://reddit.com' target="_blank">Share on Reddit</a>
+                <a className='socialIcon socialIconReddit' href='http://www.reddit.com/submit?url=https%3A//play.lab10.coop/&title=Play4Privacy' target="_blank">Share on Reddit</a>
               </p>          
             </div>
             
@@ -250,7 +250,7 @@ class EndGame extends React.Component {
                 <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/' target="_blank">Share on Facebook</a>
                 <a className='socialIcon socialIconGplus' href='https://plus.google.com/share?url=https%3A//play.lab10.coop/' target="_blank">Share on Google+</a>
                 <a className='socialIcon socialIconSteem' href='https://steemit.com' target="_blank">Share on Steem.it</a>
-                <a className='socialIcon socialIconReddit' href='https://reddit.com' target="_blank">Share on Reddit</a>
+                <a className='socialIcon socialIconReddit' href='http://www.reddit.com/submit?url=https%3A//play.lab10.coop/&title=Play4Privacy' target="_blank">Share on Reddit</a>
               </p>          
             </div>
           
