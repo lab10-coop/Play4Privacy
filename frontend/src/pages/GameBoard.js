@@ -70,6 +70,8 @@ class GameBoard extends React.Component {
         // }
       } else {
         $('#unlockWalletLayer').removeClass('visible');
+        $('.joinGameWrapper').slideDown(350);
+
       }
     });
 
@@ -79,7 +81,7 @@ class GameBoard extends React.Component {
     });
 
     $('.joinGameFirstInfotext').click(function(){
-      $.scrollTo(0, 250);
+      $.scrollTo(".joinGameWrapper", 250, {offset:-50});
     });
 
 
