@@ -334,7 +334,19 @@
   .hotspots .c33r {
     text-align: center;
   }
+  
+  .reactNotWorking {
+      padding: 5px;
+      font-size: 14px;
+  }
 
+  .reactNotWorking a {
+      font-size: 14px;
+  }
+
+  footer {
+    	padding-top: 100px;
+  }
 
 }
 
