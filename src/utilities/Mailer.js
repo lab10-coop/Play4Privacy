@@ -1,19 +1,19 @@
 import nodemailer from 'nodemailer';
 
-export default function sendWallet(recipient, text, buffer, fn) {
+export default function sendWallet(recipient, subject, text, buffer, fn) {
   const transporter = nodemailer.createTransport({
-    host: 'mail.***.net',
+    host: process.env.MAILER_HOST,
     port: 465,
     secure: true,
     auth: {
-      user: '***@***.at',
-      pass: '****',
+      user: process.env.MAILER_USER,
+      pass: process.env.MAILER_PASS,
     },
   });
   const mailOptions = {
-    from: 'david.forstenlechner@gmx.at',
+    from: "play@lab10.coop",
     to: recipient,
-    subject: 'Sending Email using Node.js',
+    subject: subject,
     text,
     attachments: [ {
       filename: 'wallet.json',
