@@ -947,6 +947,17 @@ input.submit:hover {
 	
 }
 
+
+.goField .place.lastPlaced {
+  transform: rotate(3600deg);
+	transition: color .5s ease-in-out, background .5s ease-in-out, transform 17s ease-in-out;
+	-moz-transition: color .5s ease-in-out, background .5s ease-in-out, transform 17s ease-in-out;
+	-webkit-transition: color .5s ease-in-out, background .5s ease-in-out, transform 17s ease-in-out;
+}
+
+
+
+
 .goField .place.black,
 .gameInfo.BLACK .placeStatus .yourTeamInfotext .stone {
 	color: #FFFFFF;
@@ -993,6 +1004,8 @@ input.submit:hover {
 }
 
 
+
+
 .goField .place:hover {
 	cursor: pointer;
 	background-color: rgba(44, 216, 255, 0.50);
@@ -1022,7 +1035,6 @@ input.submit:hover {
 	cursor: default;
 	background-color: rgba(44, 216, 255, 0.0);
 }
-
 
 
 

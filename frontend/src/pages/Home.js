@@ -152,7 +152,7 @@ class Home extends React.Component {
             <div className="gamePausedLayerInner">
               <div className="icon"></div>
               <div className="gamePausedText">
-                <span className="headline"><strong>Game Paused!</strong><br />check back from 7pm to 10pm CEST</span>
+                <span className="headline"><strong>Game Paused!</strong><br />check back from <br />7pm to 10pm CEST</span>
               </div>
             </div>
           </div>
