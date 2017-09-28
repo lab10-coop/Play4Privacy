@@ -10,8 +10,9 @@ console.log(`connected to ${dbName}`)
 function processTask(mt) {
   console.log(`task: address ${mt.userId}, email: ${mt.email}, wallet len: ${mt.wallet.length}`)
 
-  // sendWallet(recipient, subject, text, buffer, fn
-  sendWallet("test@d10r.net", "Your PLAY tokens",
+  if(! process.env.MAILER_SIMULATE) {
+    // sendWallet(recipient, subject, text, buffer, fn
+    sendWallet(mt.email, "Your PLAY tokens",
 `Hello,
 
 you just earned PLAY tokens for "proof-of-play". You find your password protected wallet (Keystore) file attached.
@@ -34,10 +35,11 @@ Welcome to the world of crypto!
 Regards
 Your team from www.play4privacy.org
 `,
-    mt.wallet, ( ret => {
-      console.log(`mailer returned ${ret}`);
-    })
-  )
+      mt.wallet, ( ret => {
+        console.log(`mailer returned ${ret}`);
+      })
+    )
+  }
 }
 
 EmailWallet.find().exec( function(err, mailTasks) {
@@ -51,12 +53,13 @@ EmailWallet.find().exec( function(err, mailTasks) {
     const addr = mailTasks[i].userId;
     if(addr.length < 40) {
       console.error(`bad address ${addr}, skipping (we may apologize instead)`)
+    } else {
+      (function (mt, ind) {
+        setTimeout(() => {
+          console.log(`${mailTasks.length - ind} tasks left...`)
+          processTask(mt);
+        }, 5000 * ind);
+      })(mailTasks[i], i);
     }
-    (function(mt, ind) {
-      setTimeout(() => {
-        console.log(`${mailTasks.length - ind} tasks left...`)
-        processTask(mailTasks[i]);
-      }, 5000*ind);
-    })(mailTasks[i], i);
   }
 })
