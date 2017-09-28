@@ -102,9 +102,19 @@ class Game {
     this.setGameState(elapsedTime, currentTeam, myTeam, myMove, boardState, gameState);
   }
 
+  // Utility function to clear stones marked as PLACED in the previous round.
+  clearPlaced() {
+    for (let i = 0; i < gs.BOARD_SIZE_SQUARED; i++) {
+      if (this.squares[i] === gs.PLACED) {
+        this.squares[i] = gs.UNSET;
+      }
+    }
+  }
+
   @action.bound
   finishRound(nr, newTeam, move, captured) {
     this.roundNr = nr + 1; // point to the next round
+    this.clearPlaced();
     this.squares[move] = this.currentTeam;
     this.currentTeam = newTeam;
     if(this.myMove !== "" && ! isNaN(this.myMove)) {
