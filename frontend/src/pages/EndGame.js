@@ -183,7 +183,7 @@ class EndGame extends React.Component {
             </form>
             
             <p className="emailWarning">
-              Due to the high expected load on our servers during the first hours, please be patient if you do not recieve the email right away.<br/>
+              Due to the high expected load on our servers, please be patient if you do not recieve the email right away.<br/>
               <strong>Your wallet should arrive within the next hours.</strong>
             </p>
             
