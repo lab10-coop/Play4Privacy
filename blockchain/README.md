@@ -21,8 +21,10 @@ Could be fixed by adding an assertion which checks for "all gas consumed".
 
 * Owner: 0xFe4E89f620a8663d03136bee040904fe3A623f5D
 * Token address: 0xfB41f7b63c8e84f4BA1eCD4D393fd9daa5d14D61
-* Game address: 0x2A8A3008d7f2ba87fd339941E362FC9FBD9A1B57 (first version was: 0x8d9a49dCc42E365D9Cd353b5AeF88eBe664C11a6)
+* Game address: 0x78Cb0dB58721596Bc79Dc9D8d8296212D153D804, V2: 0x2A8A3008d7f2ba87fd339941E362FC9FBD9A1B57 (V1 was: 0x8d9a49dCc42E365D9Cd353b5AeF88eBe664C11a6)
 * Pool address: 0x7e0C7676be340EE8eFB4321abfA4634a7Abfb92c
+
+* Dev donation addr: 0x57f81fa922527198c9e8d4ac3a98971a8c46e7e2
 
 In order to re-broadcast a stuck transaction with too low gasPrice, do:  
 ```

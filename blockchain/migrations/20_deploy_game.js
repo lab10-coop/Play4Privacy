@@ -6,7 +6,7 @@ module.exports = async function(deployer, network) {
     let tokenAddress = PlayToken.address;
 
     console.log(`deploying P4PGame with token address ${tokenAddress}`);
-    const game = await deployer.deploy(P4PGame, tokenAddress);
+    const game = await deployer.deploy(P4PGame, tokenAddress, 0); // pool addr is set later
 
     // this can be done only if the current account owns the token contract. Not the case on mainnet
     console.log(`setting in token contract ${tokenAddress}: controller ${P4PGame.address}`);
