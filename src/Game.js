@@ -208,7 +208,7 @@ class Game {
 
     // Check if player is on the right team
     if (this.players.get(id).team !== this.go.currentTeam()) {
-      return 'Wait your turn!';
+      return 'Wait for your turn!';
     }
 
     // Check if already set a move in this round
