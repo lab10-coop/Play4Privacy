@@ -14,7 +14,8 @@
     "build-clean": "rm -rf build && mkdir build",
     "build-server": "babel -d ./build ./src -s",
     "build-production": "npm run build-clean && npm run build-server",
-    "start-production": "node ./build/server.js"
+    "start-production": "node ./build/server.js",
+    "mailer": "babel-node src/utilities/sendWallets.js"
   },
   "repository": {
     "type": "git",
