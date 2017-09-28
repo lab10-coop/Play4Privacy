@@ -738,8 +738,7 @@ input.submit:hover {
 }
 
 #gameField .gameInfo h2,
-#gameField .gameInfo .item,
-#gameField .gameInfo p {
+#gameField .gameInfo .item {
 	margin-left: 25px;
 }
 
@@ -894,6 +893,21 @@ input.submit:hover {
   z-index: 20;
 }
 
+.gameInfo .placeStatus .yourTeamInfotext {
+  position: relative;
+}
+
+.gameInfo .placeStatus .yourTeamInfotext .stone {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  margin-top: -15px;
+  height: 30px;
+  width: 30px;
+  display: block;
+  border-radius: 100%;
+}
+
 
 
 
@@ -930,7 +944,8 @@ input.submit:hover {
 	
 }
 
-.goField .place.black {
+.goField .place.black,
+.gameInfo.BLACK .placeStatus .yourTeamInfotext .stone {
 	color: #FFFFFF;
 	background-color: #000000;
 	
@@ -949,7 +964,8 @@ input.submit:hover {
 
 }
 
-.goField .place.white {
+.goField .place.white,
+.gameInfo.WHITE .placeStatus .yourTeamInfotext .stone {
 	color: #000000;
 	background-color: #dbdbdb;
 
@@ -1326,6 +1342,8 @@ footer {
 	height: 720px;
 	width: 100%;
 	display: block;
+	position: relative;
+	z-index: 1;
 }
 
 footer .footerInner {
@@ -1504,6 +1522,8 @@ footer .projectLinks a:hover {
   position: relative;
   z-index: 10;
   background: #FAFAFA;
+  display: inline-block;
+  width: 100%;
 }
 
 #newWallet,

@@ -234,13 +234,14 @@ class GameBoard extends React.Component {
               </p>  
                
             </div>
-            <div className={`gameInfo ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
+ 
+           <div className={`gameInfo ${game.formattedMyTeam || '--'} ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
               <h2>Player info: </h2>
 
 
               <div className={`${maximumUsersStatus} infoBox ${game.myTeam ? '' : 'joinGameFirst'}`}>
                 <div className={`item placeStatus ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
-                  <p className="yourTeamInfotext">Your turn! Place your Stone!</p>
+                  <p className="yourTeamInfotext">Your turn! Place your Stone!<span className="stone"></span></p>
                   <p className="otherTeamInfotext">Wait until the other team placed their stone!</p>
                   <p className="joinGameFirstInfotext">Join the game first!</p>
                   <p className="waitForNextGame">Wait for next game to start!</p>
@@ -249,6 +250,14 @@ class GameBoard extends React.Component {
               </div>
 
 
+              <div className='item'>
+                <span className='label'>Earned tokens during this game:</span>
+                <span className='value' id='yourTokens'>{game.earnedTokens} Token</span>
+              </div>
+              <div className='item'>
+                <span className='label'>Unclaimed tokens total:</span>
+                <span className='value' id='yourTokens'>{game.unclaimedTokens} Token</span>
+              </div>
 
               <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
                 <span className='label'>Your team:</span>
@@ -268,10 +277,9 @@ class GameBoard extends React.Component {
                 </div>
               </div>
 
-
-
-
-
+  
+  
+  
               <h2>Current game info:</h2>
               <div className='item'>
                 <span className='label'>Active Team</span>
@@ -306,11 +314,7 @@ class GameBoard extends React.Component {
                 </div>
               </div>
 
-              <h2>Tokens:</h2>
-              <div className='item'>
-                <span className='label'>PLAY tokens earned so far:</span>
-                <span className='value' id='yourTokens'>{game.earnedTokens} Token</span>
-              </div>
+
 
               <p className={`item ${game.myTeam ? '' : 'hideItem'}`}>
                 <a className='button' id='stopGame' href='endgame'>Leave game, redeem your tokens</a>

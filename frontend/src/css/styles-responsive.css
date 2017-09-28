@@ -564,6 +564,21 @@
     width: 300px;
     float: none;
   }
+
+  .gameInfo .placeStatus .yourTeamInfotext {
+    padding-top: 35px;
+    margin-top: 10px;
+    margin-bottom: 13px;
+  }
+  
+  .gameInfo .placeStatus .yourTeamInfotext .stone {
+    top: 0px;
+    margin-top: 0px;
+    
+    right: 50%;
+    margin-right: -15px;
+  }
+
  
   .socialIcon {
 	  width: 40px;
