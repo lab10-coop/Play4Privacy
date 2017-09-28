@@ -35,6 +35,7 @@ class Game {
     this.go = new Go();
     this.players = new Map();
     this.roundMoves = new Map();
+    this.pauseStart = Date.now();
     this.gameState = gs.PAUSED;
     this.currentGame = new PlayedGame({
       startDate: new Date(),
@@ -70,7 +71,7 @@ class Game {
 
   updateTime() {
     if (this.gameState === gs.PAUSED) {
-      if ((Date.now() - this.startTime()) > gs.PAUSE_DURATION) {
+      if ((Date.now() - this.pauseStart) > gs.PAUSE_DURATION) {
         this.startGame();
       }
     } else if ((Date.now() - this.startTime()) > gs.MAX_GAME_DURATION) {
@@ -90,7 +91,7 @@ class Game {
     this.roundNr = 1;
     this.currentGame = new PlayedGame({
       startDate: new Date(),
-    });    
+    });
     this.gameState = gs.RUNNING;
     this.api.gameStarted(this.go.currentTeam());
     console.log(`starting new game at ${new Date(this.startTime()).toLocaleString()}`);
@@ -110,15 +111,16 @@ class Game {
   }
 
   endGame() {
+    this.pauseStart = Date.now();
     this.gameState = gs.PAUSED;
     console.log(`game ended at ${new Date().toLocaleString()} after ${this.roundNr} rounds and with ${this.currentGame.submittedMoves.length} user submitted moves`);
     this.api.gameFinished(gs.PAUSE_DURATION);
 
     this.currentGame.board = this.go.board;
     this.players.forEach((value, key) => {
-      this.currentGame.players.push({userId: key});
-      //console.log(`Persisting player with id: ${key}`)
-    })
+      this.currentGame.players.push({ userId: key });
+      // console.log(`Persisting player with id: ${key}`)
+    });
     this.currentGame.save((err) => {
       if (err) {
         console.error(`database saving error: ${err}`);
@@ -225,8 +227,8 @@ class Game {
     this.players.get(id).validMoves += 1;
     this.currentGame.submittedMoves.push({
       round: this.roundNr,
-      move: move,
-      sig: sig,
+      move,
+      sig,
     });
     return move;
   }
