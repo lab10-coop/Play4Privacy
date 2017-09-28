@@ -116,6 +116,7 @@ class Game {
     this.roundNr = nr + 1; // point to the next round
     this.clearPlaced();
     this.squares[move] = this.currentTeam;
+    this.previousMove = move;
     this.currentTeam = newTeam;
     if(this.myMove !== "" && ! isNaN(this.myMove)) {
         this.earnedTokens++;
@@ -142,6 +143,9 @@ class Game {
 
   // Averages the last 3 latency values to avoid spikes
   latency = new Averager(3);
+
+  // Indicator for the move chosen in the previous round
+  previousMove = -1;
 
   // Ticker triggering updates of time-dependent computations by the magic
   // of mobx functional-reactive programming.

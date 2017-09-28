@@ -16,9 +16,13 @@ function Square(props) {
     stoneColor = 'placed';
   }
 
+  const classes = [ 'place', stoneColor ];
+  if (props.previousMove === 'true') {
+    classes.push('lastPlaced');
+  }
 
   return (
-    <div className={[ 'place', stoneColor ].join(' ')} onClick={props.onClick} />
+    <div className={classes.join(' ')} onClick={props.onClick} />
   );
 }
 
@@ -32,6 +36,7 @@ class Board extends React.Component {
       <Square
         value={this.props.game.squares[i]}
         onClick={() => this.props.game.submitMove(i)}
+        previousMove={(this.props.game.previousMove === i) ? 'true' : 'false'}
       />
     );
   }
