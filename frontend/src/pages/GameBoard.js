@@ -241,14 +241,18 @@ class GameBoard extends React.Component {
 
               <div className={`${maximumUsersStatus} infoBox ${game.myTeam ? '' : 'joinGameFirst'}`}>
                 <div className={`item placeStatus ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
-                  <p className="yourTeamInfotext">Your turn! Place your Stone!<span className="stone"></span></p>
+                  <p className={`yourTeamInfotext ${game.formattedMove ? 'stonePlaced' : ''}`}>
+                    
+                    {game.formattedMove ? 'Stone placed!' : 'Your turn! Place your Stone!'}
+                    <span className="stone"></span>
+                  </p>
                   <p className="otherTeamInfotext">Wait until the other team placed their stone!</p>
                   <p className="joinGameFirstInfotext">Join the game first!</p>
                   <p className="waitForNextGame">Wait for next game to start!</p>
                 </div>
                 <p className="maximumUsersExceedet">Maximum Users exceedet.<br /> please try later!</p>    
               </div>
-
+              
 
               <div className='item'>
                 <span className='label'>Earned tokens during this game:</span>
