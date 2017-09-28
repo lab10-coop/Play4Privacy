@@ -1469,9 +1469,42 @@ footer .projectLinks a:hover {
   cursor: pointer;
 }
 
+/* reactNotWorking */
+
+.reactNotWorking {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 0;
+  width: 100%;
+  background: #3ba0d2;
+  color: #FFFFFF;
+  text-align: center;
+  display: block !important;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.reactNotWorking a {
+  font-weight: bold;
+  color: #FFFFFF;
+  text-decoration: underline;
+  font-size: 18px;
+}
+
+.reactNotWorking a:hover {
+  color: #FFFFFF;
+}
+
 
 
 /* cough... fixes... cough ;) */
+
+#react_root {
+  position: relative;
+  z-index: 10;
+  background: #FAFAFA;
+}
 
 #newWallet,
 #linkedWallet,
