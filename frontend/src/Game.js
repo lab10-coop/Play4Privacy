@@ -33,6 +33,7 @@ class Game {
 
     this.socket = socket;
     this.maxGameDuration = new Date(gs.MAX_GAME_DURATION);
+    this.startDate = new Date();
     this.gameState = gs.RUNNING;
 
     // ////////////////////////////////////////////////////////////////////////
@@ -75,7 +76,8 @@ class Game {
   }
 
   @action.bound
-  startGame(currentTeam) {
+  startGame(currentTeam, startDate) {
+    this.startDate = startDate;
     this.gameState = gs.RUNNING;
     this.setGameState(0, currentTeam, gs.UNSET, '',
       Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET), gs.RUNNING);

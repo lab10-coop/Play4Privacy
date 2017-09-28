@@ -93,7 +93,7 @@ class Game {
       startDate: new Date(),
     });
     this.gameState = gs.RUNNING;
-    this.api.gameStarted(this.go.currentTeam());
+    this.api.gameStarted(this.go.currentTeam(), this.currentGame.startDate);
     console.log(`starting new game at ${new Date(this.startTime()).toLocaleString()}`);
   }
 

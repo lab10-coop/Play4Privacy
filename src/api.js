@@ -43,8 +43,8 @@ export default class ServerApi {
   }
 
   // Listen to this event to get notified when a new game starts.
-  gameStarted(currentTeam) {
-    this.io.emit('game started', currentTeam);
+  gameStarted(currentTeam, startDate) {
+    this.io.emit('game started', currentTeam, startDate);
   }
 
   // Listen to this event to get notified when a round finished.
