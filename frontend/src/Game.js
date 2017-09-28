@@ -247,7 +247,7 @@ class Game {
     const sig = ethUtils.sign(`${this.startTime}_${this.roundNr}_${move}`);
 
     this.socket.emit('submit move', this.id,
-      move, sig, (confirmedMove) => {
+      move, this.roundNr, sig, (confirmedMove) => {
         this.myMove = confirmedMove;
         this.squares[confirmedMove] = gs.PLACED;
       });

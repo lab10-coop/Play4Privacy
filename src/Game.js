@@ -130,22 +130,23 @@ class Game {
       }
     });
 
+
+    // construct an array of { address: <player id>, amount: <nr of legal moves submitted> }
+    const tokenReceivers = [ ...this.players ].map(elem =>
+      ({ address: elem[0], amount: elem[1].validMoves }))
+      .filter(elem => elem.amount > 0);
+    console.log(`tokenReceivers: ${JSON.stringify(tokenReceivers)}`);
+    const endState = {
+      startTime: this.startTime(),
+      board: this.go.board,
+      submittedMoves: this.currentGame.submittedMoves,
+    };
+    console.log(`endState: ${JSON.stringify(endState)}`);
     if (process.env.ETH_ON) {
-      // construct an array of { address: <player id>, amount: <nr of legal moves submitted> }
-      const tokenReceivers = [ ...this.players ].map(elem =>
-        ({ address: elem[0], amount: elem[1].validMoves }))
-        .filter(elem => elem.amount > 0);
-      console.log(`tokenReceivers: ${JSON.stringify(tokenReceivers)}`);
-      const endState = {
-        startTime: this.startTime(),
-        board: this.go.board,
-        submittedMoves: this.currentGame.submittedMoves,
-      };
-      console.log(`endState: ${JSON.stringify(endState)}`);
-      this.blockchain.persistGame(endState, tokenReceivers,
-        (txHash, success) => {
-          console.log(`Blockchain transaction ${txHash} ${success ? 'succeeded' : 'failed'}`);
-        });
+    this.blockchain.persistGame(endState, tokenReceivers,
+      (txHash, success) => {
+        console.log(`Blockchain transaction ${txHash} ${success ? 'succeeded' : 'failed'}`);
+      });
     }
   }
 
@@ -193,8 +194,8 @@ class Game {
     return this.players.has(id) ? this.players.get(id).team : gs.UNSET;
   }
 
-  submitMove(id, move, sig) {
-    console.log(`new move submitted: player ${id}, move ${move}, sig ${sig}`);
+  submitMove(id, round, move, sig) {
+    console.log(`new move submitted: player ${id}, round ${round}, move ${move}, sig ${sig}`);
     if (process.env.ETH_ON) {
       /* check disabled because currently not working
       if (!this.blockchain.isSignatureValid(id, sig)) {

@@ -20,8 +20,8 @@ export function defineClientApi(game, socket) {
   // returns the team you are assigned to, or an empty string
   // if joining failed.
   socket.on('join game', (id, fn) => checkedCall(() => fn(game.joinGame(id))));
-  socket.on('submit move', (id, move, sig, fn) =>
-    checkedCall(() => fn(game.submitMove(id, move, sig))),
+  socket.on('submit move', (id, round, move, sig, fn) =>
+    checkedCall(() => fn(game.submitMove(id, round, move, sig))),
   );
 
   socket.on('redeem tokens', (id) => {
