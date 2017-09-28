@@ -1161,6 +1161,10 @@ input.submit:hover {
   padding: 15px 25px;
 }
 
+.noticeMessage {
+  font-style: italic;
+}
+
 
 /* ErrorLayer & GamePaused */
 

@@ -150,7 +150,7 @@ class EndGame extends React.Component {
         <div className='layer' id='redeemCoin'>
           <div className='layerInner'>
 
-            <h2>Redeem</h2>
+            <h2>Let's create a wallet together!</h2>
             
             <div id='newWallet'>
                {/* <p><strong>### DEV-INFO: ELSE - WALLET FOUND BUT NOT LINKED YET ###</strong></p> */} 
@@ -188,15 +188,6 @@ class EndGame extends React.Component {
             </p>
             
             <p>If you do not want to share your email address - simply <a href="#" id="walletDownloadLink" title="Download Wallet File">click here to download</a> the file to your computer.</p>
-
-            
-            <h3>Access your tokens</h3>
-            <p>To access your wallet, visit <a href="https://www.myetherwallet.com/#send-transaction">https://www.myetherwallet.com/#send-transaction</a>, 
-            upload your Keystore file and enter your password.</p>
-            <p>You can check your account address and PLAY balance there.<br />
-            You could even send your tokens to another address (if you have Ether to pay for your transaction fees).</p>
-            <p>Welcome to the world of crypto!</p>
-            <p>Invite your friends to also explore the concepts of crypto-currencies and PLAY with us. </p>
             
             
           </div>
@@ -209,13 +200,24 @@ class EndGame extends React.Component {
 
         <div className='layer' id='redeemCoinSuccessful'>
           <div className='layerInner'>
-
-            <h2>The token transaction is underway.</h2>
-            <p>This process can take a few minutes up to several hours - depending on the state of the blockchain.</p>
+            <h2>Please bear with us.</h2>
+            
+            <p className="emailWarning">You will receive the wallet file and your PLAY-tokens in the next few hours.</p>
             <p>
-              You can check the state of your wallet using the following link:<br/>
-              <a id="explorerLink" href="#" target="_blank" title="Check transaction at etherscan.io">#</a>
+              You can check the state of the token-distribution using the following link:<br/>
+              <a id="explorerLink" href="#" target="_blank" title="Check transaction at etherscan.io">#</a><br />
+              <span className="noticeMessage">(Note: New tokens will be distributed once a day)</span>
             </p>
+
+            <h3>Access your tokens/wallet</h3>
+            <p>To access your wallet, visit <a href="https://www.myetherwallet.com/#send-transaction">https://www.myetherwallet.com/#send-transaction</a>, 
+            upload your Keystore file and enter your password.</p>
+            <p>You can check your account address and PLAY balance there.<br />
+            You could even send your tokens to another address (if you have Ether to pay for your transaction fees).</p>
+            <p>Welcome to the world of crypto!</p>
+            <p>Invite your friends to also explore the concepts of crypto-currencies and PLAY with us. </p>
+
+          
             <p>
               <a className='button' href='gameboard'>back to the board</a>
             </p>
