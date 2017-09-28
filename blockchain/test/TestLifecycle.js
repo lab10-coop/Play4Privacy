@@ -48,11 +48,11 @@ contract('P4P Lifecycle', accounts => {
     ]
 
     it("can't continue playing after shutdown", async () => {
-        await game.gamePlayed(games[0].hash, games[0].boardState, [], []);
-        await game.addPlayers(games[0].hash, games[0].players, games[0].amounts);
+        await game.addGame(games[0].hash, games[0].boardState);
+        await game.distributeTokens(games[0].players, games[0].amounts);
         await game.shutdown();
-        await game.gamePlayed(games[1].hash, games[1].boardState, [], []).should.be.rejected();
-        await game.addPlayers(games[1].hash, games[1].players, games[1].amounts).should.be.rejected();
+        await game.addGame(games[1].hash, games[1].boardState).should.be.rejected();
+        await game.distributeTokens(games[1].players, games[1].amounts).should.be.rejected();
     })
 
     it("donation unlock timestamp can only be advanced, not reduced", async () => {

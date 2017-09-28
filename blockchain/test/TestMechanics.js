@@ -129,7 +129,8 @@ contract('P4P mechanics', accounts => {
             tokensClaimed += amounts.reduce( (sum, e) => {
                 return sum + e;
             });
-            game.gamePlayed(g.hash, g.boardState, addresses, amounts);
+            game.addGame(g.hash, g.boardState);
+            game.distributeTokens(addresses, amounts);
         }
         //console.log(`total tokens claimed: ${tokensClaimed}`);
         const tokenSupply = web3.toDecimal(web3.fromWei(await token.totalSupply()));
