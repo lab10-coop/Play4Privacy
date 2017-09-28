@@ -215,7 +215,6 @@ class EndGame extends React.Component {
             <p>You can check your account address and PLAY balance there.<br />
             You could even send your tokens to another address (if you have Ether to pay for your transaction fees).</p>
             <p>Welcome to the world of crypto!</p>
-            <p>Invite your friends to also explore the concepts of crypto-currencies and PLAY with us. </p>
 
           
             <p>
@@ -225,7 +224,7 @@ class EndGame extends React.Component {
 
             <hr />
             <div className="socialIconsWrapper">
-              <p><strong>Share and let your friends benefit from the #blockchain in real life!</strong></p>
+              <p><strong>Share and let your friends benefit from the blockchain in real life!</strong></p>
               <p className="socialIcons">
                 <a className='socialIcon socialIconTwitter' href='https://twitter.com/home?status=I%20just%20received%20a%20few%20tokens%20for%20playing%20a%20game.%20Benefit%20from%20the%20%23blockchain%20in%20real%20life!%20%23p4p%20www.play4privacy.org' target="_blank">Share on Twitter</a>
                 <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/' target="_blank">Share on Facebook</a>
@@ -250,7 +249,7 @@ class EndGame extends React.Component {
           
             <hr />
             <div className="socialIconsWrapper">
-              <p><strong>Share and let your friends benefit from the #blockchain in real life!</strong></p>
+              <p><strong>Share and let your friends benefit from the blockchain in real life!</strong></p>
               <p className="socialIcons">
                 <a className='socialIcon socialIconTwitter' href='https://twitter.com/home?status=I%20just%20received%20a%20few%20tokens%20for%20playing%20a%20game.%20Benefit%20from%20the%20%23blockchain%20in%20real%20life!%20%23p4p%20www.play4privacy.org' target="_blank">Share on Twitter</a>
                 <a className='socialIcon socialIconFacebook' href='https://www.facebook.com/sharer/sharer.php?u=https%3A//play.lab10.coop/' target="_blank">Share on Facebook</a>
