@@ -38,6 +38,7 @@ const playedGameSchema = mongoose.Schema({
   players: [ {
     userId: String,
   } ],
+  selectedMoves: [ Number ],
 });
 
 export const PlayedGame = mongoose.model('PlayedGame', playedGameSchema);

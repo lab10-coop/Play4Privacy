@@ -107,6 +107,7 @@ class Game {
     const roundNr = this.roundNr++;
     const captured = this.go.addMove(roundMove);
     this.roundMoves.clear();
+    this.currentGame.selectedMoves.push(roundMove);
     this.api.roundFinished(roundNr, this.go.currentTeam(), roundMove, captured);
   }
 
