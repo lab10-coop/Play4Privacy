@@ -113,14 +113,14 @@ class Home extends React.Component {
         </div>
 
 
-        <div className={`creditsButton field  ${this.props.game.paused ? 'gamePaused' : ''}`}>
+        <div className={`creditsButton field  ${this.props.game.stopped ? 'gamePaused' : ''}`}>
           <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>PLAY NOW!</a></p>
           <p className="centered">and earn tokens for your decision.</p>
 
         </div>
         
 
-        <div className={`currentGame field  ${this.props.game.paused ? 'gamePaused' : ''}`}>
+        <div className={`currentGame field  ${this.props.game.stopped ? 'gamePaused' : ''}`}>
           
           <h2>Current game in progress</h2>
 
@@ -200,12 +200,12 @@ class Home extends React.Component {
         </div>
 
 
-        <div className={`creditsButton field ${this.props.game.paused ? 'gamePaused' : ''}`}>
+        <div className={`creditsButton field ${this.props.game.stopped ? 'gamePaused' : ''}`}>
           <p><a className='button' href='gameboard' title='Play Go and get PLAY Tokens!'>Click here to start playing</a></p>
           <p className="centered">and earn tokens for your decision.</p>
         </div>
         
-        <div className='field' id='buyPlayyTokensDesc'>
+        <div className='field' id='buyPlayTokensDesc'>
           <div className='fieldInner'>  
           
             <h2>Can I also buy PLAY-tokens?</h2>
