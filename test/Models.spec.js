@@ -89,6 +89,7 @@ describe('MongoClient', () => {
       } ];
 
       const testGame = new PlayedGame({
+        gameId: new Date().getTime(),
         startDate: new Date(),
         board: [ 4, 5, 7 ],
         submittedMoves,

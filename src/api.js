@@ -9,9 +9,12 @@ function checkedCall(fn) {
 export function defineClientApi(game, socket) {
   // Emit this event to receive the current game state from cratch,
   // for example right after connecting/reconnecting to the server.
+  // params: userId, client's current timestamp
+  // returns: clientTimeStamp, elapsedTime, currentTeam, team, move, boardState, gameState
   socket.on('current game state', (id, timestamp, fn) => {
+    console.log(`game state request by ${id}`);
     checkedCall(() => {
-      fn(timestamp, Date.now() - game.startTime(), game.go.currentTeam(), game.hasJoined(id),
+      fn(game.gameId(), timestamp, Date.now() - game.startTime(), game.go.currentTeam(), game.hasJoined(id),
         game.playerMove(id), game.go.board, game.gameState);
     });
   });
@@ -43,17 +46,19 @@ export default class ServerApi {
   }
 
   // Listen to this event to get notified when a new game starts.
-  gameStarted(currentTeam, startDate) {
-    this.io.emit('game started', currentTeam, startDate);
+  gameStarted(gameId, currentTeam) {
+    this.io.emit('game started', gameId, currentTeam);
   }
 
   // Listen to this event to get notified when a round finished.
   roundFinished(nr, nextTeam, move, captured) {
+    console.log(`ROUND: nr ${nr}, move ${move}, team ${nextTeam}`);
     this.io.emit('round finished', nr, nextTeam, move, captured);
   }
 
   // Listen to this event to get notified when a game finished.
   gameFinished() {
+    console.log(`game finished at ${new Date()}`)
     this.io.emit('game finished');
   }
 

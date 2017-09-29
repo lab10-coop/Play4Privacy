@@ -9,6 +9,12 @@ Environment variables used:
 MONGO_DB_NAME for the name of the DB
 MAILER_SIMULATE in order to avoid not actually send, but just iterate and log what would be sent.
 MAILER_DELAY Seconds to wait between SMTP sending requests. Default: 5 seconds
+
+The used mailer module further requires:
+MAILER_HOST
+MAILER_USER
+MAILER_PASS
+
 The text content of the mail is hardcoded here.
 */
 

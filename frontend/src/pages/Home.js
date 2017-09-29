@@ -42,9 +42,11 @@ class Home extends React.Component {
 
     // Refresh LiveCam Feed
     var liveCamPhoto = document.getElementById("liveFeedImage");
-    function updateImage() {
-      const secondClockedTs = Math.floor(new Date().getTime() / 1000) * 1000;
-      liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + secondClockedTs;
+    const updateImage = () => {
+      if(! this.props.game.stopped) {
+        const secondClockedTs = Math.floor(new Date().getTime() / 1000) * 1000;
+        liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + secondClockedTs;
+      }
     }
     
     setInterval(updateImage, 5000);

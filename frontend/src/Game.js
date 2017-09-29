@@ -22,18 +22,14 @@ import gs from './GameSettings';
 import ethUtils from './EthereumUtils';
 import Averager from './utilities/AddAndAverage';
 
-// TODO: remove (for debugging only)
-window.ethUtils = ethUtils;
-window.web3 = ethUtils.web3;
-
 class Game {
   constructor(socket) {
-    // note that this can be null. Relies on the UI requesting a password (will set the id) before letting the user play.
-    this.id = ethUtils.getAddress();
-
+    // User id. note that this can initially be unknown in case there's a locked wallet.
+    // Is updated to an actual id once the user unlocked the wallet or agreed to create a new one.
+    this.id = ethUtils.getAddress() || 'anonymous';
+    this.gameId = 0;
     this.socket = socket;
     this.maxGameDuration = new Date(gs.MAX_GAME_DURATION);
-    this.startDate = new Date();
     this.gameState = gs.RUNNING;
 
     // ////////////////////////////////////////////////////////////////////////
@@ -76,8 +72,8 @@ class Game {
   }
 
   @action.bound
-  startGame(currentTeam, startDate) {
-    this.startDate = startDate;
+  startGame(gameId, currentTeam) {
+    this.gameId = gameId;
     this.gameState = gs.RUNNING;
     this.setGameState(0, currentTeam, gs.UNSET, '',
       Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET), gs.RUNNING);
@@ -95,8 +91,9 @@ class Game {
   }
 
   @action.bound
-  refreshGameState(clientTimeStamp, elapsedTime, currentTeam,
+  refreshGameState(gameId, clientTimeStamp, elapsedTime, currentTeam,
     myTeam, myMove, boardState, gameState) {
+    this.gameId = gameId;
     const ms = (Date.now() - clientTimeStamp) / 2.0;
     this.latency.add(ms);
     console.log(`Latency measured by Averager: ${ms}ms`);
@@ -229,9 +226,13 @@ class Game {
     return this.gameState === gs.PAUSED;
   }
 
+  @computed get stopped() {
+    return this.gameState === gs.STOPPED;
+  }
+
   @action.bound
   joinGame() {
-    if (this.gameState === gs.PAUSED) {
+    if (this.gameState !== gs.RUNNING) {
       return;
     }
     this.earnedTokens = 0;
@@ -240,14 +241,15 @@ class Game {
 
   @action.bound
   submitMove(move) {
-    if (this.gameState === gs.PAUSED) {
+    if (this.gameState !== gs.RUNNING) {
       return;
     }
 
-    const sig = ethUtils.sign(`${this.startTime}_${this.roundNr}_${move}`);
+    const sigData = `${this.gameId}_${this.roundNr}_${move}`;
+    const sig = ethUtils.sign(sigData);
 
     this.socket.emit('submit move', this.id,
-      move, this.roundNr, sig, (confirmedMove) => {
+      this.roundNr, move, sig, (confirmedMove) => {
         this.myMove = confirmedMove;
         this.squares[confirmedMove] = gs.PLACED;
       });

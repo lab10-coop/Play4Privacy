@@ -30,6 +30,9 @@ class EthereumUtils {
    * To be invoked only in order to override (and lose if not persisted elsewhere) the existing one.
    */
   createNewWallet() {
+    // making sure the user isn't bothered with a password prompt.
+    // Can happen after forgetting the password for a wallet, accepting to create a new one and not persisting it.
+    localStorage.removeItem('web3js_wallet');
     this.loadWallet(true);
   }
 

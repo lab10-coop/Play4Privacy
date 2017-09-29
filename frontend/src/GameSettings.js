@@ -51,8 +51,8 @@ function GameSettings() {
 
 
   // Blockchain stuff
-  this.bcExplorerBaseUrl = "https://rinkeby.etherscan.io";
-  this.bcTokenContractAddr = "0xa84c4f24bd820aec9aab8dff14afca950f04e994";
+  this.bcExplorerBaseUrl = "https://etherscan.io";
+  this.bcTokenContractAddr = "0xfB41f7b63c8e84f4BA1eCD4D393fd9daa5d14D61";
 }
 
 const gameSettings = new GameSettings();

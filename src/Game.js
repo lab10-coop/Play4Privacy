@@ -24,6 +24,7 @@ import findConsensus from './consensus';
 import Blockchain from './Blockchain';
 import PlayerData, { PlayedGame, EmailWallet, TokenClaim } from './Models';
 import DatabaseWrapper, { DatabaseWrapperDummy, connectToDb } from './Database';
+import ethCrypto from './EthCrypto';
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
@@ -37,8 +38,10 @@ class Game {
     this.roundMoves = new Map();
     this.pauseStart = Date.now();
     this.gameState = gs.PAUSED;
+    const now = new Date();
     this.currentGame = new PlayedGame({
-      startDate: new Date(),
+      gameId: Math.floor(now.getTime() / 1000),
+      startDate: now,
     });
 
     if (mongodbName !== '') {
@@ -69,6 +72,10 @@ class Game {
     return this.currentGame.startDate.getTime();
   }
 
+  gameId() {
+    return this.currentGame.id;
+  }
+
   updateTime() {
     if (this.gameState === gs.PAUSED) {
       if ((Date.now() - this.pauseStart) > gs.PAUSE_DURATION) {
@@ -89,12 +96,14 @@ class Game {
     this.players.clear();
     this.roundMoves.clear();
     this.roundNr = 1;
+    const now = new Date();
     this.currentGame = new PlayedGame({
-      startDate: new Date(),
+      gameId: Math.floor(now.getTime() / 1000),
+      startDate: now,
     });
     this.gameState = gs.RUNNING;
     this.api.gameStarted(this.go.currentTeam(), this.currentGame.startDate);
-    console.log(`starting new game at ${new Date(this.startTime()).toLocaleString()}`);
+    console.log(`starting new game with id ${this.gameId()} at ${new Date(this.startTime()).toLocaleString()}`);
   }
 
   endRound() {
@@ -195,34 +204,40 @@ class Game {
   }
 
   submitMove(id, round, move, sig) {
-    console.log(`new move submitted: player ${id}, round ${round}, move ${move}, sig ${sig}`);
-    if (process.env.ETH_ON) {
-      /* check disabled because currently not working
-      if (!this.blockchain.isSignatureValid(id, sig)) {
-        console.error(`invalid signature ${sig}`);
-        return 'Invalid signature';
-      }
-      */
+    const logMsg = `move: player ${id}, round ${round}, move ${move}`;
+
+    // Checks in the order of most likely failure
+
+    // Check if already set a move in this round
+    if (this.roundMoves.has(id)) {
+      console.log(`${logMsg} invalid: repetition`);
+      return this.roundMoves.get(id);
+    }
+
+    if (!this.go.validMove(move)) {
+      console.log(`${logMsg} invalid: illegal move`);
+      return 'Invalid Move!';
     }
 
     // Check if user has joined the current game
     if (!this.players.has(id)) {
+      console.log(`${logMsg} invalid: not joined`);
       return 'Join the Game first!';
     }
 
     // Check if player is on the right team
     if (this.players.get(id).team !== this.go.currentTeam()) {
+      console.log(`${logMsg} invalid: wrong team`);
       return 'Wait for your turn!';
     }
 
-    // Check if already set a move in this round
-    if (this.roundMoves.has(id)) {
-      return this.roundMoves.get(id);
+    const sigData = `${this.gameId()}_${round}_${move}`;
+    if (! ethCrypto.isSignatureValid(id, sigData, sig)) {
+      console.log(`${logMsg} invalid: bad signature ${sig} - sigData ${sigData}`);
+      return 'Invalid signature';
     }
 
-    if (!this.go.validMove(move)) {
-      return 'Invalid Move!';
-    }
+    console.log(`${logMsg} valid`);
 
     // Set the move and return
     this.roundMoves.set(id, move);

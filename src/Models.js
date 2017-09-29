@@ -27,6 +27,7 @@ const moveSchema = mongoose.Schema({
 export const Move = mongoose.model('Move', moveSchema);
 
 const playedGameSchema = mongoose.Schema({
+  gameId: Number,
   startDate: Date,
   board: [],
   submittedMoves: [ {
