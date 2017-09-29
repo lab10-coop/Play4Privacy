@@ -115,7 +115,7 @@ if(process.argv[2] == "send") {
   init();
   const waitBetweenMailsSec = process.env.MAILER_DELAY || 5;
 
-  getTasksFromDb({'sent.success': true}).then( tasks => {
+  getTasksFromDb({'sent.success': undefined}).then( tasks => {
     console.log(`has ${tasks.length} entries. Using a delay of ${waitBetweenMailsSec} seconds between sending requests`)
     processAll(tasks, waitBetweenMailsSec)
   });
