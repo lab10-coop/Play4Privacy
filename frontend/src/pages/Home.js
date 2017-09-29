@@ -50,7 +50,7 @@ class Home extends React.Component {
       }
     };
     
-    setInterval(updateImage, 2000);
+    setInterval(updateImage, 5000);
   }
 
   render() {
