@@ -24,6 +24,8 @@ function processMovesFile(fname) {
 		if(map.has(elem)) {
 			if(map.get(elem) < maxTokPerAddr) {
 				map.set(elem, map.get(elem)+1)
+			} else {
+				console.log(`!!! > ${maxTokPerAddr} moves per game for ${elem} in ${fname}`)
 			}
 		} else {
 			map.set(elem, 1)
@@ -92,9 +94,9 @@ function processClaims(fname, fullMap) {
 function printClaimsStats(result) {
 	const nrRedeem = result.redeem.length
 	console.log(`${result.redeem.length} did redeem, ${result.donate.length} did donate, ${result.unclaimed.length} didn't claim`)
-	const redeemed = result.redeem.map(elem => elem[1]).reduce( (sum, elem) => sum + elem)
-	const donated = result.donate.map(elem => elem[1]).reduce( (sum, elem) => sum + elem)
-	const unclaimed = result.unclaimed.map(elem => elem[1]).reduce( (sum, elem) => sum + elem)
+	const redeemed = result.redeem.map(elem => elem[1]).reduce( (sum, elem) => sum + elem, 0)
+	const donated = result.donate.map(elem => elem[1]).reduce( (sum, elem) => sum + elem, 0)
+	const unclaimed = result.unclaimed.map(elem => elem[1]).reduce( (sum, elem) => sum + elem, 0)
 	console.log(`tokens: ${redeemed} redeemed, ${donated} donated, ${unclaimed} unclaimed`)
 }
 

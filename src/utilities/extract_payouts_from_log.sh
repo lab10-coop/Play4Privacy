@@ -31,12 +31,14 @@ fi
 
 echo "dividing into log files per gamefile per game..."
 start=1 gameId=0 && for nextStart in `cat linenumbers`; do 
-	echo "game $gameId"
+	echo "game $gameId: lines ${start} to ${nextStart}"
 	sed -n "${start},${nextStart}p" $logfile > game$gameId
 
 	# filtering out moves and null addresses
-	sed -i '/new move submitted/!d' game$gameId
+	sed -i '/move [0-9]\+ valid/!d' game$gameId
+#	sed -i '/new move submitted/!d' game$gameId
 	sed -i '/null/d' game$gameId
+	sed -i '/anonymous/d' game$gameId
 
 	start=$nextStart
 	gameId=$((gameId+1))
@@ -49,7 +51,8 @@ echo "converting to json..."
 rm game*.json || true
 for f in game*; do 
 	echo "[ " > $f.json
-	sed 's/new move submitted: player \(.*\), move \(.*\), sig \(.*\)/{ "address": "\1", "move": \2, "sig": "\3" },/' $f >> $f.json
+#	sed 's/new move submitted: player \(.*\), move \(.*\), sig \(.*\)/{ "address": "\1", "move": \2, "sig": "\3" },/' $f >> $f.json
+	sed 's/move: player \(.*\), round \(.*\), move \(.*\) valid/{ "address": "\1", "round": \2, "move": \3 },/' $f >> $f.json
 	# remove the last comma
 	sed -i '$ s/.$//' $f.json
 	echo " ]" >> $f.json
@@ -57,7 +60,7 @@ done
 
 echo "processing token claims"
 # filter
-cat $logfile | grep "claim tokens" | grep -v null > claims
+cat $logfile | grep "claim tokens" | grep -v null | grep -v anonymous > claims
 # to json
 echo "[ " > claims.json
 sed 's/claim tokens by \(.*\) at .* donate \(.*\)/{ "address": "\1", "donate": \2 },/' claims >> claims.json
