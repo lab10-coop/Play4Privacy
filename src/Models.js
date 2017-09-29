@@ -46,7 +46,11 @@ export const PlayedGame = mongoose.model('PlayedGame', playedGameSchema);
 const emailWalletSchema = mongoose.Schema({
   userId: String,
   email: String,
-  wallet: String
+  wallet: String,
+  sent: {
+    at: Date,
+    success: Boolean
+  }
 });
 
 export const EmailWallet = mongoose.model('EmailWallet', emailWalletSchema);
