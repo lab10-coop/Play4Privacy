@@ -1,5 +1,6 @@
 import { EmailWallet } from '../Models';
 import DatabaseWrapper, { connectToDb } from '../Database';
+import mongoose from 'mongoose';
 import sendWallet from './Mailer';
 
 /*
@@ -12,7 +13,7 @@ The text content of the mail is hardcoded here.
 */
 
 function usageExit() {
-  console.log(`usage: ${process.argv[1]} send | test <from> <to>`);
+  console.log(`usage: ${process.argv[1]} send | marksent <from> <to> | repl`);
   process.exit(1);
 }
 
@@ -23,7 +24,6 @@ if(process.argv.length < 3) {
 function init() {
   const dbName = process.env.MONGO_DB_NAME;
   connectToDb(`mongodb://mongo:27017/${dbName}`, console.log);
-  var wrapper = new DatabaseWrapper();
   console.log(`connected to ${dbName}`)
 }
 
@@ -124,13 +124,18 @@ else if(process.argv[2] == "marksent")
 {
   const from = parseInt(process.argv[3]);
   const to = parseInt(process.argv[4]);
-  if(! (from && to)) {
+  console.log(`from: ${from}, to: ${to}`);
+
+  if(isNaN(from) || isNaN(to)) {
     usageExit();
   }
 
   init();
 
-  getTasksFromDb().then( tasks => tasks.slice(from, to).map( t => markAsSent(t, true)));
+  getTasksFromDb().then( tasks => tasks.slice(from, to).map( t => {
+    markAsSent(t, true);
+    console.log(`processed entry with id ${t.id}, email ${t.email}`);
+  }));
 }
 else if(process.argv[2] == "repl")
 {
@@ -141,3 +146,8 @@ else if(process.argv[2] == "repl")
 else {
   usageExit()
 }
+
+console.log(`This process may just keep running forever.
+Figuring out when it's save to close the DB connection is not trivial with all this async tasks.
+Just exit with Ctrl-C when you think all is done ;-)
+`)
