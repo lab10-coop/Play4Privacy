@@ -4,7 +4,7 @@
 let instance = null;
 let web3;
 
-let debug = true;
+let debug = false;
 
 let log = debug ? (msg) => { console.log(`EthereumUtils: ${msg}`) } : () => {};
 let err = debug ? (msg) => { console.error(`ERROR in EthereumUtils: ${msg}`) } :  () => {};

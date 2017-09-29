@@ -35,11 +35,22 @@ class Game {
     // ////////////////////////////////////////////////////////////////////////
     // Subscriptions to socket.io Events
 
-    // Re-acqure the current game state on a re-connect
+    // Re-acquire the current game state on a re-connect
     socket.on('connect',
-      () => this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState));
+      () => {
+        console.log("connected to game server");
+        this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState);
+      });
     socket.on('reconnect',
-      () => this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState));
+      () => {
+        console.log("reconnected to game server");
+        this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState);
+      });
+    socket.on('disconnect',
+      () => {
+        console.log("disconnected from game server");
+        this.gameState = gs.STOPPED;
+      })
     socket.on('pong', (ms) => {
       this.latency.add(ms);
       console.log(`Latency measured by pong: ${ms}`);
