@@ -234,7 +234,7 @@ class Game {
   }
 
   @computed get paused() {
-    return this.gameState === gs.PAUSED;
+    return this.gameState === gs.PAUSED || this.gameState === gs.STOPPED;
   }
 
   @computed get stopped() {
