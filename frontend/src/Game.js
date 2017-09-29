@@ -83,7 +83,7 @@ class Game {
   }
 
   @action.bound
-  startGame(currentTeam, gameId) {
+  startGame(gameId, currentTeam) {
     this.gameId = gameId;
     this.gameState = gs.RUNNING;
     this.setGameState(0, currentTeam, gs.UNSET, '',
