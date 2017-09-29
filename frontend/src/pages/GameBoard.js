@@ -101,13 +101,8 @@ class GameBoard extends React.Component {
 
     // Refresh LiveCam Feed
     const liveCamPhoto = document.getElementById("liveFeedImage");
-    this.toggle = () => {
-      return this.flipFlop = this.flipFlop !== undefined ? (this.flipFlop + 1) % 2 : 0;
-    };
     const updateImage = () => {
-      if(! this.props.game.stopped) { // not visible in this case
-        liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + this.toggle();
-      }
+      liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + Math.floor(new Date().getTime() / 1000) * 1000;
     };
 
     setInterval(updateImage, 2000);
