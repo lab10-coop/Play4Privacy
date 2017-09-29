@@ -39,20 +39,18 @@ class Home extends React.Component {
       $(this).parent().removeClass('showLayer');
     });
 
-
-
     // Refresh LiveCam Feed
-    var liveCamPhoto = document.getElementById("liveFeedImage");
+    const liveCamPhoto = document.getElementById("liveFeedImage");
+    this.toggle = () => {
+      return this.flipFlop = this.flipFlop !== undefined ? (this.flipFlop + 1) % 2 : 0;
+    };
     const updateImage = () => {
       if(! this.props.game.stopped) { // not visible in this case
-        const secondClockedTs = Math.floor(new Date().getTime() / 1000) * 1000;
-        liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + secondClockedTs;
+        liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + this.toggle();
       }
-    }
+    };
     
-    setInterval(updateImage, 5000);
-
-
+    setInterval(updateImage, 2000);
   }
 
   render() {

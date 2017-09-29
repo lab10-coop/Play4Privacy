@@ -10,7 +10,7 @@ export default class AddAndAverage {
   }
 
   add(val) {
-    // Instert new value
+    // Insert new value
     if (this.array.length < this.n) {
       this.array.push(val);
     } else {
