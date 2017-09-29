@@ -88,6 +88,10 @@ class Game {
     this.gameState = gs.RUNNING;
     this.setGameState(0, currentTeam, gs.UNSET, '',
       Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET), gs.RUNNING);
+
+    if (window.location.pathname === '/gameboard') {
+      this.joinGame();
+    }
   }
 
   setGameState(elapsedTime, currentTeam, myTeam, myMove, boardState, gameState) {
