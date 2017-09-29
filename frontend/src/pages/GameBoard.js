@@ -107,7 +107,7 @@ class GameBoard extends React.Component {
     // Refresh LiveCam Feed
     var liveCamPhoto = document.getElementById("liveFeedImage");
     const updateImage = () => {
-      if(! this.props.game.stopped) {
+      if(true/*! this.props.game.stopped*/) { // half visible, thus keeping on
         const secondClockedTs = Math.floor(new Date().getTime() / 1000) * 1000;
         liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + secondClockedTs;
       }
