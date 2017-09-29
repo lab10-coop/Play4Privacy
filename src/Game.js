@@ -73,7 +73,7 @@ class Game {
   }
 
   gameId() {
-    return this.currentGame.id;
+    return this.currentGame.gameId;
   }
 
   updateTime() {
@@ -102,7 +102,7 @@ class Game {
       startDate: now,
     });
     this.gameState = gs.RUNNING;
-    this.api.gameStarted(this.go.currentTeam(), this.currentGame.startDate);
+    this.api.gameStarted(this.gameId(), this.go.currentTeam());
     console.log(`starting new game with id ${this.gameId()} at ${new Date(this.startTime()).toLocaleString()}`);
   }
 
