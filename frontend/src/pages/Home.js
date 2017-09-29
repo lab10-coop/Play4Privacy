@@ -2,6 +2,7 @@ import React from 'react';
 import { observer, inject } from 'mobx-react';
 import $ from 'jquery';
 import Board from '../Board';
+import gs from '../GameSettings';
 
 @inject('game')
 @observer
@@ -130,7 +131,7 @@ class Home extends React.Component {
                 <img id="liveFeedImage" src='img/livecam/kunsthaus-livecam.jpg' alt='bix Livecam' /> 
                 <img id="liveFeedImage" src='https://play.lab10.coop/bixcam' alt='bix Livecam' /> 
               */}
-                <img id="liveFeedImage" src='https://play.lab10.coop/bixcam' alt='bix Livecam' /> 
+                <img id="liveFeedImage" src={`${gs.getBixcamUrl()}`} alt='bix Livecam' />
                 <figcaption>Current Live-Feed from BixCam </figcaption>
             </figure>
           </div>

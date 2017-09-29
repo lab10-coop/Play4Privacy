@@ -10,6 +10,7 @@ function GameSettings() {
   this.PAUSE_DURATION = 10 * this.ONE_SECOND;
 
   // Game states
+  this.STOPPED = 2;
   this.PAUSED = 0;
   this.RUNNING = 1;
 
@@ -22,6 +23,14 @@ function GameSettings() {
   this.UNSET = 0;
   this.PLACED = 2;
   this.PLAYER_LIMIT_EXCEEDED = -2;
+
+  this.getBixcamUrl = function() {
+    if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === "::1") {  // eslint-disable-line no-restricted-globals
+      return "http://play-test.p4p.lab10.io/bixcam";
+    } else {
+      return `${location.origin}/bixcam`; // eslint-disable-line no-restricted-globals
+    }
+  }
 
 
   // WGo error codes

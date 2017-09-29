@@ -30,7 +30,7 @@ class Game {
     this.gameId = 0;
     this.socket = socket;
     this.maxGameDuration = new Date(gs.MAX_GAME_DURATION);
-    this.gameState = gs.RUNNING;
+    this.gameState = gs.STOPPED;
 
     // ////////////////////////////////////////////////////////////////////////
     // Subscriptions to socket.io Events

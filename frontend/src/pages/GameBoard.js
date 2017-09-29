@@ -4,6 +4,7 @@ import $ from 'jquery';
 import 'jquery.scrollto';
 import Board from '../Board';
 import ethUtils from '../EthereumUtils';
+import gs from '../GameSettings'
 
 @inject('game')
 @observer
@@ -325,7 +326,7 @@ class GameBoard extends React.Component {
 
 
             <div className='liveCam clear'>
-              <img id="liveFeedImage" src='https://play.lab10.coop/bixcam' alt='bix Livecam' />
+              <img id="liveFeedImage" src={`${gs.getBixcamUrl()}`} alt='bix Livecam' />
             </div>
           </div>
         </div>
