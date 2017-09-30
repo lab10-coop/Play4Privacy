@@ -98,14 +98,44 @@ class GameBoard extends React.Component {
     $('.closeLayerButton').click(function(){
       $(this).parent().removeClass('showLayer');
     });
+    
+    
+    
 
     // Refresh LiveCam Feed
     const liveCamPhoto = document.getElementById("liveFeedImage");
     const updateImage = () => {
       liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + Math.floor(new Date().getTime() / 1000) * 1000;
     };
+    
+    //const liveCamRefreshInterval = setInterval(updateImage, 2000);
+    $('#liveFeedImage').data('interval', setInterval(updateImage, 2000));
 
-    setInterval(updateImage, 2000);
+    
+    // Set Default Refresh-Rate in Seconds (2 for now)
+    $('input.liveCamRefreshValue').val(2).change();
+    
+    // Set new Refresh-Rate
+    $("input.liveCamRefreshValue").on("input change", function() { 
+      
+      /* Update Text-Info */    
+      $('.liveCamRefreshValueOutput').text($(this).val());
+      
+       /* Stop & Restart Interval */   
+      // clearInterval(liveCamRefreshInterval);
+      // const liveCamRefreshInterval = setInterval(updateImage, $(this).val()*1000);
+      clearInterval($('#liveFeedImage').data('interval'));
+      $('#liveFeedImage').data('interval', setInterval(updateImage, $(this).val()*1000));
+      
+    });
+    
+    
+    
+    
+    
+    
+
+
   }
 
   render() {
@@ -136,6 +166,8 @@ class GameBoard extends React.Component {
       <div>
         <div className={`layer ${game.myTeam ? '' : 'showLayer'}`} id='startGame'>
           <div className='layerInner'>
+            
+              
             <h2>How does it work?</h2>
 
             <div className="c50l">
@@ -316,6 +348,10 @@ class GameBoard extends React.Component {
 
 
             <div className='liveCam clear'>
+              <div className="liveCamRefreshRate">
+                <input className="liveCamRefreshValue" type="range" min="2" max="50" step="1" />
+                <div className="liveCamRefreshInfo">Live-Feed Refresh-Rate: every <span className="liveCamRefreshValueOutput">2</span> Seconds</div>
+              </div>
               <img id="liveFeedImage" src={`${gs.getBixcamUrl()}`} alt='bix Livecam' />
             </div>
           </div>

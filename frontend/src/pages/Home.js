@@ -42,12 +42,30 @@ class Home extends React.Component {
     // Refresh LiveCam Feed
     const liveCamPhoto = document.getElementById("liveFeedImage");
     const updateImage = () => {
-      if (!this.props.game.stopped) {
-        liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + Math.floor(new Date().getTime() / 1000) * 1000;
-      }
+      liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + Math.floor(new Date().getTime() / 1000) * 1000;
     };
+    
+    $('#liveFeedImage').data('interval', setInterval(updateImage, 5000));
 
-    setInterval(updateImage, 5000);
+    
+    // Set Default Refresh-Rate in Seconds (5 for now)
+    $('input.liveCamRefreshValue').val(5).change();
+    
+    // Set new Refresh-Rate
+    $("input.liveCamRefreshValue").on("input change", function() { 
+      
+      /* Update Text-Info */    
+      $('.liveCamRefreshValueOutput').text($(this).val());
+      
+       /* Stop & Restart Interval */   
+      clearInterval($('#liveFeedImage').data('interval'));
+      $('#liveFeedImage').data('interval', setInterval(updateImage, $(this).val()*1000));
+      
+    });
+    
+    
+    
+    
   }
 
   render() {
@@ -121,14 +139,13 @@ class Home extends React.Component {
 
           <div className='liveCam'>
             <figure>
-              {/* 
-                http://bixcam.kunsthausgraz.at/out/stream/webcam2_x.jpg
-                <img id="liveFeedImage" src='img/livecam/kunsthaus-livecam.jpg' alt='bix Livecam' /> 
-                <img id="liveFeedImage" src='https://play.lab10.coop/bixcam' alt='bix Livecam' /> 
-              */}
                 <img id="liveFeedImage" src={`${gs.getBixcamUrl()}`} alt='bix Livecam' />
                 <figcaption>Current Live-Feed from BixCam </figcaption>
             </figure>
+            <div className="liveCamRefreshRate">
+              <input className="liveCamRefreshValue" type="range" min="2" max="50" step="1" />
+              <div className="liveCamRefreshInfo">Live-Feed Refresh-Rate: every <span className="liveCamRefreshValueOutput">5</span> Seconds</div>
+            </div>
           </div>
 
           <div className='gameField'>

@@ -201,7 +201,6 @@ class EndGame extends React.Component {
           <div className='layerInner'>
             <h2>Please bear with us.</h2>
             
-            <p className="emailWarning">You will receive the wallet file and your PLAY-tokens in the next few hours.</p>
             <p>
               You can check the state of the token-distribution using the following link:<br/>
               <a id="explorerLink" href="#" target="_blank" title="Check transaction at etherscan.io">#</a><br />

@@ -120,6 +120,11 @@
 		right: 15px;
 	}
 
+  .gamePaused .pausedStatusMsg {
+    float: none;
+    margin: 0 auto;
+  }
+
 	footer {
 		background-size: 768px auto;
 		background-position: center top;
@@ -418,7 +423,15 @@
     position: relative;
     left: -10px;
   }
-
+  
+  .gamePaused .pausedStatusMsg {
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 360px;
+    float: none;
+    font-size: 16px;
+    margin: 0 auto;
+  }
 
 
 
@@ -559,6 +572,7 @@
     width: 260px;
     float: none;
     font-size: 16px;
+    margin: 0 auto;
   }
 
 

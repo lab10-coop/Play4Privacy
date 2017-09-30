@@ -7,7 +7,7 @@ function GameSettings() {
   this.ONE_MINUTE = this.ONE_SECOND * 60;
   this.MAX_GAME_DURATION = 20 * this.ONE_MINUTE;
   this.ROUND_TIME = 20 * this.ONE_SECOND;
-  this.PAUSE_DURATION = 10 * this.ONE_SECOND;
+  this.PAUSE_DURATION = 2 * this.ONE_SECOND;
 
   // Game states
   this.STOPPED = 2;
