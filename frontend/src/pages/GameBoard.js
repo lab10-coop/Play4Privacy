@@ -12,6 +12,10 @@ class GameBoard extends React.Component {
   componentDidMount() {
     this.game = this.props.game;
 
+    // Remove React not working warning
+    $('.reactNotWorking').remove();
+
+
     // $('#helpButton').click(() => alert('tadaaaaaa'));
     if(ethUtils.needsUnlock()) {
       $('#unlockWalletLayer').addClass('visible');

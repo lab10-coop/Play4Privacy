@@ -21,6 +21,11 @@ class EndGame extends React.Component {
     //document.getElementsByClassName("playTokensAmount")[0].innerHTML = this.game.earnedTokens;
     // TODO: if this is 0, redirect to board?
 
+
+    // Remove React not working warning
+    $('.reactNotWorking').remove();
+
+
     // Navigation Mobile
     $('.navTrigger .showButton').click(function(){
       $(this).slideUp(250).parent().find('.hideButton').slideDown(250);

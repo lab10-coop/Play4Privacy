@@ -5,6 +5,11 @@ import 'jquery.scrollto';
 class Credits extends React.Component {
   componentDidMount() {
 
+
+    // Remove React not working warning
+    $('.reactNotWorking').remove();
+
+
   	 // Navigation Mobile
     $('.navTrigger .showButton').click(function(){
       $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
