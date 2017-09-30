@@ -1881,11 +1881,6 @@
       "from": "isurl@>=1.0.0-alpha5 <2.0.0",
       "resolved": "https://registry.npmjs.org/isurl/-/isurl-1.0.0.tgz"
     },
-    "jquery": {
-      "version": "3.2.1",
-      "from": "jquery@>=1.9.0",
-      "resolved": "https://registry.npmjs.org/jquery/-/jquery-3.2.1.tgz"
-    },
     "js-sha3": {
       "version": "0.3.1",
       "from": "js-sha3@>=0.3.1 <0.4.0",
@@ -2391,11 +2386,6 @@
       "version": "1.2.0",
       "from": "range-parser@>=1.2.0 <1.3.0",
       "resolved": "https://registry.npmjs.org/range-parser/-/range-parser-1.2.0.tgz"
-    },
-    "rangeslider.js": {
-      "version": "2.3.1",
-      "from": "rangeslider.js@latest",
-      "resolved": "https://registry.npmjs.org/rangeslider.js/-/rangeslider.js-2.3.1.tgz"
     },
     "raw-body": {
       "version": "2.3.2",
