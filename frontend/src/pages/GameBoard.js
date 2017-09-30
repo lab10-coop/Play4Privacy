@@ -133,7 +133,12 @@ class GameBoard extends React.Component {
       
     });
     
-    
+    $('.killLiveCamRefesh').click(function(e){
+      e.preventDefault();
+      clearInterval($('#liveFeedImage').data('interval'));
+      $('.liveCamRefreshValueOutput').text(0);      
+    });
+      
     
     
     
@@ -411,7 +416,10 @@ class GameBoard extends React.Component {
             <div className='liveCam clear'>
               <div className="liveCamRefreshRate">
                 <input className="liveCamRefreshValue" type="range" min="2" max="50" step="1" />
-                <div className="liveCamRefreshInfo">Live-Feed Refresh-Rate: every <span className="liveCamRefreshValueOutput">2</span> Seconds</div>
+                <div className="liveCamRefreshInfo">
+                  Live-Feed Refresh-Rate: every <span className="liveCamRefreshValueOutput">2</span> Seconds
+                  <a className="killLiveCamRefesh" href="#" title="Stop Refreshing the Live-Feed at all">Stop Refreshing the Live-Feed at all</a>
+                </div>
               </div>
               <img id="liveFeedImage" src={`${gs.getBixcamUrl()}`} alt='bix Livecam' />
             </div>

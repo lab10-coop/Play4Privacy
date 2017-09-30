@@ -131,6 +131,9 @@
     padding-top: 1px;
   }
 
+  .field.currentGame .liveCamRefreshRate {
+    padding-bottom: 30px;
+  }
 
 	footer {
 		background-size: 768px auto;
@@ -194,6 +197,10 @@
 
   .phonesOnly {
     display: block;
+  }
+  
+  .hideOnMobile {
+    display: none;
   }
   
   header {
@@ -340,6 +347,9 @@
     padding-top: 1px;
   }
  
+  .field.currentGame .liveCamRefreshRate {
+    padding-bottom: 30px;
+  }
   
   .button {
     width: calc(100% - 36px);

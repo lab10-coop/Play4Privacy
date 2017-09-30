@@ -928,6 +928,7 @@ input.submit:hover {
 	text-align: right;
 	text-transform: uppercase;
 	font-size: 14px;
+	line-height: 24px;
 }
 
 .liveCamRefreshRate .liveCamRefreshValueOutput {
@@ -946,6 +947,41 @@ input.submit:hover {
 
 .field.currentGame .liveCamRefreshRate input.liveCamRefreshValue {
   float: right;
+  position: relative;
+  top: 3px;
+}
+
+.killLiveCamRefesh {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url(../img/stop-48x48.png) right center no-repeat;
+  background-size: 24px auto;
+  font-size: 0px;
+  text-indent: -50000em;
+  float: right;
+  margin-left: 10px;
+  padding-left: 8px;
+  border-left: 1px solid #CCCCCC;
+  transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  
+}
+
+.killLiveCamRefesh:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.field.currentGame .liveCamRefreshRate .killLiveCamRefesh {
+  margin-left: 0px;
+  padding-left: 0px;
+  border-left: 0px solid #CCCCCC;  
+  margin-right: 5px;
+  padding-right: 8px;
+  border-right: 1px solid #CCCCCC;
+  background-position: left center;
 }
 
 

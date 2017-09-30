@@ -66,7 +66,11 @@ class Home extends React.Component {
       
     });
     
-    
+    $('.killLiveCamRefesh').click(function(e){
+      e.preventDefault();
+      clearInterval($('#liveFeedImage').data('interval'));
+      $('.liveCamRefreshValueOutput').text(0);      
+    });    
     
     
   }
@@ -147,7 +151,10 @@ class Home extends React.Component {
             </figure>
             <div className="liveCamRefreshRate">
               <input className="liveCamRefreshValue" type="range" min="2" max="50" step="1" />
-              <div className="liveCamRefreshInfo">Live-Feed Refresh-Rate: every <span className="liveCamRefreshValueOutput">5</span> Seconds</div>
+              <div className="liveCamRefreshInfo">
+                <span className="hideOnMobile">Live-Feed</span> Refresh-Rate: every <span className="liveCamRefreshValueOutput">5</span> Seconds
+                <a className="killLiveCamRefesh" href="#" title="Stop Refreshing the Live-Feed at all">Stop Refreshing the Live-Feed at all</a>
+              </div>
             </div>
           </div>
 
