@@ -686,7 +686,6 @@ input.submit:hover {
 #unlockWalletLayer .newWalletCreatedMessage {
   font-size: 18px;
   color: #00aa0c;
-  border-top: 1px solid #00aa0c;
   padding-top: 15px;
   display: none;
 }
@@ -909,6 +908,16 @@ input.submit:hover {
   width: 30px;
   display: block;
   border-radius: 100%;
+}
+
+
+.stopGameWrapper {
+  text-align: center;
+  padding-left: 25px;
+}
+
+a.button.stopGameButtonDuringGame {
+  font-size: 22px;  
 }
 
 

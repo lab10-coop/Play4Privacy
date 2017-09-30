@@ -405,8 +405,8 @@ class GameBoard extends React.Component {
 
 
 
-              <p className={`item ${game.myTeam ? '' : 'hideItem'}`}>
-                <a className='button' id='stopGame' href='endgame'>Leave game, redeem your tokens</a>
+              <p className={`stopGameWrapper ${game.myTeam ? '' : 'hide'}`}>
+                <a className='button stopGameButtonDuringGame' id='stopGame' href='endgame'>Leave game, redeem your tokens</a>
               </p>
 
             </div>
@@ -417,7 +417,7 @@ class GameBoard extends React.Component {
               <div className="liveCamRefreshRate">
                 <input className="liveCamRefreshValue" type="range" min="2" max="50" step="1" />
                 <div className="liveCamRefreshInfo">
-                  Live-Feed Refresh-Rate: every <span className="liveCamRefreshValueOutput">2</span> Seconds
+                  <span className="hideOnMobile">Live-Feed</span> Refresh-Rate: every <span className="liveCamRefreshValueOutput">2</span> Seconds
                   <a className="killLiveCamRefesh" href="#" title="Stop Refreshing the Live-Feed at all">Stop Refreshing the Live-Feed at all</a>
                 </div>
               </div>

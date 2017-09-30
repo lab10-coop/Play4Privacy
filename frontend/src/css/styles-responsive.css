@@ -86,6 +86,8 @@
 		left: -10px;
 	}
 
+
+  .boardWrapper,
   #gameField .goField {
     float: none;
     margin: 0 auto;
@@ -129,6 +131,10 @@
   
   .gamePaused .pausedStatusMsg {
     padding-top: 1px;
+  }
+  
+  .stopGameWrapper {
+    padding-left: 0px;
   }
 
   .field.currentGame .liveCamRefreshRate {
@@ -345,6 +351,15 @@
 
   .gamePaused .pausedStatusMsg {
     padding-top: 1px;
+  }
+  
+  .boardWrapper {
+    padding-bottom: 20px;
+    float: none;
+  }
+  
+  .stopGameWrapper {
+    padding-left: 0px;
   }
  
   .field.currentGame .liveCamRefreshRate {
