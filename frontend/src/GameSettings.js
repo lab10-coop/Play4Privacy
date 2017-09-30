@@ -25,7 +25,7 @@ function GameSettings() {
   this.PLAYER_LIMIT_EXCEEDED = -2;
 
   this.getBixcamUrl = function() {
-    if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === "::1") {  // eslint-disable-line no-restricted-globals
+    if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === "::1" || location.hostname === "staging-p4p.dev.lab10.io") {  // eslint-disable-line no-restricted-globals
       return "http://play-test.p4p.lab10.io/bixcam";
     } else {
       return `${location.origin}/bixcam`; // eslint-disable-line no-restricted-globals
