@@ -974,6 +974,7 @@ input.submit:hover {
 	color: #CCCCCC;
 	text-align: center;
 	
+	line-height: 40px;
 }
 
 
@@ -1065,7 +1066,15 @@ input.submit:hover {
 	background-color: rgba(44, 216, 255, 0.0);
 }
 
+.goField .place.otherVotes {
+  color: #FFFFFF;
+  text-shadow: 1px 1px 1px #000000;
+  background: rgba(26,97,133,0.85);
+}
 
+.goField .place.otherVotes:hover {
+  background: rgba(26,97,133,1);
+}
 
 
 
