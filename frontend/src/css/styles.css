@@ -1078,6 +1078,10 @@ input.submit:hover {
 	background-color: rgba(44, 216, 255, 0.50);
 }
 
+.boardWrapper {
+  padding-bottom: 30px;
+  float: left;
+}
 
 .boardWrapper.BLACK .goField .place:hover {
   background-color: rgba(0, 0, 0, 0.5);
