@@ -951,12 +951,6 @@ input.submit:hover {
 
 
 
-.gamePausedLayer {
-  display: none !important;
-}
-
-
-
 .goField {
     margin: auto;    
 	width: 450px;
@@ -1210,11 +1204,13 @@ input.submit:hover {
 }
 
 .joinGameWrapper.gamePaused,
-#gameField.gamePaused .gameInfo {
+#gameField.gamePaused .gameInfo,
+#gameField.gameStopped .gameInfo {
   display: none;
 }
 
-.pausedStatusMsg {
+.pausedStatusMsg,
+.gameStoppedStatusMsg {
   display: none;
   background: #000000;
   color: #FFFFFF;
@@ -1227,20 +1223,62 @@ input.submit:hover {
   padding-bottom: 50px;
 }
 
-.gamePaused .pausedStatusMsg {
+
+
+.pausedStatusMsg {
+  background-color: #3ba0d2;
+  padding-top: 0px;
+  padding-bottom: 10px;
+  margin-bottom: 25px;  
+}
+
+.pausedStatusMsg p {
+  margin-top: 5px;
+  font-size: 20px;
+}
+
+
+.gamePaused .pausedStatusMsg,
+.gameStopped .gameStoppedStatusMsg {
   display: block;
 }
 
+.gameStats {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 20px;
+}
+
+.gameStats .item {
+  border-top: 1px solid #1a6185;
+  text-align: left;
+  line-height: 15px;
+}
+
+.gameStats .item:last-child {
+  border-bottom: 1px solid #1a6185;
+}
+
+.gamePaused .redeemTokensButtonIfGamePaused {
+  border-top: 2px solid #FFFFFF;
+  padding-top: 15px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 18px;
+}
+
+
 .gamePaused .pausedStatusMsg .redeemTokensButtonIfGamePaused .button {
-  color: #3ba0d2;
-  border-color: #3ba0d2;
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+  
   margin-left: 15px;
   margin-right: 15px;
 }
 
 .gamePaused .pausedStatusMsg .redeemTokensButtonIfGamePaused .button:hover {
-  color: #FFFFFF;
-  border-color: #FFFFFF;
+  color: #3ba0d2;
+  background-color: #FFFFFF;
 }
 
 

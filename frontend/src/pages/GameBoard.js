@@ -242,14 +242,64 @@ class GameBoard extends React.Component {
           </div>
         </div>
 
-        <div className={`field  ${game.paused ? 'gamePaused' : ''}`} id='gameField'>
+        <div className={`field  ${game.paused ? 'gamePaused' : ''} ${game.stopped ? 'gameStopped' : ''}`} id='gameField'>
           <div className='fieldInner'>
             
             <div className={`boardWrapper ${game.formattedMyTeam || '--'}`}>
             <Board />
             </div>
 
+            
+
             <div className="pausedStatusMsg">
+              <h3>You played till the end -  <br className="phonePortraitOnly" />nice work!</h3>
+              <p>Here are some statistics <br className="phonePortraitOnly" />from the last game:</p>
+              
+              <div className="gameStats">
+              
+                <div className='item'>
+                  <span className='label'>Black stones captured:</span>
+                  <span className='value'>{game.blackStonesCaptured}--</span>
+                </div>
+                
+                <div className='item'>
+                  <span className='label'>White stones captured:</span>
+                  <span className='value'>{game.whiteStonesCaptured}--</span>
+                </div>
+                
+                
+                <div className='item'>
+                  <span className='label'>Valid moves overall:</span>
+                  <span className='value'>{game.validMovesOverall}</span>
+                </div>
+                
+                
+                <div className='item'>
+                  <span className='label'>Average valid moves per round:</span>
+                  <span className='value'>{game.averageValidMovesPerRound}</span>
+                </div>
+                
+                
+                <div className='item'>
+                  <span className='label'>Average consensus on team Black:</span>
+                  <span className='value'>{game.averageConsensusBlack}</span>
+                </div>
+
+                <div className='item'>
+                  <span className='label'>Average consensus on team White:</span>
+                  <span className='value'>{game.averageConsensusWhite}</span>
+                </div>
+              
+              </div>
+              
+              <p className={`redeemTokensButtonIfGamePaused ${game.earnedTokens >= 0 ? '' : 'item hide'}`}>
+                <strong>You have unclaimed PLAY Tokens.</strong><br />You can continue playing or
+                <a className='button' id='stopGame' href='endgame'>click here to redeem PLAY Tokens</a>
+              </p>  
+               
+            </div>
+            
+            <div className="gameStoppedStatusMsg">
               <p>The Game is currently paused.<br />Please check back between 7pm to 10pm CEST.</p>
 
               <p className={`redeemTokensButtonIfGamePaused ${game.earnedTokens > 0 ? '' : 'item hide'}`}>
@@ -257,6 +307,8 @@ class GameBoard extends React.Component {
               </p>  
                
             </div>
+            
+            
  
            <div className={`gameInfo ${game.formattedMyTeam || '--'} ${game.myTeamActive ? 'yourTeam' : 'otherTeam'}`}>
               <h2>Player info: </h2>

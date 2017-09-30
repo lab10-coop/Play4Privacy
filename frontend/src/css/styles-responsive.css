@@ -8,7 +8,8 @@
 
 
 .tabletsOnly,
-.phonesOnly {
+.phonesOnly,
+.phonePortraitOnly {
 	display: none;
 }
 .desktopOnly {
@@ -120,10 +121,16 @@
 		right: 15px;
 	}
 
-  .gamePaused .pausedStatusMsg {
+  .gamePaused .pausedStatusMsg,
+  .gameStopped .gameStoppedStatusMsg  {
     float: none;
     margin: 0 auto;
   }
+  
+  .gamePaused .pausedStatusMsg {
+    padding-top: 1px;
+  }
+
 
 	footer {
 		background-size: 768px auto;
@@ -329,7 +336,11 @@
     margin-left: 0px;
   }
 
-
+  .gamePaused .pausedStatusMsg {
+    padding-top: 1px;
+  }
+ 
+  
   .button {
     width: calc(100% - 36px);
   }
@@ -424,7 +435,8 @@
     left: -10px;
   }
   
-  .gamePaused .pausedStatusMsg {
+  .gamePaused .pausedStatusMsg,
+  .gameStopped .gameStoppedStatusMsg  {
     padding-left: 20px;
     padding-right: 20px;
     width: 360px;
@@ -433,6 +445,15 @@
     margin: 0 auto;
   }
 
+  .gamePaused .pausedStatusMsg p {
+    font-size: 15px;
+  }
+  
+  .gamePaused .pausedStatusMsg .redeemTokensButtonIfGamePaused .button {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  
 
 
 	footer {
@@ -503,7 +524,9 @@
 @media screen and (min-width: 1px) and (max-width: 479px) {
 	
 
-
+  .phonePortraitOnly {
+    display: block;
+  }
 
 
 	.projectExplanation,
@@ -566,7 +589,8 @@
   }
 
 
-  .gamePaused .pausedStatusMsg {
+  .gamePaused .pausedStatusMsg,
+  .gameStopped .gameStoppedStatusMsg  {
     padding-left: 20px;
     padding-right: 20px;
     width: 260px;
@@ -575,6 +599,27 @@
     margin: 0 auto;
   }
 
+  .gameStats {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .gamePaused .pausedStatusMsg p {
+    font-size: 15px;
+  }
+  
+  .gamePaused .redeemTokensButtonIfGamePaused {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  
+  .gamePaused .pausedStatusMsg .redeemTokensButtonIfGamePaused .button {
+    margin-left: 0px;
+    margin-right: 0px;
+    white-space: nowrap;
+    font-size: 14px;
+  }
+  
 
   .comePlayWithUs p {
     padding-left: 5px;
