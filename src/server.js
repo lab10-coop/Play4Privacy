@@ -44,9 +44,32 @@ app.get('*', (request, response) => {
   response.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
 
+let clientSockets = new Set();
+
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  const socketId = socket.id;
+  const clientIp = socket.request.connection.remoteAddress;
+  const clientPort = socket.request.connection.remotePort;
+
+  socket.getIp = function() { return this.request.connection.remoteAddress };
+  socket.nrConnectionsFromSameIp = function() {
+    const clientsArr = Array.from(clientSockets.values());
+    return clientsArr.filter(s => s.request.connection.remoteAddress === this.getIp()).length;
+  };
+  socket.on('disconnect', function() {
+    clientSockets.delete(socket);
+    console.log(`closed connection: socket id ${socketId}, client: ip ${clientIp} port ${clientPort}. open connections: ${clientSockets.size}`);
+  });
+
+  clientSockets.add(socket);
+
   defineClientApi(game, socket);
+  console.log(`new connection: socket id ${socketId}, client: ip ${clientIp} port ${clientPort}. open connections: ${clientSockets.size}`);
+
+  const clientsArr = Array.from(clientSockets.values());
+  if(socket.nrConnectionsFromSameIp() > 1) {
+    console.log(`!!! There are already ${socket.nrConnectionsFromSameIp()} connections from that ip`);
+  }
 });
 
 server.listen(app.get('port'), app.get('hostname'), () => {

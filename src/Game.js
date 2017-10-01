@@ -48,8 +48,8 @@ class Game {
     if (mongodbName !== '') {
       this.db = new DatabaseWrapper();
       connectToDb(`mongodb://mongo:27017/${mongodbName}`, () => {
-        this.startGame();
         console.log('Database connected!');
+        this.conditionalStartGame();
       }, () => {
         console.log('Database disconnected!');
       }, () => {
@@ -57,7 +57,8 @@ class Game {
       });
     } else {
       this.db = new DatabaseWrapperDummy();
-      this.startGame();
+      console.log(`NOTE: in DB dummy mode unclaimed tokens will not be loaded!`)
+      this.conditionalStartGame();
     }
 
     if (process.env.ETH_ON) {
@@ -77,12 +78,18 @@ class Game {
     return this.currentGame.gameId;
   }
 
+  conditionalStartGame() {
+    if (! fs.existsSync('game_stopped')) {
+      this.startGame();
+    } else {
+      this.api.gameStopped();
+    }
+  }
+
   updateTime() {
     if (this.gameState === gs.PAUSED) {
       if ((Date.now() - this.pauseStart) > gs.PAUSE_DURATION) {
-        if (! fs.existsSync('game_stopped')) {
-          this.startGame();
-        }
+        this.conditionalStartGame();
       }
     } else if ((Date.now() - this.startTime()) > gs.MAX_GAME_DURATION) {
       this.endRound();
@@ -186,7 +193,6 @@ class Game {
   }
 
   joinGame(id) {
-    console.log(`player ${id} connected`);
     if (!this.players.has(id)) {
       if (this.gameState === gs.PAUSED) {
         return gs.UNSET;

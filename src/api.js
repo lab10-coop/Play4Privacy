@@ -22,7 +22,14 @@ export function defineClientApi(game, socket) {
   // Emit this event to join the currently running game,
   // returns the team you are assigned to, or an empty string
   // if joining failed.
-  socket.on('join game', (id, fn) => checkedCall(() => fn(game.joinGame(id))));
+  socket.on('join game', (id, fn) => {
+    console.log(`join game by ${id}`)
+    if(socket.nrConnectionsFromSameIp() > 1) {
+      console.log(`${id} is from ip ${socket.getIp()} with ${socket.nrConnectionsFromSameIp()} connections open`)
+    }
+    checkedCall(() => fn(game.joinGame(id)));
+  });
+
   socket.on('submit move', (id, round, move, sig, fn) =>
     checkedCall(() => fn(game.submitMove(id, round, move, sig))),
   );
@@ -48,6 +55,10 @@ export default class ServerApi {
   // Listen to this event to get notified when a new game starts.
   gameStarted(gameId, currentTeam) {
     this.io.emit('game started', gameId, currentTeam);
+  }
+
+  gameStopped() {
+    this.io.emit('game stopped');
   }
 
   // Listen to this event to get notified when a round finished.
