@@ -15,7 +15,7 @@ function WGoToIdx(x, y) {
 // Main interface to the Go game
 class Go {
   constructor() {
-    this.wgo = new WGo(gs.BOARD_SIZE, 'NONE');
+    this.wgo = new WGo(gs.BOARD_SIZE, 'ALL');
     this.clearGame();
   }
 
@@ -24,7 +24,7 @@ class Go {
   }
 
   clearGame() {
-    this.wgo = new WGo(gs.BOARD_SIZE, 'NONE');
+    this.wgo = new WGo(gs.BOARD_SIZE, 'ALL');
   }
 
   fieldValue(idx) {

@@ -24,6 +24,10 @@ import Averager from './utilities/AddAndAverage';
 
 class Game {
   constructor(socket) {
+    if(gs.inDebugMode()) {
+      window.game = this;
+      window.gameSettings = gs;
+    }
     // User id. note that this can initially be unknown in case there's a locked wallet.
     // Is updated to an actual id once the user unlocked the wallet or agreed to create a new one.
     this.id = ethUtils.getAddress() || 'anonymous';
