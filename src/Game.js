@@ -25,6 +25,7 @@ import Blockchain from './Blockchain';
 import PlayerData, { PlayedGame, EmailWallet, TokenClaim } from './Models';
 import DatabaseWrapper, { DatabaseWrapperDummy, connectToDb } from './Database';
 import ethCrypto from './EthCrypto';
+import fs from 'fs';
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
@@ -79,7 +80,9 @@ class Game {
   updateTime() {
     if (this.gameState === gs.PAUSED) {
       if ((Date.now() - this.pauseStart) > gs.PAUSE_DURATION) {
-        this.startGame();
+        if (! fs.existsSync('game_stopped')) {
+          this.startGame();
+        }
       }
     } else if ((Date.now() - this.startTime()) > gs.MAX_GAME_DURATION) {
       this.endRound();
