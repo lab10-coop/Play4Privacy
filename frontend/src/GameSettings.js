@@ -5,9 +5,13 @@ function GameSettings() {
 
   this.ONE_SECOND = 1000;
   this.ONE_MINUTE = this.ONE_SECOND * 60;
+
+//  this.MAX_GAME_DURATION = 10 * this.ONE_SECOND;
+//  this.ROUND_TIME = 10 * this.ONE_SECOND;
+//  this.PAUSE_DURATION = 5 * this.ONE_SECOND;
   this.MAX_GAME_DURATION = 20 * this.ONE_MINUTE;
   this.ROUND_TIME = 20 * this.ONE_SECOND;
-  this.PAUSE_DURATION = 2 * this.ONE_SECOND;
+  this.PAUSE_DURATION = 20 * this.ONE_SECOND;
 
   // Game states
   this.STOPPED = 2;
@@ -24,14 +28,17 @@ function GameSettings() {
   this.PLACED = 2;
   this.PLAYER_LIMIT_EXCEEDED = -2;
 
+  this.inDebugMode = function() {
+    return (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === "::1" || location.hostname === "staging-p4p.dev.lab10.io");  // eslint-disable-line no-restricted-globals
+  };
+
   this.getBixcamUrl = function() {
-    if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === "::1" || location.hostname === "staging-p4p.dev.lab10.io") {  // eslint-disable-line no-restricted-globals
+    if(this.inDebugMode()) {
       return "http://play-test.p4p.lab10.io/bixcam";
     } else {
       return `${location.origin}/bixcam`; // eslint-disable-line no-restricted-globals
     }
-  }
-
+  };
 
   // WGo error codes
   this.ERROR_ALREADY_OCCUPIED = 2;
