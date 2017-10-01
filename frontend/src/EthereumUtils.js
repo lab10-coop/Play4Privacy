@@ -1,10 +1,11 @@
 // TODO: switch back to module once this is solved: https://github.com/ethereum/web3.js/issues/977
 //import Web3 from 'web3';
+import gs from './GameSettings'
 
 let instance = null;
 let web3;
 
-let debug = false;
+let debug = gs.inDebugMode();
 
 let log = debug ? (msg) => { console.log(`EthereumUtils: ${msg}`) } : () => {};
 let err = debug ? (msg) => { console.error(`ERROR in EthereumUtils: ${msg}`) } :  () => {};
@@ -22,6 +23,10 @@ class EthereumUtils {
       web3 = new window.Web3(window.Web3.givenProvider);
       this.loadWallet();
       instance = this;
+    }
+    if(debug) {
+      window.web3 = web3;
+      window.ethUtils = this;
     }
     return instance;
   }
