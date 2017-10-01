@@ -48,11 +48,11 @@ class Home extends React.Component {
       liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + Math.floor(new Date().getTime() / 1000) * 1000;
     };
     
-    $('#liveFeedImage').data('interval', setInterval(updateImage, 5000));
+    $('#liveFeedImage').data('interval', setInterval(updateImage, 10000));
 
     
     // Set Default Refresh-Rate in Seconds (5 for now)
-    $('input.liveCamRefreshValue').val(5).change();
+    $('input.liveCamRefreshValue').val(10).change();
     
     // Set new Refresh-Rate
     $("input.liveCamRefreshValue").on("input change", function() { 
@@ -152,7 +152,7 @@ class Home extends React.Component {
             <div className="liveCamRefreshRate">
               <input className="liveCamRefreshValue" type="range" min="2" max="50" step="1" />
               <div className="liveCamRefreshInfo">
-                <span className="hideOnMobile">Live-Feed</span> Refresh-Rate: every <span className="liveCamRefreshValueOutput">5</span> Seconds
+                <span className="hideOnMobile">Live-Feed</span> Refresh-Rate: every <span className="liveCamRefreshValueOutput">10</span> Seconds
                 <a className="killLiveCamRefesh" href="#" title="Stop Refreshing the Live-Feed at all">Stop Refreshing the Live-Feed at all</a>
               </div>
             </div>
