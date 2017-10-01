@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
 
   socket.nrConnectionsFromSameIp = function() {
     const clientsArr = Array.from(clientSockets.values());
-    return clientsArr.filter(s => s.request.connection.remoteAddress === this.getIp()).length;
+    return clientsArr.filter(s => s.getIp() === this.getIp()).length;
   };
   socket.on('disconnect', function() {
     clientSockets.delete(socket);
