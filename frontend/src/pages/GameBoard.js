@@ -345,7 +345,7 @@ class GameBoard extends React.Component {
 
               <div className='item'>
                 <span className='label'>Total Unclaimed Tokens:</span>
-                <span className='value' id='unclaimedTokensTotal'>{`N/A`} Token</span>
+                <span className='value' id='unclaimedTokensTotal'>{`N/A`}</span>
               </div>
   
               <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
