@@ -63,6 +63,10 @@ class Game {
     // Get notified when a new game started
     this.socket.on('game finished', this.finishGame);
 
+    this.socket.on('game stopped', () => {
+      this.gameState = gs.STOPPED;
+    });
+
     // Get notified when a round finished
     socket.on('round finished', this.finishRound);
 
@@ -238,7 +242,7 @@ class Game {
   }
 
   @computed get paused() {
-    return this.gameState === gs.PAUSED || this.gameState === gs.STOPPED;
+    return this.gameState === gs.PAUSED;
   }
 
   @computed get stopped() {

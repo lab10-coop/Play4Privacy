@@ -261,11 +261,11 @@ class GameBoard extends React.Component {
             
 
             <div className="pausedStatusMsg">
-              <h3>You played till the end -  <br className="phonePortraitOnly" />nice work!</h3>
-              <p>Here are some statistics <br className="phonePortraitOnly" />from the last game:</p>
+              <h3>Game finished</h3>
+              <p>The next round will start soon...</p>
               
               <div className="gameStats">
-              
+                {/*
                 <div className='item'>
                   <span className='label'>Black stones captured:</span>
                   <span className='value'>{game.blackStonesCaptured}--</span>
@@ -298,10 +298,10 @@ class GameBoard extends React.Component {
                   <span className='label'>Average consensus on team White:</span>
                   <span className='value'>{game.averageConsensusWhite}</span>
                 </div>
-              
+              */}
               </div>
               
-              <p className={`redeemTokensButtonIfGamePaused ${game.earnedTokens >= 0 ? '' : 'item hide'}`}>
+              <p className={`redeemTokensButtonIfGamePaused ${game.earnedTokens > 0 ? '' : 'item hide'}`}>
                 <strong>You have unclaimed PLAY Tokens.</strong><br />You can continue playing or
                 <a className='button' id='stopGame' href='endgame'>click here to redeem PLAY Tokens</a>
               </p>  

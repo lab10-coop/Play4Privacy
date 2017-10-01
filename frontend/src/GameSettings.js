@@ -6,12 +6,12 @@ function GameSettings() {
   this.ONE_SECOND = 1000;
   this.ONE_MINUTE = this.ONE_SECOND * 60;
 
-//  this.MAX_GAME_DURATION = 10 * this.ONE_SECOND;
-//  this.ROUND_TIME = 10 * this.ONE_SECOND;
-//  this.PAUSE_DURATION = 5 * this.ONE_SECOND;
-  this.MAX_GAME_DURATION = 20 * this.ONE_MINUTE;
-  this.ROUND_TIME = 20 * this.ONE_SECOND;
-  this.PAUSE_DURATION = 20 * this.ONE_SECOND;
+  this.MAX_GAME_DURATION = 10 * this.ONE_SECOND;
+  this.ROUND_TIME = 5 * this.ONE_SECOND;
+  this.PAUSE_DURATION = 5 * this.ONE_SECOND;
+//  this.MAX_GAME_DURATION = 20 * this.ONE_MINUTE;
+//  this.ROUND_TIME = 20 * this.ONE_SECOND;
+//  this.PAUSE_DURATION = 20 * this.ONE_SECOND;
 
   // Game states
   this.STOPPED = 2;
