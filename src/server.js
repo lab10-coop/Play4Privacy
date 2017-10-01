@@ -19,6 +19,7 @@ console.log(`Configured MongoDB Database Name: ${mongodbName}`);
 const game = new Game(io, mongodbName);
 
 app.set('port', process.env.PORT || 3001);
+app.set('hostname', process.env.HOSTNAME || '::');
 
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'production') {
@@ -48,6 +49,6 @@ io.on('connection', (socket) => {
   defineClientApi(game, socket);
 });
 
-server.listen(app.get('port'), () => {
+server.listen(app.get('port'), app.get('hostname'), () => {
   console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
 });
