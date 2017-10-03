@@ -69,7 +69,8 @@ class Credits extends React.Component {
             <div className="accordion">           
               <h4 className="accordionTitle">What is a token?</h4>
               <div className="accordionContent">
-                <p>A token is a digital asset issued into a decentralized system. Each cryptocurrency token embodies a tradable good. A token is hosted on another currency’s blockchain (in our case Ethereum). This is the difference to a coin, having its own blockchain.</p>
+                <p>A token is a digital asset issued into a decentralized system. Each cryptocurrency token embodies a tradable good.<br />
+                 A token is hosted on a blockchain (in our case Ethereum) which has its own base currency unit (in our case Ether). This is the difference to a coin - a coin is usually the base currency unit of a Blockchain (e.g. Bitcoin).</p>
               </div>
             </div>
 
@@ -79,7 +80,11 @@ class Credits extends React.Component {
               <h4 className="accordionTitle">What is a wallet?</h4>
               <div className="accordionContent">
                 <p>A wallet stores the public and private keys which can be used to receive or spend the cryptocurrency and tokens.</p>
-                <p>There are different types of wallets such as software wallets, hardware wallets or paper wallets. A paper wallet is a document that contains copies of the public and private keys that make up a wallet.</p>
+                <p>There are different types of wallets such as software wallets, hardware wallets, paper wallets or even brain wallets. <br />
+                  A paper wallet is a document that contains copies of the public and private keys that make up a wallet.<br />
+                  For brain wallets (that is, you just remember the private key like a password), <a href="https://en.wikipedia.org/wiki/Mnemonic" target="_blank">mnemonics</a> are often used.
+                </p>
+
               </div>
             </div>
 
@@ -144,24 +149,18 @@ No sign-up. Play for free and anonymously.</p>
               <h4 className="accordionTitle">How/when do I generate and get my PLAY tokens?</h4>
               <div className="accordionContent">
                 <p>Generate one token every 20 seconds. Just continue playing and collect more tokens.</p>
-                <p>When the game ends or you leave the current game, you can redeem your tokens. This application gives you the possibility to send the tokens to your existing wallet or create a new wallet.</p>
+                <p>When the game ends or you leave the current game, you can redeem your tokens.<br />
+                In order to best support those without prior experience with crypto currency, the application doesn't require players to already have a wallet, but instead automatically generates a wallet in the background. This wallet can then be saved when first redeeming PLAY tokens.<br />
+                Unless your browser deletes local storage, the same wallet will be used for successive sessions.</p>
               </div>
             </div>
-            
-            
-            <div className="accordion">           
-              <h4 className="accordionTitle">Do I already need a wallet to participate?</h4>
-              <div className="accordionContent">
-                <p>No. If you already have a wallet, we can send the PLAY tokens there after the game.</p>
-                <p>If you do not have a wallet, we help you to export the virtual wallet and export it for further usage. </p>
-              </div>
-            </div>
-            
+
+
             <div className="accordion">           
               <h4 className="accordionTitle">How can I get tokens without playing the game?</h4>
               <div className="accordionContent">
-                <p>You can also save your precious time and bid Ether for PLAY tokens!
-Because for every token mined, a supplement coin is generated to sell. Donate in order to participate in the distribution of these tokens.</p>
+                <p>You can also save your precious time and bid Ether for PLAY tokens!<br />
+Because for every token mined, a supplement token is generated to sell. Donate in order to participate in the distribution of these tokens.</p>
               </div>
             </div>
             
@@ -171,7 +170,7 @@ Because for every token mined, a supplement coin is generated to sell. Donate in
             <div className="accordion">           
               <h4 className="accordionTitle">What is Proof-of-PLAY?</h4>
               <div className="accordionContent">
-                <p>Play4Privacy introduces a novel concept to “mine” crypto-currencies similar to Bitcoin. It is called “proof-of-PLAY” and rewards every Go-player with virtual tokens (coins) for playing the game, no matter if they won or lost. For every valid move the players gets one token.</p>
+                <p>Play4Privacy introduces a novel concept to “mine” crypto-currencies similar to Bitcoin. It is called “proof-of-PLAY” and rewards every Go-player with virtual tokens for playing the game, no matter if they won or lost. For every valid move the players gets one token.</p>
                 <p>Thus, this project puts the human at the centre of value creation, not machines.</p>
               </div>
             </div>
@@ -203,7 +202,6 @@ Because for every token mined, a supplement coin is generated to sell. Donate in
             <div className="accordion">           
               <h4 className="accordionTitle">But what can I do with the PLAY-tokens after the project?</h4>
               <div className="accordionContent">
-                <p>You can store your tokens 100% anonymously in your browser or export them to (and generate) an external Ethereum wallet.</p>
                 <p>After the public proof-of-PLAY phase from September 27th and October 27th 2017, the tokens can be traded on an exchange. We offer the possibility to redeem the tokens to host further games like Play4Privacy in the future – in exchange for tokens.</p>
                 <p>We want to build a platform of glocal gaming with that. In this stage, the whole process does not necessarily have to be about donating funds to charity anymore.</p>
                 <p>So, token holders could host games for other causes or profits and give out self-issued tokens (e.g. ICO tokens of their project) as a proof-of-play (e.g. during bounty hunting for an ICO-project).
@@ -219,7 +217,7 @@ Collect one token for every move, every 20 seconds. </p>
               <h4 className="accordionTitle">Who is behind the project?</h4>
               <div className="accordionContent">
                 <p>The lab10 collective, based out of Graz, Austria, is an incubator focusing on blockchain. Our 21 passionate members work on various projects related to decentralisation, privacy and education.<br />
-We share the vision: `We want to support the transition to a free, educated and fair society`.</p>
+Our vision is: `We want to support the transition to a free, educated and fair society`.</p>
                 <p>Find more information about the team members in our <a href="https://p4p.lab10.coop/whitepaper.pdf" target="_blank">whitepaper</a>.</p>                
                 
               </div>
@@ -231,7 +229,7 @@ We share the vision: `We want to support the transition to a free, educated and 
             <div className="accordion">           
               <h4 className="accordionTitle">How are funds raised for privacy?</h4>
               <div className="accordionContent">
-                <p>For every token mined, a supplement coin is generated to sell. These tokens are sold before and after the mining phase through an auction. 100% of the money raised is donated to non-profit-privacy organisations who do good work in the area of protection of privacy.</p>                
+                <p>For every token mined, a supplement token is generated to sell. These tokens are sold before and after the mining phase through an auction. 100% of the money (Ether) raised is donated to non-profit-privacy organisations who do good work in the area of protection of privacy.</p>
               </div>
             </div>
             

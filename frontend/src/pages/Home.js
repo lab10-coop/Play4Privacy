@@ -212,7 +212,7 @@ class Home extends React.Component {
                 <h3>Get <br />rewarded</h3>
                 <div className="icon"></div>
                 <p>P4P introduces a novel concept to “mine” crypto-currencies on a <br />proof-of-PLAY basis.</p>
-                <p>Every player gets rewarded with these virtual tokens (coins).</p>
+                <p>Every player gets rewarded with these virtual tokens.</p>
               </div>
             </div>
             <div className="c33r privacy">                      
@@ -240,7 +240,7 @@ class Home extends React.Component {
           <div className='fieldInner'>  
           
             <h2>Can I also buy PLAY-tokens?</h2>
-            <p>Yes. For every token mined, a supplement coin is generated to sell. You can bid for these tokens. Secure a significant share of these tokens without investing time to play. The total of your investment will be donated to reputable non-profit organisations fighting for privacy.</p>
+            <p>Yes. For every token mined, a supplement token is generated to sell. You can bid for these tokens. Secure a significant share of these tokens without investing time to play. The total of your investment will be donated to reputable non-profit organisations fighting for privacy.</p>
             <p>Registration for the auction of PLAY tokens happens only from 25th and 26th of September and from October 29th to 31st 2017.</p>
             <p>You can buy or sell tokens as soon as Play tokens are traded on Exchanges. Date is yet to be announced</p>
             <p><a className='button' href='http://p4p.lab10.coop' title='Play Go and get PLAY Tokens!'>to bid for tokens, SIGN UP NOW! </a></p>
