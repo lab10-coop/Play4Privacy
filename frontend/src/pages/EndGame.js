@@ -222,16 +222,14 @@ class EndGame extends React.Component {
 
             <h3>Access your tokens/wallet</h3>
             <p>To access your wallet, you can use any wallet application which can import such JSON keystore files.<br />
-            A quick option is <a href="https://www.myetherwallet.com/#send-transaction">https://www.myetherwallet.com/#send-transaction</a>.<br />
+            A quick option is <a href="https://www.myetherwallet.com/#send-transaction" target="_blank">https://www.myetherwallet.com/#send-transaction</a>.<br />
               Here, select "Keystore File", open the downloaded Keystore file and enter your password.<br />
             Note that although MyEtherWallet is a web application, it does NOT upload your wallet/keystore file anywhere. All processing is done locally in your browser.
             </p>
             <p>
             If you just want to check your account balance, there's no need to unlock the wallet.<br />
-            For that you can also just visit a so called "Blockchain Explorer", for example
-              <a id="explorerLink" href="#" target="_blank" title="Check transaction at etherscan.io">#</a>
-              shows the status of the account included in this wallet.</p>
-
+            For that you can also just visit a so called "Blockchain Explorer".<br />
+            The above link to etherscan.io is just that and shows the status of the account included in this wallet.</p>
             <p>
             In order to send some of your tokens to somebody else, you first need to load the wallet with a small amount of Ether for transaction fees.
             </p>
