@@ -23,11 +23,15 @@ export function defineClientApi(game, socket) {
   // returns the team you are assigned to, or an empty string
   // if joining failed.
   socket.on('join game', (id, fn) => {
-    console.log(`join game by ${id}`)
     if(socket.nrConnectionsFromSameIp() > 1) {
       console.log(`${id} is from ip ${socket.getIp()} with ${socket.nrConnectionsFromSameIp()} connections open`)
     }
-    checkedCall(() => fn(game.joinGame(id)));
+    if(id !== 'anonymous') {
+      console.log(`join game by ${id} accepted`);
+      checkedCall(() => fn(game.joinGame(id)));
+    } else {
+      console.log(`join game by ${id} rejected`);
+    }
   });
 
   socket.on('submit move', (id, round, move, sig, fn) =>
