@@ -185,16 +185,25 @@ class Home extends React.Component {
 
         <div className='field projectExplanation'>
           <h2>How does it work?</h2>
-          <p>This Go-platform is running on a blockchain. Get to know how this technology works in the most playful manner. Just join a team and start playing.</p>
-          <p>Supported by a consensus algorithm, each team sets their stones in their quest for surrounding more territory than the opponent. Every player is rewarded with a PLAY-token for their suggestion for the next move.</p>
-          <p>Collect one token for every move, every 20 seconds. You can store your tokens 100% anonymously in your browser or export them to (and generate)  an external Ethereum wallet.</p>
-          <p>For every token mined, a supplement coin is generated and donated to non-profit organisations fighting for privacy.</p>
+          <p>This platform is partly running on a blockchain. Get to know how this technology works in the most playful manner. Just join a team and start playing.</p>
+          <p>Supported by a consensus algorithm, each team sets their stones in their quest for surrounding more territory than the opponent. Every player is rewarded with a <a href="https://etherscan.io/token/0xfB41f7b63c8e84f4BA1eCD4D393fd9daa5d14D61" target="_blank">PLAY token</a> for their suggestion for the next move.</p>
+          <p>Collect one token for every move, every 20 seconds. <br />
+            An <a href="https://ethereum.org/" target="_blank">Ethereum</a> wallet is automatically created in the background when joining the game.<br />
+          If you redeem tokens earned by playing, you will be asked for a password. The password protected wallet is then saved in your browser (local storage) for future Go sessions and can be saved for other usage.<br />
+          The private key of your wallet never leaves your Computer.</p>
+          <p>Every move you propose is signed with the private key of your wallet. This signature is included in the <i>game state</i> which will be made available for every game played on this website.<br />
+            A <a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function" target="_blank">hash</a> of the game state will be written to the blockchain (using <a href="https://etherscan.io/address/0x78cb0db58721596bc79dc9d8d8296212d153d804#code" target="_blank">this contract</a>).<br />
+            That way, despite the possibility to participate anonymously, progress of the games and the resulting token payouts can be made transparent and auditable.</p>
+          <p>For every token mined, a supplement token is generated and transferred into a pool (see <a href="https://etherscan.io/address/0x7e0C7676be340EE8eFB4321abfA4634a7Abfb92c" target="_blank">contract</a>).<br />
+            That pool also accepts Ether donations before and after the gaming period.<br />
+            At the end, collected Ether is donated to non-profit organisations fighting for privacy.<br />
+            The collected PLAY tokens are transferred to the donators proportional to their contribution.</p>
           <div className="hotspots">
             <div className="c33l blockchain">
               <div className="hotspot">
                 <h3>Experience the <br />blockchain</h3>
                 <div className="icon"></div>
-                <p>Our platform is running <br />on a blockchain.</p>
+                <p>This platform is partly running <br />on a blockchain.</p>
                 <p>Get to know how this technology works in the most playful manner.</p>
               </div>
             </div>
@@ -210,7 +219,7 @@ class Home extends React.Component {
               <div className="hotspot">
                 <h3>Play for<br /> a cause</h3>
                 <div className="icon"></div>
-                <p>For every token mined, <br />a supplement coin is generated <br />to auction.</p>
+                <p>For every token mined, <br />a supplement token is generated <br />to auction.</p>
                 <p>100% of the funds raised will be donated to non-profit organizations fighting for privacy.</p>
               </div>
             </div>
@@ -233,7 +242,7 @@ class Home extends React.Component {
             <h2>Can I also buy PLAY-tokens?</h2>
             <p>Yes. For every token mined, a supplement coin is generated to sell. You can bid for these tokens. Secure a significant share of these tokens without investing time to play. The total of your investment will be donated to reputable non-profit organisations fighting for privacy.</p>
             <p>Registration for the auction of PLAY tokens happens only from 25th and 26th of September and from October 29th to 31st 2017.</p>
-            <p>You can buy or sell tokens as soon as Play tokens are traded on Exchanges. Dte is yet to be announced</p>
+            <p>You can buy or sell tokens as soon as Play tokens are traded on Exchanges. Date is yet to be announced</p>
             <p><a className='button' href='http://p4p.lab10.coop' title='Play Go and get PLAY Tokens!'>to bid for tokens, SIGN UP NOW! </a></p>
    
             
