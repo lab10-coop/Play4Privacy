@@ -47,11 +47,13 @@ you just earned PLAY tokens for "proof-of-play". You find your password protecte
 To access your wallet, you can use any wallet application which can import such JSON keystore files.
 A quick option is https://www.myetherwallet.com/#send-transaction
 Select "Keystore File", open your Keystore file and enter your password.
+Note that although MyEtherWallet is a web application, it does NOT upload your wallet/keystore file anywhere. All processing is done locally in your browser.
 
 If you just want to check your account balance, there's no need to unlock the wallet.
 For that you can also just visit a so called "Blockchain Explorer", for example
 https://etherscan.io/token/0xfB41f7b63c8e84f4BA1eCD4D393fd9daa5d14D61?a=${task.userId}
 shows the status of the account included in this wallet.
+Be aware that using a 3rd party service like Etherscan can potentially de-anonymize you (by associating the wallet address included in the URL with your IP address).
 
 In order to send some of your tokens to somebody else, you first need to load the wallet with a small amount of Ether for transaction fees.
 

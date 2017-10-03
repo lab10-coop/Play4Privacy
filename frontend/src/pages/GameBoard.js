@@ -67,7 +67,7 @@ class GameBoard extends React.Component {
           ethUtils.createNewWallet();
           this.game.id = ethUtils.getAddress(); 
           // TODO: this is not elegant
-          // $('#unlockWalletLayer').removeClass('visible');
+          $('#unlockWalletLayer').removeClass('visible');
         
         });
         
@@ -224,14 +224,15 @@ class GameBoard extends React.Component {
                 
                 <p className="errorMessage">
                   Wrong password - please try again. <br />
-                  <span className="button" id="createNewWallet">or create a new wallet</span>
+                  <span className="button" id="createNewWallet">or reset wallet</span>
                 </p>
 
+                {/*
                 <p className="newWalletCreatedMessage">
                   <strong>Your new wallet has been created!</strong><br />
                   You can start playing by clicking the button below.
                 </p>
-
+                */}
 
                 
               </div>

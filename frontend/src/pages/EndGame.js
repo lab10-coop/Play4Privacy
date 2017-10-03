@@ -160,7 +160,7 @@ class EndGame extends React.Component {
             <div id='newWallet'>
                {/* <p><strong>### DEV-INFO: ELSE - WALLET FOUND BUT NOT LINKED YET ###</strong></p> */} 
 
-              <p>Please enter a strong password (including numbers, lower case and upper case letters) to encrypt your wallet.</p>
+              <p>Please enter a <b><a href="https://www.schneier.com/essays/archives/2014/02/choosing_a_secure_pa.html" target="_blank">strong password</a></b> to encrypt your wallet.</p>
               <p>Make sure to remember your password as this will be the ONLY way to open your wallet and access your PLAY tokens.</p>
               
               <div className="formWrapper">
@@ -179,21 +179,28 @@ class EndGame extends React.Component {
           <div className='layerInner'>
 
             <h2>Export your wallet</h2>
-            <p>Congratulations, you have just created a wallet for yourself that hold your PLAY tokens.</p>
-            <p>Just enter your email address and we will send you your wallet file via email.</p>
+            <p>Congratulations, you have just created a wallet that holds your PLAY tokens.</p>
 
+            <p><b><a href="#" id="walletDownloadLink" title="Download Wallet File">Click here to download</a></b> your password protected wallet/keystore file.</p>
+
+            <hr />
+
+            <p>As an alternative, we can send you the wallet via Email:</p>
             <form className="formWrapper">
               <input name='email' type='email' className='text' placeholder='Your email adress' />
               <input type='button' value='Send' className='submit' id='sendWalletFile' />
             </form>
-            Due to the high expected load on our servers, please be patient if you do not recieve the email right away.<br/>
+            <br/>
             <p className="emailWarning">
-              <strong>Your wallet should arrive within the next hours.</strong>
+              <strong>Please be patient if you do not receive the email right away, it may take a few hours.</strong>
             </p>
-            
-            <p>If you do not want to share your email address - simply <a href="#" id="walletDownloadLink" title="Download Wallet File">click here to download</a> the file to your computer.</p>
-            
-            
+            <p>Be aware that in this case the password protected wallet file is uploaded to our server and transmitted via 3rd party <a href="https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol" target="_blank" title="SMTP Wikipedia">SMTP</a> servers.<br />
+              This implies that anybody along that route can probably de-anonymize your wallet's address / public key via the association with the Email address, and potentially also crack the included private key (in case the chosen password is not strong enough to make that infeasible).<br />
+            </p>
+            <p>This is not to scare you, but to help understanding various choices and their implications.<br />
+              In case you don't plan to use this wallet to deposit large sums of crypto money or want to keep your Go skills a secret, using the Email feature is probably a no-brainer.</p>
+
+
           </div>
           <div className="closeLayerButton"></div>
         </div>
@@ -204,19 +211,35 @@ class EndGame extends React.Component {
 
         <div className='layer' id='redeemCoinSuccessful'>
           <div className='layerInner'>
-            <h2>Please bear with us.</h2>
+            <h2>Tokens scheduled for transfer</h2>
             
             <p>
-              You can check the state of the token-distribution using the following link:<br/>
+              You can check the state of your wallet using the following link:<br/>
               <a id="explorerLink" href="#" target="_blank" title="Check transaction at etherscan.io">#</a><br />
               <span className="noticeMessage">(Note: New tokens will be distributed once a day)</span>
+              <p>Again, be aware that using a 3rd party service like Etherscan can potentially de-anonymize you (by associating the wallet address included in the URL with your IP address).</p>
             </p>
 
             <h3>Access your tokens/wallet</h3>
-            <p>To access your wallet, visit <a href="https://www.myetherwallet.com/#send-transaction">https://www.myetherwallet.com/#send-transaction</a>, 
-            upload your Keystore file and enter your password.</p>
-            <p>You can check your account address and PLAY balance there.<br />
-            You could even send your tokens to another address (if you have Ether to pay for your transaction fees).</p>
+            <p>To access your wallet, you can use any wallet application which can import such JSON keystore files.<br />
+            A quick option is <a href="https://www.myetherwallet.com/#send-transaction">https://www.myetherwallet.com/#send-transaction</a>.<br />
+              Here, select "Keystore File", open the downloaded Keystore file and enter your password.<br />
+            Note that although MyEtherWallet is a web application, it does NOT upload your wallet/keystore file anywhere. All processing is done locally in your browser.
+            </p>
+            <p>
+            If you just want to check your account balance, there's no need to unlock the wallet.<br />
+            For that you can also just visit a so called "Blockchain Explorer", for example
+              <a id="explorerLink" href="#" target="_blank" title="Check transaction at etherscan.io">#</a>
+              shows the status of the account included in this wallet.</p>
+
+            <p>
+            In order to send some of your tokens to somebody else, you first need to load the wallet with a small amount of Ether for transaction fees.
+            </p>
+            <p>
+            In general, be careful where you enter the password. A lot of phishing is happening.
+            </p>
+
+
             <p>Welcome to the world of crypto!</p>
 
           

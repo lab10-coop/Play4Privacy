@@ -29,6 +29,8 @@ if [[ -z ${DEV-} ]]; then
 	vim linenumbers
 fi
 
+# delete possible remainders from previous runs
+rm game* || true
 echo "dividing into log files per gamefile per game..."
 start=1 gameId=0 && for nextStart in `cat linenumbers`; do 
 	echo "game $gameId: lines ${start} to ${nextStart}"
