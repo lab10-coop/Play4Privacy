@@ -173,16 +173,27 @@ class Home extends React.Component {
             <span className='timeBar' style={timeBarStyles} />
           </div>
           
-          <div className="gamePausedLayer">
+          <div className="gamePausedLayer specialTimeSlot">
             <div className="gamePausedLayerInner">
               <div className="icon"></div>
               <div className="gamePausedText">
-                <span className="headline"><strong>Game Paused!</strong><br />check back from <br />7pm to 10pm CEST</span>
+                <span className="headline"><strong>Game Paused!</strong><br />
+                check back from <br />7pm to 10pm CEST<br /></span>
+                <br /><br />
+                <span className="specialTimeSlot">Special time slot powered by <br />
+                <a href="https://yourstory.com/" target="_blank">YourStory.com</a>:<br />
+                <strong>Sunday, October 8th <br />from 5 - 7am CEST <br />(8:30 – 10:30am IST)</strong></span>
               </div>
             </div>
           </div>
         </div>
-
+        
+        <div className="field videoField">
+          <div className='fieldInner'>  
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/u5z8OEdrk6k?rel=0" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+ 
         <div className='field projectExplanation'>
           <h2>How does it work?</h2>
           <p>This platform is partly running on a blockchain. Get to know how this technology works in the most playful manner. Just join a team and start playing.</p>

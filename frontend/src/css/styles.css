@@ -1367,6 +1367,11 @@ a.button.stopGameButtonDuringGame {
 
 }
 
+.gamePausedLayer a,
+.gamePausedLayer a:visited {
+  color: #FFFFFF;
+}
+
 
 
 .gamePausedLayer {
@@ -1410,8 +1415,14 @@ a.button.stopGameButtonDuringGame {
   left: 50%;
   margin-left: -128px;
   margin-top: -128px;
-  
 }
+
+
+.gamePausedLayer.specialTimeSlot .gamePausedLayerInner {
+  height: 356px;
+  margin-top: -178px;
+}
+
 
 .errorLayer .icon,
 .gamePausedLayer .icon {
@@ -1484,6 +1495,11 @@ a.button.stopGameButtonDuringGame {
 }
 
 
+
+.videoField iframe {
+  width: 950px;
+  height: 614px;
+}
 
 
 /* footer */

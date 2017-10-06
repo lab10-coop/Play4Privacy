@@ -172,6 +172,10 @@
 
 
 
+  .videoField iframe {
+    width: 720px;
+    height: 464px;
+  }
 
 
 
@@ -527,6 +531,12 @@
 
 
 
+  .videoField iframe {
+    width: 427px;
+    height: 275px;
+  }
+
+
 
 
 	@media 
@@ -728,6 +738,14 @@
 		height: 50px;
 		background-size: auto 50px;
 	}
+
+
+
+  .videoField iframe {
+    width: 297px;
+    height: 189px;
+  }
+
 
 
 	@media 
