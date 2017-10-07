@@ -1288,7 +1288,7 @@ a.button.stopGameButtonDuringGame {
   display: block;
   font-size: 0px;
   text-indent: -50000em;
-  background:  red url(../img/youtube-video-home.png) no-repeat 0px 0px / 100% auto;
+  background: url(../img/youtube-video-home.png) no-repeat 0px 0px / 100% auto;
 }
 
 .specialTimeSlotBanner {
