@@ -1024,12 +1024,6 @@ a.button.stopGameButtonDuringGame {
 }
 
 
-.goField .place.lastPlaced {
-  transform: rotate(3600deg);
-	transition: color .5s ease-in-out, background .5s ease-in-out, transform 17s ease-in-out;
-	-moz-transition: color .5s ease-in-out, background .5s ease-in-out, transform 17s ease-in-out;
-	-webkit-transition: color .5s ease-in-out, background .5s ease-in-out, transform 17s ease-in-out;
-}
 
 
 
@@ -1077,6 +1071,36 @@ a.button.stopGameButtonDuringGame {
 
 .goField .place.placed {
 	background-color: rgba(121, 215, 21, 0.5);
+}
+
+
+.goField .place.lastPlaced {
+	transition: color .5s ease-in-out, background .5s ease-in-out, transform 17s ease-in-out;
+	-moz-transition: color .5s ease-in-out, background .5s ease-in-out, transform 17s ease-in-out;
+	-webkit-transition: color .5s ease-in-out, background .5s ease-in-out, transform 17s ease-in-out;  
+}
+
+
+.goField .place.lastPlaced.black {
+	
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#050505), to(#050505), color-stop(1%, #353535), color-stop(6%, #343434), color-stop(26%, #4f4f4f), color-stop(50%, #3ba0d2), color-stop(74%, #4f4f4f), color-stop(94%, #343434), color-stop(99%, #353535));
+	background-image: -webkit-linear-gradient(305deg, #050505, #353535 1%, #343434 6%, #4f4f4f 26%, #3ba0d2 50%, #4f4f4f 74%, #343434 94%, #353535 99%, #050505);
+	background-image: -moz-linear-gradient(305deg, #050505, #353535 1%, #343434 6%, #4f4f4f 26%, #3ba0d2 50%, #4f4f4f 74%, #343434 94%, #353535 99%, #050505);
+	background-image: -o-linear-gradient(305deg, #050505, #353535 1%, #343434 6%, #4f4f4f 26%, ##3ba0d2 50%, #4f4f4f 74%, #343434 94%, #353535 99%, #050505);
+	background-image: -ms-linear-gradient(305deg, #050505, #353535 1%, #343434 6%, #4f4f4f 26%, #3ba0d2 50%, #4f4f4f 74%, #343434 94%, #353535 99%, #050505);
+	background-image: linear-gradient(305deg, #050505, #353535 1%, #343434 6%, #4f4f4f 26%, #3ba0d2 50%, #4f4f4f 74%, #343434 94%, #353535 99%, #050505);
+	
+}
+
+.goField .place.lastPlaced.white {
+	
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#fcfcfc), to(#fcfcfc), color-stop(1%, #f7f7f7), color-stop(6%, #f2f2f2), color-stop(26%, #d9d9d9), color-stop(50%, #3ba0d2), color-stop(74%, #d9d9d9), color-stop(94%, #f2f2f2), color-stop(99%, #f7f7f7));
+	background-image: -webkit-linear-gradient(316deg, #fcfcfc, #f7f7f7 1%, #f2f2f2 6%, #d9d9d9 26%, #3ba0d2 50%, #d9d9d9 74%, #f2f2f2 94%, #f7f7f7 99%, #fcfcfc);
+	background-image: -moz-linear-gradient(316deg, #fcfcfc, #f7f7f7 1%, #f2f2f2 6%, #d9d9d9 26%, #3ba0d2 50%, #d9d9d9 74%, #f2f2f2 94%, #f7f7f7 99%, #fcfcfc);
+	background-image: -o-linear-gradient(316deg, #fcfcfc, #f7f7f7 1%, #f2f2f2 6%, #d9d9d9 26%, #3ba0d2 50%, #d9d9d9 74%, #f2f2f2 94%, #f7f7f7 99%, #fcfcfc);
+	background-image: -ms-linear-gradient(316deg, #fcfcfc, #f7f7f7 1%, #f2f2f2 6%, #d9d9d9 26%, #3ba0d2 50%, #d9d9d9 74%, #f2f2f2 94%, #f7f7f7 99%, #fcfcfc);
+	background-image: linear-gradient(316deg, #fcfcfc, #f7f7f7 1%, #f2f2f2 6%, #d9d9d9 26%, #3ba0d2 50%, #d9d9d9 74%, #f2f2f2 94%, #f7f7f7 99%, #fcfcfc);
+		
 }
 
 
@@ -1252,6 +1276,37 @@ a.button.stopGameButtonDuringGame {
 .noticeMessage {
   font-style: italic;
 }
+
+.videoField iframe {
+  width: 950px;
+  height: 614px;
+}
+
+.videoField a {
+  width: 950px;
+  height: 610px;
+  display: block;
+  font-size: 0px;
+  text-indent: -50000em;
+  background:  red url(../img/youtube-video-home.png) no-repeat 0px 0px / 100% auto;
+}
+
+.specialTimeSlotBanner {
+  width: 1010px;
+  text-align: right;
+  margin: 0 auto;
+}
+
+.specialTimeSlotBanner a {
+  width: 505px;
+  height: 100px;
+  display: inline-block;
+  font-size: 0px;
+  text-indent: -50000em;
+  background: url(../img/YourStoryTimeslot.png) no-repeat 0px 0px;
+}
+
+
 
 
 /* ErrorLayer & GamePaused */
@@ -1496,10 +1551,6 @@ a.button.stopGameButtonDuringGame {
 
 
 
-.videoField iframe {
-  width: 950px;
-  height: 614px;
-}
 
 
 /* footer */

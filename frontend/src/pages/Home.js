@@ -189,8 +189,8 @@ class Home extends React.Component {
         </div>
         
         <div className="field videoField">
-          <div className='fieldInner'>  
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/u5z8OEdrk6k?rel=0" frameborder="0" allowfullscreen></iframe>
+          <div className='fieldInner'>
+            <a href="https://www.youtube.com/watch?v=u5z8OEdrk6k" target="_blank" title="This game makes you understand and benefit from the blockchain in real life (Play4privacy)">Watch Video on YouTube</a>
           </div>
         </div>
  

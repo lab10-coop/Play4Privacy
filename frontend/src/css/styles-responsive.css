@@ -176,9 +176,16 @@
     width: 720px;
     height: 464px;
   }
+  
+  .videoField a { 
+    width: 720px;
+    height: 462px;
+  }
 
 
-
+  .specialTimeSlotBanner {
+    width: 750px;
+  }
 
 
 
@@ -393,6 +400,17 @@
     	padding-top: 100px;
   }
 
+  .specialTimeSlotBanner {
+    width: 460px;
+  }
+
+  .specialTimeSlotBanner a {
+    height: 50px;
+    width: 253px;
+    background-size: auto 50px;
+  }
+
+
 }
 
 /* Phones, Landscape Only */
@@ -534,6 +552,11 @@
   .videoField iframe {
     width: 427px;
     height: 275px;
+  }
+
+  .videoField a { 
+    width: 430px;
+    height: 277px;
   }
 
 
@@ -744,6 +767,15 @@
   .videoField iframe {
     width: 297px;
     height: 189px;
+  }
+
+  .videoField a { 
+    width: 300px;
+    height: 193px;
+  }
+
+  .specialTimeSlotBanner {
+    width: 320px;
   }
 
 

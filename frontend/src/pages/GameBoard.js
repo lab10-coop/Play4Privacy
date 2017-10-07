@@ -251,7 +251,11 @@ class GameBoard extends React.Component {
 
           </div>
         </div>
-
+        
+        <p className="specialTimeSlotBanner">
+          <a href="https://yourstory.com/2017/10/play4privacy-offers-fun-way-understand-blockchain-technology/" target="_blank" title="Special Timeslot powered by YourStory.com">Special Play4Privacy timeslot powered by YourStory.com</a>
+        </p>
+        
         <div className={`field  ${game.paused ? 'gamePaused' : ''} ${game.stopped ? 'gameStopped' : ''}`} id='gameField'>
           <div className='fieldInner'>
             
