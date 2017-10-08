@@ -173,16 +173,12 @@ class Home extends React.Component {
             <span className='timeBar' style={timeBarStyles} />
           </div>
           
-          <div className="gamePausedLayer specialTimeSlot">
+          <div className="gamePausedLayer">
             <div className="gamePausedLayerInner">
               <div className="icon"></div>
               <div className="gamePausedText">
                 <span className="headline"><strong>Game Paused!</strong><br />
                 check back from <br />7pm to 10pm CEST<br /></span>
-                <br /><br />
-                <span className="specialTimeSlot">Special time slot powered by <br />
-                <a href="https://yourstory.com/" target="_blank">YourStory.com</a>:<br />
-                <strong>Sunday, October 8th <br />from 5 - 7am CEST <br />(8:30 – 10:30am IST)</strong></span>
               </div>
             </div>
           </div>

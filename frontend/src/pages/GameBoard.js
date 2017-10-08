@@ -252,9 +252,6 @@ class GameBoard extends React.Component {
           </div>
         </div>
         
-        <p className="specialTimeSlotBanner">
-          <a href="https://yourstory.com/2017/10/play4privacy-offers-fun-way-understand-blockchain-technology/" target="_blank" title="Special Timeslot powered by YourStory.com">Special Play4Privacy timeslot powered by YourStory.com</a>
-        </p>
         
         <div className={`field  ${game.paused ? 'gamePaused' : ''} ${game.stopped ? 'gameStopped' : ''}`} id='gameField'>
           <div className='fieldInner'>
@@ -315,10 +312,6 @@ class GameBoard extends React.Component {
             
             <div className="gameStoppedStatusMsg">
               <p>The Game is currently paused.<br />Please check back between 7pm to 10pm CEST.</p>
-              <p className="specialTimeSlot">Special time slot powered by <br />
-                <a href="https://yourstory.com/" target="_blank">YourStory.com</a>:<br />
-                <strong>Sunday, October 8th <br />from 5 - 7am CEST <br />(8:30 – 10:30am IST)</strong>
-              </p>
               
               <p className={`redeemTokensButtonIfGamePaused ${game.earnedTokens > 0 ? '' : 'item hide'}`}>
                 <a className='button' id='stopGame' href='endgame'>The game is currently paused. If you still have Tokens to redeem - click here!</a>
