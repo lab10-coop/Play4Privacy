@@ -256,6 +256,14 @@ class Home extends React.Component {
           </div>
         </div>       
 
+        <div className='field centered' id='tokenContractAdress'>
+          <div className='fieldInner'>  
+          
+            <p>here you can see the token contract</p>
+            <p><strong>0xfb41f7b63c8e84f4ba1ecd4d393fd9daa5d14d61</strong></p>
+            
+          </div>
+        </div>    
 
         <div className='layer' id='newToBC'>
           <div className='layerInner'>
