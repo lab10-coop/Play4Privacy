@@ -49,6 +49,7 @@ class EthereumUtils {
         throw new Error("No wallet stored");
       }
       this.wallet.persisted = true;
+      this.wallet.locked = false;
       sessionStorage.setItem("wallet", JSON.stringify(this.wallet.encrypt("passwordForIntermediateStorage")));
       sessionStorage.setItem("walletPersisted", this.wallet.persisted);
       return this.getAddress();
@@ -60,7 +61,16 @@ class EthereumUtils {
 
   /** @returns the address of the first account of the loaded wallet. A wallet needs to be loaded first! */
   getAddress() {
-    return this.wallet ? this.wallet[0].address : null;
+    if(this.wallet) {
+      // if a locked wallet is loaded from localStorage, the address is formatted differently then when loaded unlocked via web3.
+      if(this.wallet.locked) {
+        return `0x${this.wallet[0].address.toLowerCase()}`
+      } else {
+        return this.wallet[0].address.toLowerCase();
+      }
+    } else {
+      return null; // shouldn't be possible
+    }
   }
 
   /** Saves the wallet in the browser (localStorage), protected by the given password */
@@ -76,9 +86,7 @@ class EthereumUtils {
   }
 
   needsUnlock() {
-    if(! this.wallet) {
-      return true;
-    }
+    return this.wallet.locked;
   }
 
   needsPersist() {
@@ -138,7 +146,8 @@ class EthereumUtils {
   /**
    * Loads an Ethereum wallet if exists, creates a new one with a single account otherwise.
    * @param forceNew if true a new wallet will be created even if one already exists (in localStorage)
-   * @returns an address from the loaded wallet or null if there's a persisted password protected wallet.
+   * @returns an address from the loaded wallet or null if loading the wallet failed.
+   * If the loaded wallet is password protected, it needs to be unlocked. Check with needsUnlock()!
    */
   loadWallet(forceNew) {
     if(! forceNew) {
@@ -149,6 +158,7 @@ class EthereumUtils {
         this.wallet = web3.eth.accounts.wallet.decrypt(JSON.parse(sessionWallet), "passwordForIntermediateStorage");
         // the persist flag is lost when encrypting / decrypting, thus handling it manually.
         this.wallet.persisted = (sessionStorage.getItem("walletPersisted") === "true");
+        this.wallet.locked = false;
         log("loaded wallet from sessionStorage");
         return this.getAddress();
       } else {
@@ -162,7 +172,15 @@ class EthereumUtils {
         } catch (e) {
           // A wallet is stored and needs a password
           log(`There seems to be a previously stored wallet available, needs password to load`);
-          return null;
+
+          try {
+            // Manually retrieving address. If something isn't as expected, return null
+            this.wallet = JSON.parse(localStorage.getItem('web3js_wallet'));
+            this.wallet.locked = true;
+            return this.getAddress();
+          } catch(e) {
+            return null;
+          }
         }
       }
     }
@@ -171,6 +189,7 @@ class EthereumUtils {
     log(`Creating new wallet`);
     this.wallet = web3.eth.accounts.wallet.create(1);
     this.wallet.persisted = false;
+    this.wallet.locked = false;
     log(`New wallet - Address: ${this.getAddress()}`);
     // saving to sessionStorage in order to have it available on other pages
     sessionStorage.setItem("wallet", JSON.stringify(this.wallet.encrypt("passwordForIntermediateStorage")));

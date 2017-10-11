@@ -10,12 +10,12 @@ export function defineClientApi(game, socket) {
   // Emit this event to receive the current game state from cratch,
   // for example right after connecting/reconnecting to the server.
   // params: userId, client's current timestamp
-  // returns: clientTimeStamp, elapsedTime, currentTeam, team, move, boardState, gameState
+  // returns: clientTimeStamp, elapsedTime, currentTeam, team, move, boardState, gameState, unclaimed tokens
   socket.on('current game state', (id, timestamp, fn) => {
     console.log(`game state request by ${id}`);
     checkedCall(() => {
       fn(game.gameId(), timestamp, Date.now() - game.startTime(), game.go.currentTeam(), game.hasJoined(id),
-        game.playerMove(id), game.go.board, game.gameState);
+        game.playerMove(id), game.go.board, game.gameState, game.getUnclaimedTokensOf(id));
     });
   });
 
@@ -28,7 +28,7 @@ export function defineClientApi(game, socket) {
     }
     if(id !== 'anonymous') {
       console.log(`join game by ${id} accepted`);
-      checkedCall(() => fn(game.joinGame(id)));
+      checkedCall(() => fn(game.joinGame(id), game.getUnclaimedTokensOf(id)));
     } else {
       console.log(`join game by ${id} rejected`);
     }

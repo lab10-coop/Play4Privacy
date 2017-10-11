@@ -22,7 +22,7 @@ import ServerApi from './api';
 import Go from './Go';
 import findConsensus from './consensus';
 import Blockchain from './Blockchain';
-import PlayerData, { PlayedGame, EmailWallet, TokenClaim } from './Models';
+import PlayerData, { PlayedGame, EmailWallet, Token } from './Models';
 import DatabaseWrapper, { DatabaseWrapperDummy, connectToDb } from './Database';
 import ethCrypto from './EthCrypto';
 import fs from 'fs';
@@ -37,6 +37,7 @@ class Game {
     this.go = new Go();
     this.players = new Map();
     this.roundMoves = new Map();
+    this.unclaimedTokens = new Map();
     this.pauseStart = Date.now();
     this.gameState = gs.PAUSED;
     const now = new Date();
@@ -45,21 +46,28 @@ class Game {
       startDate: now,
     });
 
-    if (mongodbName !== '') {
-      this.db = new DatabaseWrapper();
-      connectToDb(`mongodb://mongo:27017/${mongodbName}`, () => {
-        console.log('Database connected!');
+    this.readyForConnections = new Promise((resolve, reject) => {
+      if (mongodbName !== '') {
+        this.db = new DatabaseWrapper();
+        connectToDb(`mongodb://mongo:27017/${mongodbName}`, () => {
+          console.log('Database connected!');
+          this.db.getUnclaimedTokensMap().then(tokMap => {
+            this.unclaimedTokens = tokMap;
+            this.conditionalStartGame();
+            resolve();
+          });
+        }, () => {
+          console.log('Database disconnected!');
+        }, () => {
+          console.log('Database reconnected!');
+        });
+      } else {
+        this.db = new DatabaseWrapperDummy();
+        console.log(`NOTE: in DB dummy mode unclaimed tokens will be reset on server restart!`)
         this.conditionalStartGame();
-      }, () => {
-        console.log('Database disconnected!');
-      }, () => {
-        console.log('Database reconnected!');
-      });
-    } else {
-      this.db = new DatabaseWrapperDummy();
-      console.log(`NOTE: in DB dummy mode unclaimed tokens will not be loaded!`)
-      this.conditionalStartGame();
-    }
+        resolve();
+      }
+    });
 
     if (process.env.ETH_ON) {
       this.blockchain = new Blockchain(() => {
@@ -84,6 +92,11 @@ class Game {
     } else {
       this.api.gameStopped();
     }
+  }
+
+  getUnclaimedTokensOf(id) {
+    const ret = this.unclaimedTokens.has(id) ? this.unclaimedTokens.get(id) : 0;
+    return ret;
   }
 
   updateTime() {
@@ -123,6 +136,10 @@ class Game {
       //       and this function returns undefined.      
       roundMove = this.go.getRandomMove();
     }
+    // update tokenMap
+    Array.from(this.roundMoves.keys()).map( id => {
+      this.unclaimedTokens.set(id, this.getUnclaimedTokensOf(id) + 1);
+    });
     const roundNr = this.roundNr++;
     const captured = this.go.addMove(roundMove);
     this.roundMoves.clear();
@@ -136,6 +153,10 @@ class Game {
     console.log(`game ended at ${new Date().toLocaleString()} after ${this.roundNr} rounds and with ${this.currentGame.submittedMoves.length} user submitted moves`);
     this.api.gameFinished(gs.PAUSE_DURATION);
 
+    this.db.persistUnclaimedTokensMap(this.unclaimedTokens).then( () => {
+      console.log(`unclaimed tokens persisted: ${JSON.stringify([...this.unclaimedTokens])}`);
+    });
+
     this.currentGame.board = this.go.board;
     this.players.forEach((value, key) => {
       this.currentGame.players.push({ userId: key });
@@ -148,7 +169,6 @@ class Game {
         console.log('successfully persisted game!');
       }
     });
-
 
     // construct an array of { address: <player id>, amount: <nr of legal moves submitted> }
     const tokenReceivers = [ ...this.players ].map(elem =>
@@ -268,18 +288,25 @@ class Game {
 
   claimTokens(id, donate) {
     const now = new Date();
-    console.log(`claim tokens by ${id} at ${now}, donate ${donate}`);
-    const tokenClaim = new TokenClaim({
-      userId: id,
-      donate: donate,
-      date: now
-    });
-    tokenClaim.save((err) => {
-      if (err) {
-        console.error(`database saving error: ${err}`);
+    this.db.getTokensByUser(id).then( tok => {
+      const amount = tok.unclaimed;
+      console.log(`claim tokens by ${id} at ${now}, donate ${donate}. Has ${amount} unclaimed tokens`);
+
+      if(donate) {
+        tok.donated += amount;
       } else {
-        console.log('successfully persisted claimTokens!');
+        tok.redeemed += amount;
       }
+
+      tok.save((err) => {
+        if (err) {
+          console.error(`database saving error: ${err}`);
+        } else {
+          console.log('successfully persisted token claim!');
+          this.unclaimedTokens.set(id, 0); // reset unclaimed
+          this.db.persistUnclaimedTokensMap(this.unclaimedTokens); // TODO: less brute force
+        }
+      });
     });
   }
 

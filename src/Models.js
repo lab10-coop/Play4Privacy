@@ -56,6 +56,7 @@ const emailWalletSchema = mongoose.Schema({
 
 export const EmailWallet = mongoose.model('EmailWallet', emailWalletSchema);
 
+// nomore used. Left in case an admin task using existing data is added
 const tokenClaimSchema = mongoose.Schema({
   userId: String,
   donate: Boolean,
@@ -63,6 +64,15 @@ const tokenClaimSchema = mongoose.Schema({
 });
 
 export const TokenClaim = mongoose.model('TokenClaim', tokenClaimSchema);
+
+const tokenSchema = mongoose.Schema({
+  userId: String,
+  unclaimed: Number,
+  redeemed: Number,
+  donated: Number
+});
+
+export const Token = mongoose.model('Token', tokenSchema);
 
 export default class PlayerData {
   constructor(team, validMoves) {

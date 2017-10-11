@@ -19,7 +19,7 @@ class EthCrypto {
   }
 
   isSignatureValid(address, sigData, sig) {
-    return web3.eth.accounts.recover(sigData, sig) == address;
+    return web3.eth.accounts.recover(sigData, sig).toLowerCase() === address.toLowerCase();
   }
 }
 

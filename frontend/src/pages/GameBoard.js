@@ -312,7 +312,6 @@ class GameBoard extends React.Component {
             
             <div className="gameStoppedStatusMsg">
               <p>The Game is currently paused.<br />Please check back between 7pm to 10pm CEST.</p>
-              
               <p className={`redeemTokensButtonIfGamePaused ${game.earnedTokens > 0 ? '' : 'item hide'}`}>
                 <a className='button' id='stopGame' href='endgame'>The game is currently paused. If you still have Tokens to redeem - click here!</a>
               </p>  
@@ -341,13 +340,13 @@ class GameBoard extends React.Component {
               
 
               <div className='item'>
-                <span className='label'>Earned tokens during this game:</span>
+                <span className='label'>Tokens earned during this game:</span>
                 <span className='value' id='yourTokens'>{game.earnedTokens} Token</span>
               </div>
 
               <div className='item'>
                 <span className='label'>Total Unclaimed Tokens:</span>
-                <span className='value' id='unclaimedTokensTotal'>{`N/A`}</span>
+                <span className='value' id='unclaimedTokensTotal'>{game.overallUnclaimedTokens === 0 ? '-' : game.overallUnclaimedTokens}</span>
               </div>
   
               <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>

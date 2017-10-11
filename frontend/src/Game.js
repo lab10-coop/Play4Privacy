@@ -48,6 +48,7 @@ class Game {
     socket.on('reconnect',
       () => {
         console.log("reconnected to game server");
+        // TODO this seems to be redundant with connect (also fired on connect, not only on reconnect)
         this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState);
       });
     socket.on('disconnect',
@@ -97,7 +98,7 @@ class Game {
     this.setGameState(0, currentTeam, gs.UNSET, '',
       Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET), gs.RUNNING);
 
-    if (window.location.pathname === '/gameboard') {
+    if (! ethUtils.needsUnlock() && window.location.pathname === '/gameboard') {
       this.joinGame();
     }
   }
@@ -115,13 +116,14 @@ class Game {
 
   @action.bound
   refreshGameState(gameId, clientTimeStamp, elapsedTime, currentTeam,
-    myTeam, myMove, boardState, gameState) {
+    myTeam, myMove, boardState, gameState, unclaimedTokens) {
     this.gameId = gameId;
     const ms = (Date.now() - clientTimeStamp) / 2.0;
     this.latency.add(ms);
     console.log(`Latency measured by Averager: ${ms}ms`);
     console.log(`Latency measured by refreshGameState: ${this.latency.value()}ms`);
     this.setGameState(elapsedTime, currentTeam, myTeam, myMove, boardState, gameState);
+    this.overallUnclaimedTokens = unclaimedTokens;
   }
 
   // Utility function to clear stones marked as PLACED in the previous round.
@@ -142,6 +144,7 @@ class Game {
     this.currentTeam = newTeam;
     if(this.myMove !== "" && ! isNaN(this.myMove)) {
         this.earnedTokens++;
+        this.overallUnclaimedTokens++;
     }
     this.myMove = '';
     if (Array.isArray(captured)) {
@@ -178,7 +181,8 @@ class Game {
   @observable roundNr = 1;
   @observable myTeam = gs.UNSET;
   @observable myMove = '';
-  @observable earnedTokens = 0;
+  @observable earnedTokens = 0; // earned during the currently running game
+  @observable overallUnclaimedTokens = 0;
   @observable squares = Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET);
   @observable countSteps = 0;
   @observable blackPlayers = 0;
@@ -259,7 +263,10 @@ class Game {
       return;
     }
     this.earnedTokens = 0;
-    this.socket.emit('join game', this.id, myTeam => (this.myTeam = myTeam));
+    this.socket.emit('join game', this.id, (myTeam, unclaimedTokens) => {
+      this.myTeam = myTeam;
+      this.overallUnclaimedTokens = unclaimedTokens;
+    });
   }
 
   @action.bound

@@ -71,6 +71,8 @@ io.on('connection', (socket) => {
   }
 });
 
-server.listen(app.get('port'), app.get('hostname'), () => {
-  console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
+game.readyForConnections.then( () => {
+  server.listen(app.get('port'), app.get('hostname'), () => {
+    console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
+  });
 });
