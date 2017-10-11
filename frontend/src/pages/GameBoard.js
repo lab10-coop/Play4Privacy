@@ -267,29 +267,27 @@ class GameBoard extends React.Component {
               <p>The next round will start soon...</p>
               
               <div className="gameStats">
-                {/*
+
                 <div className='item'>
                   <span className='label'>Black stones captured:</span>
-                  <span className='value'>{game.blackStonesCaptured}--</span>
+                  <span className='value'>{game.blackStonesCaptured}</span>
                 </div>
                 
                 <div className='item'>
                   <span className='label'>White stones captured:</span>
-                  <span className='value'>{game.whiteStonesCaptured}--</span>
+                  <span className='value'>{game.whiteStonesCaptured}</span>
                 </div>
-                
                 
                 <div className='item'>
                   <span className='label'>Valid moves overall:</span>
                   <span className='value'>{game.validMovesOverall}</span>
                 </div>
                 
-                
                 <div className='item'>
                   <span className='label'>Average valid moves per round:</span>
                   <span className='value'>{game.averageValidMovesPerRound}</span>
                 </div>
-                
+                {/*
                 
                 <div className='item'>
                   <span className='label'>Average consensus on team Black:</span>

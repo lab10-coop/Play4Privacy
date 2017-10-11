@@ -72,9 +72,9 @@ export default class ServerApi {
   }
 
   // Listen to this event to get notified when a game finished.
-  gameFinished() {
+  gameFinished(nrCapturedStones, nrValidMoves) {
     console.log(`game finished at ${new Date()}`)
-    this.io.emit('game finished');
+    this.io.emit('game finished', nrCapturedStones, nrValidMoves);
   }
 
   sendGameUpdates(numPlayers) {

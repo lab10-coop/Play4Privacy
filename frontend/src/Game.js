@@ -35,6 +35,7 @@ class Game {
     this.socket = socket;
     this.maxGameDuration = new Date(gs.MAX_GAME_DURATION);
     this.gameState = gs.STOPPED;
+    this.autojoin = false; // set true once the player clicked the join button
 
     // ////////////////////////////////////////////////////////////////////////
     // Subscriptions to socket.io Events
@@ -98,8 +99,8 @@ class Game {
     this.setGameState(0, currentTeam, gs.UNSET, '',
       Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET), gs.RUNNING);
 
-    if (! ethUtils.needsUnlock() && window.location.pathname === '/gameboard') {
-      this.joinGame();
+    if (this.autojoin && window.location.pathname === '/gameboard') {
+      this.joinGame(true);
     }
   }
 
@@ -155,9 +156,15 @@ class Game {
   }
 
   @action.bound
-  finishGame() {
+  finishGame(nrCapturedStones, nrValidMoves) {
     this.gameState = gs.PAUSED;
     this.startTime = Date.now();
+    console.log(`finishGame with nrCapturedStones: ${JSON.stringify(nrCapturedStones)}, nrValidMoves: ${nrValidMoves}`);
+
+    // example: [[1,2],[-1,5]] where 1/-1 is team id and the second number the nr of stones of that team captured
+    this.blackStonesCaptured = nrCapturedStones.filter(e => e[0] === gs.BLACK)[0][1];
+    this.whiteStonesCaptured = nrCapturedStones.filter(e => e[0] === gs.WHITE)[0][1];
+    this.validMovesOverall = nrValidMoves;
   }
 
   @action.bound
@@ -188,7 +195,7 @@ class Game {
   @observable blackPlayers = 0;
   @observable whitePlayers = 0;
   @observable gameState = gs.PAUSED;
-
+  @observable validMovesOverall = 0;
 
   // Computes the time left in the current game
   // Returns a "Date" type for convenience of extraction of Minutes and Seconds.
@@ -257,6 +264,13 @@ class Game {
     return this.gameState === gs.STOPPED;
   }
 
+  // this returns a correct value only after a game finished
+  @computed get averageValidMovesPerRound() {
+    // roundNr starts at 1 and is always incremented at the end of a round, thus need to decrement by 1 here
+    // Rounding to 1 digit after the comma
+    return (Math.round(this.validMovesOverall / (this.roundNr - 1) * 10)) / 10;
+  }
+
   @action.bound
   joinGame() {
     if (this.gameState !== gs.RUNNING) {
@@ -267,6 +281,7 @@ class Game {
       this.myTeam = myTeam;
       this.overallUnclaimedTokens = unclaimedTokens;
     });
+    this.autojoin = true;
   }
 
   @action.bound

@@ -37,6 +37,8 @@ class Game {
     this.go = new Go();
     this.players = new Map();
     this.roundMoves = new Map();
+    this.nrCaptured = new Map();
+    this.nrValidMoves = 0; // counts the valid moves proposed
     this.unclaimedTokens = new Map();
     this.pauseStart = Date.now();
     this.gameState = gs.PAUSED;
@@ -119,6 +121,9 @@ class Game {
     this.players.clear();
     this.roundMoves.clear();
     this.roundNr = 1;
+    this.nrCaptured.set(gs.BLACK, 0);
+    this.nrCaptured.set(gs.WHITE, 0);
+    this.nrValidMoves = 0;
     const now = new Date();
     this.currentGame = new PlayedGame({
       gameId: Math.floor(now.getTime() / 1000),
@@ -142,6 +147,12 @@ class Game {
     });
     const roundNr = this.roundNr++;
     const captured = this.go.addMove(roundMove);
+    console.log(`incrementing nrCaptured for ${this.go.currentTeam()} by ${captured.length}`);
+    // at this point currentTeam() already points to the next team.
+    // Since we count the stones captures OF and not BY that team, that's fine.
+    this.nrCaptured.set(this.go.currentTeam(), this.nrCaptured.get(this.go.currentTeam()) + captured.length);
+    console.log(`incrementing nrValidMoves by ${this.roundMoves.size}`);
+    this.nrValidMoves += this.roundMoves.size;
     this.roundMoves.clear();
     this.currentGame.selectedMoves.push(roundMove);
     this.api.roundFinished(roundNr, this.go.currentTeam(), roundMove, captured);
@@ -151,7 +162,9 @@ class Game {
     this.pauseStart = Date.now();
     this.gameState = gs.PAUSED;
     console.log(`game ended at ${new Date().toLocaleString()} after ${this.roundNr} rounds and with ${this.currentGame.submittedMoves.length} user submitted moves`);
-    this.api.gameFinished(gs.PAUSE_DURATION);
+    console.log(`captured stones: black ${this.nrCaptured.get(gs.BLACK)}, white ${this.nrCaptured.get(gs.WHITE)}`);
+    console.log(`nr valid moves: ${this.nrValidMoves}`);
+    this.api.gameFinished(this.nrCaptured, this.nrValidMoves);
 
     this.db.persistUnclaimedTokensMap(this.unclaimedTokens).then( () => {
       console.log(`unclaimed tokens persisted: ${JSON.stringify([...this.unclaimedTokens])}`);
