@@ -161,10 +161,11 @@ class Game {
     this.startTime = Date.now();
     console.log(`finishGame with nrCapturedStones: ${JSON.stringify(nrCapturedStones)}, nrValidMoves: ${nrValidMoves}`);
 
+    this.validMovesOverall = nrValidMoves;
+
     // example: [[1,2],[-1,5]] where 1/-1 is team id and the second number the nr of stones of that team captured
     this.blackStonesCaptured = nrCapturedStones.filter(e => e[0] === gs.BLACK)[0][1];
     this.whiteStonesCaptured = nrCapturedStones.filter(e => e[0] === gs.WHITE)[0][1];
-    this.validMovesOverall = nrValidMoves;
   }
 
   @action.bound

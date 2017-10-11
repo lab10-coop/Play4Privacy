@@ -164,7 +164,7 @@ class Game {
     console.log(`game ended at ${new Date().toLocaleString()} after ${this.roundNr} rounds and with ${this.currentGame.submittedMoves.length} user submitted moves`);
     console.log(`captured stones: black ${this.nrCaptured.get(gs.BLACK)}, white ${this.nrCaptured.get(gs.WHITE)}`);
     console.log(`nr valid moves: ${this.nrValidMoves}`);
-    this.api.gameFinished(this.nrCaptured, this.nrValidMoves);
+    this.api.gameFinished([...this.nrCaptured], this.nrValidMoves);
 
     this.db.persistUnclaimedTokensMap(this.unclaimedTokens).then( () => {
       console.log(`unclaimed tokens persisted: ${JSON.stringify([...this.unclaimedTokens])}`);
