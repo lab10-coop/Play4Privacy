@@ -47,60 +47,20 @@ describe('Database', () => {
     });
   });
 
-  it('should redeem unclaimed tokens', (done) => {
+  it('load all, redeem one, save all, check', (done) => {
     const wrapper = new DatabaseWrapper();
-    wrapper.getTokensByUser('abc').then(tok => {
-      tok.redeemed += tok.unclaimed;
-      tok.unclaimed = 0;
-      tok.save((err) => {
-        expect(!err);
+    wrapper.getAllTokens().then(allTok => {
+      const t1 = allTok.find(tok => tok.userId === 'abc');
+      t1.redeemed = t1.unclaimed;
+      t1.unclaimed = 0;
+      return wrapper.persistTokens(allTok);
+    }).then(() => {
+      wrapper.getAllTokens().then(allTok => {
+        const t1 = allTok.find(tok => tok.userId === 'abc');
+        expect(t1.unclaimed === 0);
+        expect(t1.redeemed === 7);
         done();
       });
-    });
-  });
-
-  it('after which unclaimed should again be zero', (done) => {
-    const wrapper = new DatabaseWrapper();
-    wrapper.getTokensByUser('abc').then(tok => {
-      expect(tok.unclaimed === 0);
-      done();
-    });
-  });
-
-  it('get correct unclaimed tokensMap', (done) => {
-    const wrapper = new DatabaseWrapper();
-    wrapper.getUnclaimedTokensMap().then(tokMap => {
-      expect(tokMap.length == 1);
-      expect(tokMap.get('abc') === 5);
-      done();
-    });
-  });
-
-  it('save tokensMap', (done) => {
-    const wrapper = new DatabaseWrapper();
-    wrapper.getUnclaimedTokensMap().then(tokMap => {
-      wrapper.persistUnclaimedTokensMap(tokMap).then( () => {
-        done();
-      })
-    });
-  });
-
-  it('load, change and save tokensMap, then load again and check', (done) => {
-    const wrapper = new DatabaseWrapper();
-    wrapper.getUnclaimedTokensMap().then(tokMap => {
-      console.log('got old tokMap');
-      tokMap.set('abc', 7);
-      tokMap.set('cba', 13);
-      console.log('calling persist');
-      wrapper.persistUnclaimedTokensMap(tokMap).then( () => {
-        // check if correct
-        wrapper.getUnclaimedTokensMap().then(tokMap => {
-          expect(tokMap.length == 2);
-          expect(tokMap.get('abc') === 7);
-          expect(tokMap.get('cba') === 13);
-          done();
-        });
-      })
     });
   });
 

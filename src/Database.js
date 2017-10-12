@@ -80,7 +80,8 @@ class DatabaseWrapper {
     });
   }
 
-  getUnclaimedTokensMap() {
+  // returns an array of models
+  getAllTokens() {
     return new Promise((resolve, reject) => {
       Token.find().exec(function (err, entries) {
         if (err) {
@@ -89,41 +90,23 @@ class DatabaseWrapper {
           if (!entries) {
             console.log('null response');
           }
-          const tokMap = new Map();
-          entries.map( e => tokMap.set(e.userId, e.unclaimed));
-          resolve(tokMap);
+          resolve(entries);
         }
       });
     });
   }
 
-  persistUnclaimedTokensMap(tokMap) {
-    //console.log(`persisting ${tokMap.size} entries`);
-    return new Promise( (resolve, reject) => {
-      let getPromises = [];
-      let savePromises = [];
-      for (let t of tokMap) {
-        const id = t[0];
-        const amount = t[1];
-        //console.log(`persisting ${id}, amount ${amount}`);
-        getPromises.push(this.getTokensByUser(id).then(tok => {
-          tok.unclaimed = amount;
-          savePromises.push(tok.save(err => {
-            if (err) {
-              console.error(`saving failed for ${id} with error ${err}`);
-            } else {
-              //console.log(`saved ${id}`);
-            }
-          }));
-        }));
+  /** takes an array of models and invokes save() on them
+   * @returns a Promise which is resolved when all items were saved successfully
+   */
+  persistTokens(tokArr) {
+    return Promise.all(tokArr.map(tok => tok.save(err => {
+      if (err) {
+        console.error(`saving failed for ${tok.userId} with error ${err}`);
+      } else {
+        console.log(`saved ${tok.userId}`);
       }
-      Promise.all(getPromises).then( () => {
-        Promise.all(savePromises).then( () => {
-          //console.log(`saved all`);
-          resolve();
-        });
-      });
-    });
+    })));
   }
 }
 

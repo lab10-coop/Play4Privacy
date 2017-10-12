@@ -39,7 +39,7 @@ class Game {
     this.roundMoves = new Map();
     this.nrCaptured = new Map();
     this.nrValidMoves = 0; // counts the valid moves proposed
-    this.unclaimedTokens = new Map();
+    this.tokens = [];
     this.pauseStart = Date.now();
     this.gameState = gs.PAUSED;
     const now = new Date();
@@ -53,8 +53,8 @@ class Game {
         this.db = new DatabaseWrapper();
         connectToDb(`mongodb://mongo:27017/${mongodbName}`, () => {
           console.log('Database connected!');
-          this.db.getUnclaimedTokensMap().then(tokMap => {
-            this.unclaimedTokens = tokMap;
+          this.db.getAllTokens().then(allTok => {
+            this.tokens = allTok;
             this.conditionalStartGame();
             resolve();
           });
@@ -96,9 +96,23 @@ class Game {
     }
   }
 
+  getTokenEntryOf(id) {
+    let te = this.tokens.find( t => t.userId === id);
+    if(! te) {
+      console.log(`creating new tokens entry for ${id}`);
+      te = new Token({
+        userId: id,
+        unclaimed: 0,
+        redeemed: 0,
+        donated: 0
+      });
+      this.tokens.push(te);
+    }
+    return te;
+  }
+
   getUnclaimedTokensOf(id) {
-    const ret = this.unclaimedTokens.has(id) ? this.unclaimedTokens.get(id) : 0;
-    return ret;
+    return this.getTokenEntryOf(id).unclaimed;
   }
 
   updateTime() {
@@ -142,9 +156,7 @@ class Game {
       roundMove = this.go.getRandomMove();
     }
     // update tokenMap
-    Array.from(this.roundMoves.keys()).map( id => {
-      this.unclaimedTokens.set(id, this.getUnclaimedTokensOf(id) + 1);
-    });
+    Array.from(this.roundMoves.keys()).map( id => this.getTokenEntryOf(id).unclaimed++ );
     const roundNr = this.roundNr++;
     const captured = this.go.addMove(roundMove);
     console.log(`incrementing nrCaptured for ${this.go.currentTeam()} by ${captured.length}`);
@@ -166,8 +178,9 @@ class Game {
     console.log(`nr valid moves: ${this.nrValidMoves}`);
     this.api.gameFinished([...this.nrCaptured], this.nrValidMoves);
 
-    this.db.persistUnclaimedTokensMap(this.unclaimedTokens).then( () => {
-      console.log(`unclaimed tokens persisted: ${JSON.stringify([...this.unclaimedTokens])}`);
+    // TODO: if needed, this could easily be optimized to only save changed entries e.g. by using a dirty flag.
+    this.db.persistTokens(this.tokens).then( () => {
+      console.log(`token state persisted`);
     });
 
     this.currentGame.board = this.go.board;
@@ -301,25 +314,18 @@ class Game {
 
   claimTokens(id, donate) {
     const now = new Date();
-    this.db.getTokensByUser(id).then( tok => {
-      const amount = tok.unclaimed;
-      console.log(`claim tokens by ${id} at ${now}, donate ${donate}. Has ${amount} unclaimed tokens`);
-
-      if(donate) {
-        tok.donated += amount;
-      } else {
-        tok.redeemed += amount;
+    const te = this.getTokenEntryOf(id);
+    console.log(`claim tokens by ${id} at ${now}, donate ${donate}. Has ${te.unclaimed} unclaimed tokens`);
+    if(donate) {
+      te.donated += te.unclaimed;
+    } else {
+      te.redeemed += te.unclaimed;
+    }
+    te.unclaimed = 0;
+    te.save((err) => {
+      if (err) {
+        console.error(`database saving error: ${err}`);
       }
-
-      tok.save((err) => {
-        if (err) {
-          console.error(`database saving error: ${err}`);
-        } else {
-          console.log('successfully persisted token claim!');
-          this.unclaimedTokens.set(id, 0); // reset unclaimed
-          this.db.persistUnclaimedTokensMap(this.unclaimedTokens); // TODO: less brute force
-        }
-      });
     });
   }
 
