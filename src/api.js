@@ -27,10 +27,8 @@ export function defineClientApi(game, socket) {
       console.log(`${id} is from ip ${socket.getIp()} with ${socket.nrConnectionsFromSameIp()} connections open`)
     }
     if(id !== 'anonymous') {
-      console.log(`join game by ${id} accepted`);
+      console.log(`join game by ${id} accepted. Ip ${socket.getIp()}`);
       checkedCall(() => fn(game.joinGame(id), game.getUnclaimedTokensOf(id)));
-    } else {
-      console.log(`join game by ${id} rejected`);
     }
   });
 
