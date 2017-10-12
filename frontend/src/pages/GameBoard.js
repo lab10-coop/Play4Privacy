@@ -301,7 +301,7 @@ class GameBoard extends React.Component {
               */}
               </div>
               
-              <p className={`redeemTokensButtonIfGamePaused ${game.earnedTokens > 0 ? '' : 'item hide'}`}>
+              <p className={`redeemTokensButtonIfGamePaused ${game.overallUnclaimedTokens > 0 ? '' : 'item hide'}`}>
                 <strong>You have unclaimed PLAY Tokens.</strong><br />You can continue playing or
                 <a className='button' id='stopGame' href='endgame'>click here to redeem PLAY Tokens</a>
               </p>  
@@ -335,17 +335,7 @@ class GameBoard extends React.Component {
                 </div>
                 <p className="maximumUsersExceedet">Maximum Users exceedet.<br /> please try later!</p>    
               </div>
-              
 
-              <div className='item'>
-                <span className='label'>Tokens earned during this game:</span>
-                <span className='value' id='yourTokens'>{game.earnedTokens} Token</span>
-              </div>
-
-              <div className='item'>
-                <span className='label'>Total Unclaimed Tokens:</span>
-                <span className='value' id='unclaimedTokensTotal'>{game.overallUnclaimedTokens === 0 ? '-' : game.overallUnclaimedTokens}</span>
-              </div>
   
               <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
                 <span className='label'>Your team:</span>
@@ -355,6 +345,10 @@ class GameBoard extends React.Component {
                 <span className='label'>Placed on</span>
                 <span className='value' id='placedOn'>{game.formattedMove || '--'}</span>
               </div>
+             <div className='item'>
+               <span className='label'>Total Unclaimed Tokens:</span>
+               <span className='value' id='unclaimedTokensTotal'>{game.overallUnclaimedTokens === 0 ? '-' : game.overallUnclaimedTokens}</span>
+             </div>
               <div className={`item ${game.myTeam ? '' : 'hideItem'}`}>
                 <span className='label'>Time to vote</span>
                 <span className='value' id='timeToVote'>
@@ -387,6 +381,10 @@ class GameBoard extends React.Component {
                   {game.blackPlayers + game.whitePlayers}
                 </span>
               </div>
+             <div className='item'>
+               <span className='label'>Unclaimed tokens:</span>
+               <span className='value' id='yourTokens'>{game.earnedTokens}</span>
+             </div>
               <div className='item'>
                 <span className='label'>Time to complete current game</span>
                 <span className='value' id='gameclock'>
