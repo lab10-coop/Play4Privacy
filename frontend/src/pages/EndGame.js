@@ -168,7 +168,7 @@ class EndGame extends React.Component {
                 <input type='submit' value='Create Wallet' className='submit' id='createWallet' />
                 <div className="passwordStrength">
                   <div className="barWrapper">
-                    <div className="barValue" id="barValue-1"></div>
+                    <div className="barValue" id="barValue-0"></div>
                   </div>
                   <div className="pwStrengthLabel">Password strength</div>
                 </div>
