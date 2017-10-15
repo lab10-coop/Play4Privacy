@@ -140,14 +140,13 @@ export class DatabaseWrapperDummy {
     });
   }
 
-  getUnclaimedTokensMap() {
+  getAllTokens() {
     return new Promise((resolve, reject) => {
-      resolve(new Map());
+      resolve([]);
     });
   }
 
-  persistUnclaimedTokensMap(tokMap) {
-    //console.log(`persisting ${tokMap.size} entries`);
+  persistTokens(tokArr) {
     return new Promise((resolve, reject) => {
       resolve();
     });
