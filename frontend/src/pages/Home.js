@@ -156,6 +156,10 @@ class Home extends React.Component {
                 <a className="killLiveCamRefesh" href="#" title="Stop Refreshing the Live-Feed at all">Stop Refreshing the Live-Feed at all</a>
               </div>
             </div>
+            <p className="bixMovieProjectInfo">
+                <span className="infoIcon">!</span>
+                <strong>INFO:</strong> On Monday, October 16th there will be no mirrored Game on the Kunsthaus Graz because of a movie production that takes place nearby. Instead the Kunsthaus will show <a href="https://www.museum-joanneum.at/kunsthaus-graz/bix-medienfassade/projekte/events/event/6348/xavier-veilhan-14" title="Xavier Velhan - Pendule" target="_blank">Xavier Velhan`s Pendule</a>.
+              </p> 
           </div>
 
           <div className='gameField'>

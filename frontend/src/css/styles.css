@@ -1152,6 +1152,27 @@ a.button.stopGameButtonDuringGame {
 
 
 
+.bixMovieProjectInfo {
+  border: 3px solid #CCCCCC;
+  padding: 10px 10px 10px 100px;
+  font-size: 18px;
+  position: relative;
+}
+
+.bixMovieProjectInfo .infoIcon {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  background: #3ba0d2;
+  color: #FFFFFF;
+  text-align: center;
+  width: 80px;
+  height: calc (100% - 5px);
+  font-size: 50px;
+  padding-top: 5px;
+}
+
+
 
 /* Credits */
 
@@ -1304,6 +1325,67 @@ a.button.stopGameButtonDuringGame {
   font-size: 0px;
   text-indent: -50000em;
   background: url(../img/YourStoryTimeslot.png) no-repeat 0px 0px;
+}
+
+
+.passwordStrength {
+  padding-top: 10px;
+}
+
+.passwordStrength .barWrapper {
+  background-color: #CCCCCC;
+  width: 325px;
+  height: 5px;
+  position: relative;
+}
+
+.passwordStrength .barWrapper .barValue {
+  width: 0%;
+  height: 5px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  background-color: #9d9d9d;
+  
+	transition: width .5s ease-in-out, background-color .5s ease-in-out;
+	-moz-transition: width .5s ease-in-out, background-color .5s ease-in-out;
+	-webkit-transition: width .5s ease-in-out, background-color .5s ease-in-out;
+}
+
+.passwordStrength .barWrapper #barValue-0 {
+  width: 0%;
+  background-color: #9d9d9d;
+}
+
+
+.passwordStrength .barWrapper #barValue-1 {
+  width: 25%;
+  background-color: #c60c0c;
+}
+
+.passwordStrength .barWrapper #barValue-2 {
+  width: 50%;
+  background-color: #e0c006;
+}
+
+.passwordStrength .barWrapper #barValue-3 {
+  width: 75%;
+  background-color: #b8c70e;
+}
+
+.passwordStrength .barWrapper #barValue-4 {
+  width: 100%;
+  background-color: #4dce00;
+}
+
+
+
+
+
+.pwStrengthLabel {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
 }
 
 
