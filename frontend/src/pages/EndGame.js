@@ -155,17 +155,20 @@ class EndGame extends React.Component {
         <div className='layer' id='redeemCoin'>
           <div className='layerInner'>
 
-            <h2>Let's create a wallet together!</h2>
+            <h2>Lock Wallet</h2>
             
             <div id='newWallet'>
                {/* <p><strong>### DEV-INFO: ELSE - WALLET FOUND BUT NOT LINKED YET ###</strong></p> */} 
-
-              <p>Please enter a <b><a href="https://www.schneier.com/essays/archives/2014/02/choosing_a_secure_pa.html" target="_blank">strong password</a></b> to encrypt your wallet.</p>
-              <p>Make sure to remember your password as this will be the ONLY way to open your wallet and access your PLAY tokens.</p>
+              <p>When you started playing, a <a href="https://www.ethnews.com/what-is-a-cryptocurrency-wallet" target="_blank">Wallet</a> was automatically created by this application.<br />
+              In order to not lose it (and hereby also the PLAY tokens just earned) when closing this browser tab, it needs to be saved.<br />
+              Before doing that, the wallet is now locked in order to protect the PLAY tokens and other crypto assets you may in future manage with this wallet.</p>
+              <p>Please enter a <b><a href="https://www.schneier.com/essays/archives/2014/02/choosing_a_secure_pa.html" target="_blank">strong password</a></b> to encrypt the private key of your wallet.</p>
+              <p>Make sure to remember your password as this will be the ONLY way to unlock your wallet and access your PLAY tokens in the future.<br />
+                <b>There is NO "forgot password" option in crypto land!</b></p>
               
               <div className="formWrapper">
                 <input name='walletPassword' type='password' className='text' placeholder='Password' />
-                <input type='submit' value='Create Wallet' className='submit' id='createWallet' />
+                <input type='submit' value='Lock Wallet' className='submit' id='createWallet' />
               </div>
             </div>
 
@@ -181,7 +184,7 @@ class EndGame extends React.Component {
             <h2>Export your wallet</h2>
             <p>Congratulations, you have just created a wallet that holds your PLAY tokens.</p>
 
-            <p><b><a href="#" id="walletDownloadLink" title="Download Wallet File">Click here to download</a></b> your password protected wallet/keystore file.</p>
+            <p><b><a href="#" id="walletDownloadLink" title="Download Wallet File">Click here to save</a></b> your password protected wallet/keystore file.</p>
 
             <hr />
 
