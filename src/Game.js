@@ -21,7 +21,6 @@ import gs from '../frontend/src/GameSettings';
 import ServerApi from './api';
 import Go from './Go';
 import findConsensus from './consensus';
-import Blockchain from './Blockchain';
 import PlayerData, { PlayedGame, EmailWallet, Token } from './Models';
 import DatabaseWrapper, { DatabaseWrapperDummy, connectToDb } from './Database';
 import ethCrypto from './EthCrypto';
@@ -69,12 +68,6 @@ class Game {
         resolve();
       }
     });
-
-    if (process.env.ETH_ON) {
-      this.blockchain = new Blockchain(() => {
-        console.log('Blockchain connected');
-      });
-    }
 
     setInterval(() => this.updateTime(), 1000);
   }
@@ -217,12 +210,6 @@ class Game {
       submittedMoves: this.currentGame.submittedMoves,
     };
     console.log(`endState: ${JSON.stringify(endState)}`);
-    if (process.env.ETH_ON) {
-    this.blockchain.persistGame(endState, tokenReceivers,
-      (txHash, success) => {
-        console.log(`Blockchain transaction ${txHash} ${success ? 'succeeded' : 'failed'}`);
-      });
-    }
   }
 
   sendGameUpdates() {

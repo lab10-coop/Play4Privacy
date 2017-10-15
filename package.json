@@ -15,7 +15,9 @@
     "build-server": "babel -d ./build ./src -s",
     "build-production": "npm run build-clean && npm run build-server",
     "start-production": "node ./build/server.js",
-    "mailer": "babel-node src/utilities/sendWallets.js"
+    "mailer": "babel-node src/utilities/sendWallets.js",
+    "payout": "babel-node src/utilities/payout.js",
+    "payout-dev": "babel-node --inspect src/utilities/payout.js"
   },
   "repository": {
     "type": "git",
