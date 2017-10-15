@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import express from 'express';
 import http from 'http';
 import socketio from 'socket.io';
@@ -76,3 +77,29 @@ game.readyForConnections.then( () => {
     console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
   });
 });
+
+function watchPipe() {
+  const pipeStream = fs.createReadStream('control.pipe', {encoding: 'utf8', autoClose: false})
+    .on('data', data => {
+      const cmd = data.trim();
+      switch(cmd) {
+        case 'test':
+          console.log('test cmd. doing nothing more');
+          break;
+        case 'reloadTokens':
+          console.log('PIPE cmd reloadTokens');
+          game.loadTokens();
+          break;
+        default:
+          console.log(`PIPE unknown cmd: ${cmd}`);
+      }
+      // TODO: is there a more elegant way to keep reading?
+      // adding "autoClose: false" to the options in createReadStream() avoids the stream to close, but doesn't continue reading on new data.
+      watchPipe();
+    //}).on('end', () => {
+    //  console.log('PIPE: end');
+    }).on('close', () => {
+      console.log('PIPE: close');
+    })
+}
+watchPipe();

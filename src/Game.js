@@ -53,8 +53,7 @@ class Game {
         this.db = new DatabaseWrapper();
         connectToDb(`mongodb://mongo:27017/${mongodbName}`, () => {
           console.log('Database connected!');
-          this.db.getAllTokens().then(allTok => {
-            this.tokens = allTok;
+          this.loadTokens(() => {
             this.conditionalStartGame();
             resolve();
           });
@@ -78,6 +77,17 @@ class Game {
     }
 
     setInterval(() => this.updateTime(), 1000);
+  }
+
+  // loads token state from DB into instance field
+  loadTokens(callback) {
+    console.log('loading tokens from DB...')
+    this.db.getAllTokens().then(allTok => {
+      this.tokens = allTok;
+      if(callback) {
+        callback();
+      }
+    });
   }
 
   startTime() {
