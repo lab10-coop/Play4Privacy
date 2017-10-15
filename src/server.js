@@ -78,8 +78,8 @@ game.readyForConnections.then( () => {
   });
 });
 
-function watchPipe() {
-  const pipeStream = fs.createReadStream('control.pipe', {encoding: 'utf8', autoClose: false})
+function watchPipe(fd) {
+  const pipeStream = fs.createReadStream(null, {fd: fd, encoding: 'utf8'})
     .on('data', data => {
       const cmd = data.trim();
       switch(cmd) {
@@ -95,11 +95,19 @@ function watchPipe() {
       }
       // TODO: is there a more elegant way to keep reading?
       // adding "autoClose: false" to the options in createReadStream() avoids the stream to close, but doesn't continue reading on new data.
-      watchPipe();
+      watchPipe(fd);
     //}).on('end', () => {
     //  console.log('PIPE: end');
     }).on('close', () => {
       console.log('PIPE: close');
     })
 }
-watchPipe();
+let fd = null;
+try {
+  fd = fs.openSync('control.pipe', 'r+');
+} catch(e) {
+  console.error(`PIPE control.pipe for IPC doesn't exist - disabled.`);
+}
+if(fd) {
+  watchPipe(fd);
+}
