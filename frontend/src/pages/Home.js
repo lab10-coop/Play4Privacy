@@ -156,6 +156,10 @@ class Home extends React.Component {
                 <a className="killLiveCamRefesh" href="#" title="Stop Refreshing the Live-Feed at all">Stop Refreshing the Live-Feed at all</a>
               </div>
             </div>
+            <p className="bixMovieProjectInfo">
+                <span className="infoIcon">!</span>
+                <strong>INFO:</strong> On Monday, October 16th there will be no mirrored Game on the Kunsthaus Graz because of a movie production that takes place nearby. Instead the Kunsthaus will show <a href="https://www.museum-joanneum.at/kunsthaus-graz/bix-medienfassade/projekte/events/event/6348/xavier-veilhan-14" title="Xavier Velhan - Pendule" target="_blank">Xavier Velhan`s Pendule</a>.
+              </p> 
           </div>
 
           <div className='gameField'>
@@ -250,20 +254,11 @@ class Home extends React.Component {
             <p>Yes. For every token mined, a supplement token is generated to sell. You can bid for these tokens. Secure a significant share of these tokens without investing time to play. The total of your investment will be donated to reputable non-profit organisations fighting for privacy.</p>
             <p>Registration for the auction of PLAY tokens happens only from 25th and 26th of September and from October 29th to 31st 2017.</p>
             <p>You can buy or sell tokens as soon as Play tokens are traded on Exchanges. Date is yet to be announced</p>
-            <p><a className='button' href='http://p4p.lab10.coop' title='Play Go and get PLAY Tokens!'>to bid for tokens, SIGN UP NOW! </a></p>
+            <p><a className='button' href='http://p4p.lab10.coop' title='Play4Privacy project description!'>more information</a></p>
    
             
           </div>
-        </div>       
-
-        <div className='field centered' id='tokenContractAdress'>
-          <div className='fieldInner'>  
-          
-            <p>here you can see the token contract</p>
-            <p><strong>0xfb41f7b63c8e84f4ba1ecd4d393fd9daa5d14d61</strong></p>
-            
-          </div>
-        </div>    
+        </div>
 
         <div className='layer' id='newToBC'>
           <div className='layerInner'>

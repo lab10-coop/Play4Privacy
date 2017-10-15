@@ -186,17 +186,13 @@ class GameBoard extends React.Component {
  
             </div>
             <div className="c50r">
-             <p>Every valid move you make will serve as proof-of-PLAY and mine (generate) two tokens:</p>
+             <p>Every valid move you make will serve as proof-of-PLAY and mint (create) two tokens:</p>
               <ul>
                 <li>The first token is your reward for playing</li>
-                <li>The second (supplementary) token will be donated to a charity.</li>
+                <li>The second (supplementary) token will be go to a charity donation pool.</li>
               </ul>
-              <p>The game automatically ends after 30 minutes. However, you can leave the game any time you wish</p>
-              <p>In either case, you can redeem your tokens:</p>
-              <ul>
-                <li>Send the tokens to an existing wallet.</li>
-                <li>Create a new wallet and transfer the tokens to this new created wallet</li>
-              </ul>
+              <p>The game automatically ends after 20 minutes. However, you can leave the game any time you wish</p>
+              <p>In either case, you can redeem your tokens.</p>
               
               {/* 
               <h3>Optional:</h3>
@@ -411,6 +407,12 @@ class GameBoard extends React.Component {
 
 
             <div className='liveCam clear'>
+              
+              <p className="bixMovieProjectInfo">
+                <span className="infoIcon">!</span>
+                <strong>INFO:</strong> On Monday, October 16th there will be no mirrored Game on the Kunsthaus Graz because of a movie production that takes place nearby. Instead the Kunsthaus will show <a href="https://www.museum-joanneum.at/kunsthaus-graz/bix-medienfassade/projekte/events/event/6348/xavier-veilhan-14" title="Xavier Velhan - Pendule" target="_blank">Xavier Velhan`s Pendule</a>.
+              </p> 
+            
               <div className="liveCamRefreshRate">
                 <input className="liveCamRefreshValue" type="range" min="2" max="50" step="1" />
                 <div className="liveCamRefreshInfo">
@@ -422,15 +424,6 @@ class GameBoard extends React.Component {
             </div>
           </div>
         </div>
-        
-        <div className='field centered' id='tokenContractAdress'>
-          <div className='fieldInner'>  
-          
-            <p>here you can see the token contract</p>
-            <p><strong>0xfb41f7b63c8e84f4ba1ecd4d393fd9daa5d14d61</strong></p>
-            
-          </div>
-        </div>    
         
         <div className='layer' id='helpLayer'>
           <div className='layerInner'>
