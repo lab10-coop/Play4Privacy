@@ -1,12 +1,25 @@
 import React from 'react';
 import { inject } from 'mobx-react';
 import $ from 'jquery';
+import zxcvbn from 'zxcvbn';
 import 'jquery.scrollto';
 import gs from '../GameSettings';
 import ethUtils from '../EthereumUtils';
 
 @inject('game')
 class EndGame extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {score: 0};
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const result = zxcvbn(event.target.value);
+    console.log(`zxcvbn result is ${JSON.stringify(result)}`);
+    this.setState({score: result.score});
+  }
+
   componentDidMount() {
     // TODO: Check with David if this is ok
     this.game = this.props.game;
@@ -131,6 +144,8 @@ class EndGame extends React.Component {
 
 
   render() {
+    const barValueId = `barValue-${this.state.score}`;
+
     return (
       <div>
         <div className='field' id='gameSummary'>
@@ -167,8 +182,14 @@ class EndGame extends React.Component {
                 <b>There is NO "forgot password" option in crypto land!</b></p>
               
               <div className="formWrapper">
-                <input name='walletPassword' type='password' className='text' placeholder='Password' />
+                <input name='walletPassword' type='password' className='text' placeholder='Password' value={this.state.value} onChange={this.handleChange} />
                 <input type='submit' value='Lock Wallet' className='submit' id='createWallet' />
+                <div className="passwordStrength">
+                  <div className="barWrapper">
+                    <div className="barValue" id={barValueId}></div>
+                  </div>
+                  <div className="pwStrengthLabel">Password strength</div>
+                </div>
               </div>
             </div>
 
