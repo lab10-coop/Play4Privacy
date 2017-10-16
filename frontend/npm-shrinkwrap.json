@@ -7212,6 +7212,11 @@
       "version": "0.1.2",
       "from": "yeast@0.1.2",
       "resolved": "https://registry.npmjs.org/yeast/-/yeast-0.1.2.tgz"
+    },
+    "zxcvbn": {
+      "version": "4.4.2",
+      "from": "zxcvbn@latest",
+      "resolved": "https://registry.npmjs.org/zxcvbn/-/zxcvbn-4.4.2.tgz"
     }
   }
 }
