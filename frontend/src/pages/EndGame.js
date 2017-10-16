@@ -1,12 +1,23 @@
 import React from 'react';
 import { inject } from 'mobx-react';
 import $ from 'jquery';
+import zxcvbn from 'zxcvbn';
 import 'jquery.scrollto';
 import gs from '../GameSettings';
 import ethUtils from '../EthereumUtils';
 
 @inject('game')
 class EndGame extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
   componentDidMount() {
     // TODO: Check with David if this is ok
     this.game = this.props.game;
@@ -131,6 +142,9 @@ class EndGame extends React.Component {
 
 
   render() {
+    const result = zxcvbn(this.state.value);
+    const barValueId = `barValue-${result.score}`;
+
     return (
       <div>
         <div className='field' id='gameSummary'>
@@ -164,11 +178,11 @@ class EndGame extends React.Component {
               <p>Make sure to remember your password as this will be the ONLY way to open your wallet and access your PLAY tokens.</p>
               
               <div className="formWrapper">
-                <input name='walletPassword' type='password' className='text' placeholder='Password' />
+                <input name='walletPassword' type='password' className='text' placeholder='Password' value={this.state.value} onChange={this.handleChange} />
                 <input type='submit' value='Create Wallet' className='submit' id='createWallet' />
                 <div className="passwordStrength">
                   <div className="barWrapper">
-                    <div className="barValue" id="barValue-0"></div>
+                    <div className="barValue" id={barValueId}></div>
                   </div>
                   <div className="pwStrengthLabel">Password strength</div>
                 </div>
