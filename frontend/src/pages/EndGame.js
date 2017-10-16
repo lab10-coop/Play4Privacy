@@ -10,12 +10,13 @@ import ethUtils from '../EthereumUtils';
 class EndGame extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = {score: 0};
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    const result = zxcvbn(event.target.value);
+    this.setState({score: result.score});
   }
 
   componentDidMount() {
@@ -142,8 +143,7 @@ class EndGame extends React.Component {
 
 
   render() {
-    const result = zxcvbn(this.state.value);
-    const barValueId = `barValue-${result.score}`;
+    const barValueId = `barValue-${this.state.score}`;
 
     return (
       <div>
