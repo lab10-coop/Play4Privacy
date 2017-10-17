@@ -1,19 +1,24 @@
 import DatabaseWrapper, { connectToDb } from '../Database';
 import Web3 from 'web3';
 import ContractMetadata from '../_P4PContract'
+import fs from 'fs';
 
 const donationAddr = "0x57f81fa922527198c9e8d4ac3a98971a8c46e7e2";
-let maxGasPerTx = 0;
+const txBatchSize = 60; // max token receivers per tx
+let maxGasPerTx = 0; // dynamically set as fraction of the block gas limit
+
+// this is pre-initializing it for client-only functionality
+global.web3 = new Web3(Web3.givenProvider);
 
 /** @returns a promise for a working contract */
 function ethInit() {
   // doesn't support https. But nothing secret should be transferred anyway
   // beware: even if this passes without error we can't be sure to have a working connection
-  global.web3 = new Web3(process.env.ETH_NODE || Web3.givenProvider);
+  web3 = new Web3(process.env.ETH_NODE || Web3.givenProvider);
 
   const account = process.env.ETH_ACCOUNT || "0xFe4E89f620a8663d03136bee040904fe3A623f5D";
   const contractAddress = process.env.ETH_P4P_ADDR || "0x78Cb0dB58721596Bc79Dc9D8d8296212D153D804";
-  const gasPrice = process.env.ETH_GASPRICE_GWEI * 1E9 + 7 || 4 * 1E9 + 7; // default: 4 gwei. +7 for frontrunning
+  const gasPrice = process.env.ETH_GASPRICE_GWEI * 1E9 + 7 || 1 * 1E9 + 7; // default: 1 gwei. +7 for frontrunning
 
   return new Promise( (resolve, reject) => {
     console.log(`initializing contract at address ${contractAddress}`);
@@ -38,8 +43,11 @@ function ethInit() {
   });
 }
 
-/** param tokenReceivers */
-function payout(contract, addresses, amounts, simulateOnly) {
+/** Executes the payout to the given receivers on the blockchain (if simulateOnly not true)
+ * @param txSentCallback is function(txHash) and called as soon as a transaction is pending.
+ * @returns a promise for the transaction receipt
+ * Note that promise resolution isn't guaranteed. Waiting for it may time out. */
+function payout(contract, addresses, amounts, simulateOnly, txSentCallback) {
   global.contract = contract;
   return new Promise((resolve, reject) => {
     const startTs = Date.now();
@@ -59,7 +67,7 @@ function payout(contract, addresses, amounts, simulateOnly) {
       if (gasLimit > maxGasPerTx) {
         /* Something may be wrong here (e.g. contract exception, see https://ethereum.stackexchange.com/a/8093/4298), thus interrupting */
         console.error(`Gas cost error: estimate based limit ${gasLimit} exceeds maxGasPerTx ${maxGasPerTx}. Manual investigation needed!`);
-        reject();
+        reject('gas cost error');
       }
 
       console.log(`distributeTokens(): gas limit ${gasLimit}, gasPrice ${contract.options.gasPrice} and args:
@@ -67,46 +75,66 @@ function payout(contract, addresses, amounts, simulateOnly) {
             ${amounts}`);
 
       if (! simulateOnly) {
-        console.log('SENDING TRANSACTION...');
-        contract.methods.distributeTokens(addresses, amounts).send({gas: gasLimit})
+        const now = new Date();
+        // The log file will contain a json object after it's all over. If the tx times out, the receipt is missing and the json malformatted.
+        const txLogFile = fs.openSync(`logs/payout_${now.getMonth()+1}.${now.getUTCDate()}_${Math.floor(now.getTime() / 1000).toString()}.json`, 'w');
+        fs.writeSync(txLogFile, '{');
+        const txIn = contract.methods.distributeTokens(addresses, amounts);
+        //console.log(`SENDING TRANSACTION: ${JSON.stringify(txIn)}`);
+        fs.writeSync(txLogFile, `"txIn": ${JSON.stringify(txIn)},`);
+        txIn.send({gas: gasLimit})
           .once('transactionHash', txHash => {
             console.log(`tx ${txHash} sent: distributeTokens with ${addresses.length} token receivers, gas limit set to ${gasLimit}`);
-            resolve(txHash);
+            web3.eth.getTransaction(txHash).then( (txPending) => {
+              // contains the information we'd need in order to rebroadcast the tx (after copying 'input' to 'data')
+              fs.writeSync(txLogFile, `"txPending": ${JSON.stringify(txPending)},`);
+            });
+            txSentCallback(txHash);
           }).once('receipt', receipt => {
-          //console.log(`receipt: ${JSON.stringify(receipt)}`);
-          const runtime = Math.floor((Date.now() - startTs) / 1000);
-          const txCost = contract.options.gasPrice * receipt.gasUsed / 1E15; // in finney (milliEther)
-          // success can be guessed (with high probability) by checking gasUsed. See https://ethereum.stackexchange.com/questions/6007/how-can-the-transaction-status-from-a-thrown-error-be-detected-when-gas-can-be-e
-          const success = receipt.gasUsed < gasLimit ? true : false;
-          if (!success) {
-            console.error(`tx ${receipt.transactionHash} seems to have failed (all gas used)`);
-          }
-          console.log(`tx ${receipt.transactionHash} done: after ${runtime} seconds in block ${receipt.blockNumber} consuming ${receipt.gasUsed} gas - paid ${txCost.toFixed(2)} finney`);
-          resolve(receipt.transactionHash, success);
-        }).on('confirmation', (confirmationNumber, receipt) => {
-          //console.log(`confirmation: ${confirmationNumber}`);
-        }).on('error', console.error);
+            fs.writeSync(txLogFile, `"receipt": ${JSON.stringify(receipt)}`);
+            fs.writeSync(txLogFile, '}');
+            const runtime = Math.floor((Date.now() - startTs) / 1000);
+            const txCost = contract.options.gasPrice * receipt.gasUsed / 1E15; // in finney (milliEther)
+            // from Metropolis onwards there's a status field.
+            // prior to that, success can be guessed (with high probability) by checking gasUsed. See https://ethereum.stackexchange.com/questions/6007/how-can-the-transaction-status-from-a-thrown-error-be-detected-when-gas-can-be-e
+            const success = receipt.status !== 'undefined' ? receipt.status : receipt.gasUsed;
+            if(success) {
+              console.log(`tx ${receipt.transactionHash} successfully mined`);
+              resolve(receipt);
+            } else {
+              console.error(`tx ${receipt.transactionHash} failed`);
+              reject(receipt);
+            }
+            console.log(`tx ${receipt.transactionHash} done: after ${runtime} seconds in block ${receipt.blockNumber} consuming ${receipt.gasUsed} gas - paid ${txCost.toFixed(2)} finney`);
+          }).on('confirmation', (confirmationNumber, receipt) => {
+            console.log(`tx ${receipt.transactionHash} confirmation: ${confirmationNumber}`);
+          }).on('error', console.error);
       } else {
+        // add a bit of delay in simulation mode
         setTimeout(() => {
-          resolve();
+          resolve('receipt placeholder');
         }, 2000);
       }
     });
   });
 }
 
-// resets redeemed and donated to 0 for all given token entries
+/** resets redeemed and donated to 0 for all given token entries.
+ * @returns promise for all done */
 function resetToZero(tokEntries) {
   tokEntries.map(t => t.redeemed = 0);
   tokEntries.map(t => t.donated = 0);
-  Promise.all(tokEntries.map(t => t.save())).then( () => {
-    console.log("all reset and saved");
+  return Promise.all(tokEntries.map(t => t.save())).then( () => {
+    console.log(`${tokEntries.length} entries reset and saved`);
   });
 }
 global.resetToZero = resetToZero;
 
 let sumDonated = 0; // this is a bit ugly (shared state), but convenient
 
+/** gets an array of token receivers (most importantly address and amount) from DB and slices it into batches.
+ * Donations are summed and added to the first batch.
+ * @returns an array of batches. */
 function calcPayoutsFromDb() {
   return new Promise((resolve, reject) => {
     global.db = new DatabaseWrapper();
@@ -128,7 +156,7 @@ function calcPayoutsFromDb() {
         const receivers = allTok.filter(t => t.redeemed > 0 && web3.utils.isAddress(t.userId));
 
         const nrReceivers = receivers.length;
-        const nrBatches = Math.ceil(nrReceivers / 60);
+        const nrBatches = Math.ceil(nrReceivers / txBatchSize);
         const itemsPerBatch = Math.ceil(nrReceivers / nrBatches) || 0;
         console.log(`nrReceivers ${nrReceivers}, nrBatches ${nrBatches}, itemsPerBatch ${itemsPerBatch}`);
 
@@ -151,7 +179,8 @@ function calcPayoutsFromDb() {
   });
 }
 
-function calcAndPayoutBatched(simulate) {
+/** @param doneCallback expects function(err). err is left unset on success. Called when all transactions were mined and the entries reset in DB */
+function calcAndPayoutBatched(simulate, doneCallback) {
   Promise.all([ethInit(), calcPayoutsFromDb()]).then((results) => {
     console.log("lets go!");
 
@@ -159,6 +188,7 @@ function calcAndPayoutBatched(simulate) {
     const contract = results[0];
     const batches = results[1];
     let promiseChain = Promise.resolve();
+    let resetPromises = [];
 
     for (let i = 0; i < batches.length; i++) {
       const batch = batches[i];
@@ -173,21 +203,62 @@ function calcAndPayoutBatched(simulate) {
         }
       }
       console.log(`queuing batch ${i} with ${batch.length} entries`);
-      promiseChain = promiseChain.then(payout.bind(null, contract, addresses, amounts, simulate));
+      promiseChain = promiseChain.then(payout.bind(null, contract, addresses, amounts, simulate, (receipt) => {
+        console.log(`payout scheduled for batch ${i}`);
+        if(! simulate && ! process.env.SKIP_RESET_DB) {
+          resetPromises.push(resetToZero(batch));
+        }
+      })).catch( receipt => {
+        console.error(`payout failed for batch ${i}: ${JSON.stringify(receipt)}`);
+      });
     }
+
+    Promise.all([promiseChain].concat(resetPromises)).then( () => {
+      doneCallback();
+    }).catch( () => {
+      doneCallback('not all went smooth');
+    });
   });
 }
 
+function usageExit() {
+  console.error(`
+usage: ${process.argv[1]} calc | simulate | payout
+Only the payout command will change the state of the DB and of the Blockchain.
+ENV variables used:
+  MONGO_DB_NAME (required)
+  ETH_NODE (fallback: Web3.provider)
+  ETH_P4P_ADDR (fallback: 0x78Cb0dB58721596Bc79Dc9D8d8296212D153D804)
+  ETH_ACCOUNT (fallback: 0xFe4E89f620a8663d03136bee040904fe3A623f5D)
+  ETH_GASPRICE_GWEI (fallback: 1 Gwei. Can also be a floating point number, e.g. 0.3)
+  SKIP_RESET_DB (dev: don't reset entries in DB for payout cmd)
+  DONT_EXIT (dev: keep the process running after all done. Useful when run with --inspect)
+`);
+  process.exit(1);
+}
+
+if(! process.env.MONGO_DB_NAME) {
+  usageExit();
+}
 switch(process.argv[2]) {
+  case 'calc':
+    calcPayoutsFromDb().then(process.exit);
+    break;
   case 'payout':
-    calcAndPayoutBatched(false);
+    calcAndPayoutBatched(false, err => {
+      console.log(`all done!  `);
+      if (!process.env.DONT_EXIT) {
+        process.exit(err ? 1 : 0);
+      }
+    });
     break;
-  case 'simulate':
-    calcAndPayoutBatched(true);
-    break;
-  case 'resetDB':
-    //resetToZero();
+  case 'simulate': // will not write to the Blockchain and not reset the DB
+    calcAndPayoutBatched(true, err => {
+      if (!process.env.DONT_EXIT) {
+        process.exit(err ? 1 : 0);
+      }
+    });
     break;
   default:
-    console.error('what should I do?');
+    usageExit();
 }
