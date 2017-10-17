@@ -158,7 +158,7 @@ class Home extends React.Component {
             </div>
             <p className="bixMovieProjectInfo">
                 <span className="infoIcon">!</span>
-                <strong>INFO:</strong> On Monday, October 16th there will be no mirrored Game on the Kunsthaus Graz because of a movie production that takes place nearby. Instead the Kunsthaus will show <a href="https://www.museum-joanneum.at/kunsthaus-graz/bix-medienfassade/projekte/events/event/6348/xavier-veilhan-14" title="Xavier Velhan - Pendule" target="_blank">Xavier Velhan`s Pendule</a>.
+                <strong>INFO:</strong> Due to technical reasons currently the facade of Kunsthaus Graz cannot serve as a game board.
               </p> 
           </div>
 
