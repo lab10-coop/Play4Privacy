@@ -158,7 +158,7 @@ class Home extends React.Component {
             </div>
             <p className="bixMovieProjectInfo">
                 <span className="infoIcon">!</span>
-                <strong>INFO:</strong> Due to technical reasons currently the facade of Kunsthaus Graz cannot serve as a game board.
+                <strong>INFO:</strong> Due to organizational reasons the facade of Kunsthaus Graz can currently not serve as a game board.
               </p> 
           </div>
 
