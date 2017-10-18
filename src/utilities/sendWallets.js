@@ -1,6 +1,5 @@
 import { EmailWallet } from '../Models';
-import DatabaseWrapper, { connectToDb } from '../Database';
-import mongoose from 'mongoose';
+import { connectToDb } from '../Database';
 import sendWallet from './Mailer';
 
 /*
@@ -23,23 +22,24 @@ function usageExit() {
   process.exit(1);
 }
 
-if(process.argv.length < 3) {
-  usageExit()
+if (process.argv.length < 3) {
+  usageExit();
 }
 
 function init() {
   const dbName = process.env.MONGO_DB_NAME;
   connectToDb(`mongodb://mongo:27017/${dbName}`, console.log);
-  console.log(`connected to ${dbName}`)
+  console.log(`connected to ${dbName}`);
 }
 
 // processes a single item / sends one mail
 function processTask(task) {
-  console.log(`task: address ${task.userId}, email: ${task.email}, wallet len: ${task.wallet.length}`)
+  console.log(`task: address ${task.userId}, email: ${task.email}, wallet len: ${task.wallet.length}`);
 
-  if(! process.env.MAILER_SIMULATE) {
+  if (!process.env.MAILER_SIMULATE) {
     // sendWallet(recipient, subject, text, buffer, fn
-    sendWallet(task.email, "Your PLAY tokens",
+    sendWallet(task.email, 'Your PLAY tokens',
+      /* eslint-disable */
 `Hello,
 
 you just earned PLAY tokens for "proof-of-play". You find your password protected wallet (Keystore) file attached.
@@ -64,8 +64,9 @@ Welcome to the world of crypto!
 Regards
 Your team from www.play4privacy.org
 `,
-      task.wallet, ( (err, info) => {
-        if(err) {
+      /* eslint-enable */
+      task.wallet, ((err, info) => {
+        if (err) {
           console.error(`sending failed: ${JSON.stringify(err)}`);
           task.sent.success = false;
         } else {
@@ -74,34 +75,34 @@ Your team from www.play4privacy.org
         console.log(`nodemailer info: ${JSON.stringify(info)}`);
         task.sent.at = new Date();
         task.save();
-      })
-    )
+      }),
+    );
   }
 }
 
 // returns a promise for an array of tasks from DB
 function getTasksFromDb(filter) {
-  return new Promise( (resolve, reject) => {
-    EmailWallet.find(filter).exec(function (err, tasks) {
+  return new Promise((resolve) => {
+    EmailWallet.find(filter).exec((err, tasks) => {
       if (err) {
-        throw new Error(err)
+        throw new Error(err);
       }
       resolve(tasks);
-    })
-  })
+    });
+  });
 }
 
 // process tasks with throttling in order to keep the mail server happy
 function processAll(tasks, delaySec) {
   // idea for this throttled loop: https://stackoverflow.com/a/24293516/261952
-  for(var i = 0; i < tasks.length; i++) {
+  for (let i = 0; i < tasks.length; i++) {
     const addr = tasks[i].userId;
     if (addr.length < 40) {
-      console.error(`bad address ${addr}, skipping (we may apologize instead)`)
+      console.error(`bad address ${addr}, skipping (we may apologize instead)`);
     } else {
-      (function (mt, ind) {
+      (function (mt, ind) { // eslint-disable-line
         setTimeout(() => {
-          console.log(`${tasks.length - ind} tasks left...`)
+          console.log(`${tasks.length - ind} tasks left...`);
           processTask(mt);
         }, delaySec * 1000 * ind);
       })(tasks[i], i);
@@ -109,53 +110,48 @@ function processAll(tasks, delaySec) {
   }
 }
 
-function markAsSent(task, success) {
+function markAsSent(task, _success) {
   task.sent = {
     at: new Date(),
-    success: success
-  }
+    success: _success,
+  };
   task.save();
 }
 
 // ############# MAIN ################
 
-if(process.argv[2] == "send") {
+if (process.argv[2] === 'send') {
   init();
   const waitBetweenMailsSec = process.env.MAILER_DELAY || 5;
 
-  getTasksFromDb({'sent.success': undefined}).then( tasks => {
-    console.log(`has ${tasks.length} entries. Using a delay of ${waitBetweenMailsSec} seconds between sending requests`)
-    processAll(tasks, waitBetweenMailsSec)
+  getTasksFromDb({ 'sent.success': undefined }).then((tasks) => {
+    console.log(`has ${tasks.length} entries. Using a delay of ${waitBetweenMailsSec} s between sending requests`);
+    processAll(tasks, waitBetweenMailsSec);
   });
-}
-else if(process.argv[2] == "marksent")
-{
-  const from = parseInt(process.argv[3]);
-  const to = parseInt(process.argv[4]);
+} else if (process.argv[2] === 'marksent') {
+  const from = parseInt(process.argv[3], 10);
+  const to = parseInt(process.argv[4], 10);
   console.log(`from: ${from}, to: ${to}`);
 
-  if(isNaN(from) || isNaN(to)) {
+  if (isNaN(from) || isNaN(to)) {
     usageExit();
   }
 
   init();
 
-  getTasksFromDb().then( tasks => tasks.slice(from, to).map( t => {
+  getTasksFromDb().then(tasks => tasks.slice(from, to).forEach((t) => {
     markAsSent(t, true);
     console.log(`processed entry with id ${t.id}, email ${t.email}`);
   }));
-}
-else if(process.argv[2] == "repl")
-{
+} else if (process.argv[2] === 'repl') {
   init();
   global.ew = EmailWallet; // for debug
   global.getTasks = getTasksFromDb;
-}
-else {
-  usageExit()
+} else {
+  usageExit();
 }
 
 console.log(`This process may just keep running forever.
 Figuring out when it's save to close the DB connection is not trivial with all this async tasks.
 Just exit with Ctrl-C when you think all is done ;-)
-`)
+`);
