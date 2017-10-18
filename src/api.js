@@ -1,3 +1,5 @@
+import { sendWalletByEmail } from './Game';
+
 function checkedCall(fn) {
   try {
     fn();
@@ -10,12 +12,14 @@ export function defineClientApi(game, socket) {
   // Emit this event to receive the current game state from cratch,
   // for example right after connecting/reconnecting to the server.
   // params: userId, client's current timestamp
-  // returns: clientTimeStamp, elapsedTime, currentTeam, team, move, boardState, gameState, unclaimed tokens
+  // returns: clientTimeStamp, elapsedTime, currentTeam, team, move, boardState, 
+  //          gameState, unclaimed tokens
   socket.on('current game state', (id, timestamp, fn) => {
     console.log(`game state request by ${id}`);
     checkedCall(() => {
-      fn(game.gameId(), timestamp, Date.now() - game.startTime(), game.go.currentTeam(), game.hasJoined(id),
-        game.playerMove(id), game.go.board, game.gameState, game.getUnclaimedTokensOf(id));
+      fn(game.gameId(), timestamp, Date.now() - game.startTime(), game.go.currentTeam(),
+        game.hasJoined(id), game.playerMove(id), game.go.board, game.gameState,
+        game.getUnclaimedTokensOf(id));
     });
   });
 
@@ -23,10 +27,11 @@ export function defineClientApi(game, socket) {
   // returns the team you are assigned to, or an empty string
   // if joining failed.
   socket.on('join game', (id, fn) => {
-    if(socket.nrConnectionsFromSameIp() > 1) {
-      console.log(`${id} is from ip ${socket.getIp()} with ${socket.nrConnectionsFromSameIp()} connections open`)
+    if (socket.nrConnectionsFromSameIp() > 1) {
+      console.log(`${id} is from ip ${socket.getIp()} with ${socket.nrConnectionsFromSameIp()} \
+        connections open`);
     }
-    if(id !== 'anonymous') {
+    if (id !== 'anonymous') {
       console.log(`join game by ${id} accepted. Ip ${socket.getIp()}`);
       checkedCall(() => fn(game.joinGame(id), game.getUnclaimedTokensOf(id)));
     }
@@ -45,7 +50,7 @@ export function defineClientApi(game, socket) {
   });
 
   socket.on('email wallet', (id, email, keystore) => {
-    game.sendWalletByEmail(id, email, keystore);
+    sendWalletByEmail(id, email, keystore);
   });
 }
 
@@ -71,7 +76,7 @@ export default class ServerApi {
 
   // Listen to this event to get notified when a game finished.
   gameFinished(nrCapturedStones, nrValidMoves) {
-    console.log(`game finished at ${new Date()}`)
+    console.log(`game finished at ${new Date()}`);
     this.io.emit('game finished', nrCapturedStones, nrValidMoves);
   }
 

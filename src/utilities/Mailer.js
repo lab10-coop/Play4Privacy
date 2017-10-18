@@ -11,9 +11,9 @@ export default function sendWallet(recipient, subject, text, buffer, fn) {
     },
   });
   const mailOptions = {
-    from: "play@lab10.coop",
+    from: 'play@lab10.coop',
     to: recipient,
-    subject: subject,
+    subject,
     text,
     attachments: [ {
       filename: 'wallet.json',

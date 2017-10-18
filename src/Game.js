@@ -17,6 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import fs from 'fs';
 import gs from '../frontend/src/GameSettings';
 import ServerApi from './api';
 import Go from './Go';
@@ -24,7 +25,6 @@ import findConsensus from './consensus';
 import PlayerData, { PlayedGame, EmailWallet, Token } from './Models';
 import DatabaseWrapper, { DatabaseWrapperDummy, connectToDb } from './Database';
 import ethCrypto from './EthCrypto';
-import fs from 'fs';
 
 // Keeps track of Game data and timing
 // Times are stored in milliseconds, since we only need relative temporal distances
@@ -47,7 +47,7 @@ class Game {
       startDate: now,
     });
 
-    this.readyForConnections = new Promise((resolve, reject) => {
+    this.readyForConnections = new Promise((resolve) => {
       if (mongodbName !== '') {
         this.db = new DatabaseWrapper();
         connectToDb(`mongodb://mongo:27017/${mongodbName}`, () => {
@@ -63,7 +63,7 @@ class Game {
         });
       } else {
         this.db = new DatabaseWrapperDummy();
-        console.log(`NOTE: in DB dummy mode unclaimed tokens will be reset on server restart!`)
+        console.log('NOTE: in DB dummy mode unclaimed tokens will be reset on server restart!');
         this.conditionalStartGame();
         resolve();
       }
@@ -74,10 +74,10 @@ class Game {
 
   // loads token state from DB into instance field
   loadTokens(callback) {
-    console.log('loading tokens from DB...')
-    this.db.getAllTokens().then(allTok => {
+    console.log('loading tokens from DB...');
+    this.db.getAllTokens().then((allTok) => {
       this.tokens = allTok;
-      if(callback) {
+      if (callback) {
         callback();
       }
     });
@@ -92,7 +92,7 @@ class Game {
   }
 
   conditionalStartGame() {
-    if (! fs.existsSync('game_stopped')) {
+    if (!fs.existsSync('game_stopped')) {
       this.startGame();
     } else {
       this.api.gameStopped();
@@ -100,14 +100,14 @@ class Game {
   }
 
   getTokenEntryOf(id) {
-    let te = this.tokens.find( t => t.userId === id);
-    if(! te) {
+    let te = this.tokens.find(t => t.userId === id);
+    if (!te) {
       console.log(`creating new tokens entry for ${id}`);
       te = new Token({
         userId: id,
         unclaimed: 0,
         redeemed: 0,
-        donated: 0
+        donated: 0,
       });
       this.tokens.push(te);
     }
@@ -148,7 +148,8 @@ class Game {
     });
     this.gameState = gs.RUNNING;
     this.api.gameStarted(this.gameId(), this.go.currentTeam());
-    console.log(`starting new game with id ${this.gameId()} at ${new Date(this.startTime()).toLocaleString()}`);
+    console.log(`starting new game with id ${this.gameId()} at \
+      ${new Date(this.startTime()).toLocaleString()}`);
   }
 
   endRound() {
@@ -159,13 +160,14 @@ class Game {
       roundMove = this.go.getRandomMove();
     }
     // update tokenMap
-    Array.from(this.roundMoves.keys()).map( id => this.getTokenEntryOf(id).unclaimed++ );
+    Array.from(this.roundMoves.keys()).map(id => this.getTokenEntryOf(id).unclaimed++);
     const roundNr = this.roundNr++;
     const captured = this.go.addMove(roundMove);
     console.log(`incrementing nrCaptured for ${this.go.currentTeam()} by ${captured.length}`);
     // at this point currentTeam() already points to the next team.
     // Since we count the stones captures OF and not BY that team, that's fine.
-    this.nrCaptured.set(this.go.currentTeam(), this.nrCaptured.get(this.go.currentTeam()) + captured.length);
+    this.nrCaptured.set(this.go.currentTeam(),
+      this.nrCaptured.get(this.go.currentTeam()) + captured.length);
     console.log(`incrementing nrValidMoves by ${this.roundMoves.size}`);
     this.nrValidMoves += this.roundMoves.size;
     this.roundMoves.clear();
@@ -176,14 +178,17 @@ class Game {
   endGame() {
     this.pauseStart = Date.now();
     this.gameState = gs.PAUSED;
-    console.log(`game ended at ${new Date().toLocaleString()} after ${this.roundNr} rounds and with ${this.currentGame.submittedMoves.length} user submitted moves`);
-    console.log(`captured stones: black ${this.nrCaptured.get(gs.BLACK)}, white ${this.nrCaptured.get(gs.WHITE)}`);
+    console.log(`game ended at ${new Date().toLocaleString()} after ${this.roundNr} rounds and \
+      with ${this.currentGame.submittedMoves.length} user submitted moves`);
+    console.log(`captured stones: black ${this.nrCaptured.get(gs.BLACK)}, white \
+      ${this.nrCaptured.get(gs.WHITE)}`);
     console.log(`nr valid moves: ${this.nrValidMoves}`);
-    this.api.gameFinished([...this.nrCaptured], this.nrValidMoves);
+    this.api.gameFinished([ ...this.nrCaptured ], this.nrValidMoves);
 
-    // TODO: if needed, this could easily be optimized to only save changed entries e.g. by using a dirty flag.
-    this.db.persistTokens(this.tokens).then( () => {
-      console.log(`token state persisted`);
+    // TODO: if needed, this could easily be optimized to only save changed entries
+    // e.g. by using a dirty flag.
+    this.db.persistTokens(this.tokens).then(() => {
+      console.log('token state persisted');
     });
 
     this.currentGame.board = this.go.board;
@@ -284,7 +289,7 @@ class Game {
     }
 
     const sigData = `${this.gameId()}_${round}_${move}`;
-    if (! ethCrypto.isSignatureValid(id, sigData, sig)) {
+    if (!ethCrypto.isSignatureValid(id, sigData, sig)) {
       console.log(`${logMsg} invalid: bad signature ${sig} - sigData ${sigData}`);
       return 'Invalid signature';
     }
@@ -312,8 +317,9 @@ class Game {
   claimTokens(id, donate) {
     const now = new Date();
     const te = this.getTokenEntryOf(id);
-    console.log(`claim tokens by ${id} at ${now}, donate ${donate}. Has ${te.unclaimed} unclaimed tokens`);
-    if(donate) {
+    console.log(`claim tokens by ${id} at ${now}, donate ${donate}. \
+      Has ${te.unclaimed} unclaimed tokens`);
+    if (donate) {
       te.donated += te.unclaimed;
     } else {
       te.redeemed += te.unclaimed;
@@ -325,22 +331,22 @@ class Game {
       }
     });
   }
+}
 
-  sendWalletByEmail(id, email, keystore) {
-    console.log(`persisting emailWallet ${id}, ${email}, ${keystore}`);
-    const emailWallet = new EmailWallet({
-      userId: id,
-      email: email,
-      wallet: keystore
-    });
-    emailWallet.save((err) => {
-      if (err) {
-        console.error(`database saving error: ${err}`);
-      } else {
-        console.log('successfully persisted emailWallet!');
-      }
-    });
-  }
+export function sendWalletByEmail(id, email, keystore) {
+  console.log(`persisting emailWallet ${id}, ${email}, ${keystore}`);
+  const emailWallet = new EmailWallet({
+    userId: id,
+    email,
+    wallet: keystore,
+  });
+  emailWallet.save((err) => {
+    if (err) {
+      console.error(`database saving error: ${err}`);
+    } else {
+      console.log('successfully persisted emailWallet!');
+    }
+  });
 }
 
 export default Game;
