@@ -55,26 +55,24 @@ class DatabaseWrapper {
 
   // returns a promise for the entry matching the user or a new empty record if not exists
   getTokensByUser(id) {
-    //console.log(`getTokensByUser ${id}`)
-    return new Promise( (resolve, reject) => {
-      Token.findOne({userId: id}, (err, tok) => {
+    // console.log(`getTokensByUser ${id}`)
+    return new Promise((resolve, reject) => {
+      Token.findOne({ userId: id }, (err, tok) => {
         if (err) {
-          console.error(`Token.findOne failed!`);
+          console.error('Token.findOne failed!');
           reject(err);
+        } else if (!tok) {
+          // console.log(`creating new token entry for ${id}`);
+          const newTok = new Token({
+            userId: id,
+            unclaimed: 0,
+            redeemed: 0,
+            donated: 0,
+          });
+          newTok.save();
+          resolve(newTok);
         } else {
-          if (!tok) {
-            //console.log(`creating new token entry for ${id}`);
-            const newTok = new Token({
-              userId: id,
-              unclaimed: 0,
-              redeemed: 0,
-              donated: 0
-            });
-            newTok.save();
-            resolve(newTok);
-          } else {
-            resolve(tok);
-          }
+          resolve(tok);
         }
       });
     });
@@ -82,10 +80,10 @@ class DatabaseWrapper {
 
   // returns an array of models
   getAllTokens() {
-    return new Promise((resolve, reject) => {
-      Token.find().exec(function (err, entries) {
+    return new Promise((resolve) => {
+      Token.find().exec(function (err, entries) { // eslint-disable-line
         if (err) {
-          console.error(`Token.find().exec() failed!`);
+          console.error('Token.find().exec() failed!');
         } else {
           if (!entries) {
             console.log('null response');
@@ -100,7 +98,7 @@ class DatabaseWrapper {
    * @returns a Promise which is resolved when all items were saved successfully
    */
   persistTokens(tokArr) {
-    return Promise.all(tokArr.map(tok => tok.save(err => {
+    return Promise.all(tokArr.map(tok => tok.save((err) => {
       if (err) {
         console.error(`saving failed for ${tok.userId} with error ${err}`);
       } else {
@@ -128,26 +126,26 @@ export class DatabaseWrapperDummy {
   }
 
   getTokensByUser(id) {
-    //console.log(`getTokensByUser ${id}`)
-    return new Promise( (resolve, reject) => {
+    // console.log(`getTokensByUser ${id}`)
+    return new Promise((resolve) => {
       const newTok = new Token({
         userId: id,
         unclaimed: 0,
         redeemed: 0,
-        donated: 0
+        donated: 0,
       });
       resolve(newTok);
     });
   }
 
   getAllTokens() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve([]);
     });
   }
 
-  persistTokens(tokArr) {
-    return new Promise((resolve, reject) => {
+  persistTokens() {
+    return new Promise((resolve) => {
       resolve();
     });
   }

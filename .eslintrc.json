@@ -6,7 +6,7 @@
     "jsx-quotes": [1, "prefer-single"],
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/href-no-hash": 0,
-    "max-len": ["error", { "code": 120, "ignoreTrailingComments": true }],
+    "max-len": ["error", { "code": 120, "ignoreTrailingComments": true, "ignoreUrls": true }],
     "no-use-before-define": [2, "nofunc"],
     "no-shadow": 0,
     "prefer-const": 1,
