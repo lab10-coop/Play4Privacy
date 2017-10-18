@@ -17,14 +17,14 @@ describe('consensus', () => {
     });
     it('should return the move with the highest frequency', () => {
       const roundMoves = new Map();
-      roundMoves.set(1, 15);
-      roundMoves.set(2, 15);
+      roundMoves.set(1, [ 15 ]);
+      roundMoves.set(2, [ 15 ]);
       let winningMove = findConsensus(roundMoves);
       expect(winningMove.move).to.equal(15);
       expect(winningMove.ids).to.have.all.members([ 1, 2 ]);
-      roundMoves.set(5, 33);
-      roundMoves.set(3, 33);
-      roundMoves.set(7, 33);
+      roundMoves.set(5, [ 33 ]);
+      roundMoves.set(3, [ 33 ]);
+      roundMoves.set(7, [ 33 ]);
       winningMove = findConsensus(roundMoves);
       expect(winningMove.move).to.equal(33);
       expect(winningMove.ids).to.have.all.members([ 5, 3, 7 ]);
