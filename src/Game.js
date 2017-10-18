@@ -160,7 +160,7 @@ class Game {
       roundMove = this.go.getRandomMove();
     }
     // update tokenMap
-    Array.from(this.roundMoves.keys()).map(id => this.getTokenEntryOf(id).unclaimed++);
+    [...this.roundMoves.keys()].map(id => this.getTokenEntryOf(id).unclaimed++);
     const roundNr = this.roundNr++;
     const captured = this.go.addMove(roundMove);
     console.log(`incrementing nrCaptured for ${this.go.currentTeam()} by ${captured.length}`);
@@ -168,8 +168,9 @@ class Game {
     // Since we count the stones captures OF and not BY that team, that's fine.
     this.nrCaptured.set(this.go.currentTeam(),
       this.nrCaptured.get(this.go.currentTeam()) + captured.length);
-    console.log(`incrementing nrValidMoves by ${this.roundMoves.size}`);
-    this.nrValidMoves += this.roundMoves.size;
+    const roundMovesSize = [ ...this.roundMoves.values() ].reduce((prev, cur) => prev + cur.length, 0);
+    console.log(`incrementing nrValidMoves by ${roundMovesSize}`);
+    this.nrValidMoves += roundMovesSize;
     this.roundMoves.clear();
     this.currentGame.selectedMoves.push(roundMove);
     this.api.roundFinished(roundNr, this.go.currentTeam(), roundMove, captured);
@@ -267,8 +268,17 @@ class Game {
 
     // Check if already set a move in this round
     if (this.roundMoves.has(id)) {
-      console.log(`${logMsg} invalid: repetition`);
-      return this.roundMoves.get(id);
+      const playerMoves = this.roundMoves.get(id);
+
+      if (playerMoves.indexOf(move) !== -1) {
+        console.log(`${logMsg} invalid: repetition`);
+        return move;
+      }
+
+      if (playerMoves.length >= 5) {
+        console.log(`${logMsg} invalid: too many moves`);
+        return 'Too many Moves!';
+      }
     }
 
     if (!this.go.validMove(move)) {
@@ -296,8 +306,13 @@ class Game {
 
     console.log(`${logMsg} valid`);
 
+    // Make sure we have an array to push to
+    if (!this.roundMoves.has(id)) {
+      this.roundMoves.set(id, []);
+    }
+
     // Set the move and return
-    this.roundMoves.set(id, move);
+    this.roundMoves.get(id).push(move);
     this.players.get(id).validMoves += 1;
     this.currentGame.submittedMoves.push({
       round: this.roundNr,
@@ -309,7 +324,7 @@ class Game {
 
   playerMove(id) {
     if (this.roundMoves.has(id)) {
-      return this.roundMoves.get(id);
+      return this.roundMoves.get(id)[0];
     }
     return '';
   }

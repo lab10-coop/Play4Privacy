@@ -6,11 +6,13 @@ export default function findConsensus(submittedMoves) {
   };
 
   const movesIdMap = new Map();
-  submittedMoves.forEach((move, id) => {
-    const length = (movesIdMap[move] || (movesIdMap[move] = [])).push(id);
+  submittedMoves.forEach((moves, id) => {
+    for (const move of moves) {
+      const length = (movesIdMap[move] || (movesIdMap[move] = [])).push(id);
 
-    if (length > mostMoves.ids.length) {
-      mostMoves = { move, ids: movesIdMap[move] };
+      if (length > mostMoves.ids.length) {
+        mostMoves = { move, ids: movesIdMap[move] };
+      }
     }
   });
 
