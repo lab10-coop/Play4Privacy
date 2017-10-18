@@ -126,7 +126,7 @@ class EthereumUtils {
 
   /* END OF PUBLIC INTERFACE */
 
-  static get web3() {
+  get web3() { // eslint-disable-line
     return web3;
   }
 

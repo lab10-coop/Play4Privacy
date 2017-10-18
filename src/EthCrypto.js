@@ -14,11 +14,11 @@ class EthCrypto {
     return instance;
   }
 
-  static hash(data) {
+  hash(data) { // eslint-disable-line
     return web3.utils.sha3(web3.utils.toHex(data));
   }
 
-  static isSignatureValid(address, sigData, sig) {
+  isSignatureValid(address, sigData, sig) { // eslint-disable-line
     return web3.eth.accounts.recover(sigData, sig).toLowerCase() === address.toLowerCase();
   }
 }
