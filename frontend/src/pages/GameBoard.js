@@ -210,13 +210,17 @@ class GameBoard extends React.Component {
             <div id='unlockWalletLayer' className={`${maximumUsersStatus}`}>
               <div className="unlockInner">
                 {/*<p><strong>### DEV-INFO: IF WALLET FOUND, BUT NOT LINKED YET###</strong></p> */}
-                <p className="unlockInfoMessage"><strong>Please enter your wallet password to start the game.</strong> <br />Your mined PLAY Tokens can be transfered to this wallet after proof-of-play </p>
-                
+                <p className="unlockInfoMessage"><strong>Please enter your wallet password to start the game.</strong> <br />
+                  You already have a wallet stored from a previous session which can be reused. </p>
 
                 <div className="formWrapper">
                   <input name='linkWalletPassword' type='password' className='text' placeholder='Your Wallet-Password' />
                   <input type='submit' value='OK' className='submit' id='linkWallet' />
                 </div>
+
+                <p >The unlocked wallet is needed because every move you submit is sent with a <a href="https://en.wikipedia.org/wiki/Digital_signature" target="_blank">digital signature</a> attached.<br />
+                  This allows us to compile a data record for every game played which includes verifiable move submissions of all players.</p>
+
                 
                 <p className="errorMessage">
                   Wrong password - please try again. <br />
