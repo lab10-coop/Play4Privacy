@@ -5,3 +5,5 @@ src/wgo
 frontend/build
 frontend/public
 frontend/node_modules
+
+src/_*.js

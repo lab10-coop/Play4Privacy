@@ -27,7 +27,7 @@ describe('Database', () => {
 
   it('should return a new token entry and then update it', (done) => {
     const wrapper = new DatabaseWrapper();
-    wrapper.getTokensByUser('abc').then(tok => {
+    wrapper.getTokensByUser('abc').then((tok) => {
       expect(tok.unclaimed === 0);
 
       tok.unclaimed += 5;
@@ -41,7 +41,7 @@ describe('Database', () => {
 
   it('should return an existing token entry with correct unclaimed value', (done) => {
     const wrapper = new DatabaseWrapper();
-    wrapper.getTokensByUser('abc').then(tok => {
+    wrapper.getTokensByUser('abc').then((tok) => {
       expect(tok.unclaimed === 5);
       done();
     });
@@ -49,13 +49,13 @@ describe('Database', () => {
 
   it('load all, redeem one, save all, check', (done) => {
     const wrapper = new DatabaseWrapper();
-    wrapper.getAllTokens().then(allTok => {
+    wrapper.getAllTokens().then((allTok) => {
       const t1 = allTok.find(tok => tok.userId === 'abc');
       t1.redeemed = t1.unclaimed;
       t1.unclaimed = 0;
       return wrapper.persistTokens(allTok);
     }).then(() => {
-      wrapper.getAllTokens().then(allTok => {
+      wrapper.getAllTokens().then((allTok) => {
         const t1 = allTok.find(tok => tok.userId === 'abc');
         expect(t1.unclaimed === 0);
         expect(t1.redeemed === 7);

@@ -45,44 +45,49 @@ app.get('*', (request, response) => {
   response.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
 
-let clientSockets = new Set();
+const clientSockets = new Set();
 
 io.on('connection', (socket) => {
   const socketId = socket.id;
-  socket.getIp = function() { return socket.request.headers['x-forwarded-for'] || this.request.connection.remoteAddress };
+  socket.getIp = function () { // eslint-disable-lin
+    return socket.request.headers['x-forwarded-for'] || this.request.connection.remoteAddress;
+  };
   const clientPort = socket.request.connection.remotePort;
 
-  socket.nrConnectionsFromSameIp = function() {
+  socket.nrConnectionsFromSameIp = function () {
     const clientsArr = Array.from(clientSockets.values());
     return clientsArr.filter(s => s.getIp() === this.getIp()).length;
   };
-  socket.on('disconnect', function() {
+  socket.on('disconnect', () => {
     clientSockets.delete(socket);
-    console.log(`closed connection: socket id ${socketId}, client: ip ${socket.getIp()} port ${clientPort}. open connections: ${clientSockets.size}`);
+    console.log(`closed connection: socket id ${socketId}, client: ip ${socket.getIp()} port ${clientPort}. \
+    open connections: ${clientSockets.size}`);
   });
 
   clientSockets.add(socket);
 
   defineClientApi(game, socket);
-  console.log(`new connection: socket id ${socketId}, client: ip ${socket.getIp()} port ${clientPort}. open connections: ${clientSockets.size}`);
+  console.log(`new connection: socket id ${socketId}, client: ip ${socket.getIp()} port ${clientPort}. \
+  open connections: ${clientSockets.size}`);
 
-  const clientsArr = Array.from(clientSockets.values());
-  if(socket.nrConnectionsFromSameIp() > 1) {
+  // const clientsArr = Array.from(clientSockets.values());
+  if (socket.nrConnectionsFromSameIp() > 1) {
     console.log(`!!! There are already ${socket.nrConnectionsFromSameIp()} connections from that ip`);
   }
 });
 
-game.readyForConnections.then( () => {
+game.readyForConnections.then(() => {
   server.listen(app.get('port'), app.get('hostname'), () => {
     console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
   });
 });
 
-function watchPipe(fd) {
-  const pipeStream = fs.createReadStream(null, {fd: fd, encoding: 'utf8'})
-    .on('data', data => {
+/* If a fifo with name "control.pipe" exists, listen to it for cmds. Implements unidirectional IPC (KISS style) */
+function watchPipe(_fd) {
+  fs.createReadStream(null, { fd: _fd, encoding: 'utf8' })
+    .on('data', (data) => {
       const cmd = data.trim();
-      switch(cmd) {
+      switch (cmd) {
         case 'test':
           console.log('test cmd. doing nothing more');
           break;
@@ -94,20 +99,22 @@ function watchPipe(fd) {
           console.log(`PIPE unknown cmd: ${cmd}`);
       }
       // TODO: is there a more elegant way to keep reading?
-      // adding "autoClose: false" to the options in createReadStream() avoids the stream to close, but doesn't continue reading on new data.
-      watchPipe(fd);
-    //}).on('end', () => {
-    //  console.log('PIPE: end');
-    }).on('close', () => {
-      console.log('PIPE: close');
+      /* adding "autoClose: false" to the options in createReadStream() avoids the stream to close,
+      but doesn't continue reading on new data. */
+      watchPipe(_fd);
+      // }).on('end', () => {
+      //  console.log('PIPE: end');
     })
+    .on('close', () => {
+      console.log('PIPE: close');
+    });
 }
 let fd = null;
 try {
   fd = fs.openSync('control.pipe', 'r+');
-} catch(e) {
-  console.error(`PIPE control.pipe for IPC doesn't exist - disabled.`);
+} catch (e) {
+  console.error('PIPE control.pipe for IPC does not exist - disabled.');
 }
-if(fd) {
+if (fd) {
   watchPipe(fd);
 }

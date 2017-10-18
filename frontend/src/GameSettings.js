@@ -1,19 +1,21 @@
 /* eslint func-names: ["error", "never"] */
 function GameSettings() {
-  this.inBrowser = function() {
+  this.inBrowser = function () {
     try {
       return this === window;
-    } catch(e) {
+    } catch (e) {
       return false;
     }
-  }
+  };
 
-  this.inDebugMode = function() {
-    if(this.inBrowser()) {
-      return (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === "::1" || location.hostname === "staging-p4p.dev.lab10.io");  // eslint-disable-line no-restricted-globals
-    } else {
-      return process.env.NODE_ENV !== 'production';
+  this.inDebugMode = function () {
+    if (this.inBrowser()) {
+      /* eslint-disable no-restricted-globals */
+      return (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        || location.hostname === '::1' || location.hostname === 'staging-p4p.dev.lab10.io');
+      /* eslint-enable no-restricted-globals */
     }
+    return process.env.NODE_ENV !== 'production';
   };
 
   this.BOARD_SIZE = 9;
@@ -22,7 +24,7 @@ function GameSettings() {
   this.ONE_SECOND = 1000;
   this.ONE_MINUTE = this.ONE_SECOND * 60;
 
-  if(this.inDebugMode()) {
+  if (this.inDebugMode()) {
     this.MAX_GAME_DURATION = 20 * this.ONE_SECOND;
     this.ROUND_TIME = 5 * this.ONE_SECOND;
     this.PAUSE_DURATION = 5 * this.ONE_SECOND;
@@ -47,12 +49,11 @@ function GameSettings() {
   this.PLACED = 2;
   this.PLAYER_LIMIT_EXCEEDED = -2;
 
-  this.getBixcamUrl = function() {
-    if(this.inDebugMode()) {
-      return "http://play-test.p4p.lab10.io/bixcam";
-    } else {
-      return `${location.origin}/bixcam`; // eslint-disable-line no-restricted-globals
+  this.getBixcamUrl = function () {
+    if (this.inDebugMode()) {
+      return 'http://play-test.p4p.lab10.io/bixcam';
     }
+    return `${location.origin}/bixcam`; // eslint-disable-line no-restricted-globals
   };
 
   // WGo error codes
@@ -82,8 +83,8 @@ function GameSettings() {
 
 
   // Blockchain stuff
-  this.bcExplorerBaseUrl = "https://etherscan.io";
-  this.bcTokenContractAddr = "0xfB41f7b63c8e84f4BA1eCD4D393fd9daa5d14D61";
+  this.bcExplorerBaseUrl = 'https://etherscan.io';
+  this.bcTokenContractAddr = '0xfB41f7b63c8e84f4BA1eCD4D393fd9daa5d14D61';
 }
 
 const gameSettings = new GameSettings();

@@ -160,7 +160,7 @@ class Game {
       roundMove = this.go.getRandomMove();
     }
     // update tokenMap
-    [...this.roundMoves.keys()].map(id => this.getTokenEntryOf(id).unclaimed++);
+    [ ...this.roundMoves.keys() ].map(id => this.getTokenEntryOf(id).unclaimed++);
     const roundNr = this.roundNr++;
     const captured = this.go.addMove(roundMove);
     console.log(`incrementing nrCaptured for ${this.go.currentTeam()} by ${captured.length}`);
@@ -276,7 +276,7 @@ class Game {
       }
 
       if (playerMoves.length >= 5) {
-        console.log(`${logMsg} invalid: too many moves`);
+        console.log(`${logMsg} invalid: max. 5 move proposals allowed`);
         return 'Too many Moves!';
       }
     }

@@ -219,7 +219,7 @@ class GameBoard extends React.Component {
                 </div>
 
                 <p >The unlocked wallet is needed because every move you submit is sent with a <a href="https://en.wikipedia.org/wiki/Digital_signature" target="_blank">digital signature</a> attached.<br />
-                  This allows us to compile a data record for every game played which includes verifiable move submissions of all players.</p>
+                  This allows us to compile a data record for every game played which includes verifiable move submissions   of all players.</p>
 
                 
                 <p className="errorMessage">

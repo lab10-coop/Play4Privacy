@@ -50,8 +50,8 @@ const emailWalletSchema = mongoose.Schema({
   wallet: String,
   sent: {
     at: Date,
-    success: Boolean
-  }
+    success: Boolean,
+  },
 });
 
 export const EmailWallet = mongoose.model('EmailWallet', emailWalletSchema);
@@ -60,7 +60,7 @@ export const EmailWallet = mongoose.model('EmailWallet', emailWalletSchema);
 const tokenClaimSchema = mongoose.Schema({
   userId: String,
   donate: Boolean,
-  date: Date
+  date: Date,
 });
 
 export const TokenClaim = mongoose.model('TokenClaim', tokenClaimSchema);
@@ -69,7 +69,7 @@ const tokenSchema = mongoose.Schema({
   userId: String,
   unclaimed: Number,
   redeemed: Number,
-  donated: Number
+  donated: Number,
 });
 
 export const Token = mongoose.model('Token', tokenSchema);
