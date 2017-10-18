@@ -32,7 +32,9 @@ fi
 # delete possible remainders from previous runs
 rm game* || true
 echo "dividing into log files per gamefile per game..."
-start=1 gameId=0 && for nextStart in `cat linenumbers`; do 
+start=1
+gameId=0
+for nextStart in `cat linenumbers`; do 
 	echo "game $gameId: lines ${start} to ${nextStart}"
 	sed -n "${start},${nextStart}p" $logfile > game$gameId
 
@@ -65,14 +67,14 @@ echo "processing token claims"
 cat $logfile | grep "claim tokens" | grep -v null | grep -v anonymous > claims
 # to json
 echo "[ " > claims.json
-sed 's/claim tokens by \(.*\) at .* donate \(.*\)/{ "address": "\1", "donate": \2 },/' claims >> claims.json
+sed 's/claim tokens by \(.*\) at .* donate \(.*\)\..*/{ "address": "\1", "donate": \2 },/' claims >> claims.json
 sed -i '$ s/.$//' claims.json
 echo " ]" >> claims.json
 
 popd
 
 echo "counting..."
-node calcPayouts.js $dataDir/ $dataDir/game*.json $dataDir/claims.json 
+node calcPayoutsFromLogs.js $dataDir/ $dataDir/game*.json $dataDir/claims.json 
 
 echo "all done"
 
