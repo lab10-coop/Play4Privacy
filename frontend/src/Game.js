@@ -37,6 +37,7 @@ class Game {
     this.gameState = gs.STOPPED;
     this.autojoin = false; // set true once the player clicked the join button
     this.roundTokenEarned = false; // set true per round if the server confirms a move
+    this.placedMoves = new Map();
 
     // ////////////////////////////////////////////////////////////////////////
     // Subscriptions to socket.io Events
@@ -171,9 +172,10 @@ class Game {
   }
 
   @action.bound
-  updateGame(numPlayers) {
+  updateGame(numPlayers, placedMoves) {
     this.blackPlayers = numPlayers[0];
     this.whitePlayers = numPlayers[1];
+    this.placedMoves = placedMoves;
   }
 
   // Averages the last 3 latency values to avoid spikes

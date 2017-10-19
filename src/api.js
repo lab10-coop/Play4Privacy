@@ -80,7 +80,7 @@ export default class ServerApi {
     this.io.emit('game finished', nrCapturedStones, nrValidMoves);
   }
 
-  sendGameUpdates(numPlayers) {
-    this.io.emit('game updates', numPlayers);
+  sendGameUpdates(numPlayers, placedMoves) {
+    this.io.emit('game updates', numPlayers, placedMoves);
   }
 }
