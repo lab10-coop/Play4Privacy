@@ -4,7 +4,7 @@ import ContractMetadata from '../_P4PContract';
 import DatabaseWrapper, { connectToDb } from '../Database';
 
 const donationAddr = '0x57f81fa922527198c9e8d4ac3a98971a8c46e7e2';
-const txBatchSize = 60; // max token receivers per tx
+const txBatchSize = 55; // max token receivers per tx
 let maxGasPerTx = 0; // dynamically set as fraction of the block gas limit
 
 // this is pre-initializing it for client-only functionality
@@ -38,6 +38,7 @@ function ethInit() {
       Shouldn't be too high (risk: tx remains in pool if not offering elevated gas price)
       or too low (need to split up work into many transactions when there's many players) */
       maxGasPerTx = block.gasLimit / 4;
+      console.log(`block gas limit is ${block.gasLimit}, maxGasPerTx set to ${maxGasPerTx}`);
     });
     console.log(`setting gasPrice to ${gasPrice / 1E9} GWei`);
     contract.options.gasPrice = gasPrice;
@@ -45,10 +46,11 @@ function ethInit() {
 }
 
 /** Executes the payout to the given receivers on the blockchain (if simulateOnly not true)
- * @param txSentCallback is function(txHash) and called as soon as a transaction is pending.
- * @returns a promise for the transaction receipt
- * Note that promise resolution isn't guaranteed. Waiting for it may time out. */
-function payout(contract, addresses, amounts, simulateOnly, txSentCallback) {
+ * @param minedCallback is function(err, txHash) and called when a transaction was mined.
+ * If the transaction failed or timed out, err is set.
+ * @returns a promise for the transaction hash
+ */
+function payout(contract, addresses, amounts, simulateOnly, minedCallback) {
   global.contract = contract;
   return new Promise((resolve, reject) => {
     const startTs = Date.now();
@@ -96,8 +98,9 @@ function payout(contract, addresses, amounts, simulateOnly, txSentCallback) {
               // contains the information we'd need in order to rebroadcast the tx (after copying 'input' to 'data')
               fs.writeSync(txLogFile, `"txPending": ${JSON.stringify(txPending)},`);
             });
-            txSentCallback(txHash);
+            resolve(txHash);
           }).once('receipt', (receipt) => {
+            const txHash = receipt.transactionHash;
             fs.writeSync(txLogFile, `"receipt": ${JSON.stringify(receipt)}`);
             fs.writeSync(txLogFile, '}');
             const runtime = Math.floor((Date.now() - startTs) / 1000);
@@ -107,18 +110,21 @@ function payout(contract, addresses, amounts, simulateOnly, txSentCallback) {
             See https://ethereum.stackexchange.com/questions/6007/how-can-the-transaction-status-from-a-thrown-error-be-detected-when-gas-can-be-e */
             const success = receipt.status !== 'undefined' ? receipt.status : receipt.gasUsed;
             if (success) {
-              console.log(`tx ${receipt.transactionHash} successfully mined`);
-              resolve(receipt);
+              console.log(`tx ${txHash} successfully mined`);
+              minedCallback(null, txHash);
             } else {
-              console.error(`tx ${receipt.transactionHash} failed`);
-              reject(receipt);
+              console.error(`tx ${txHash} failed`);
+              minedCallback('timeout', txHash);
             }
-            console.log(`tx ${receipt.transactionHash} done: after ${runtime} seconds in block ${receipt.blockNumber} \
+            console.log(`tx ${txHash} done: after ${runtime} seconds in block ${receipt.blockNumber} \
             consuming ${receipt.gasUsed} gas - paid ${txCost.toFixed(2)} finney`);
           }).on('confirmation', (confirmationNumber, receipt) => {
             console.log(`tx ${receipt.transactionHash} confirmation: ${confirmationNumber}`);
           })
-          .on('error', console.error);
+          .on('error', (err, receipt) => {
+            console.error(err);
+            minedCallback('timeout', receipt ? receipt.transactionHash : null);
+          });
       } else {
         // add a bit of delay in simulation mode
         setTimeout(() => {
@@ -188,9 +194,14 @@ function calcPayoutsFromDb() {
   });
 }
 
-/** @param doneCallback expects function(err). err is left unset on success.
+// with all the async stuff going on, a good old global flag may help to not miss any issues
+let anyError = false;
+
+/**
+ * @param sentCallback expects function(err, pendingTxns). err is left unset on success.
+ * @param processedCallback expects function(err, txHash)
  * Called when all transactions were mined and the entries reset in DB */
-function calcAndPayoutBatched(simulate, doneCallback) {
+function calcAndPayoutBatched(simulate, sentCallback, processedCallback) {
   Promise.all([ ethInit(), calcPayoutsFromDb() ]).then((results) => {
     console.log('lets go!');
 
@@ -200,6 +211,7 @@ function calcAndPayoutBatched(simulate, doneCallback) {
     let promiseChain = Promise.resolve();
     const resetPromises = [];
 
+    let pendingTxns = [];
     for (let i = 0; i < batches.length; i++) {
       const batch = batches[i];
       const addresses = batch.map(t => t.userId);
@@ -213,20 +225,24 @@ function calcAndPayoutBatched(simulate, doneCallback) {
         }
       }
       console.log(`queuing batch ${i} with ${batch.length} entries`);
-      promiseChain = promiseChain.then(payout.bind(null, contract, addresses, amounts, simulate, () => {
-        console.log(`payout scheduled for batch ${i}`);
-        if (!simulate && !process.env.SKIP_RESET_DB) {
-          resetPromises.push(resetToZero(batch));
-        }
-      })).catch((receipt) => {
-        console.error(`payout failed for batch ${i}: ${JSON.stringify(receipt)}`);
-      });
+      promiseChain = promiseChain.then(payout.bind(null, contract, addresses, amounts, simulate, processedCallback))
+        .then((txHash) => {
+          console.log(`payout scheduled for batch ${i}`);
+          pendingTxns.push(txHash);
+          if (!simulate && !process.env.SKIP_RESET_DB) {
+            resetPromises.push(resetToZero(batch));
+          }
+        }).catch((receipt) => { // eslint-disable-line
+          console.error(`payout failed for batch ${i}: ${JSON.stringify(receipt)}`);
+          anyError = true;
+        });
     }
 
     Promise.all([ promiseChain ].concat(resetPromises)).then(() => {
-      doneCallback();
+      sentCallback(null, pendingTxns);
     }).catch(() => {
-      doneCallback('not all went smooth');
+      sentCallback('not all went smooth', pendingTxns);
+      anyError = true;
     });
   });
 }
@@ -250,22 +266,36 @@ ENV variables used:
 if (!process.env.MONGO_DB_NAME) {
   usageExit();
 }
+
+let pendingTxns = new Set();
 switch (process.argv[2]) {
   case 'calc':
     calcPayoutsFromDb().then(process.exit);
     break;
-  case 'payout':
-    calcAndPayoutBatched(false, (err) => {
-      console.log('all done!  ');
-      if (!process.env.DONT_EXIT) {
-        process.exit(err ? 1 : 0);
-      }
-    });
-    break;
   case 'simulate': // will not write to the Blockchain and not reset the DB
     calcAndPayoutBatched(true, (err) => {
       if (!process.env.DONT_EXIT) {
-        process.exit(err ? 1 : 0);
+        process.exit(err || anyError ? 1 : 0);
+      }
+    });
+    break;
+  case 'payout':
+    calcAndPayoutBatched(false, (err, _pendingTxns) => {
+      pendingTxns = new Set(_pendingTxns);
+      console.log(`${pendingTxns.size} txns sent! Now waiting for mined callbacks...`);
+    }, (err, txHash) => {
+      if (err) {
+        console.error(`tx ${txHash || '?'} failed to mine: ${err}`);
+        anyError = true;
+      } else {
+        console.log(`${txHash} was mined`);
+      }
+      pendingTxns.delete(txHash);
+      if (pendingTxns.size === 0) {
+        console.log('nomore transactions pending');
+        if (!process.env.DONT_EXIT) {
+          process.exit(err || anyError ? 1 : 0);
+        }
       }
     });
     break;
