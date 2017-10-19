@@ -25,8 +25,8 @@ function GameSettings() {
   this.ONE_MINUTE = this.ONE_SECOND * 60;
 
   if (this.inDebugMode()) {
-    this.MAX_GAME_DURATION = 20 * this.ONE_SECOND;
-    this.ROUND_TIME = 5 * this.ONE_SECOND;
+    this.MAX_GAME_DURATION = 30 * this.ONE_SECOND;
+    this.ROUND_TIME = 7 * this.ONE_SECOND;
     this.PAUSE_DURATION = 5 * this.ONE_SECOND;
   } else {
     this.MAX_GAME_DURATION = 20 * this.ONE_MINUTE;
