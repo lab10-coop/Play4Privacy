@@ -95,7 +95,8 @@ class EthereumUtils {
     if (this.wallet === null) {
       throw new Error('no wallet loaded');
     }
-    const json = JSON.stringify(this.getEncryptedKeystore(password));
+    const json = this.wallet.locked ? JSON.stringify(this.wallet[0])
+      : JSON.stringify(this.getEncryptedKeystore(password));
     const blob = new Blob([ json ], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 

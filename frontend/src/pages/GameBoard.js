@@ -4,7 +4,7 @@ import $ from 'jquery';
 import 'jquery.scrollto';
 import Board from '../Board';
 import ethUtils from '../EthereumUtils';
-import gs from '../GameSettings'
+import gs from '../GameSettings';
 
 @inject('game')
 @observer
@@ -17,10 +17,12 @@ class GameBoard extends React.Component {
 
 
     // $('#helpButton').click(() => alert('tadaaaaaa'));
-    if(ethUtils.needsUnlock()) {
+    if (ethUtils.needsUnlock()) {
       $('#unlockWalletLayer').addClass('visible');
       $('.joinGameWrapper').slideUp(350);
-      // $('.joinGameFirstInfotext').slideUp(350);   
+      // $('.joinGameFirstInfotext').slideUp(350);
+      const docDlLink = document.getElementById('walletDownloadLink');
+      ethUtils.updateDownloadLink(docDlLink);
     } else {
       $('#unlockWalletLayer').removeClass('visible');
       $('.joinGameWrapper').slideDown(350);
@@ -218,8 +220,9 @@ class GameBoard extends React.Component {
                   <input type='submit' value='OK' className='submit' id='linkWallet' />
                 </div>
 
-                <p >The unlocked wallet is needed because every move you submit is sent with a <a href="https://en.wikipedia.org/wiki/Digital_signature" target="_blank">digital signature</a> attached.<br />
+                <p>The unlocked wallet is needed because every move you submit is sent with a <a href="https://en.wikipedia.org/wiki/Digital_signature" target="_blank">digital signature</a> attached.<br />
                   This allows us to compile a data record for every game played which includes verifiable move submissions   of all players.</p>
+                <p>If you haven't yet saved the wallet to a file or want to do that again, <a href="#" id="walletDownloadLink" title="Download Wallet File">Click here</a>!</p>
 
                 
                 <p className="errorMessage">
