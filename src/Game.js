@@ -277,7 +277,7 @@ class Game {
 
       if (playerMoves.length >= 5) {
         console.log(`${logMsg} invalid: max. 5 move proposals allowed`);
-        return 'Too many Moves!';
+        return 'Too many Votes!';
       }
     }
 
