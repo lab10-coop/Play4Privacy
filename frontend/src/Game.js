@@ -24,7 +24,7 @@ import Averager from './utilities/AddAndAverage';
 
 class Game {
   constructor(socket) {
-    if(gs.inDebugMode()) {
+    if (gs.inDebugMode()) {
       window.game = this;
       window.gameSettings = gs;
     }
@@ -36,6 +36,7 @@ class Game {
     this.maxGameDuration = new Date(gs.MAX_GAME_DURATION);
     this.gameState = gs.STOPPED;
     this.autojoin = false; // set true once the player clicked the join button
+    this.roundTokenEarned = false; // set true per round if the server confirms a move
 
     // ////////////////////////////////////////////////////////////////////////
     // Subscriptions to socket.io Events
@@ -43,20 +44,20 @@ class Game {
     // Re-acquire the current game state on a re-connect
     socket.on('connect',
       () => {
-        console.log("connected to game server");
+        console.log('connected to game server');
         this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState);
       });
     socket.on('reconnect',
       () => {
-        console.log("reconnected to game server");
+        console.log('reconnected to game server');
         // TODO this seems to be redundant with connect (also fired on connect, not only on reconnect)
         this.socket.emit('current game state', this.id, Date.now(), this.refreshGameState);
       });
     socket.on('disconnect',
       () => {
-        console.log("disconnected from game server");
+        console.log('disconnected from game server');
         this.gameState = gs.STOPPED;
-      })
+      });
     socket.on('pong', (ms) => {
       this.latency.add(ms);
       console.log(`Latency measured by pong: ${ms}`);
@@ -97,7 +98,7 @@ class Game {
     this.gameId = gameId;
     this.gameState = gs.RUNNING;
     this.setGameState(0, currentTeam, gs.UNSET, '',
-      Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET), gs.RUNNING);
+      new Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET), gs.RUNNING);
 
     if (this.autojoin && window.location.pathname === '/gameboard') {
       this.joinGame(true);
@@ -143,9 +144,10 @@ class Game {
     this.squares[move] = this.currentTeam;
     this.previousMove = move;
     this.currentTeam = newTeam;
-    if(this.myMove !== "" && ! isNaN(this.myMove)) {
-        this.earnedTokens++;
-        this.overallUnclaimedTokens++;
+    if (this.roundTokenEarned) {
+      this.earnedTokens++;
+      this.overallUnclaimedTokens++;
+      this.roundTokenEarned = false; // reset
     }
     this.myMove = '';
     if (Array.isArray(captured)) {
@@ -191,7 +193,7 @@ class Game {
   @observable myMove = '';
   @observable earnedTokens = 0; // earned during the currently running game
   @observable overallUnclaimedTokens = 0;
-  @observable squares = Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET);
+  @observable squares = new Array(gs.BOARD_SIZE_SQUARED).fill(gs.UNSET);
   @observable countSteps = 0;
   @observable blackPlayers = 0;
   @observable whitePlayers = 0;
@@ -269,7 +271,7 @@ class Game {
   @computed get averageValidMovesPerRound() {
     // roundNr starts at 1 and is always incremented at the end of a round, thus need to decrement by 1 here
     // Rounding to 1 digit after the comma
-    return (Math.round(this.validMovesOverall / (this.roundNr - 1) * 10)) / 10;
+    return (Math.round((this.validMovesOverall / (this.roundNr - 1)) * 10)) / 10;
   }
 
   @action.bound
@@ -296,6 +298,9 @@ class Game {
 
     this.socket.emit('submit move', this.id,
       this.roundNr, move, sig, (confirmedMove) => {
+        if (confirmedMove !== '' && !isNaN(confirmedMove)) {
+          this.roundTokenEarned = true;
+        }
         this.myMove = confirmedMove;
         this.squares[confirmedMove] = gs.PLACED;
       });
