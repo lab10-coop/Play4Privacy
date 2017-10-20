@@ -21,8 +21,12 @@ function Square(props) {
     classes.push('lastPlaced');
   }
 
+  if (props.otherMoves) {
+    classes.push('otherVotes');
+  }
+
   return (
-    <div className={classes.join(' ')} onClick={props.onClick} />
+    <div className={classes.join(' ')} onClick={props.onClick}>{props.otherMoves ? props.otherMoves : ''}</div>
   );
 }
 
@@ -32,11 +36,18 @@ class Board extends React.Component {
   renderSquare(i) {
     // Sets the props for the "Square" Component
     // Note: Captures the value of variable "i"
+    let otherMoves = this.props.game.placedMoves[i];
+    // Remove you own move if present to only count the moves of others
+    if (this.props.game.squares[i] === gs.PLACED && otherMoves) {
+      otherMoves -= 1;
+    }
+
     return (
       <Square
         value={this.props.game.squares[i]}
         onClick={() => this.props.game.submitMove(i)}
         previousMove={(this.props.game.previousMove === i) ? 'true' : 'false'}
+        otherMoves={otherMoves}
       />
     );
   }

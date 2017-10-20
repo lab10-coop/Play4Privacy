@@ -231,15 +231,10 @@ class Game {
       (elem[1].team === gs.BLACK) ? (counts[0] += 1) : (counts[1] += 1);
       return counts;
     }, [ 0, 0 ]);
-    const placedMoves = new Map();
+    const placedMoves = new Array(gs.BOARD_SIZE_SQUARED).fill(0);
     this.roundMoves.forEach((moves) => {
       for (const move of moves) {
-        if (!placedMoves.has(move)) {
-          placedMoves.set(move, 1);
-        } else {
-          const newNumMoves = placedMoves.get(move) + 1;
-          placedMoves.set(move, newNumMoves);
-        }
+        placedMoves[move] += 1;
       }
     });
     this.api.sendGameUpdates(numPlayers, placedMoves);

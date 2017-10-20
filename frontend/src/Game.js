@@ -37,7 +37,7 @@ class Game {
     this.gameState = gs.STOPPED;
     this.autojoin = false; // set true once the player clicked the join button
     this.roundTokenEarned = false; // set true per round if the server confirms a move
-    this.placedMoves = new Map();
+    this.placedMoves.fill(0);
 
     // ////////////////////////////////////////////////////////////////////////
     // Subscriptions to socket.io Events
@@ -142,6 +142,7 @@ class Game {
   finishRound(nr, newTeam, move, captured) {
     this.roundNr = nr + 1; // point to the next round
     this.clearPlaced();
+    this.placedMoves.fill(0);
     this.squares[move] = this.currentTeam;
     this.previousMove = move;
     this.currentTeam = newTeam;
@@ -201,6 +202,7 @@ class Game {
   @observable whitePlayers = 0;
   @observable gameState = gs.PAUSED;
   @observable validMovesOverall = 0;
+  @observable placedMoves = new Array(gs.BOARD_SIZE_SQUARED);
 
   // Computes the time left in the current game
   // Returns a "Date" type for convenience of extraction of Minutes and Seconds.
