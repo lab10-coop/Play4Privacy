@@ -37,10 +37,6 @@ class Board extends React.Component {
     // Sets the props for the "Square" Component
     // Note: Captures the value of variable "i"
     let otherMoves = this.props.game.placedMoves[i];
-    // Remove you own move if present to only count the moves of others
-    if (this.props.game.squares[i] === gs.PLACED && otherMoves) {
-      otherMoves -= 1;
-    }
 
     return (
       <Square
