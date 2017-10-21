@@ -312,7 +312,7 @@ class GameBoard extends React.Component {
             </div>
             
             <div className="gameStoppedStatusMsg">
-              <p>The Game is currently paused.<br />Please check back between 7pm to 10pm CEST.</p>
+              <p>The Game is currently paused.<br />Please check back between 4am to 10am and 7pm to 10pm CEST.</p>
               <p className={`redeemTokensButtonIfGamePaused ${game.earnedTokens > 0 ? '' : 'item hide'}`}>
                 <a className='button' id='stopGame' href='endgame'>The game is currently paused. If you still have Tokens to redeem - click here!</a>
               </p>  
@@ -417,7 +417,7 @@ class GameBoard extends React.Component {
               
               <p className="bixMovieProjectInfo">
                 <span className="infoIcon">!</span>
-                <strong>INFO:</strong> Due to organizational reasons the facade of Kunsthaus Graz can currently not serve as a game board.
+                <strong>INFO:</strong> Due to organizational reasons the facade of Kunsthaus Graz can currently not always serve as a game board.
               </p> 
             
               <div className="liveCamRefreshRate">
