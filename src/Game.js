@@ -160,7 +160,7 @@ class Game {
       roundMove = this.go.getRandomMove();
     }
     // update tokenMap
-    [ ...this.roundMoves.keys() ].map(id => this.getTokenEntryOf(id).unclaimed++);
+    [ ...this.roundMoves.keys() ].forEach(id => this.getTokenEntryOf(id).unclaimed++);
     const roundNr = this.roundNr++;
     const captured = this.go.addMove(roundMove);
     console.log(`incrementing nrCaptured for ${this.go.currentTeam()} by ${captured.length}`);
