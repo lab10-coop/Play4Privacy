@@ -36,6 +36,7 @@ class Game {
     this.go = new Go();
     this.players = new Map();
     this.roundMoves = new Map();
+    this.roundInvalidMoves = new Map();
     this.nrCaptured = new Map();
     this.nrValidMoves = 0; // counts the valid moves proposed
     this.tokens = [];
@@ -137,6 +138,7 @@ class Game {
     this.go.clearGame();
     this.players.clear();
     this.roundMoves.clear();
+    this.roundInvalidMoves.clear();
     this.roundNr = 1;
     this.nrCaptured.set(gs.BLACK, 0);
     this.nrCaptured.set(gs.WHITE, 0);
@@ -172,6 +174,7 @@ class Game {
     console.log(`incrementing nrValidMoves by ${roundMovesSize}`);
     this.nrValidMoves += roundMovesSize;
     this.roundMoves.clear();
+    this.roundInvalidMoves.clear();
     this.currentGame.selectedMoves.push(roundMove);
     this.api.roundFinished(roundNr, this.go.currentTeam(), roundMove, captured);
   }
@@ -268,6 +271,25 @@ class Game {
   }
 
   submitMove(id, round, move, sig) {
+    /* nested function rateLimit() implements rate limiting:
+    After 3 invalid moves per round, block the player for the current round with warning message.
+    If invalid moves don't stop and reach 10 per round, disconnect the player. */
+    const blockRoundThresh = 3;
+    const blockedMessage = 'blocked for this round';
+    const kickThresh = 10;
+    const rateLimit = (errMsg) => {
+      console.log(`rateLimit for ${id} with ${this.roundInvalidMoves.get(id)}`);
+      this.roundInvalidMoves.set(id, this.roundInvalidMoves.get(id) + 1 || 1);
+      if (this.roundInvalidMoves.get(id) > kickThresh) {
+        return 'disconnect';
+      }
+      if (this.roundInvalidMoves.get(id) > blockRoundThresh) {
+        return blockedMessage;
+      }
+      return errMsg;
+    };
+    const isRateLimited = () => this.roundInvalidMoves.get(id) >= blockRoundThresh;
+
     const logMsg = `move: player ${id}, round ${round}, move ${move}`;
 
     // Checks in the order of most likely failure
@@ -277,39 +299,43 @@ class Game {
       const playerMoves = this.roundMoves.get(id);
 
       if (playerMoves.indexOf(move) !== -1) {
-        console.log(`${logMsg} invalid: repetition`);
+        console.log(`${logMsg} ignored: repetition`);
         return move;
       }
 
       if (playerMoves.length >= 5) {
         console.log(`${logMsg} invalid: max. 5 move proposals allowed`);
-        return 'Too many Votes!';
+        return rateLimit('Too many Votes!');
       }
     }
 
     if (!this.go.validMove(move)) {
       console.log(`${logMsg} invalid: illegal move`);
-      return 'Invalid Move!';
+      return rateLimit('Invalid Move!');
     }
 
     // Check if user has joined the current game
     if (!this.players.has(id)) {
       console.log(`${logMsg} invalid: not joined`);
-      return 'Join the Game first!';
+      return rateLimit('Join the Game first!');
     }
 
     // Check if player is on the right team
     if (this.players.get(id).team !== this.go.currentTeam()) {
       console.log(`${logMsg} invalid: wrong team`);
-      return 'Wait for your turn!';
+      return rateLimit('Wait for your turn!');
     }
 
     const sigData = `${this.gameId()}_${round}_${move}`;
     if (!ethCrypto.isSignatureValid(id, sigData, sig)) {
       console.log(`${logMsg} invalid: bad signature ${sig} - sigData ${sigData}`);
-      return 'Invalid signature';
+      return rateLimit('Invalid signature');
     }
 
+    if (isRateLimited()) {
+      console.log(`${logMsg} rate limited after ${this.roundInvalidMoves.get(id)} invalid attempts`);
+      return blockedMessage;
+    }
     console.log(`${logMsg} valid`);
 
     // Make sure we have an array to push to

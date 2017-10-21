@@ -37,9 +37,15 @@ export function defineClientApi(game, socket) {
     }
   });
 
-  socket.on('submit move', (id, round, move, sig, fn) =>
-    checkedCall(() => fn(game.submitMove(id, round, move, sig))),
-  );
+  socket.on('submit move', (id, round, move, sig, fn) => {
+    const ret = game.submitMove(id, round, move, sig);
+    if (ret === 'disconnect') {
+      console.log(`force disconnecting ${id}`);
+      socket.disconnect(true);
+    } else {
+      checkedCall(() => fn(ret));
+    }
+  });
 
   socket.on('redeem tokens', (id) => {
     game.claimTokens(id, false);
