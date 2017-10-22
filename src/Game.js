@@ -297,12 +297,12 @@ class Game {
     const rateLimit = (errMsg) => {
       this.roundInvalidMoves.set(id, this.roundInvalidMoves.get(id) + 1 || 1);
       console.log(`rateLimit for ${id} with count ${this.roundInvalidMoves.get(id)}`);
-      if (this.roundInvalidMoves.get(id) > kickThresh) {
+      if (this.roundInvalidMoves.get(id) >= kickThresh) {
         this.blacklist.add(id);
         this.players.delete(id);
         return 'disconnect';
       }
-      if (this.roundInvalidMoves.get(id) > blockRoundThresh) {
+      if (this.roundInvalidMoves.get(id) >= blockRoundThresh) {
         return blockedMessage;
       }
       return errMsg;
