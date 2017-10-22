@@ -109,7 +109,7 @@ class Home extends React.Component {
             <p>
             
               <a href='gameboard' title='Play Go and get PLAY Tokens!'>
-                <strong>Join the game, play with us!</strong><br />From September 27th until October 27th. <br />Daily from 4am to 7am and 7pm to 10pm CEST.
+                <strong>Join the game, play with us!</strong><br />Until October 27th. <br />Daily from 4am to 7am and 7pm to 10pm CEST.
               </a>
             
               
