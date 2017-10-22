@@ -47,6 +47,16 @@ class Game {
       gameId: Math.floor(now.getTime() / 1000),
       startDate: now,
     });
+    // misbehaving players are put on a blacklist, reconnection attempts blocked for the game in progress
+    this.blacklist = {
+      list: new Set(),
+      add: function (id) { // eslint-disable-line
+        console.log(`adding ${id} to blacklist`);
+        this.list.add(id);
+      },
+      contains: function (id) { return this.list.has(id); }, // eslint-disable-line
+      reset: function () { this.list.clear(); }, // eslint-disable-line
+    };
 
     this.readyForConnections = new Promise((resolve) => {
       if (mongodbName !== '') {
@@ -139,6 +149,7 @@ class Game {
     this.players.clear();
     this.roundMoves.clear();
     this.roundInvalidMoves.clear();
+    this.blacklist.reset();
     this.roundNr = 1;
     this.nrCaptured.set(gs.BLACK, 0);
     this.nrCaptured.set(gs.WHITE, 0);
@@ -250,7 +261,13 @@ class Game {
       gs.ROUND_TIME) % 2) ? gs.WHITE : gs.BLACK;
   }
 
+  // @returns the team or an error code if joining not possible or null if blacklisted
   joinGame(id) {
+    if (this.blacklist.contains(id)) {
+      console.log(`blocking join attempt of blacklisted ${id}`);
+      return 'blacklisted';
+    }
+
     if (!this.players.has(id)) {
       if (this.gameState === gs.PAUSED) {
         return gs.UNSET;
@@ -278,9 +295,11 @@ class Game {
     const blockedMessage = 'blocked for this round';
     const kickThresh = 10;
     const rateLimit = (errMsg) => {
-      console.log(`rateLimit for ${id} with ${this.roundInvalidMoves.get(id)}`);
       this.roundInvalidMoves.set(id, this.roundInvalidMoves.get(id) + 1 || 1);
+      console.log(`rateLimit for ${id} with count ${this.roundInvalidMoves.get(id)}`);
       if (this.roundInvalidMoves.get(id) > kickThresh) {
+        this.blacklist.add(id);
+        this.players.delete(id);
         return 'disconnect';
       }
       if (this.roundInvalidMoves.get(id) > blockRoundThresh) {

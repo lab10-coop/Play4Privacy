@@ -284,11 +284,15 @@ class Game {
       return;
     }
     this.earnedTokens = 0;
-    this.socket.emit('join game', this.id, (myTeam, unclaimedTokens) => {
-      this.myTeam = myTeam;
-      this.overallUnclaimedTokens = unclaimedTokens;
+    this.socket.emit('join game', this.id, (team, unclaimedTokens) => {
+      if (team === 'blacklisted') {
+        alert('You are blocked for the current game due to spamming');
+      } else {
+        this.myTeam = team;
+        this.overallUnclaimedTokens = unclaimedTokens;
+        this.autojoin = true;
+      }
     });
-    this.autojoin = true;
   }
 
   @action.bound
