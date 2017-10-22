@@ -50,11 +50,11 @@ class Game {
     // misbehaving players are put on a blacklist, reconnection attempts blocked for the game in progress
     this.blacklist = {
       list: new Set(),
-      add: function (id) { // eslint-disable-line
+      add(id) {
         this.list.add(id);
       },
-      contains: function (id) { return this.list.has(id); }, // eslint-disable-line
-      reset: function () { this.list.clear(); }, // eslint-disable-line
+      contains(id) { return this.list.has(id); },
+      reset() { this.list.clear(); },
     };
 
     this.readyForConnections = new Promise((resolve) => {
