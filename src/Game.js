@@ -51,7 +51,6 @@ class Game {
     this.blacklist = {
       list: new Set(),
       add: function (id) { // eslint-disable-line
-        console.log(`adding ${id} to blacklist`);
         this.list.add(id);
       },
       contains: function (id) { return this.list.has(id); }, // eslint-disable-line
@@ -296,13 +295,14 @@ class Game {
     const kickThresh = 10;
     const rateLimit = (errMsg) => {
       this.roundInvalidMoves.set(id, this.roundInvalidMoves.get(id) + 1 || 1);
-      console.log(`rateLimit for ${id} with count ${this.roundInvalidMoves.get(id)}`);
       if (this.roundInvalidMoves.get(id) >= kickThresh) {
+        console.log(`rateLimit: kicking ${id}`);
         this.blacklist.add(id);
         this.players.delete(id);
         return 'disconnect';
       }
       if (this.roundInvalidMoves.get(id) >= blockRoundThresh) {
+        console.log(`rateLimit: warning ${id} with count ${this.roundInvalidMoves.get(id)}`);
         return blockedMessage;
       }
       return errMsg;
