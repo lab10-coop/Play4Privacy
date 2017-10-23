@@ -11,13 +11,100 @@ class EndGame extends React.Component {
   constructor(props) {
     super(props);
     this.state = {score: 0};
-    this.handleChange = this.handleChange.bind(this);
+    this.onPasswordUpdated = this.onPasswordUpdated.bind(this);
   }
 
-  handleChange(event) {
+  /* estimates password strength based on the results from zxcvbn and
+  calculates some scenarios regarding cost and time needed to crack it.
+  Numbers are based on information in https://www.emsec.rub.de/media/mobsec/veroeffentlichungen/2015/04/02/duermuth-2014-password-guessing.pdf
+  and Litecoin mining. */
+  onPasswordUpdated(event) {
     const result = zxcvbn(event.target.value);
     console.log(`zxcvbn result is ${JSON.stringify(result)}`);
-    this.setState({score: result.score});
+
+    // since the result contains a list of matched terms, we can easily confront the user with that
+    const dictMatches = result.sequence.filter(e => e.pattern === 'dictionary').map(e => e.matched_word).join(', ');
+
+    // single GPU, cost calculated over 2 years, electricity 0.2$ per kWH
+    const lowGuessesPerDollar = 2E6;
+    // Hashrate per dollar block reward earned in Litecoin network divided by 100 (params)
+    const highGuessesPerDollar = 1.3E10;
+
+    // single GPU from PDF
+    const lowGuessesPerSecond = 50;
+    // NSA budget for "processing" in 2013 according to german Wikipedia (~ 50$ / s)
+    const highGuessesPerSecond = 6.5E11;
+
+    // where the fuck is setState() implemented?
+    this.setState({
+      score: result.score,
+      guesses: result.guesses,
+      costOptimistic: result.guesses / lowGuessesPerDollar,
+      costPessimistic: result.guesses / highGuessesPerDollar,
+      timeOptimistic: result.guesses / lowGuessesPerSecond,
+      timePessimistic: result.guesses / highGuessesPerSecond,
+      dictMatches: dictMatches, // eslint-disable-line
+    });
+  }
+
+  /* rule of thumb: for estimates, numbers shouldn't be precise */
+  humanReadableMoney(v) {
+    if (v < 0.01) {
+      return '< 0.01 USD';
+    }
+    if (v < 1) {
+      return `~ ${Math.round(v * 100) / 100} USD`; // 2 digits
+    }
+    if (v < 1000) {
+      return `~ ${Math.round(v)} USD`;
+    }
+    if (v < 1E6) {
+      return `~ ${Math.round(v / 1000) * 1000} USD`; // last 3 digits to 0
+    }
+    if (v < 1E9) {
+      return `~ ${Math.round(v / 1E6)} million USD`;
+    }
+    if (v < 1E12) {
+      return `~ ${Math.round(v / 1E9)} billion USD (for comparison: Austria's GDP in 2016 was about 386 billion)`;
+    }
+    if (v < 1E15) {
+      return `~ ${Math.round(v / 1E12)} trillion USD (for comparison: the world GDP in 2016 was about 75 trillion according to the world bank)`;
+    }
+    if (v < 1E18) {
+      return `~ ${Math.round(v / 1E15)} quadrillion USD (for comparison: the intergalactic GDP... Just kidding. Nobody gives a fuck about GDP out there!)`;
+    }
+    return `Tilt!`;
+  }
+  
+  humanReadableTime(v) {
+    const minutes = 60;
+    const hours = minutes * 60;
+    const days = hours * 24;
+    const weeks = days * 7;
+    const years = days * 365; // fuck leapyears
+
+    if (v < 1E-3) {
+      return '< 1 ms';
+    }
+    if (v < 1) {
+      return `~ ${Math.round(v * 1000) / 1000} ms`;
+    }
+    if (v < minutes) {
+      return `~ ${Math.round(v)} seconds`;
+    }
+    if (v < hours) {
+      return `~ ${Math.round(v / minutes)} minutes`; // last 3 digits to 0
+    }
+    if (v < days) {
+      return `~ ${Math.round(v / hours)} hours`;
+    }
+    if (v < weeks) {
+      return `~ ${Math.round(v / days)} days`;
+    }
+    if (v < years) {
+      return `~ ${Math.round(v / weeks)} weeks`;
+    }
+    return `~ ${Math.round(v / years)} years`;
   }
 
   componentDidMount() {
@@ -182,13 +269,37 @@ class EndGame extends React.Component {
                 <b>There is NO "forgot password" option in crypto land!</b></p>
               
               <div className="formWrapper">
-                <input name='walletPassword' type='password' className='text' placeholder='Password' value={this.state.value} onChange={this.handleChange} />
+                <input name='walletPassword' type='password' className='text' placeholder='Password' value={this.state.value} onChange={this.onPasswordUpdated} />
                 <input type='submit' value='Lock Wallet' className='submit' id='createWallet' />
                 <div className="passwordStrength">
                   <div className="barWrapper">
                     <div className="barValue" id={barValueId}></div>
                   </div>
                   <div className="pwStrengthLabel">Password strength</div>
+                  <div>
+                    <p>Optimistic scenario: An individual with a single modern GPU.<br />
+                      Numbers are based on <a href="https://www.emsec.rub.de/media/mobsec/veroeffentlichungen/2015/04/02/duermuth-2014-password-guessing.pdf">this paper</a></p>
+                    <p>Estimated cost to crack: {this.humanReadableMoney(this.state.costOptimistic)}</p>
+                    <p>Estimated time to crack: {this.humanReadableTime(this.state.timeOptimistic)}</p>
+
+                    <p>Pessimistic scenario: Extremely powerful attackers with very deep pockets leveraging the maximum achievable effectiveness.<br />
+                      For the cost calculation, the numbers of Litecoin mining are used: hashrate per dollar of block reward, divided by 100 (because the Litecoin scrypt params allow for a significantly higher hashrate).<br />
+                      For the time calculation, a budget of 50 USD per second is assumed. That's based on public budget information for "processing" of a random intelligence agency. For comparison: Litecoin currently generates ~ 10 USD / second in block rewards, for Bitcoin it's about 100 USD / second.</p>
+                    <p>Estimated cost to crack: {this.humanReadableMoney(this.state.costPessimistic)}</p>
+                    <p>Estimated time to crack: {this.humanReadableTime(this.state.timePessimistic)}</p>
+                    <hr />
+                      <p>Dictionary words found in this password: {this.state.dictMatches}<br />
+                        Note that this test - since running in the browser - includes only a limited English dictionary.<br />
+                        Sophisticated password crackers nowadays have extensive and sophisticated dictionaries which also include a lot of non-trivial permutations.</p>
+                    <hr />
+                    The numbers can't be more than rough estimates and are based on a mix of known facts and speculation.<br />
+                      The basic guess is calculated by the <a href="https://github.com/dropbox/zxcvbn">zxcvbn library</a> which also includes a basic English dictionary and knows some common tricks like dates, spatial patterns (e.g. qwerty) and <a href="https://en.wikipedia.org/wiki/Leet">l33t speak</a>.<br />
+                    It's important to understand that the difficulty to crack a password depends not only on the password itself, but (a lot!) on the algorithm used to hash the password. <br />
+                    In case of this wallet, the algorithm is <a href="https://en.wikipedia.org/wiki/Scrypt">scrypt</a> with params n=8192, r=8, p=1.<br />
+                    That means hashing one password (and thus also making one guess) takes about 100ms on a common CPU.<br />
+                    This is already quite good (a so called "slow hash"). But "offline cracking" (that is, the attacker has a local copy of the hash) nevertheless makes it much easier to crack a password compared to a situation where the attacker doesn't have a local copy and needs to guess through a remote service.<br />
+                    That's also the reason why the likelihood of passwords stolen from a server are likely to be cracked even if not stored as plaintext.
+                  </div>
                 </div>
               </div>
             </div>
