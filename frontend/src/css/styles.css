@@ -1421,10 +1421,14 @@ a.button.stopGameButtonDuringGame {
 
 
 .pwStrengthCalc {
-  padding-top: 25px;
-  margin-top: 25px;
-  border-top: 1px solid #CCCCCC;
+  padding-top: 0px;
+  margin-top: 0px;
+  border-top: 0px solid #CCCCCC;
   text-align: left;
+   transition: padding 1.5s ease-in-out, margin 1.5s ease-in-out, border-top 1.5s ease-in-out;
+	-moz-transition: padding 1.5s ease-in-out, margin 1.5s ease-in-out, border-top 1.5s ease-in-out;
+	-webkit-transition: padding 1.5s ease-in-out, margin 1.5s ease-in-out, border-top 1.5s ease-in-out;
+
 }
 
 .pwStrengthCalc h3 {
@@ -1471,11 +1475,76 @@ a.button.stopGameButtonDuringGame {
 .infoPessimistic,
 .overallNotice {
   padding: 0px 15px;
+  
 }
 
 .infoPessimistic {
   padding-top: 20px;
 }
+
+.setPasswordWrapper .pwStrengthCalc .optimistic,
+.setPasswordWrapper .pwStrengthCalc .pessimistic,
+.setPasswordWrapper .pwStrengthCalc .dictionary {
+  height: 0px; 
+  opacity: 0;
+  overflow: hidden;
+  
+  
+  transition: height 1.5s ease-in-out, opacity 1s ease-in-out;
+	-moz-transition: height 1.5s ease-in-out, opacity 1s ease-in-out;
+	-webkit-transition: height 1.5s ease-in-out, opacity 1s ease-in-out;
+}
+
+.setPasswordWrapper.calculated .pwStrengthCalc .optimistic {
+  transition-delay: 0s;
+}
+
+.setPasswordWrapper.calculated .pwStrengthCalc .pessimistic {
+  transition-delay: 0.25s;
+}
+
+.setPasswordWrapper.calculated .pwStrengthCalc .dictionary {
+  transition-delay: 0.5s;
+}
+
+
+.setPasswordWrapper.calculated .pwStrengthCalc {
+  padding-top: 25px;
+  margin-top: 25px;
+  border-top: 1px solid #CCCCCC;
+}
+
+.setPasswordWrapper.calculated .pwStrengthCalc .optimistic,
+.setPasswordWrapper.calculated .pwStrengthCalc .pessimistic,
+.setPasswordWrapper.calculated .pwStrengthCalc .dictionary {
+  height: 260px;
+  opacity: 1;
+}
+
+.infoPessimistic,
+.overallNotice {
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+	-moz-transition: opacity 1.5s ease-in-out;
+	-webkit-transition: opacity 1.5s ease-in-out;
+}
+
+.infoPessimistic {
+  transition-delay: 2s;
+}
+
+.overallNotice {
+  transition-delay: 2.5s;
+}
+
+
+
+.infoPessimistic.calculated,
+.overallNotice.calculated {
+  opacity: 1;
+}
+
+
 
 /* ErrorLayer & GamePaused */
 

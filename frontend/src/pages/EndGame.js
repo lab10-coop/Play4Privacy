@@ -267,7 +267,7 @@ class EndGame extends React.Component {
               <p>Please enter a <b><a href="https://www.schneier.com/essays/archives/2014/02/choosing_a_secure_pa.html" target="_blank">strong password</a></b> to encrypt the private key of your wallet.</p>
               
               
-              <div className="setPasswordWrapper">
+             <div className={`setPasswordWrapper ${this.humanReadableMoney(this.state.costOptimistic) != "Tilt!" ? 'calculated' : ''}`}>
                 <div className="setPasswordWrapperInner">
                   
                   <p>Make sure to remember your password as this will be the ONLY way <br />to unlock your wallet 
@@ -353,13 +353,14 @@ class EndGame extends React.Component {
               
    
                     
-              <div className="infoPessimistic">
+              <div className={`infoPessimistic ${this.humanReadableMoney(this.state.costOptimistic) != "Tilt!" ? 'calculated' : ''}`}>
                 <p>For the cost calculation on the  "pessimistic scenario", the numbers of Litecoin mining are used: hashrate per dollar of block reward, divided by 100 (because the Litecoin scrypt params allow for a significantly higher hashrate).</p>
                 <p>For the time calculation, a budget of 50 USD per second is assumed. That's based on public budget information for "processing" of a random intelligence agency. For comparison: Litecoin currently generates ~ 10 USD / second in block rewards, for Bitcoin it's about 100 USD / second.</p>
                 <hr />
               </div>  
               
-              <div className="overallNotice">      
+
+              <div className={`overallNotice ${this.humanReadableMoney(this.state.costOptimistic) != "Tilt!" ? 'calculated' : ''}`}>
                 <h3>Notice</h3>
                 <p>The numbers can't be more than rough estimates and are based on a mix of known facts and speculation.<br />
                 The basic guess is calculated by the <a href="https://github.com/dropbox/zxcvbn">zxcvbn library</a> which also includes a basic English dictionary and knows some common tricks like dates, spatial patterns (e.g. qwerty) and <a href="https://en.wikipedia.org/wiki/Leet">l33t speak</a>.</p>
