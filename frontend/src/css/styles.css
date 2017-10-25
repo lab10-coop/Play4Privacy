@@ -1328,15 +1328,44 @@ a.button.stopGameButtonDuringGame {
 }
 
 
+
+/* Password Strength */
+
+
+.setPasswordWrapper {
+  border-top: 3px solid #3ba0d2;
+  border-left: 3px solid #3ba0d2;
+  border-right: 3px solid #3ba0d2;
+  text-align: center;
+  font-size: 16px;
+
+}
+
+.setPasswordWrapper .setPasswordWrapperInner {
+  margin-left: 15px;
+  margin-right: 15px;
+  border-bottom: 2px solid #000000;
+  padding-bottom: 15px;
+  padding-top: 5px;
+}
+
+.setPasswordWrapper .formWrapper {
+  padding-top: 20px;
+}
+
+
+
 .passwordStrength {
-  padding-top: 10px;
+  padding-top: 5px;
+  vertical-align: top;
 }
 
 .passwordStrength .barWrapper {
   background-color: #CCCCCC;
-  width: 325px;
+  width: 318px;
   height: 5px;
   position: relative;
+  display: inline-block;
 }
 
 .passwordStrength .barWrapper .barValue {
@@ -1390,6 +1419,62 @@ a.button.stopGameButtonDuringGame {
 
 
 
+.pwStrengthCalc {
+  padding-top: 25px;
+  margin-top: 25px;
+  border-top: 1px solid #CCCCCC;
+  text-align: left;
+}
+
+.pwStrengthCalc h3 {
+  background: #3ba0d2;
+  color: #FFFFFF;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+.pwStrengthCalc p {
+  border-bottom: 1px solid #EEEEEE;
+  padding-bottom: 5px;
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+.pwStrengthCalc .shortDesc {
+  font-weight: 300;
+  margin-top: 5px;
+  font-size: 14px;
+  padding-left: 10px;
+  border-bottom: none;
+}
+
+.pwStrengthCalc .label {
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding-left: 10px;
+  display: block;
+}
+
+.pwStrengthCalc .shortDesc .label {
+  padding-left: 0px;
+}
+
+.pwStrengthCalc .value {
+  padding-left: 10px;
+  display: block;
+}
+
+.infoPessimistic,
+.overallNotice {
+  padding: 0px 15px;
+}
+
+.infoPessimistic {
+  padding-top: 20px;
+}
 
 /* ErrorLayer & GamePaused */
 
@@ -1817,6 +1902,8 @@ footer .projectLinks a:hover {
 .reactNotWorking a:hover {
   color: #FFFFFF;
 }
+
+
 
 
 

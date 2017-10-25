@@ -265,43 +265,111 @@ class EndGame extends React.Component {
               In order to not lose it (and hereby also the PLAY tokens just earned) when closing this browser tab, it needs to be saved.<br />
               Before doing that, the wallet is now locked in order to protect the PLAY tokens and other crypto assets you may in future manage with this wallet.</p>
               <p>Please enter a <b><a href="https://www.schneier.com/essays/archives/2014/02/choosing_a_secure_pa.html" target="_blank">strong password</a></b> to encrypt the private key of your wallet.</p>
-              <p>Make sure to remember your password as this will be the ONLY way to unlock your wallet and access your PLAY tokens in the future.<br />
-                <b>There is NO "forgot password" option in crypto land!</b></p>
               
-              <div className="formWrapper">
-                <input name='walletPassword' type='password' className='text' placeholder='Password' value={this.state.value} onChange={this.onPasswordUpdated} />
-                <input type='submit' value='Lock Wallet' className='submit' id='createWallet' />
-                <div className="passwordStrength">
-                  <div className="barWrapper">
-                    <div className="barValue" id={barValueId}></div>
+              
+              <div className="setPasswordWrapper">
+                <div className="setPasswordWrapperInner">
+                  
+                  <p>Make sure to remember your password as this will be the ONLY way <br />to unlock your wallet 
+                  and access your PLAY tokens in the future.<br />
+                  <strong>There is NO "forgot password" option in crypto land!</strong></p>
+                
+                  <div className="formWrapper">
+                    <input name='walletPassword' type='password' className='text' placeholder='Password' value={this.state.value} onChange={this.onPasswordUpdated} />
+                    <input type='submit' value='Lock Wallet' className='submit' id='createWallet' />
+                  
+                    <div className="passwordStrength">
+                      <div className="barWrapper">
+                        <div className="barValue" id={barValueId}></div>
+                      </div>
+                      <div className="pwStrengthLabel">Password strength</div>
+                    </div>
                   </div>
-                  <div className="pwStrengthLabel">Password strength</div>
-                  <div>
-                    <p>Optimistic scenario: An individual with a single modern GPU.<br />
-                      Numbers are based on <a href="https://www.emsec.rub.de/media/mobsec/veroeffentlichungen/2015/04/02/duermuth-2014-password-guessing.pdf">this paper</a></p>
-                    <p>Estimated cost to crack: {this.humanReadableMoney(this.state.costOptimistic)}</p>
-                    <p>Estimated time to crack: {this.humanReadableTime(this.state.timeOptimistic)}</p>
+                
+                
+                
+                  <div className="pwStrengthCalc">
+                    <div className="c33l optimistic">
+                      <div className="inner">
+                        <h3>Optimistic scenario</h3>
+                        <p>
+                          <span className="label">Estimated cost to crack: </span>
+                          <span className="value">{this.humanReadableMoney(this.state.costOptimistic)}</span>
+                        </p>
+                        <p>
+                          <span className="label">Estimated time to crack: </span>
+                          <span className="value">{this.humanReadableTime(this.state.timeOptimistic)}</span>
+                        </p>
+                        <p className="shortDesc">
+                          <span className="label">Info:</span>
+                          An individual with a single modern GPU.<br />
+                          Numbers are based on <a href="https://www.emsec.rub.de/media/mobsec/veroeffentlichungen/2015/04/02/duermuth-2014-password-guessing.pdf">this paper</a>.
+                        </p>
+                        
+                      </div>
+                    </div>
+                    <div className="c33c pessimistic">
+                      <div className="inner">
+                        <h3>Pessimistic scenario</h3>
+                        <p>
+                          <span className="label">Estimated cost to crack: </span>
+                          <span className="value">{this.humanReadableMoney(this.state.costPessimistic)}</span>
+                        </p>
+                        <p>
+                          <span className="label">Estimated time to crack: </span>
+                          <span className="value">{this.humanReadableTime(this.state.timePessimistic)}</span>
+                        </p>
+                        <p className="shortDesc">
+                          <span className="label">Info:</span>
+                          Extremely powerful attackers with very deep pockets leveraging the maximum achievable effectiveness.
+                        </p>
 
-                    <p>Pessimistic scenario: Extremely powerful attackers with very deep pockets leveraging the maximum achievable effectiveness.<br />
-                      For the cost calculation, the numbers of Litecoin mining are used: hashrate per dollar of block reward, divided by 100 (because the Litecoin scrypt params allow for a significantly higher hashrate).<br />
-                      For the time calculation, a budget of 50 USD per second is assumed. That's based on public budget information for "processing" of a random intelligence agency. For comparison: Litecoin currently generates ~ 10 USD / second in block rewards, for Bitcoin it's about 100 USD / second.</p>
-                    <p>Estimated cost to crack: {this.humanReadableMoney(this.state.costPessimistic)}</p>
-                    <p>Estimated time to crack: {this.humanReadableTime(this.state.timePessimistic)}</p>
-                    <hr />
-                      <p>Dictionary words found in this password: {this.state.dictMatches}<br />
-                        Note that this test - since running in the browser - includes only a limited English dictionary.<br />
-                        Sophisticated password crackers nowadays have extensive and sophisticated dictionaries which also include a lot of non-trivial permutations.</p>
-                    <hr />
-                    The numbers can't be more than rough estimates and are based on a mix of known facts and speculation.<br />
-                      The basic guess is calculated by the <a href="https://github.com/dropbox/zxcvbn">zxcvbn library</a> which also includes a basic English dictionary and knows some common tricks like dates, spatial patterns (e.g. qwerty) and <a href="https://en.wikipedia.org/wiki/Leet">l33t speak</a>.<br />
-                    It's important to understand that the difficulty to crack a password depends not only on the password itself, but (a lot!) on the algorithm used to hash the password. <br />
-                    In case of this wallet, the algorithm is <a href="https://en.wikipedia.org/wiki/Scrypt">scrypt</a> with params n=8192, r=8, p=1.<br />
-                    That means hashing one password (and thus also making one guess) takes about 100ms on a common CPU.<br />
-                    This is already quite good (a so called "slow hash"). But "offline cracking" (that is, the attacker has a local copy of the hash) nevertheless makes it much easier to crack a password compared to a situation where the attacker doesn't have a local copy and needs to guess through a remote service.<br />
-                    That's also the reason why the likelihood of passwords stolen from a server are likely to be cracked even if not stored as plaintext.
+                      </div>
+                    </div>
+                    <div className="c33r dictionary">                      
+                      <div className="inner">
+                        <h3>Dictionary</h3>
+                        <p>
+                          <span className="label">Words found in this password: </span>
+                          <span className="value">{this.state.dictMatches}</span>
+                        </p>
+                        <p className="shortDesc">
+                          <span className="label">Info:</span>
+                          Note that this test - since running in the browser - includes only a limited English dictionary. Sophisticated password crackers nowadays have extensive and sophisticated dictionaries which also include a lot of non-trivial permutations.
+                        </p>
+                       
+                      </div>
+                    </div>
+                    <div className="clear"></div>
                   </div>
+                
+                
+                  
+              
+                
                 </div>
               </div>
+              
+              
+   
+                    
+              <div className="infoPessimistic">
+                <p>For the cost calculation on the  "pessimistic scenario", the numbers of Litecoin mining are used: hashrate per dollar of block reward, divided by 100 (because the Litecoin scrypt params allow for a significantly higher hashrate).</p>
+                <p>For the time calculation, a budget of 50 USD per second is assumed. That's based on public budget information for "processing" of a random intelligence agency. For comparison: Litecoin currently generates ~ 10 USD / second in block rewards, for Bitcoin it's about 100 USD / second.</p>
+                <hr />
+              </div>  
+              
+              <div className="overallNotice">      
+                <h3>Notice</h3>
+                <p>The numbers can't be more than rough estimates and are based on a mix of known facts and speculation.<br />
+                The basic guess is calculated by the <a href="https://github.com/dropbox/zxcvbn">zxcvbn library</a> which also includes a basic English dictionary and knows some common tricks like dates, spatial patterns (e.g. qwerty) and <a href="https://en.wikipedia.org/wiki/Leet">l33t speak</a>.</p>
+                <p>It's important to understand that the difficulty to crack a password depends not only on the password itself, but (a lot!) on the algorithm used to hash the password.</p>
+                <p>In case of this wallet, the algorithm is <a href="https://en.wikipedia.org/wiki/Scrypt">scrypt</a> with params n=8192, r=8, p=1. 
+                      That means hashing one password (and thus also making one guess) takes about 100ms on a common CPU. This is already quite good (a so called "slow hash"). But "offline cracking" (that is, the attacker has a local copy of the hash) nevertheless makes it much easier to crack a password compared to a situation where the attacker doesn't have a local copy and needs to guess through a remote service.</p>
+                <p>That's also the reason why the likelihood of passwords stolen from a server are likely to be cracked even if not stored as plaintext.</p>              
+              </div>
+
+
             </div>
 
           </div>
