@@ -414,12 +414,6 @@ class GameBoard extends React.Component {
 
 
             <div className='liveCam clear'>
-              
-              <p className="bixMovieProjectInfo">
-                <span className="infoIcon">!</span>
-                <strong>INFO:</strong> Due to organizational reasons the facade of Kunsthaus Graz can currently not always serve as a game board.
-              </p> 
-            
               <div className="liveCamRefreshRate">
                 <input className="liveCamRefreshValue" type="range" min="2" max="50" step="1" />
                 <div className="liveCamRefreshInfo">
