@@ -156,10 +156,6 @@ class Home extends React.Component {
                 <a className="killLiveCamRefesh" href="#" title="Stop Refreshing the Live-Feed at all">Stop Refreshing the Live-Feed at all</a>
               </div>
             </div>
-            <p className="bixMovieProjectInfo">
-                <span className="infoIcon">!</span>
-                <strong>INFO:</strong> Due to technical reasons currently the facade of Kunsthaus Graz cannot serve as a game board.
-              </p> 
           </div>
 
           <div className='gameField'>
