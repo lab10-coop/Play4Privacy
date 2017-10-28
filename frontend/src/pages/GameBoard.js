@@ -314,7 +314,7 @@ class GameBoard extends React.Component {
             <div className="gameStoppedStatusMsg">
               
               <p>The mining & playing phase has ended.</p>
-              <p><a href="https://privacy.lab10.coop" target="_blank">Donate to a charity to secure a significant share of supplement tokens.</a></p>
+              <p><a href="https://p4p.lab10.coop/donate/" target="_blank">Donate to a charity to secure a significant share of supplement tokens.</a></p>
               <p><a href="https://twitter.com/play4privacy" target="_blank">Stay tuned and follow us - only on Twitter</a></p>
               
               <p className={`redeemTokensButtonIfGamePaused ${game.earnedTokens > 0 ? '' : 'item hide'}`}>

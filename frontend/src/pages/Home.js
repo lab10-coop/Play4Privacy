@@ -108,7 +108,7 @@ class Home extends React.Component {
           <div className="c50r comePlayWithUs">
             <p>
             
-              <a href='https://privacy.lab10.coop' target="_blank" title='Play Go and get PLAY Tokens!'>
+              <a href='https://p4p.lab10.coop/donate/' target="_blank" title='Play Go and get PLAY Tokens!'>
                 <strong>The mining & playing phase has ended.</strong><br />Donate to a charity to secure a significant share of supplement tokens.
               </a>
               
@@ -177,7 +177,7 @@ class Home extends React.Component {
               <div className="icon"></div>
               <div className="gamePausedText">
                 <span className="headline"><strong>The mining & playing phase has ended.</strong><br />
-                  <a href="https://privacy.lab10.coop" target="_blank">Donate to a charity to secure a significant share of supplement tokens.</a><br />
+                  <a href="https://p4p.lab10.coop/donate/" target="_blank">Donate to a charity to secure a significant share of supplement tokens.</a><br />
                   <a href="https://twitter.com/play4privacy" target="_blank">Stay tuned and follow us - only on Twitter</a>
                 </span>
                 
