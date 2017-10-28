@@ -4,49 +4,46 @@ import 'jquery.scrollto';
 
 class Credits extends React.Component {
   componentDidMount() {
-
-  	 // Navigation Mobile
-    $('.navTrigger .showButton').click(function(){
-      $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
+    // Navigation Mobile
+    $('.navTrigger .showButton').click((e) => {
+      $(e.currentTarget).slideUp(250).parent().find('.hideButton')
+        .slideDown(250);
       $('header nav').slideDown(500);
     });
-    
-    $('.navTrigger .hideButton').click(function(){
-      $(this).slideUp(250).parent().find('.showButton').slideDown(250);
+
+    $('.navTrigger .hideButton').click((e) => {
+      $(e.currentTarget).slideUp(250).parent().find('.showButton')
+        .slideDown(250);
       $('header nav').slideUp(500);
     });
 
-    $('header nav a').click(function(){
+    $('header nav a').click(() => {
       $('.navTrigger .hideButton').slideUp(250);
       $('.navTrigger .showButton').slideDown(250);
       $('header nav').slideUp(500);
-    }); 
-    
-  
-  	// Button ScrollTo Layer / Top
-    $('.button').click(function(){
+    });
+
+    // Button ScrollTo Layer / Top
+    $('.button').click(() => {
       $.scrollTo(0, 250);
     });
-  
-  
-  	// Show Layers 	  
-    $('#ethYesButton').click(function(){
+
+    // Show Layers
+    $('#ethYesButton').click(() => {
       $('.layer#ethYesField').addClass('showLayer');
     });
-     
-    $('#ethNoButton').click(function(){
+
+    $('#ethNoButton').click(() => {
       $('.layer#ethNoField').addClass('showLayer');
     });
-    
-    
-    // Hide Layer
-    $('.closeLayerButton').click(function(){
-      $(this).parent().removeClass('showLayer');
-    });
-   
- 
 
+    // Hide Layer
+    $('.closeLayerButton').click((e) => {
+      $(e.currentTarget).parent().removeClass('showLayer');
+    });
   }
+
+  /* eslint-disable */
 
   render() {
     return (

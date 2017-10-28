@@ -15,7 +15,6 @@ class GameBoard extends React.Component {
     // Remove React not working warning
     $('.reactNotWorking').remove();
 
-
     // $('#helpButton').click(() => alert('tadaaaaaa'));
     if (ethUtils.needsUnlock()) {
       $('#unlockWalletLayer').addClass('visible');
@@ -30,124 +29,102 @@ class GameBoard extends React.Component {
     }
 
     // Navigation Mobile
-    $('.navTrigger .showButton').click(function(){
-      $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
+    $('.navTrigger .showButton').click((e) => {
+      $(e.currentTarget).slideUp(250).parent().find('.hideButton')
+        .slideDown(250);
       $('header nav').slideDown(500);
     });
 
-    $('.navTrigger .hideButton').click(function(){
-      $(this).slideUp(250).parent().find('.showButton').slideDown(250);
+    $('.navTrigger .hideButton').click((e) => {
+      $(e.currentTarget).slideUp(250).parent().find('.showButton')
+        .slideDown(250);
       $('header nav').slideUp(500);
     });
 
-    $('header nav a').click(function(){
+    $('header nav a').click(() => {
       $('.navTrigger .hideButton').slideUp(250);
       $('.navTrigger .showButton').slideDown(250);
       $('header nav').fadeOut(200);
     });
 
     $('#linkWallet').click(() => {
-      const pass = document.getElementsByName("linkWalletPassword")[0].value;
-      if(ethUtils.unlockWallet(pass) === null){
-        //alert("wrong password. ")
-        
+      const pass = document.getElementsByName('linkWalletPassword')[0].value;
+      if (ethUtils.unlockWallet(pass) === null) {
+        // alert("wrong password. ")
+
         $('#unlockWalletLayer .errorMessage').slideDown(350);
         $('.joinGameWrapper').slideUp(350);
         // $('.joinGameFirstInfotext').slideUp(350);   
 
-        
-        $('.button#createNewWallet').click( () => {
-          
+        $('.button#createNewWallet').click(() => {
           $('#unlockWalletLayer .errorMessage').slideUp(350);
           $('#unlockWalletLayer .unlockInfoMessage').slideUp(350);
           $('#unlockWalletLayer .formWrapper').slideUp(350);
           $('#unlockWalletLayer .newWalletCreatedMessage').slideDown(350);
           $('.joinGameWrapper').slideDown(350);
-          // $('.joinGameFirstInfotext').slideDown(350);   
-          
-          
+          // $('.joinGameFirstInfotext').slideDown(350);
+
           ethUtils.createNewWallet();
-          this.game.id = ethUtils.getAddress(); 
+          this.game.id = ethUtils.getAddress();
           // TODO: this is not elegant
           $('#unlockWalletLayer').removeClass('visible');
-        
         });
-        
-        // if(window.confirm("Wrong password. If you want to try again, click cancel. Click ok to create a new account.\nTODO: prettify this!")) {
-        // }
       } else {
         this.game.id = ethUtils.getAddress();
         $('#unlockWalletLayer').removeClass('visible');
         $('.joinGameWrapper').slideDown(350);
-
       }
     });
 
     // Button ScrollTo Layer / Top
-    $('.button').click(function(){
+    $('.button').click(() => {
       $.scrollTo(0, 250);
     });
 
-    $('.joinGameFirstInfotext').click(function(){
-      $.scrollTo(".joinGameWrapper", 250, {offset:-50});
+    $('.joinGameFirstInfotext').click(() => {
+      $.scrollTo('.joinGameWrapper', 250, { offset: -50 });
     });
 
 
-    // Show Layers 	  
-    $('#helpButton').click(function(){
+    // Show Layers
+    $('#helpButton').click(() => {
       $('.layer#helpLayer').addClass('showLayer');
     });
 
-
-
     // Hide Layer
-    $('.closeLayerButton').click(function(){
+    $('.closeLayerButton').click(() => {
       $(this).parent().removeClass('showLayer');
     });
-    
-    
-    
 
     // Refresh LiveCam Feed
-    const liveCamPhoto = document.getElementById("liveFeedImage");
+    const liveCamPhoto = document.getElementById('liveFeedImage');
     const updateImage = () => {
-      liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + Math.floor(new Date().getTime() / 1000) * 1000;
+      liveCamPhoto.src = `${liveCamPhoto.src.split('?')[0]}?${Math.floor(new Date().getTime() / 1000) * 1000}`;
     };
-    
-    //const liveCamRefreshInterval = setInterval(updateImage, 2000);
+
     $('#liveFeedImage').data('interval', setInterval(updateImage, 5000));
 
-    
     // Set Default Refresh-Rate in Seconds (2 for now)
     $('input.liveCamRefreshValue').val(5).change();
-    
     // Set new Refresh-Rate
-    $("input.liveCamRefreshValue").on("input change", function() { 
-      
+    $('input.liveCamRefreshValue').on('input change', (e) => {
       /* Update Text-Info */    
-      $('.liveCamRefreshValueOutput').text($(this).val());
-      
-       /* Stop & Restart Interval */   
+      $('.liveCamRefreshValueOutput').text($(e.currentTarget).val());
+      /* Stop & Restart Interval */
       // clearInterval(liveCamRefreshInterval);
       // const liveCamRefreshInterval = setInterval(updateImage, $(this).val()*1000);
       clearInterval($('#liveFeedImage').data('interval'));
-      $('#liveFeedImage').data('interval', setInterval(updateImage, $(this).val()*1000));
-      
+      $('#liveFeedImage').data('interval', setInterval(updateImage, $(this).val() * 1000));
     });
-    
-    $('.killLiveCamRefesh').click(function(e){
+
+    $('.killLiveCamRefesh').click((e) => {
       e.preventDefault();
       clearInterval($('#liveFeedImage').data('interval'));
-      $('.liveCamRefreshValueOutput').text(0);      
+      $('.liveCamRefreshValueOutput').text(0);
     });
-      
-    
-    
-    
-    
-
-
   }
+
+  /* eslint-disable */
 
   render() {
     const game = this.props.game;
@@ -160,18 +137,12 @@ class GameBoard extends React.Component {
       width: game.percentageLeftinRound,
     };
 
-
     var maximumUsersStatus;   
     if ((game.whitePlayers + game.blackPlayers) >= game.MAX_PLAYERS) {
       maximumUsersStatus = "maxUsersReaced";
     } else {
       maximumUsersStatus = "goodToGo";  
     }
-    
-    
-    
-
-
 
     return (
       <div>

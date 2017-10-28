@@ -8,72 +8,64 @@ import gs from '../GameSettings';
 @observer
 class Home extends React.Component {
   componentDidMount() {
-
     // Remove React not working warning
     $('.reactNotWorking').remove();
-  
+
     // Navigation Mobile
-    $('.navTrigger .showButton').click(function(){
-      $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
+    $('.navTrigger .showButton').click((e) => {
+      $(e.currentTarget).slideUp(250).parent().find('.hideButton')
+        .slideDown(250);
       $('header nav').slideDown(500);
     });
-    
-    $('.navTrigger .hideButton').click(function(){
-      $(this).slideUp(250).parent().find('.showButton').slideDown(250);
+
+    $('.navTrigger .hideButton').click((e) => {
+      $(e.currentTarget).slideUp(250).parent().find('.showButton')
+        .slideDown(250);
       $('header nav').slideUp(500);
     });
-    
-    $('header nav a').click(function(){
+
+    $('header nav a').click(() => {
       $('.navTrigger .hideButton').slideUp(250);
       $('.navTrigger .showButton').slideDown(250);
       $('header nav').fadeOut(200);
     });
 
-
-
-    // Show Layers 	  
-    $('#newToBockchainButton').click(function(){
+    // Show Layers
+    $('#newToBockchainButton').click(() => {
       $('.layer#newToBC').addClass('showLayer');
     });
-    
-    
     // Hide Layer
-    $('.closeLayerButton').click(function(){
-      $(this).parent().removeClass('showLayer');
+    $('.closeLayerButton').click((e) => {
+      $(e.currentTarget).parent().removeClass('showLayer');
     });
 
     // Refresh LiveCam Feed
-    const liveCamPhoto = document.getElementById("liveFeedImage");
+    const liveCamPhoto = document.getElementById('liveFeedImage');
     const updateImage = () => {
-      liveCamPhoto.src = liveCamPhoto.src.split("?")[0] + "?" + Math.floor(new Date().getTime() / 1000) * 1000;
+      liveCamPhoto.src = `${liveCamPhoto.src.split('?')[0]}?${Math.floor(new Date().getTime() / 1000) * 1000}`;
     };
-    
     $('#liveFeedImage').data('interval', setInterval(updateImage, 10000));
 
-    
     // Set Default Refresh-Rate in Seconds (5 for now)
     $('input.liveCamRefreshValue').val(10).change();
-    
+
     // Set new Refresh-Rate
-    $("input.liveCamRefreshValue").on("input change", function() { 
-      
+    $('input.liveCamRefreshValue').on('input change', (e) => {
       /* Update Text-Info */    
-      $('.liveCamRefreshValueOutput').text($(this).val());
-      
-       /* Stop & Restart Interval */   
+      $('.liveCamRefreshValueOutput').text($(e.currentTarget).val());
+      /* Stop & Restart Interval */
       clearInterval($('#liveFeedImage').data('interval'));
-      $('#liveFeedImage').data('interval', setInterval(updateImage, $(this).val()*1000));
-      
+      $('#liveFeedImage').data('interval', setInterval(updateImage, $(e.currentTarget).val() * 1000));
     });
-    
-    $('.killLiveCamRefesh').click(function(e){
+
+    $('.killLiveCamRefesh').click((e) => {
       e.preventDefault();
       clearInterval($('#liveFeedImage').data('interval'));
-      $('.liveCamRefreshValueOutput').text(0);      
-    });    
-    
-    
+      $('.liveCamRefreshValueOutput').text(0);
+    });
   }
+
+  /* eslint-disable */
 
   render() {
     const timeBarStyles = {

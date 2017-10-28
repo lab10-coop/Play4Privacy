@@ -211,7 +211,7 @@ function calcAndPayoutBatched(simulate, sentCallback, processedCallback) {
     let promiseChain = Promise.resolve();
     const resetPromises = [];
 
-    let pendingTxns = [];
+    const pendingTxns = [];
     for (let i = 0; i < batches.length; i++) {
       const batch = batches[i];
       const addresses = batch.map(t => t.userId);

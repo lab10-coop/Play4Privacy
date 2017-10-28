@@ -36,7 +36,7 @@ function Navigation() {
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/gameboard'>Gameboard</Link></li>
             <li><Link to='/faq'>FAQ</Link></li>
-            <li><a href="http://p4p.games" target="_blank" title="About play4privacy">About</a></li>
+            <li><a href="http://p4p.games" target="_blank" rel="noopener noreferrer" title="About play4privacy">About</a></li>
             <li><Link to='/imprint'>Imprint</Link></li>
           </ul>
         </nav>

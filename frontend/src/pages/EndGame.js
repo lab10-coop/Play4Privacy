@@ -10,8 +10,97 @@ import ethUtils from '../EthereumUtils';
 class EndGame extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {score: 0};
+    this.state = { score: 0 };
     this.onPasswordUpdated = this.onPasswordUpdated.bind(this);
+  }
+
+  componentDidMount() {
+    this.game = this.props.game;
+    this.socket = this.game.socket;
+
+    const explorerWalletUrl = `${gs.bcExplorerBaseUrl}/token/${gs.bcTokenContractAddr}?a=${this.game.id}`;
+    const explorerLink = document.getElementById('explorerLink');
+    explorerLink.href = explorerWalletUrl;
+    explorerLink.innerHTML = explorerWalletUrl;
+
+    // Remove React not working warning
+    $('.reactNotWorking').remove();
+
+    // Navigation Mobile
+    $('.navTrigger .showButton').click((e) => {
+      $(e.currentTarget).slideUp(250).parent().find('.hideButton')
+        .slideDown(250);
+      $('header nav').slideDown(500);
+    });
+
+    $('.navTrigger .hideButton').click((e) => {
+      $(e.currentTarget).slideUp(250).parent().find('.showButton')
+        .slideDown(250);
+      $('header nav').slideUp(500);
+    });
+
+    $('header nav a').click(() => {
+      $('.navTrigger .hideButton').slideUp(250);
+      $('.navTrigger .showButton').slideDown(250);
+      $('header nav').slideUp(500);
+    });
+
+    // Button ScrollTo Layer / Top
+    $('.button').click(() => {
+      $.scrollTo(0, 250);
+    });
+
+    $('#redeemCoinYesButton').click(() => {
+      $('.layer#redeemCoin').addClass('showLayer');
+      if (ethUtils.needsPersist()) {
+        $('#newWallet').addClass('visible');
+      } else {
+        this.socket.emit('redeem tokens', this.game.id);
+        $('#redeemCoinSuccessful').addClass('showLayer');
+      }
+    });
+
+    $('#ethNoButton').click(() => {
+      this.socket.emit('donate tokens', this.game.id);
+      $('#thankYou').addClass('showLayer');
+    });
+
+    $('#createWallet').click(() => {
+      const pass = document.getElementsByName('walletPassword')[0].value;
+      try {
+        ethUtils.persistWallet(pass);
+        const docDlLink = document.getElementById('walletDownloadLink');
+        ethUtils.updateDownloadLink(docDlLink);
+        $('#walletCreated').addClass('showLayer');
+      } catch (e) { // this can happen if this view is opened in a new session with a wallet persisted
+        alert('Sorry, the wallet could not be created. Did you refresh the page?\n' +
+          'You can always play again.');
+      }
+    });
+
+    /* we interpret this as intent to keep the tokens. Note that we are not sure if the wallet was really saved.
+    The user may also have cancelled. In that case: Sorry :-/ */
+    $('#walletDownloadLink').click(() => {
+      this.socket.emit('redeem tokens', this.game.id);
+      $('#redeemCoinSuccessful').addClass('showLayer');
+    });
+
+    $('#sendWalletFile').click(() => {
+      const inputElem = document.getElementsByName('email')[0];
+      if (!inputElem.validity.valid) {
+        alert('Entered E-Mail address is not valid');
+      } else {
+        const email = inputElem.value;
+        this.socket.emit('redeem tokens', this.game.id);
+        this.socket.emit('email wallet', this.game.id, email, JSON.stringify(ethUtils.getEncryptedKeystore()));
+        $('#redeemCoinSuccessful').addClass('showLayer');
+      }
+    });
+
+    // Hide Layer
+    $('.closeLayerButton').click((e) => {
+      $(e.currentTarget).parent().removeClass('showLayer');
+    });
   }
 
   /* estimates password strength based on the results from zxcvbn and
@@ -20,7 +109,7 @@ class EndGame extends React.Component {
   and Litecoin mining. */
   onPasswordUpdated(event) {
     const result = zxcvbn(event.target.value);
-    console.log(`zxcvbn result is ${JSON.stringify(result)}`);
+    // console.log(`zxcvbn result is ${JSON.stringify(result)}`);
 
     // since the result contains a list of matched terms, we can easily confront the user with that
     const dictMatches = result.sequence.filter(e => e.pattern === 'dictionary').map(e => e.matched_word).join(', ');
@@ -48,7 +137,7 @@ class EndGame extends React.Component {
   }
 
   /* rule of thumb: for estimates, numbers shouldn't be precise */
-  humanReadableMoney(v) {
+  humanReadableMoney(v) { // eslint-disable-line
     if (v < 0.01) {
       return '< 0.01 USD';
     }
@@ -68,15 +157,15 @@ class EndGame extends React.Component {
       return `~ ${Math.round(v / 1E9)} billion USD (for comparison: Austria's GDP in 2016 was about 386 billion)`;
     }
     if (v < 1E15) {
-      return `~ ${Math.round(v / 1E12)} trillion USD (for comparison: the world GDP in 2016 was about 75 trillion according to the world bank)`;
+      return `~ ${Math.round(v / 1E12)} trillion USD (for comparison: the world GDP in 2016 was about 75 trillion according to the world bank)`; // eslint-disable-line
     }
     if (v < 1E18) {
-      return `~ ${Math.round(v / 1E15)} quadrillion USD (for comparison: the intergalactic GDP... Just kidding. Nobody gives a fuck about GDP out there!)`;
+      return `~ ${Math.round(v / 1E15)} quadrillion USD (for comparison: the intergalactic GDP... Just kidding. Nobody gives a fuck about GDP out there!)`; // eslint-disable-line
     }
-    return `Tilt!`;
+    return 'Tilt!';
   }
-  
-  humanReadableTime(v) {
+
+  humanReadableTime(v) { // eslint-disable-line
     const minutes = 60;
     const hours = minutes * 60;
     const days = hours * 24;
@@ -107,128 +196,7 @@ class EndGame extends React.Component {
     return `~ ${Math.round(v / years)} years`;
   }
 
-  componentDidMount() {
-    // TODO: Check with David if this is ok
-    this.game = this.props.game;
-    this.socket = this.game.socket;
-
-    const explorerWalletUrl = `${gs.bcExplorerBaseUrl}/token/${gs.bcTokenContractAddr}?a=${this.game.id}`;
-    const explorerLink = document.getElementById("explorerLink");
-    explorerLink.href = explorerWalletUrl;
-    explorerLink.innerHTML = explorerWalletUrl;
-
-    // TODO: this is lost on page load. Would need session store
-    //document.getElementsByClassName("playTokensAmount")[0].innerHTML = this.game.earnedTokens;
-    // TODO: if this is 0, redirect to board?
-
-
-    // Remove React not working warning
-    $('.reactNotWorking').remove();
-
-
-    // Navigation Mobile
-    $('.navTrigger .showButton').click(function(){
-      $(this).slideUp(250).parent().find('.hideButton').slideDown(250);
-      $('header nav').slideDown(500);
-    });
-
-    $('.navTrigger .hideButton').click(function(){
-      $(this).slideUp(250).parent().find('.showButton').slideDown(250);
-      $('header nav').slideUp(500);
-    });
-
-    $('header nav a').click(function(){
-      $('.navTrigger .hideButton').slideUp(250);
-      $('.navTrigger .showButton').slideDown(250);
-      $('header nav').slideUp(500);
-    });
-
-    // Button ScrollTo Layer / Top
-    $('.button').click(function(){
-      $.scrollTo(0, 250);
-    });
-
-
-    // Show Layers
-    
-    /*
-    $('#redeemYourCoinButton').click(function(){
-      $('.layer#redeemCoinDecision').addClass('showLayer');
-    });
-    */
-
-
-    $('#redeemCoinYesButton').click(() => {
-      $('.layer#redeemCoin').addClass('showLayer');
-      if(ethUtils.needsPersist()) {
-        $('#newWallet').addClass('visible');
-      } else {
-        this.socket.emit('redeem tokens', this.game.id);
-        $('#redeemCoinSuccessful').addClass('showLayer');
-      }
-    });
-
-
-    $('#ethNoButton').click(() => {
-      this.socket.emit('donate tokens', this.game.id);
-      $('#thankYou').addClass('showLayer');
-    });
-
-    /*
-  	$('#redeemCoinSend').click(function(){
-  		$('.layer#redeemCoinSuccessful').addClass('showLayer');
-  	});
-    */
-    $('#createWallet').click(() => {
-      const pass = document.getElementsByName("walletPassword")[0].value;
-      try {
-        ethUtils.persistWallet(pass);
-        const docDlLink = document.getElementById("walletDownloadLink");
-        ethUtils.updateDownloadLink(docDlLink);
-        $('#walletCreated').addClass('showLayer');
-      } catch(e) { // this can happen if this view is opened in a new session with a wallet persisted
-        alert("Sorry, the wallet could not be created. Did you refresh the page?\n" +
-          "You can always play again.");
-      }
-    });
-
-    // we interpret this as intent to keep the tokens.
-    // Note that we are not sure if the wallet was really saved. The user may also have cancelled. In that case: Sorry :-/
-    $('#walletDownloadLink').click(() => {
-      this.socket.emit('redeem tokens', this.game.id);
-      $('#redeemCoinSuccessful').addClass('showLayer');
-    })
-
-    $('#sendWalletFile').click(() => {
-      const inputElem = document.getElementsByName("email")[0];
-      if(! inputElem.validity.valid) {
-        alert("Entered E-Mail address is not valid");
-      } else {
-        const email = inputElem.value;
-        this.socket.emit('redeem tokens', this.game.id);
-        this.socket.emit('email wallet', this.game.id, email, JSON.stringify(ethUtils.getEncryptedKeystore()));
-        $('#redeemCoinSuccessful').addClass('showLayer');
-      }
-    });
-
-
-
-
-
-
-
-
-
-
-    // Hide Layer
-    $('.closeLayerButton').click(function(){
-      $(this).parent().removeClass('showLayer');
-    });
-
-
-
-  }
-
+  /* eslint-disable */
 
   render() {
     const barValueId = `barValue-${this.state.score}`;
@@ -303,7 +271,7 @@ class EndGame extends React.Component {
                         <p className="shortDesc">
                           <span className="label">Info:</span>
                           An individual with a single modern GPU.<br />
-                          Numbers are based on <a href="https://www.emsec.rub.de/media/mobsec/veroeffentlichungen/2015/04/02/duermuth-2014-password-guessing.pdf">this paper</a>.
+                          Numbers are based on <a href="https://www.emsec.rub.de/media/mobsec/veroeffentlichungen/2015/04/02/duermuth-2014-password-guessing.pdf" target="_blank">this paper</a>.
                         </p>
                         
                       </div>
@@ -363,9 +331,9 @@ class EndGame extends React.Component {
               <div className={`overallNotice ${this.humanReadableMoney(this.state.costOptimistic) != "Tilt!" ? 'calculated' : ''}`}>
                 <h3>Notice</h3>
                 <p>The numbers can't be more than rough estimates and are based on a mix of known facts and speculation.<br />
-                The basic guess is calculated by the <a href="https://github.com/dropbox/zxcvbn">zxcvbn library</a> which also includes a basic English dictionary and knows some common tricks like dates, spatial patterns (e.g. qwerty) and <a href="https://en.wikipedia.org/wiki/Leet">l33t speak</a>.</p>
+                The basic guess is calculated by the <a href="https://github.com/dropbox/zxcvbn" target="_blank">zxcvbn library</a> which also includes a basic English dictionary and knows some common tricks like dates, spatial patterns (e.g. qwerty) and <a href="https://en.wikipedia.org/wiki/Leet" target="_blank">l33t speak</a>.</p>
                 <p>It's important to understand that the difficulty to crack a password depends not only on the password itself, but (a lot!) on the algorithm used to hash the password.</p>
-                <p>In case of this wallet, the algorithm is <a href="https://en.wikipedia.org/wiki/Scrypt">scrypt</a> with params n=8192, r=8, p=1. 
+                <p>In case of this wallet, the algorithm is <a href="https://en.wikipedia.org/wiki/Scrypt" target="_blank">scrypt</a> with params n=8192, r=8, p=1.
                       That means hashing one password (and thus also making one guess) takes about 100ms on a common CPU. This is already quite good (a so called "slow hash"). But "offline cracking" (that is, the attacker has a local copy of the hash) nevertheless makes it much easier to crack a password compared to a situation where the attacker doesn't have a local copy and needs to guess through a remote service.</p>
                 <p>That's also the reason why the likelihood of passwords stolen from a server are likely to be cracked even if not stored as plaintext.</p>              
               </div>
@@ -421,7 +389,7 @@ class EndGame extends React.Component {
               You can check the state of your wallet using the following link:<br/>
               <a id="explorerLink" href="#" target="_blank" title="Check transaction at etherscan.io">#</a><br />
               <span className="noticeMessage">(Note: New tokens will be distributed once a day)</span>
-              <p>Again, be aware that using a 3rd party service like Etherscan can potentially de-anonymize you (by associating the wallet address included in the URL with your IP address).</p>
+              Be aware that using a 3rd party service like Etherscan can potentially de-anonymize you (by associating the wallet address included in the URL with your IP address).
             </p>
 
             <h3>Access your tokens/wallet</h3>
