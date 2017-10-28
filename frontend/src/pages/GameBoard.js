@@ -256,7 +256,7 @@ class GameBoard extends React.Component {
         </div>
         
         
-        <div className={`field  ${game.paused ? 'gamePaused' : ''} ${game.stopped ? 'gameStopped' : ''}`} id='gameField'>
+        <div className={`field ${game.paused ? 'gamePaused' : ''} ${game.stopped ? 'gameStopped' : ''}`} id='gameField'>
           <div className='fieldInner'>
             
             <div className={`boardWrapper ${game.formattedMyTeam || '--'}`}>
@@ -312,7 +312,11 @@ class GameBoard extends React.Component {
             </div>
             
             <div className="gameStoppedStatusMsg">
-              <p>The Game is currently paused.<br />Please check back between 4am to 10am and 7pm to 10pm CEST.</p>
+              
+              <p>The mining & playing phase has ended.</p>
+              <p><a href="https://privacy.lab10.coop" target="_blank">Donate to a charity to secure a significant share of supplement tokens.</a></p>
+              <p><a href="https://twitter.com/play4privacy" target="_blank">Stay tuned and follow us - only on Twitter</a></p>
+              
               <p className={`redeemTokensButtonIfGamePaused ${game.earnedTokens > 0 ? '' : 'item hide'}`}>
                 <a className='button' id='stopGame' href='endgame'>The game is currently paused. If you still have Tokens to redeem - click here!</a>
               </p>  

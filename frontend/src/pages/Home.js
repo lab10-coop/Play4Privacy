@@ -108,10 +108,9 @@ class Home extends React.Component {
           <div className="c50r comePlayWithUs">
             <p>
             
-              <a href='gameboard' title='Play Go and get PLAY Tokens!'>
-                <strong>Join the game, play with us!</strong><br />Until October 27th. <br />Daily from 4am to 7am and 7pm to 10pm CEST.
+              <a href='https://privacy.lab10.coop' target="_blank" title='Play Go and get PLAY Tokens!'>
+                <strong>The mining & playing phase has ended.</strong><br />Donate to a charity to secure a significant share of supplement tokens.
               </a>
-            
               
             </p>
             
@@ -177,8 +176,14 @@ class Home extends React.Component {
             <div className="gamePausedLayerInner">
               <div className="icon"></div>
               <div className="gamePausedText">
-                <span className="headline"><strong>Game Paused!</strong><br />
-                check back from <br />4am to 7am and 7pm to 10pm CEST<br /></span>
+                <span className="headline"><strong>The mining & playing phase has ended.</strong><br />
+                  <a href="https://privacy.lab10.coop" target="_blank">Donate to a charity to secure a significant share of supplement tokens.</a><br />
+                  <a href="https://twitter.com/play4privacy" target="_blank">Stay tuned and follow us - only on Twitter</a>
+                </span>
+                
+
+
+                
               </div>
             </div>
           </div>
