@@ -18,8 +18,8 @@ module.exports = {
       host: "localhost", // ssh tunnel
       port: 9999,
       network_id: "1",
-      gas: 3000000,
-      gasPrice: 5000000007 // trying to frontrun ;-)
+      gas: 200000,
+      gasPrice: 100000007 // trying to frontrun ;-)
     }
   }
 };

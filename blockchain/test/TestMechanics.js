@@ -4,6 +4,7 @@
 const PlayToken = artifacts.require('PlayToken');
 const Game = artifacts.require('P4PGame');
 const Pool = artifacts.require('P4PPool');
+const DonationSplitter = artifacts.require('P4PDonationSplitter');
 
 const BigNumber = require('bignumber.js');
 const should = require('should'); // eslint-disable-line
@@ -14,11 +15,17 @@ contract('P4P mechanics', (accounts) => {
     const token = PlayToken.at(PlayToken.address);
     const game = Game.at(Game.address);
     const pool = Pool.at(Pool.address);
+    const donationSplitter = DonationSplitter.at(DonationSplitter.address);
+
+    // dirty hardcoding shortcut for the donation splitter
+    const splitterRecv1 = "0x883702a1b9B29119acBaaa0E7E0a2997FB8EBcd3";
+    const splitterRecv2 = "0x9abd6265Eaca022c1ccF931a7E9150dA0E7Db7Ec";
 
     console.log(`
     token: ${token.address}
     game:  ${game.address}
     pool:  ${pool.address}
+    splitter:  ${donationSplitter.address}
     `);
 
     const owner = accounts[0];
@@ -184,23 +191,50 @@ contract('P4P mechanics', (accounts) => {
         const poolEndBal = await token.balanceOf(pool.address);
         console.log(`finally remaining in pool: ${poolEndBal}`);
 
-        const approxEndBal = new BigNumber(poolEndBal).times(1E-18).plus(1);
-
-        // TODO: be less arbitrary
-        assert.equal(approxEndBal.toNumber(), 1, 'pool is not (nearly) empty');
+        // This check ensures that nomore than 500 token-wei's (however you name that) remain in pool.
+        // TODO: this number is an arbitrary, heuristically determined choice. Could be done better
+        assert.equal(Math.round(poolEndBal / 1000), 0, 'pool is not empty (enough)');
     });
 
-    it('only owner can set donation receiver, pay out donations, payout sum correct', async () => {
-        const initEthBal = web3.fromWei(await web3.eth.getBalance(pool.address));
-        await pool.setDonationReceiver(randomPrivacyOrg, { from: user1 }).should.be.rejected();
-        await pool.setDonationReceiver(randomPrivacyOrg, { from: owner });
-        await pool.lockDonationReceiver({ from: user1 }).should.be.rejected();
-        await pool.lockDonationReceiver({ from: owner });
-        await pool.setDonationReceiver(randomPrivacyOrg, { from: owner }).should.be.rejected();
+    it('only owner can set donation receiver', async () => {
+        await pool.setDonationReceiver(donationSplitter.address, {from: user1}).should.be.rejected();
+        await pool.setDonationReceiver(donationSplitter.address, {from: owner});
+        await pool.lockDonationReceiver({from: user1}).should.be.rejected();
+        await pool.lockDonationReceiver({from: owner});
+        await pool.setDonationReceiver(randomPrivacyOrg, {from: owner}).should.be.rejected();
+    });
+
+    it('pay out donations correctly', async () => {
+        const initEthBal = await web3.eth.getBalance(pool.address);
+        const recv1InitBal = await web3.eth.getBalance(splitterRecv1);
+        const recv2InitBal = await web3.eth.getBalance(splitterRecv2);
+
+        console.log(`initEthBal is ${initEthBal}`);
         await pool.payoutDonations({ from: user1 }).should.be.rejected();
         await pool.payoutDonations({ from: owner });
-        const privacyOrgBal = web3.fromWei(await web3.eth.getBalance(randomPrivacyOrg));
-        assert.equal(initEthBal.toString(), privacyOrgBal.toString(), 'donations were not fully received');
+
+        await donationSplitter.payout({ from: user3 });
+        await donationSplitter.payout({ from: user4 }); // repeated calling shouldn't cause any issues
+
+        // console.log(`max addr is ${donationSplitter.max_schrems_addr()}`);
+        const recv1DiffBal = new BigNumber(await web3.eth.getBalance(splitterRecv1)).minus(recv1InitBal);
+        const recv2DiffBal = new BigNumber(await web3.eth.getBalance(splitterRecv2)).minus(recv2InitBal);
+
+        console.log(`recv1DiffBal ${recv1DiffBal.toString()}`);
+        console.log(`recv2DiffBal ${recv2DiffBal.toString()}`);
+
+        // again, toNumber() removes enough precision to avoid mismatching division remainders
+        console.log(`donation share (/2) is ${initEthBal / 2}`);
+        assert.equal(initEthBal.toNumber() / 2, recv1DiffBal.toNumber(),
+            'donations were not fully received by receiver 1');
+        assert.equal(initEthBal.toNumber() / 2, recv2DiffBal.toNumber(),
+            'donations were not fully received by receiver 2');
+        //assert.equal(initEthBal.toString(), splitterRecv1Bal.plus(splitterRecv2Bal).toString(), 'donations were not fully received');
+    });
+
+    it('send some more to the donationSplitter', async () => {
+        await donationSplitter.sendTransaction({ from: accounts[5], value: web3.toWei(1.283) });
+        await donationSplitter.payout({ from: user2 });
     });
 
     it('destroy not (yet) callable', async () => {
