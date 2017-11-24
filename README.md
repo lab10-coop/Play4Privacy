@@ -1,3 +1,11 @@
+## About
+
+This is the sourcecode of the [Play4Privacy project](https://play.lab10.coop/), a project initiated by lab10 collective in cooperation with Kunsthaus Graz and others,  which took place on October 2017.    
+
+Additional not-strictly-technical information can be found in the [project blog](https://medium.com/play4privacy).
+
+## Web application
+
 Install back-end and front-end dependencies:
 
 - npm i
@@ -23,3 +31,7 @@ Automated tests are available for both the front-end and the back-end,
 to run them every time you change a source file in the project use:
 
 - npm run test -- --watch
+
+## More
+
+For more documentation, also take a look at the Readme files in the sub-directories `blockchain` and `src/utilities`.
