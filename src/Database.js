@@ -3,7 +3,7 @@
    conveniently access all functions to manipulate the database using one class instance */
 
 import mongoose from 'mongoose';
-import { User, Token } from './Models';
+import { User, Token, PlayedGame } from './Models';
 
 export function connectToDb(mongodbAddress, connected, disconnected, reconnected) {
   mongoose.connect(mongodbAddress, {
@@ -105,6 +105,21 @@ class DatabaseWrapper {
         console.log(`saved ${tok.userId}`);
       }
     })));
+  }
+
+  getAllPlayedGames() {
+    return new Promise((resolve) => {
+      PlayedGame.find().exec(function (err, entries) { // eslint-disable-line
+        if (err) {
+          console.error('PlayedGame.find().exec() failed!');
+        } else {
+          if (!entries) {
+            console.log('null response');
+          }
+          resolve(entries);
+        }
+      });
+    });
   }
 }
 

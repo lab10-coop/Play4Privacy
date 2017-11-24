@@ -1,0 +1,23 @@
+{
+  "name": "p4p_utils",
+  "version": "1.0.0",
+  "description": "admin and maintenance utils for P4P",
+  "dependencies": {
+    "nodemailer": "^4.1.1",
+    "ipfs": "^0.26.0",
+    "web3": "^1.0.0-beta.18"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "mailer": "babel-node sendWallets.js",
+    "payout": "babel-node payout.js",
+    "payout-dev": "babel-node --inspect payout.js",
+    "persist": "babel-node persistPlayedGames.js",
+    "persist-dev": "babel-node --inspect persistPlayedGames.js"
+  },
+  "engines": {
+    "node": ">=v8.4.0"
+  },
+  "author": "dho@lab10.coop",
+  "license": "ISC"
+}

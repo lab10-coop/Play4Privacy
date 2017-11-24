@@ -1,6 +1,6 @@
 import fs from 'fs';
 import Web3 from 'web3';
-import ContractMetadata from '../_P4PContract';
+import GameContract from '../_P4PGame';
 import DatabaseWrapper, { connectToDb } from '../Database';
 
 const donationAddr = '0x57f81fa922527198c9e8d4ac3a98971a8c46e7e2';
@@ -23,7 +23,7 @@ function ethInit() {
 
   return new Promise((resolve) => {
     console.log(`initializing contract at address ${contractAddress}`);
-    const contract = new web3.eth.Contract(ContractMetadata.abi, contractAddress);
+    const contract = new web3.eth.Contract(GameContract.abi, contractAddress);
     console.log('contract initialized');
 
     // Retrieve the token address. This also tests if we have a working connection and contract
@@ -211,7 +211,7 @@ function calcAndPayoutBatched(simulate, sentCallback, processedCallback) {
     let promiseChain = Promise.resolve();
     const resetPromises = [];
 
-    const pendingTxns = [];
+    let pendingTxns = [];
     for (let i = 0; i < batches.length; i++) {
       const batch = batches[i];
       const addresses = batch.map(t => t.userId);
@@ -248,7 +248,7 @@ function calcAndPayoutBatched(simulate, sentCallback, processedCallback) {
 }
 
 function usageExit() {
-  console.error(`
+  console.log(`
 usage: ${process.argv[1]} calc | simulate | payout
 Only the payout command will change the state of the DB and of the Blockchain.
 ENV variables used:
@@ -260,7 +260,7 @@ ENV variables used:
   SKIP_RESET_DB (dev: don't reset entries in DB for payout cmd)
   DONT_EXIT (dev: keep the process running after all done. Useful when run with --inspect)
 `);
-  process.exit(1);
+  process.exit(0);
 }
 
 if (!process.env.MONGO_DB_NAME) {
