@@ -1,22 +1,3 @@
-/*!
- * Copyright (c) 2017 David Forstenlechner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this
- * software and associated documentation files (the "Software"), to deal in the Software
- * without restriction, including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
- * to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 import fs from 'fs';
 import gs from '../frontend/src/GameSettings';
 import ServerApi from './api';
@@ -172,7 +153,7 @@ class Game {
       roundMove = this.go.getRandomMove();
     }
     // update tokenMap
-    [ ...this.roundMoves.keys() ].forEach(id => this.getTokenEntryOf(id).unclaimed++);
+    [...this.roundMoves.keys()].forEach(id => this.getTokenEntryOf(id).unclaimed++);
     const roundNr = this.roundNr++;
     const captured = this.go.addMove(roundMove);
     console.log(`incrementing nrCaptured for ${this.go.currentTeam()} by ${captured.length}`);
@@ -180,7 +161,7 @@ class Game {
     // Since we count the stones captures OF and not BY that team, that's fine.
     this.nrCaptured.set(this.go.currentTeam(),
       this.nrCaptured.get(this.go.currentTeam()) + captured.length);
-    const roundMovesSize = [ ...this.roundMoves.values() ].reduce((prev, cur) => prev + cur.length, 0);
+    const roundMovesSize = [...this.roundMoves.values()].reduce((prev, cur) => prev + cur.length, 0);
     console.log(`incrementing nrValidMoves by ${roundMovesSize}`);
     this.nrValidMoves += roundMovesSize;
     this.roundMoves.clear();
@@ -197,7 +178,7 @@ class Game {
     console.log(`captured stones: black ${this.nrCaptured.get(gs.BLACK)}, white \
       ${this.nrCaptured.get(gs.WHITE)}`);
     console.log(`nr valid moves: ${this.nrValidMoves}`);
-    this.api.gameFinished([ ...this.nrCaptured ], this.nrValidMoves);
+    this.api.gameFinished([...this.nrCaptured], this.nrValidMoves);
 
     // TODO: if needed, this could easily be optimized to only save changed entries
     // e.g. by using a dirty flag.
@@ -219,7 +200,7 @@ class Game {
     });
 
     // construct an array of { address: <player id>, amount: <nr of legal moves submitted> }
-    const tokenReceivers = [ ...this.players ].map(elem =>
+    const tokenReceivers = [...this.players].map(elem =>
       ({ address: elem[0], amount: elem[1].validMoves }))
       .filter(elem => elem.amount > 0);
     console.log(`tokenReceivers: ${JSON.stringify(tokenReceivers)}`);
@@ -240,10 +221,10 @@ class Game {
     if ((new Date()).getSeconds() % 3) {
       return;
     }
-    const numPlayers = [ ...this.players ].reduce((counts, elem) => {
+    const numPlayers = [...this.players].reduce((counts, elem) => {
       (elem[1].team === gs.BLACK) ? (counts[0] += 1) : (counts[1] += 1);
       return counts;
-    }, [ 0, 0 ]);
+    }, [0, 0]);
     const placedMoves = new Array(gs.BOARD_SIZE_SQUARED).fill(0);
     this.roundMoves.forEach((moves) => {
       for (const move of moves) {
