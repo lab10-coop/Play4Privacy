@@ -8,29 +8,33 @@ Additional not-strictly-technical information can be found in the [project blog]
 
 Install back-end and front-end dependencies:
 
-- npm i
-- cd frontend
-- npm i
+```
+npm i
+cd frontend
+npm i
+```
 
 Both front-end and back-end auto-reload source files on save,
-the node.js back-end using nodemon, react.js webpack.
+the node.js back-end using nodemon, the react.js front-end webpack.
 The combined front/back-end development environment can be started using:
 
-- npm start
+```
+npm start
+```
 
-Eslint is configured, but not enforced through a GitLab CI job. Please try
-to commit your code without linting errors/warnings. If you use Visual Studio
-Code the "ESlint" plugin works great and shows linting errors directly in the 
-"Problems" tab.
+Eslint is configured, but not enforced. Please try to commit your code without linting errors/warnings.
 
 To run eslint manually use:
 
-- npm lint
+```
+npm lint
+```
 
-Automated tests are available for both the front-end and the back-end,
-to run them every time you change a source file in the project use:
+To run unit tests automatically on every source file save/change use:
 
-- npm run test -- --watch
+```
+npm run test -- --watch
+```
 
 ## More
 
