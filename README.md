@@ -48,7 +48,7 @@ The communication architecture needs to be set up not to cause potential congest
 
 To that end we keep the current game state in storage on both the back- and front-end, using the "MobX" library on the front-end, MongoDB on the back-end. This allows us to keep requests from the client to the server to a minimum, all requests are broadcasted by the server to the client except for initial state requests and player-submitted moves. For the most part the client relies on incremental updates from the server to update its internal state:
 
-![WebApp](images/WebApp.jpg?raw=true)
+![WebApp](images/WebApp.png?raw=true)
 
 ### Front-End
 
