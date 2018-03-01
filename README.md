@@ -1,8 +1,7 @@
 ## About
 
-This is the sourcecode of the [Play4Privacy project](https://play.lab10.coop/), a project initiated by lab10 collective in cooperation with Kunsthaus Graz and others,  which took place on October 2017.    
-
-Additional not-strictly-technical information can be found in the [project blog](https://medium.com/play4privacy).
+This is the sourcecode of [Play4Privacy](https://play.lab10.coop/), a project initiated by lab10 collective in cooperation with Kunsthaus Graz and others, which took place in October 2017.  
+For more information, visit https://p4p.lab10.coop and the [project blog](https://medium.com/play4privacy) (especially [this article](https://medium.com/play4privacy/hiding-ethereum-and-ipfs-under-the-hood-ca3b638e9636) if you're interested in how Ethereum and IPFS are used by the application).
 
 ## Installing and Running the Web application
 
@@ -22,8 +21,7 @@ The combined front/back-end development environment can be started using:
 npm start
 ```
 
-Eslint is configured, but not enforced. Please try to commit your code without linting errors/warnings.
-
+Eslint is configured, but not enforced. Please try to commit your code without linting errors/warnings.  
 To run eslint manually use:
 
 ```
@@ -38,10 +36,8 @@ npm run test -- --watch
 
 ## Web Application Architecture
 
-The Web-app is responsible for presenting the game to the user, process user input and distribute information to various other subsystems like Database, Blockchain and BIX.
-
-Communication between front- and back-end is done using the time-tested and convenient to use socket.io library.
-
+The Web-app is responsible for presenting the game to the user, process user input and distribute information to various other subsystems like Database, Blockchain and BIX.  
+Communication between front- and back-end is done using the time-tested and convenient to use socket.io library.  
 The communication architecture needs to be set up not to cause potential congestion for the server, especially request by (possibly thousands of) clients to the server clustered at the same moment in time should be avoided.
 
 > "Do not call me, I call **you**" - _says the Server to the Client_
@@ -52,8 +48,7 @@ To that end we keep the current game state in storage on both the back- and fron
 
 ### Front-End
 
-We decided for React.js as front-end framework, it is a powerful Web UI development environment and fits our strategic goals to expand to mobile development in the future.
-
+We decided for React.js as front-end framework, it is a powerful Web UI development environment and fits our strategic goals to expand to mobile development in the future.  
 In combination with the react-router library it also allows for deploying the front-end as purely static HTML/JavaScript/CSS, freeing up the back-end to solely concentrate on implementing the API needed to implement the game.
 
 To store the game state we chose the "MobX" library, which allows for incredibly simple and concise code, especially when used with ES7 decorators.
@@ -62,32 +57,31 @@ Note: We had to patch the "custom-react-scripts" library to allow the use of ES7
 
 ### Back-End
 
-The Web-app back-end is responsible for coordinating the flow of information between various subsystems of the application.
-
+The Web-app back-end is responsible for coordinating the flow of information between various subsystems of the application.  
 It is implemented using node.js, since using the same language in the Web front- as well as back-end makes for more fluid development, and most libraries essential for implementation are already available as npm modules.
 
-The server is packaged and deployed as Docker image using a GitLab CI/CD pipeline to staging/production servers.
-
+The server is packaged and deployed as Docker image using a GitLab CI/CD pipeline to staging/production servers.  
 At game end all data is persisted in a MongoDB database.
 
 ### Go Game Back-End
 
-We used a stripped down version of the mature "WGo" library, which implements a sufficient set of Go rules we needed to implement the game.
+We used a stripped down version of the mature [WGo](http://wgo.waltheri.net/) library, which implements a sufficient set of Go rules we needed to implement the game.
 
 ### BIX Back-End
 
-After difficulties getting communication directly from the node.js server to the BIX facade to run we settled on using the "Processing" development environment, which corresponds to the implementation driving the BIX Facade at the Kunsthaus Graz.
+After difficulties getting communication directly from the node.js server to the [BIX facade](https://www.museum-joanneum.at/en/kunsthaus-graz/bix-media-facade) to run we settled on using the [Processing](https://processing.org/) development environment, which corresponds to the implementation driving the BIX Facade at the Kunsthaus Graz.
 
 The implementation requests information about the current game state from the Web-app back-end, transforms it into a Matrix to display on the BIX Facade.
 
 ### Blockchain Back-End
 
-Uses the web3 library to interact with the Ethereum Blockchain.
+Uses the [web3.js library](https://github.com/ethereum/web3.js/) to interact with the Ethereum Blockchain.  
+Visit `blockchain/README.md` for more information.
 
 ### Database
 
-MongoDB provides a very easy to use interface to store data of played games, and query the data from various aspects.
+MongoDB provides aN easy to use interface to store data of played games, and query the data from various aspects.
 
 ## More
 
-For more documentation, also take a look at the Readme files in the sub-directories `blockchain` and `src/utilities`.
+For documentation of utilities (e.g. for cronjobs), also take a look at `src/utilities/README.md`.
